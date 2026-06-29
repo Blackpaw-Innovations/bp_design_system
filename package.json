@@ -1,0 +1,24 @@
+{
+  "name": "@blackpaw/ui",
+  "version": "1.0.0",
+  "description": "Blackpaw shared design system — tokens, components, Tailwind preset",
+  "type": "module",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./tokens": "./src/tokens/index.css",
+    "./tailwind": "./tailwind.preset.js"
+  },
+  "files": [
+    "src",
+    "tailwind.preset.js"
+  ],
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18",
+    "tailwindcss": ">=3"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
