@@ -54,4 +54,23 @@
   --space-6:  1.5rem;
   --space-8:  2rem;
   --space-12: 3rem;
+
+  /* ── Connect aliases (--hq-* prefix used in hakiqa-connect) ────────────
+   * These point at the same values as --hk-* so Connect can migrate
+   * incrementally — use --hk-* in new code, --hq-* still resolves.
+   * ─────────────────────────────────────────────────────────────────────── */
+  --hq-cyan:    hsl(var(--hk-cyan));
+  --hq-teal:    hsl(var(--hk-teal));
+  --hq-navy:    hsl(var(--hk-navy));
+  --hq-orange:  hsl(var(--hk-orange));
+  --hq-bg:      hsl(var(--hk-bg));
+  --hq-crimson: hsl(var(--signal-red));
+  --hq-border:  hsl(191 43% 88%);
+  --hq-text:    hsl(219 39% 20%);
+  --hq-muted:   hsl(216 17% 49%);
+  --hq-gradient:     linear-gradient(135deg, hsl(var(--hk-teal)) 0%, #13c5b5 48%, hsl(var(--hk-orange)) 100%);
+  --hq-btn-gradient: linear-gradient(135deg, #fdb14a 0%, hsl(var(--hk-orange)) 56%, #de6600 100%);
+  --hq-shadow-card:   0 18px 50px hsl(var(--hk-navy) / 0.10);
+  --hq-shadow-hover:  0 4px 16px hsl(var(--hk-navy) / 0.10);
+  --hq-shadow-subtle: 0 2px 12px hsl(var(--hk-navy) / 0.07);
 }
