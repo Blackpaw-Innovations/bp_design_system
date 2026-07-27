@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hakiqa Duka · Responsive & Design-System Audit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#eef0f4; --paper:#ffffff; --ink:#151a24; --ink-soft:#5b6478; --line:#e4e7ee;
+  --navy:#032053; --navy-light:#0a3580; --orange:#fd8a03; --blue:#00a5b9;
+  --pos:#0e8b53; --neg:#c72b2b; --warn:#c76a00;
+  --p0:#c72b2b; --p1:#c76a00; --p2:#0d6b7a;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Urbanist',sans-serif;line-height:1.55;padding:40px 20px;}
+.doc{max-width:920px;margin:0 auto;background:var(--paper);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 30px 70px -40px rgba(3,32,83,0.4);}
+.cover{background:var(--navy);color:white;padding:44px 48px 40px;position:relative;overflow:hidden;}
+.cover::before{content:'';position:absolute;inset:0;background:radial-gradient(120% 90% at 88% 6%,rgba(255,255,255,0.16),transparent 55%);pointer-events:none;}
+.cover .eyebrow{position:relative;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;opacity:.7;}
+.cover h1{position:relative;font-size:33px;font-weight:900;margin:12px 0 10px;letter-spacing:-.01em;line-height:1.1;}
+.cover .meta{position:relative;font-size:13.5px;opacity:.78;font-weight:600;}
+.cover .tags{position:relative;display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;}
+.cover .tags span{font-size:11.5px;font-weight:700;background:rgba(255,255,255,0.13);padding:6px 13px;border-radius:999px;}
+.body{padding:40px 48px 52px;}
+h2{font-size:20px;font-weight:900;margin:40px 0 6px;letter-spacing:-.01em;}
+h2:first-child{margin-top:0;}
+.sec-sub{font-size:13.5px;color:var(--ink-soft);margin:0 0 20px;max-width:640px;}
+.verdict{background:#f7f8fb;border:1px solid var(--line);border-left:4px solid var(--navy);border-radius:12px;padding:20px 24px;font-size:14.5px;line-height:1.65;}
+.verdict b{color:var(--navy);}
+.count-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0 4px;}
+.count{border-radius:14px;padding:16px 18px;color:white;}
+.count .n{font-size:32px;font-weight:900;line-height:1;}
+.count .l{font-size:12px;font-weight:700;margin-top:6px;opacity:.9;text-transform:uppercase;letter-spacing:.04em;}
+.count.c0{background:var(--p0);} .count.c1{background:var(--p1);} .count.c2{background:var(--p2);}
+.item{border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:14px;}
+.item-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+.badge{flex:0 0 auto;font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:4px 9px;border-radius:6px;color:white;}
+.b0{background:var(--p0);} .b1{background:var(--p1);} .b2{background:var(--p2);}
+.item-head .ttl{font-size:15.5px;font-weight:800;flex:1;min-width:220px;}
+.item-head .scope{font-size:11px;font-weight:700;color:var(--ink-soft);background:#f0f2f6;padding:4px 10px;border-radius:999px;}
+.item p{font-size:13.5px;margin:10px 0 0;color:#33404f;}
+.item .fix{margin-top:10px;font-size:13.5px;background:#f2fbf6;border:1px solid #cfeadd;border-radius:10px;padding:11px 14px;color:#1c4a35;}
+.item .fix b{color:var(--pos);}
+.item .ev{margin-top:9px;font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:11.5px;color:var(--ink-soft);background:#f6f7fa;border-radius:8px;padding:8px 11px;line-height:1.7;}
+.phase{display:flex;gap:16px;align-items:flex-start;padding:16px 0;border-bottom:1px solid var(--line);}
+.phase:last-child{border-bottom:none;}
+.phase .pn{flex:0 0 auto;width:34px;height:34px;border-radius:10px;background:var(--navy);color:white;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:14px;}
+.phase .pt{font-size:14.5px;font-weight:800;}
+.phase .pd{font-size:13px;color:var(--ink-soft);margin-top:3px;}
+.ok{background:#f2fbf6;border:1px solid #cfeadd;border-radius:12px;padding:16px 20px;font-size:13.5px;color:#1c4a35;}
+.ok b{color:var(--pos);}
+.ok ul{margin:8px 0 0;padding-left:20px;} .ok li{margin:3px 0;}
+.foot{font-size:12px;color:var(--ink-soft);margin-top:36px;padding-top:18px;border-top:1px solid var(--line);}
+a{color:var(--navy-light);}
+@media(max-width:640px){ body{padding:0;} .doc{border-radius:0;border-left:none;border-right:none;} .cover{padding:32px 22px;} .cover h1{font-size:26px;} .body{padding:28px 22px 40px;} .count-row{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="doc">
+  <div class="cover">
+    <div class="eyebrow">Hakiqa Duka · Consolidation Audit</div>
+    <h1>Responsive &amp; Design-System Audit</h1>
+    <div class="meta">22 Jul 2026 · Goal: one design system, working on tablet &amp; phone, compliant with the project UI rules · Scope: 54 in-app Hakiqa pages + shared shell</div>
+    <div class="tags"><span>6 P0 · responsiveness</span><span>6 P1 · consolidation</span><span>4 P2 · polish</span></div>
+  </div>
+  <div class="body">
+
+    <div class="verdict">
+      The app is <b>functionally desktop-only</b>. The single biggest cause is mechanical and cheap to fix: <b>not one Hakiqa app page carries a <code>&lt;meta name="viewport"&gt;</code> tag</b> — so every phone renders the ~980px desktop layout scaled down to unreadable. Beyond that, the shell is genuinely centralized (good), but three things block "one design system": <b>responsive behaviour lives per-page and inconsistently</b>, <b>spacing / radius / shadow are still un-tokenised</b>, and <b>the slide-over panel is re-declared on 7 pages</b> instead of living in the shell. None of this is a rebuild — most of it is one pass on <code>app-shell.css</code> / <code>app-shell.js</code> plus a short list of per-page wraps.
+    </div>
+
+    <div class="count-row">
+      <div class="count c0"><div class="n">6</div><div class="l">P0 — blocks mobile</div></div>
+      <div class="count c1"><div class="n">6</div><div class="l">P1 — one-system gaps</div></div>
+      <div class="count c2"><div class="n">4</div><div class="l">P2 — polish / rules</div></div>
+    </div>
+
+    <h2>P0 — Blocks tablet &amp; phone</h2>
+    <p class="sec-sub">These stop the app being usable on a real device. Fix first; most are single shell edits that cascade to all 54 pages.</p>
+
+    <div class="item">
+      <div class="item-head"><span class="badge b0">P0-1</span><span class="ttl">No viewport meta tag on any app page</span><span class="scope">Shell · 1 fix → all pages</span></div>
+      <p>Every in-app page ships only <code>&lt;meta charset="UTF-8"&gt;</code>. Without a viewport tag, mobile browsers assume a ~980px canvas and shrink it to fit — so 22px headings render at ~8px and nothing is tappable. Only the out-of-scope Blackpaw / BICC / design-system files have the tag today.</p>
+      <div class="ev">Home Screen Concept.html:4 → charset only, no viewport<br>grep "name=\"viewport\"" → matches only in export/*, uploads/*, design_system*.html (all out of scope)</div>
+      <div class="fix"><b>Fix:</b> inject the tag once, synchronously, from the top of <code>app-shell.js</code> (it already runs in <code>&lt;head&gt;</code> before layout on every page). One line, zero per-page edits.</div>
+    </div>
+
+    <div class="item">
+      <div class="item-head"><span class="badge b0">P0-2</span><span class="ttl">Shell has no phone tier — app-top crowds and clips</span><span class="scope">Shell</span></div>
+      <p><code>app-shell.css</code> carries only two breakpoints: 1180px (grids) and 860px (padding + hide search). The header row is <code>flex-wrap:nowrap</code> by design, so on a phone the back-title, centred pill-nav and the actions cluster (search + bell + avatar) compete in ~360px — the pill-nav scrolls but the row stays cramped and the title truncates.</p>
+      <div class="ev">assets/app-shell.css:114 .app-top{ flex-wrap:nowrap }  ·  :430 @media(max-width:860px) only hides .search-box</div>
+      <div class="fix"><b>Fix:</b> add a shared <code>≤720px</code> block in the shell that stacks app-top into two rows (title+actions, then full-width pill-nav) and reduces main padding further.</div>
+    </div>
+
+    <div class="item">
+      <div class="item-head"><span class="badge b0">P0-3</span><span class="ttl">Rail is a fixed 76px column with no mobile form</span><span class="scope">Shell</span></div>
+      <p>The icon rail is <code>width:76px</code>, sticky, full-height, always visible. On a 360px phone that permanently consumes ~21% of the width with no way to reclaim it; on tablet portrait it's tolerable but heavy.</p>
+      <div class="ev">assets/app-shell.css:69 .rail{ width:76px; flex:0 0 76px; height:100vh }</div>
+      <div class="fix"><b>Fix:</b> under ~600px, convert the rail to a slim bottom tab bar (or a 56px slide-in drawer). One shared rule; markup already has the icon list to reuse.</div>
+    </div>
+
+    <div class="item">
+      <div class="item-head"><span class="badge b0">P0-4</span><span class="ttl">Grid collapse cliff — N columns jump straight to 1</span><span class="scope">Shell + per-page</span></div>
+      <p>Almost every layout collapses only at 1180px and goes directly to a single column, skipping a tablet 2-column tier. 4-up KPI rows either stay 4 (cramped ~834px tablet portrait) or drop to 1 (wasteful). Breakpoint values are also inconsistent page-to-page (1180 / 1000 / 900 / 880 / 860 / 720 all appear).</p>
+      <div class="ev">Analytics-Revenue:318, Exceptions:43, Company Brief:114, CEO Command Screen:154, Settings:63 … each defines its own single 1180px collapse</div>
+      <div class="fix"><b>Fix:</b> adopt a shared breakpoint scale (see P1-3) and give KPI/card rows a mid 2-col tier at ~820px so tablet portrait reads well before phone drops to 1-col.</div>
+    </div>
+
+    <div class="item">
+      <div class="item-head"><span class="badge b0">P0-5</span><span class="ttl">Ledger tables force horizontal page scroll on phone</span><span class="scope">Per-page</span></div>
+      <p>Purchase Orders correctly wraps its wide table in an <code>overflow-x:auto</code> card with a <code>min-width</code>. Expenses and Sales — Orders (and likely Sales Leaderboard / Statement) do not — their multi-column ledgers push the whole page wider than the phone viewport.</p>
+      <div class="ev">Inventory - Purchase Orders.html:17 .po-table-card{ overflow-x:auto } ✓<br>Expenses.html / Sales - Orders.html → no overflow-x wrapper on the table ✗</div>
+      <div class="fix"><b>Fix:</b> add one shared <code>.table-wrap{overflow-x:auto}</code> to the shell and wrap the un-wrapped ledger tables in it.</div>
+    </div>
+
+    <div class="item">
+      <div class="item-head"><span class="badge b0">P0-6</span><span class="ttl">One slide-over panel lacks the mobile max-width guard</span><span class="scope">Per-page</span></div>
+      <p>Every slide-over uses <code>max-width:92vw</code> so it never exceeds the phone — except CRM Pipeline's quick-edit panel, which is a bare <code>width:400px</code>. On a &lt;400px phone it overflows the viewport.</p>
+      <div class="ev">CRM - Pipeline.html:84 .qe-panel{ width:400px } — missing max-width:92vw<br>(cf. Tasks:32, Members:81, Bookings:42, Access Control:56 all have the guard)</div>
+      <div class="fix"><b>Fix:</b> resolved for free by P1-4 (single shared slide-over); or add <code>max-width:92vw</code> if patched in place.</div>
+    </div>
+
+    <h2>P1 — Bringing it under one design system</h2>
+    <p class="sec-sub">Structural consolidation. These are what make "one design system" true rather than aspirational.</p>
+
+    <div class="item">
+      <div class="item-head"><span class="badge b1">P1-1</span><span class="ttl">Un-tokenised spacing, radius &amp; shadow</span><span class="scope">Shell</span></div>
+      <p>Colour is fully tokenised; geometry is not. Card radii range 10–28px chosen ad hoc per page (18 / 20 / 22 / 24 all appear as "the card radius"), and shadows are one-off <code>rgba()</code> literals. This is the largest remaining single-system gap and the open todo from prior sessions.</p>
+      <div class="ev">radii seen: mp-card 18 · kpi-card 24 · tool-card 20 · scan-box 28 · back-btn 50%  ·  shadows: bespoke rgba per component</div>
+      <div class="fix"><b>Fix:</b> add <code>--space-*</code>, <code>--radius-*</code>, <code>--shadow-*</code> scales to <code>:root</code> in the shell and migrate components to them.</div>
+    </div>
+
+    <div class="item">
+      <div class="item-head"><span class="badge b1">P1-2</span><span class="ttl">Slide-over / overlay re-declared on 7 pages</span><span class="scope">Shell + per-page</span></div>
+      <p>The same panel pattern is hand-rolled per page under different names with drifting widths — 400 / 420 / 440 / 480px — violating the project's own "one source of truth" rule.</p>
+      <div class="ev">qe-panel 400 (Pipeline) · tk-panel 400 (Tasks) · mem-panel 400 (Members) · roster-panel 420 (Bookings) · pol-panel 420 (Access Control) · session-panel 440 (Trainer) · slide-over 480 (Purchase Orders)</div>
+      <div class="fix"><b>Fix:</b> promote one <code>.overlay</code> + <code>.slide-over</code> (with a width modifier) into <code>app-shell.css</code>; delete the per-page copies.</div>
+    </div>
+
+    <div class="item">
+      <div class="item-head"><span class="badge b1">P1-3</span><span class="ttl">No shared breakpoint strategy</span><span class="scope">Shell + docs</span></div>
+      <p>Six different max-widths are used as "the breakpoint" across pages. There is no documented tablet/phone contract, so every new page guesses.</p>
+      <div class="ev">1180 · 1000 · 900 · 880 · 860 · 720 all in use as collapse points</div>
+      <div class="fix"><b>Fix:</b> standardise on two (desktop→tablet ~1024, tablet→phone ~640) plus the existing content cap, and record the contract in <code>CLAUDE.md</code>.</div>
+    </div>
+
+    <div class="item">
+      <div class="item-head"><span class="badge b1">P1-4</span><span class="ttl">Three competing design-system source docs</span><span class="scope">Housekeeping</span></div>
+      <p><code>design_system.html</code>, <code>design_system copy.html</code> and <code>uploads/design_system_demo_v2.html</code> are near-identical. The shell comment says the palette was standardised "from design_system copy.html," so the canonical source is ambiguous.</p>
+      <div class="ev">design_system.html · design_system copy.html · uploads/design_system_demo_v2.html (dup)</div>
+      <div class="fix"><b>Fix:</b> name one canonical reference, archive/delete the other two so there is a single documented source of truth.</div>
+    </div>
+
+    <div class="item">
+      <div class="item-head"><span class="badge b1">P1-5</span><span class="ttl">Malformed rule in the shared stylesheet</span><span class="scope">Shell</span></div>
+      <p>A leftover fragment trails a valid rule in the shared file. Browsers discard it, but it's a defect sitting in the single source of truth (and the <code>.mr-pill.risk</code> intent is muddied).</p>
+      <div class="ev">assets/app-shell.css:285 … .mr-pill.risk{ background:var(--neg-bg); color:var(--neg); } <b>0.08 20); color:#a3231f; }</b></div>
+      <div class="fix"><b>Fix:</b> delete the trailing <code>0.08 20); color:#a3231f; }</code> fragment.</div>
+    </div>
+
+    <div class="item">
+      <div class="item-head"><span class="badge b1">P1-6</span><span class="ttl">Dark mode is shell-only by its own admission</span><span class="scope">Shell + per-page</span></div>
+      <p>The dark-mode block covers shared chrome but explicitly excludes page-local components. Toggling dark on those pages leaves choice-cards, wizard cards and ledger tables in light styling.</p>
+      <div class="ev">assets/app-shell.css:436 comment: "Page-local components (choice-card, wiz-card, ledger tables, etc.) are not yet covered"</div>
+      <div class="fix"><b>Fix:</b> enumerate the uncovered page-local components and either token-migrate them or add their dark rules; ideally fold the repeated ones (ledger table) into the shell.</div>
+    </div>
+
+    <h2>P2 — Rules &amp; polish</h2>
+    <p class="sec-sub">Lower urgency, but needed for full compliance with the project UI rules once mobile works.</p>
+
+    <div class="item">
+      <div class="item-head"><span class="badge b2">P2-1</span><span class="ttl">Touch targets below the 44px minimum</span><span class="scope">Shell</span></div>
+      <p>The project rules echo a 44px mobile hit-target floor. Rail icons (44px) pass, but the back-btn and bell icon-btn are 38px, and pill-nav links are ~34px tall (9px padding). Fine for mouse, tight for thumbs.</p>
+      <div class="ev">app-shell.css:130 back-btn 38 · :175 icon-btn 38 · :143 pill-nav a padding 9px 14px (~34px)</div>
+      <div class="fix"><b>Fix:</b> bump these to ≥44px inside the phone breakpoint only, so desktop density is untouched.</div>
+    </div>
+
+    <div class="item">
+      <div class="item-head"><span class="badge b2">P2-2</span><span class="ttl">Search becomes unreachable on phone</span><span class="scope">Shell</span></div>
+      <p>The 860px rule hides <code>.search-box</code> outright with no replacement, so search — a primary action on data pages — simply disappears on mobile.</p>
+      <div class="ev">assets/app-shell.css:432 .app-top .search-box{ display:none }</div>
+      <div class="fix"><b>Fix:</b> replace with a search icon-button that expands, so the capability survives on phone.</div>
+    </div>
+
+    <div class="item">
+      <div class="item-head"><span class="badge b2">P2-3</span><span class="ttl">Kiosk / storefront pages need a device pass</span><span class="scope">Per-page</span></div>
+      <p>Fixed-size layouts (Events Check-in Kiosk scan panel 420px, Ambient Mode, Login / Sign Up) are built for a known screen. Kiosk is legitimately a fixed device (lower priority), but the customer-facing storefront and auth pages should confirm cleanly at 360px.</p>
+      <div class="ev">Events - Check-in Kiosk.html:22 .scan-panel{ width:420px } (fixed device — acceptable) · verify Login / Sign Up / Storefront at 360px</div>
+      <div class="fix"><b>Fix:</b> spot-verify the customer + auth flows at phone width; leave kiosk fixed but centred.</div>
+    </div>
+
+    <div class="item">
+      <div class="item-head"><span class="badge b2">P2-4</span><span class="ttl">Re-verify closed rules after the responsive pass</span><span class="scope">QA</span></div>
+      <p>Prior audit (19 Jul) closed emoji-as-icon, one-hero-per-row and comma/K-M formatting. Responsive reflow can reintroduce violations (e.g. a hero card stacking next to another, or a wrapped number). Re-check after Phase 1.</p>
+      <div class="ev">AUDIT REPORT.md §3.2 / §3.3 — previously CLOSED; regression-check post-reflow</div>
+      <div class="fix"><b>Fix:</b> quick visual sweep of KPI rows and mascot/icon usage at phone width once layout changes land.</div>
+    </div>
+
+    <h2>What is already healthy (do not regress)</h2>
+    <div class="ok">
+      <b>Confirmed solid this pass:</b>
+      <ul>
+        <li>Colour is fully tokenised (light + dark pairs) and consumed via <code>var()</code> across all 54 pages.</li>
+        <li>The shell (rail / app-top / pill-nav / hero cards / Haki tips / support widget) is genuinely centralized and injected once from <code>app-shell.js</code>.</li>
+        <li>Most slide-overs and modals already carry <code>max-width:92vw</code> — the responsive instinct exists, it's just uneven.</li>
+        <li>Wide tables where remembered (Purchase Orders) are correctly scroll-wrapped — the right pattern to generalise.</li>
+        <li>Newer storefront/customer pages already ship 900px breakpoints — closer to responsive than the core app.</li>
+      </ul>
+    </div>
+
+    <h2>Recommended sequence</h2>
+    <div class="phase"><div class="pn">1</div><div><div class="pt">Make it work on a phone (all P0)</div><div class="pd">Inject viewport from <code>app-shell.js</code>; add the phone tier to <code>app-shell.css</code> (stack app-top, collapse rail to a bottom bar, mid 2-col grid tier, <code>.table-wrap</code>); wrap the two un-wrapped ledger tables. Mostly one shell pass → cascades to every page.</div></div></div>
+    <div class="phase"><div class="pn">2</div><div><div class="pt">Make it one system (P1)</div><div class="pd">Add spacing/radius/shadow token scales; promote a single <code>.slide-over</code>/<code>.overlay</code> into the shell and delete the 7 copies; document the breakpoint contract in <code>CLAUDE.md</code>; pick the canonical design-system doc; delete the malformed CSS fragment.</div></div></div>
+    <div class="phase"><div class="pn">3</div><div><div class="pt">Polish &amp; re-verify (P2)</div><div class="pd">Bump touch targets and restore phone search inside the phone breakpoint; device-check storefront/auth at 360px; regression-sweep the previously-closed UI rules after reflow.</div></div></div>
+
+    <div class="foot">Evidence gathered by direct file inspection (grep + read) across the 54 in-app Hakiqa pages and the shared <code>assets/app-shell.css</code> / <code>app-shell.js</code>. Out-of-scope Blackpaw / BICC / design-system / uploads / labs / export files were excluded from findings. Complements — does not replace — <code>AUDIT REPORT.md</code> (19 Jul), which covered links, icons, mode-awareness and content rules.</div>
+  </div>
+</div>
+</body>
+</html>

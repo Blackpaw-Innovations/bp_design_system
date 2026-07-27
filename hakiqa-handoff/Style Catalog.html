@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hakiqa · Style Catalog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/app-shell.css">
+<script src="assets/app-shell.js"></script>
+<script src="assets/business-mode.js"></script>
+<script src="image-slot.js"></script>
+<style>
+.seg{ display:flex; background:var(--surface-alt); border-radius:11px; padding:3px; gap:2px; }
+.seg button{ font-family:inherit; font-size:12.5px; font-weight:700; padding:8px 16px; border-radius:8px; border:none; background:none; color:var(--ink-soft); cursor:pointer; }
+.seg button.active{ background:var(--navy); color:white; }
+.cat-shell{ display:grid; grid-template-columns:240px 1fr; gap:20px; align-items:start; }
+.item-list{ background:var(--card-bg); border:1px solid var(--line); border-radius:20px; padding:10px; display:flex; flex-direction:column; gap:4px; }
+.item-list button{ display:flex; align-items:center; gap:10px; text-align:left; border:none; background:none; font-family:inherit; padding:10px 12px; border-radius:14px; cursor:pointer; width:100%; }
+.item-list button.active{ background:oklch(94% 0.04 250); }
+.item-list .il-thumb{ width:38px;height:38px;border-radius:10px; flex:0 0 auto; overflow:hidden; }
+.item-list .il-name{ font-size:13px; font-weight:800; }
+.item-list .il-price{ font-size:11.5px; color:var(--ink-soft); }
+.item-list .il-add{ margin-top:6px; border:1px dashed var(--line); border-radius:14px; padding:11px 12px; font-size:12.5px; font-weight:700; color:var(--navy); background:none; cursor:pointer; }
+
+/* ---------- Browse ---------- */
+.browse-grid{ display:grid; grid-template-columns:1fr 380px; gap:24px; align-items:start; }
+.hero-dark{ position:relative; border-radius:22px; overflow:hidden; background:var(--navy); aspect-ratio:4/5; }
+.hero-dark .hero-slot-wrap{ position:absolute; inset:0; }
+.hero-dark .hero-scrim{ position:absolute; inset:0; background:linear-gradient(0deg, rgba(10,15,30,0.88) 0%, rgba(10,15,30,0.35) 45%, rgba(10,15,30,0) 70%); pointer-events:none; }
+.hero-dark .hero-text{ position:absolute; left:0; right:0; bottom:0; padding:26px 26px 22px; color:white; pointer-events:none; }
+.hero-dark .ht-name{ font-size:22px; font-weight:800; }
+.hero-dark .ht-price{ font-size:15px; font-weight:700; opacity:.9; margin-top:4px; }
+.hero-dark .ht-sub{ font-size:12px; opacity:.75; margin-top:2px; }
+.angle-dots{ position:absolute; top:16px; left:50%; transform:translateX(-50%); display:flex; gap:6px; z-index:2; }
+.angle-dots span{ width:6px;height:6px;border-radius:50%; background:rgba(255,255,255,0.4); cursor:pointer; }
+.angle-dots span.active{ background:var(--card-bg); }
+.thumb-rail{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:12px; }
+.thumb-slot-wrap{ aspect-ratio:1/1; border-radius:12px; overflow:hidden; border:2px solid transparent; cursor:pointer; background:var(--card-bg); border:1px solid var(--line); }
+.thumb-slot-wrap.active{ border-color:var(--navy); }
+.crosssell{ margin-top:20px; }
+.crosssell h3{ font-size:13.5px; font-weight:800; margin:0 0 12px; }
+.cs-row{ display:flex; gap:14px; overflow-x:auto; padding-bottom:4px; }
+.cs-card{ flex:0 0 150px; background:var(--card-bg); border:1px solid var(--line); border-radius:16px; padding:10px; cursor:pointer; }
+.cs-card .cs-thumb{ width:100%; aspect-ratio:1/1; border-radius:10px; overflow:hidden; margin-bottom:8px; }
+.cs-card .cs-name{ font-size:12px; font-weight:800; }
+.cs-card .cs-price{ font-size:11px; color:var(--ink-soft); }
+
+.detail-card{ background:var(--card-bg); border:1px solid var(--line); border-radius:22px; padding:22px 24px; display:flex; flex-direction:column; gap:16px; }
+.detail-card .d-name{ font-size:19px; font-weight:800; }
+.detail-card .d-price{ font-size:15px; font-weight:800; color:var(--navy); margin-top:2px; }
+.detail-card .d-sub{ font-size:12.5px; color:var(--ink-soft); margin-top:4px; }
+.swatch-group{ display:flex; flex-direction:column; gap:8px; }
+.swatch-group .sg-lbl{ font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.03em; color:var(--ink-soft); display:flex; align-items:center; gap:6px; }
+.swatch-group .sg-lbl svg{ width:13px;height:13px; }
+.swatch-row{ display:flex; gap:10px; flex-wrap:wrap; }
+.swatch-color{ width:28px;height:28px;border-radius:50%; border:2px solid white; box-shadow:0 0 0 1.5px var(--line); cursor:pointer; }
+.swatch-color.active{ box-shadow:0 0 0 2px var(--navy); }
+.swatch-chip{ font-size:12.5px; font-weight:700; padding:8px 14px; border-radius:10px; border:1px solid var(--line); background:var(--card-bg); cursor:pointer; }
+.swatch-chip.active{ background:var(--navy); color:white; border-color:var(--navy); }
+.detail-tabs{ display:flex; border-bottom:1px solid var(--line); }
+.detail-tabs button{ font-family:inherit; font-size:12.5px; font-weight:700; padding:10px 4px; margin-right:16px; background:none; border:none; border-bottom:2px solid transparent; color:var(--ink-soft); cursor:pointer; }
+.detail-tabs button.active{ color:var(--ink); border-color:var(--navy); }
+.detail-tab-body{ font-size:13px; color:var(--ink-soft); line-height:1.5; min-height:60px; }
+.detail-actions{ display:flex; gap:10px; margin-top:auto; padding-top:6px; }
+.detail-actions button{ flex:1; font-family:inherit; font-size:13.5px; font-weight:800; padding:13px; border-radius:12px; cursor:pointer; border:1px solid var(--line); background:var(--card-bg); color:var(--ink); }
+.detail-actions button.primary{ background:var(--navy); color:white; border:none; }
+
+/* ---------- Configure ---------- */
+.config-grid{ display:grid; grid-template-columns:1fr 320px; gap:24px; align-items:start; }
+.config-card{ background:var(--card-bg); border:1px solid var(--line); border-radius:22px; padding:24px 26px; display:flex; flex-direction:column; gap:20px; }
+.cfg-row{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.cfg-field label{ display:block; font-size:10.5px; font-weight:800; text-transform:uppercase; letter-spacing:.03em; color:var(--ink-soft); margin-bottom:6px; }
+.cfg-field input, .cfg-field textarea{ width:100%; font-family:inherit; font-size:13.5px; border:1px solid var(--line); border-radius:10px; padding:10px 12px; box-sizing:border-box; }
+.cfg-field textarea{ resize:vertical; min-height:64px; }
+.cfg-opt-row{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.cfg-opt-chip{ display:flex; align-items:center; gap:8px; background:var(--surface-alt); border-radius:999px; padding:6px 8px 6px 14px; font-size:12.5px; font-weight:700; }
+.cfg-opt-chip .swatch-color{ width:16px;height:16px; cursor:default; }
+.cfg-opt-chip button{ width:18px;height:18px;border-radius:50%; border:none; background:oklch(90% 0.006 90); color:var(--ink-soft); font-size:11px; cursor:pointer; line-height:1; }
+.palette-row{ display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+.palette-row .swatch-color{ width:22px;height:22px; }
+.cfg-add-size{ display:flex; gap:8px; }
+.cfg-add-size input{ width:80px; }
+.cfg-add-size button, .cfg-tab-add button{ font-family:inherit; font-size:12.5px; font-weight:700; padding:8px 14px; border-radius:9px; border:1px solid var(--line); background:var(--card-bg); cursor:pointer; }
+.cfg-save{ font-family:inherit; font-size:13.5px; font-weight:800; padding:13px; border-radius:12px; border:none; background:var(--navy); color:white; cursor:pointer; }
+.cfg-preview-note{ background:var(--navy-tint); border-radius:14px; padding:16px 18px; font-size:12px; color:var(--ink-soft); }
+.cfg-preview-note b{ color:var(--ink); }
+
+.cat-toast{ position:fixed; bottom:26px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--navy); color:white; padding:13px 22px; border-radius:14px; font-size:13.5px; font-weight:700; box-shadow:0 16px 30px -12px rgba(0,0,0,0.35); opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease; z-index:80; }
+.cat-toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<nav class="rail">
+  <div class="logo-mark">H</div>
+  <a class="rail-icon" href="Home Screen Concept.html" title="Home"><svg class="icon"><use href="#i-home"/></svg></a>
+  <div class="rail-spacer"></div>
+  <div class="avatar"></div>
+</nav>
+<div class="main">
+  <div class="app-top">
+    <div class="back-title">
+      <a class="back-btn" href="Inventory - Products.html" onclick="return smartBack(event)"><svg class="icon"><use href="#i-chevron-left"/></svg></a>
+      <h1 id="pageTitle">Style Catalog</h1>
+    </div>
+    <div class="seg" id="viewSeg">
+      <button class="active" data-v="browse">Browse</button>
+      <button data-v="config">Configure</button>
+    </div>
+    <div class="actions"><div class="avatar-chip">AK</div></div>
+  </div>
+
+  <div class="cat-shell">
+    <div class="item-list" id="itemList"></div>
+    <div id="browseView"></div>
+    <div id="configView" style="display:none;"></div>
+  </div>
+</div>
+<div class="cat-toast" id="catToast"></div>
+
+<script>
+const ICONS = {
+  swatch:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="19" cy="12" r="2.5"/><circle cx="13.5" cy="17.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/></svg>',
+  size:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18"/><path d="M3 21 21 3"/></svg>'
+};
+const CURATED_COLORS = ['#142440','#5c1a2e','#3f4a23','#8a5a2e','#2f3130','#8a8a8a','#1f6fd8','#a3231f','#c98a00'];
+const MODE_CONFIG = {
+  tailor: {
+    priceLbl: 'From', tabLabels: ['Details','Measurements','Past Work'], swatchLbl: 'Fabric', ctaPrimary: 'Commission This Style', ctaSecondary: 'Save to Client File',
+    items: [
+      {name:'Ankara Wrap Dress', price:'KES 4,500', sub:'Made to measure · 5-7 day turnaround', swatches:['#8a5a2e','#142440','#5c1a2e','#3f4a23'], sizes:['S','M','L','XL'], tabs:{Details:'A fitted wrap silhouette in customer-chosen Ankara print, lined bodice, adjustable tie waist.', Measurements:'Bust, waist, hip and shoulder measurements required, schedule a fitting or enter manually.', 'Past Work':'12 completed in this style · avg. rating 4.8 from client follow-ups.'}},
+      {name:'Two-Piece Suit', price:'KES 12,000', sub:'Made to measure · 10-14 day turnaround', swatches:['#142440','#2f3130','#4a4a4a'], sizes:['38','40','42','44'], tabs:{Details:'Single-breasted jacket, flat-front trouser, fused or canvassed construction on request.', Measurements:'Full suit measurement set, chest, shoulder, sleeve, trouser inseam.', 'Past Work':'8 completed in this style this quarter.'}},
+      {name:'School Uniform Set', price:'KES 1,800', sub:'Bulk order friendly · 3-5 day turnaround', swatches:['#142440','#5c1a2e','#3f4a23'], sizes:['XS','S','M','L'], tabs:{Details:'Standard uniform block pattern, reinforced seams for daily wear.', Measurements:'Age/height chart available, or individual measurement.', 'Past Work':'Repeat bulk client. 3 schools this year.'}}
+    ]
+  },
+  retail: {
+    priceLbl: 'Price', tabLabels: ['Details','Care','Reviews'], swatchLbl: 'Colour', ctaPrimary: 'Add to Cart', ctaSecondary: 'Add to Wishlist',
+    items: [
+      {name:'Statue Print Hoodie', price:'KES 3,200', sub:'240 in stock', swatches:['#2f3130','#8a8a8a','#142440'], sizes:['S','M','L','XL','XXL'], tabs:{Details:'Heavyweight cotton fleece, oversized fit, statue print graphic.', Care:'Machine wash cold, inside out. Do not tumble dry.', Reviews:'4.7 ★ from 32 in-store ratings.'}},
+      {name:'Rainbow Pullover', price:'KES 2,800', sub:'80 in stock', swatches:['#c98a00','#1f6fd8','#a3231f'], sizes:['S','M','L','XL'], tabs:{Details:'Relaxed pullover, ribbed cuffs, colour-block panel.', Care:'Hand wash recommended to preserve colour block.', Reviews:'4.5 ★ from 19 in-store ratings.'}},
+      {name:'Ombre Hoodie', price:'KES 3,600', sub:'54 in stock', swatches:['#5c1a2e','#8a5a2e'], sizes:['M','L','XL'], tabs:{Details:'Gradient dye hoodie, kangaroo pocket, drawstring hood.', Care:'Machine wash cold, separately for first wash.', Reviews:'4.8 ★ from 11 in-store ratings.'}}
+    ]
+  },
+  dropship: {
+    priceLbl: 'Supplier price', tabLabels: ['Details','Shipping ETA','Landed Cost'], swatchLbl: 'Variant', ctaPrimary: 'Add to Order', ctaSecondary: 'Request Sample',
+    items: [
+      {name:'Bluetooth Speaker (Mini)', price:'$8.40 / unit', sub:'MOQ 20 units · Guangzhou supplier', swatches:['#2f3130','#8a8a8a','#a3231f'], sizes:['—'], tabs:{Details:'Portable BT5.0 speaker, 3W driver, USB-C charging, supplier-branded packaging optional.', 'Shipping ETA':'14-21 days sea freight, 5-7 days air freight (higher landed cost).', 'Landed Cost':'Est. KES 1,480/unit landed at 20-unit MOQ incl. duty and freight share.'}},
+      {name:'Phone Case (Clear TPU)', price:'$0.65 / unit', sub:'MOQ 100 units · Shenzhen supplier', swatches:['#dcdcdc','#2f3130'], sizes:['iPhone','Samsung','Generic'], tabs:{Details:'Shock-absorbing clear TPU case, compatible with major phone models.', 'Shipping ETA':'10-16 days air freight, supplier ships within 48hrs of payment.', 'Landed Cost':'Est. KES 145/unit landed at 100-unit MOQ incl. duty and freight share.'}},
+      {name:'LED Strip Light (5m)', price:'$3.20 / unit', sub:'MOQ 50 units · Yiwu supplier', swatches:['#1f6fd8','#c98a00','#a3231f'], sizes:['—'], tabs:{Details:'RGB LED strip, remote control, adhesive backing, 12V adapter included.', 'Shipping ETA':'12-18 days sea freight.', 'Landed Cost':'Est. KES 620/unit landed at 50-unit MOQ incl. duty and freight share.'}}
+    ]
+  }
+};
+const mode = ['tailor','retail','dropship'].includes(getBusinessMode()) ? getBusinessMode() : 'retail';
+const CFG = MODE_CONFIG[mode];
+const titleLbl = {tailor:'Style Catalog · Tailoring', retail:'Customer Browse · Retail', dropship:'Supplier Catalog · Dropship'};
+document.getElementById('pageTitle').textContent = titleLbl[mode];
+let activeItem = 0, activeSwatch = 0, activeSize = 0, activeTab = 0, activeView = 'browse';
+
+document.getElementById('viewSeg').addEventListener('click', (e) => {
+  const b = e.target.closest('button'); if (!b) return;
+  document.querySelectorAll('#viewSeg button').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  activeView = b.dataset.v;
+  document.getElementById('browseView').style.display = activeView==='browse' ? '' : 'none';
+  document.getElementById('configView').style.display = activeView==='config' ? '' : 'none';
+  renderAll();
+});
+
+function renderItemList(){
+  document.getElementById('itemList').innerHTML = CFG.items.map((it,i) => `
+    <button class="${i===activeItem?'active':''}" onclick="selectItem(${i})">
+      <div class="il-thumb"><image-slot id="cat-list-${mode}-${i}" shape="rounded" radius="10" placeholder=""></image-slot></div>
+      <div><div class="il-name">${it.name}</div><div class="il-price">${it.price}</div></div>
+    </button>`).join('') + `<button class="il-add" onclick="addItem()">+ Add ${mode==='dropship'?'catalogue item':mode==='tailor'?'style':'product'}</button>`;
+}
+function selectItem(i){ activeItem=i; activeSwatch=0; activeSize=0; activeTab=0; renderAll(); }
+function addItem(){
+  CFG.items.push({name:'New '+(mode==='tailor'?'Style':mode==='dropship'?'Catalogue Item':'Product'), price:mode==='dropship'?'$0.00 / unit':'KES 0', sub:'', swatches:[CURATED_COLORS[0]], sizes:['—'], tabs:Object.fromEntries(CFG.tabLabels.map(t=>[t,'']))});
+  activeItem = CFG.items.length-1; activeSwatch=0; activeSize=0; activeTab=0; activeView='config';
+  document.querySelectorAll('#viewSeg button').forEach(x=>x.classList.toggle('active', x.dataset.v==='config'));
+  document.getElementById('browseView').style.display='none'; document.getElementById('configView').style.display='';
+  renderAll();
+}
+
+function renderBrowse(){
+  const it = CFG.items[activeItem];
+  const others = CFG.items.filter((_,i)=>i!==activeItem);
+  document.getElementById('browseView').innerHTML = `
+    <div class="browse-grid">
+      <div>
+        <div class="hero-dark">
+          <div class="angle-dots">${[0,1,2,3].map(i=>`<span class="${i===0?'active':''}" onclick="event.stopPropagation();this.parentElement.querySelectorAll('span').forEach(s=>s.classList.remove('active'));this.classList.add('active')"></span>`).join('')}</div>
+          <div class="hero-slot-wrap"><image-slot id="cat-hero-${mode}-${activeItem}" shape="rect" placeholder="Drop the main photo"></image-slot></div>
+          <div class="hero-scrim"></div>
+          <div class="hero-text"><div class="ht-name">${it.name}</div><div class="ht-price">${CFG.priceLbl}: ${it.price}</div><div class="ht-sub">${it.sub}</div></div>
+        </div>
+        <div class="thumb-rail">${[0,1,2,3].map(i=>`<div class="thumb-slot-wrap ${i===0?'active':''}" onclick="document.querySelectorAll('.thumb-slot-wrap').forEach(t=>t.classList.remove('active'));this.classList.add('active')"><image-slot id="cat-thumb-${mode}-${activeItem}-${i}" shape="rect" placeholder=""></image-slot></div>`).join('')}</div>
+        <div class="crosssell"><h3>You may like more</h3><div class="cs-row">${others.map(o=>{const oi=CFG.items.indexOf(o); return `<div class="cs-card" onclick="selectItem(${oi})"><div class="cs-thumb"><image-slot id="cat-cs-${mode}-${oi}" shape="rounded" radius="10" placeholder=""></image-slot></div><div class="cs-name">${o.name}</div><div class="cs-price">${o.price}</div></div>`;}).join('')}</div></div>
+      </div>
+      <div class="detail-card" id="detailCard"></div>
+    </div>`;
+  renderDetail();
+}
+function renderDetail(){
+  const it = CFG.items[activeItem];
+  const tabKeys = CFG.tabLabels;
+  document.getElementById('detailCard').innerHTML = `
+    <div><div class="d-name">${it.name}</div><div class="d-price">${CFG.priceLbl}: ${it.price}</div><div class="d-sub">${it.sub}</div></div>
+    <div class="swatch-group"><div class="sg-lbl">${ICONS.swatch}${CFG.swatchLbl}</div><div class="swatch-row">${it.swatches.map((c,i)=>`<div class="swatch-color ${i===activeSwatch?'active':''}" style="background:${c}" onclick="activeSwatch=${i};renderDetail()"></div>`).join('')}</div></div>
+    ${it.sizes[0]!=='—' ? `<div class="swatch-group"><div class="sg-lbl">${ICONS.size}Size</div><div class="swatch-row">${it.sizes.map((s,i)=>`<div class="swatch-chip ${i===activeSize?'active':''}" onclick="activeSize=${i};renderDetail()">${s}</div>`).join('')}</div></div>` : ''}
+    <div class="detail-tabs">${tabKeys.map((t,i)=>`<button class="${i===activeTab?'active':''}" onclick="activeTab=${i};renderDetail()">${t}</button>`).join('')}</div>
+    <div class="detail-tab-body">${it.tabs[tabKeys[activeTab]] || '<span style="opacity:.5;">Not filled in yet, add this under Configure.</span>'}</div>
+    <div class="detail-actions"><button onclick="showToast('${CFG.ctaSecondary.replace(/'/g,"\\'")}')">${CFG.ctaSecondary}</button><button class="primary" onclick="showToast('${CFG.ctaPrimary.replace(/'/g,"\\'")} · ${it.name}')">${CFG.ctaPrimary}</button></div>`;
+}
+
+function renderConfig(){
+  const it = CFG.items[activeItem];
+  document.getElementById('configView').innerHTML = `
+    <div class="config-grid">
+      <div class="config-card">
+        <div class="cfg-row">
+          <div class="cfg-field"><label>Name</label><input id="cfgName" value="${it.name}" oninput="it.name=this.value;liveSync()"></div>
+          <div class="cfg-field"><label>${CFG.priceLbl}</label><input id="cfgPrice" value="${it.price}" oninput="it.price=this.value;liveSync()"></div>
+        </div>
+        <div class="cfg-field"><label>Short description</label><input id="cfgSub" value="${it.sub}" oninput="it.sub=this.value;liveSync()"></div>
+        <div class="cfg-field"><label>Main photo</label><div style="width:160px;height:160px;border-radius:12px;overflow:hidden;"><image-slot id="cat-hero-${mode}-${activeItem}" shape="rect" placeholder="Drop the main photo"></image-slot></div></div>
+        <div class="cfg-field">
+          <label>${CFG.swatchLbl} options</label>
+          <div class="cfg-opt-row" id="cfgSwatches">${it.swatches.map((c,i)=>`<div class="cfg-opt-chip"><div class="swatch-color" style="background:${c}"></div>${c}<button onclick="removeSwatch(${i})"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" style="display:block;"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div>`).join('')}</div>
+          <div class="palette-row">${CURATED_COLORS.map(c=>`<div class="swatch-color" style="background:${c}" onclick="addSwatch('${c}')"></div>`).join('')}</div>
+        </div>
+        <div class="cfg-field">
+          <label>Sizes${it.sizes[0]==='—'?' (not applicable, leave as is)':''}</label>
+          <div class="cfg-opt-row" id="cfgSizes">${it.sizes.filter(s=>s!=='—').map((s,i)=>`<div class="cfg-opt-chip">${s}<button onclick="removeSize(${i})"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" style="display:block;"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div>`).join('')}</div>
+          <div class="cfg-add-size"><input id="cfgNewSize" placeholder="e.g. XL"><button onclick="addSize()">+ Add</button></div>
+        </div>
+        ${CFG.tabLabels.map(t=>`<div class="cfg-field"><label>${t}</label><textarea oninput="it.tabs['${t}']=this.value;liveSync()">${it.tabs[t]||''}</textarea></div>`).join('')}
+        <button class="cfg-save" onclick="showToast('Saved '+it.name)">Save changes</button>
+      </div>
+      <div class="cfg-preview-note"><b>Staff-facing.</b> This is where you build what customers see in Browse, name, price, ${CFG.swatchLbl.toLowerCase()} options, sizing and the info tabs. Switch to Browse anytime to preview exactly what a customer sees.</div>
+    </div>`;
+}
+function liveSync(){ renderItemList(); }
+function addSwatch(c){ CFG.items[activeItem].swatches.push(c); renderConfig(); }
+function removeSwatch(i){ const it=CFG.items[activeItem]; if(it.swatches.length<=1) return; it.swatches.splice(i,1); renderConfig(); }
+function addSize(){ const v=document.getElementById('cfgNewSize').value.trim(); if(!v) return; const it=CFG.items[activeItem]; if(it.sizes[0]==='—') it.sizes=[]; it.sizes.push(v); renderConfig(); }
+function removeSize(i){ const it=CFG.items[activeItem]; it.sizes.splice(i,1); if(!it.sizes.length) it.sizes=['—']; renderConfig(); }
+
+function renderAll(){
+  renderItemList();
+  if (activeView==='browse') renderBrowse(); else renderConfig();
+}
+function showToast(msg){ const t=document.getElementById('catToast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2600); }
+renderAll();
+</script>
+</body>
+</html>

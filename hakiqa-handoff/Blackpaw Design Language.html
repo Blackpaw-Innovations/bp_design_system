@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blackpaw Design Language v1.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&family=Urbanist:wght@400;500;600;700;800&family=Manrope:wght@700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/bdl-tokens.css">
+<link rel="stylesheet" href="assets/bdl-styles.css">
+</head>
+<body>
+<div class="layout">
+
+  <!-- ══════════ SIDEBAR ══════════ -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark"></div>
+      <div>
+        <div class="brand-name">Blackpaw</div>
+        <div class="brand-sub">Design Language</div>
+      </div>
+    </div>
+    <div class="nav-group-label">Foundations</div>
+    <a class="nav-link active" data-target="s-intro"><span class="nav-dot" style="background:hsl(var(--bp-cyan))"></span>Overview</a>
+    <a class="nav-link" data-target="s-color"><span class="nav-dot" style="background:hsl(var(--bp-teal))"></span>Color &amp; tokens</a>
+    <a class="nav-link" data-target="s-type"><span class="nav-dot" style="background:hsl(var(--bp-orange))"></span>Typography</a>
+    <a class="nav-link" data-target="s-primitives"><span class="nav-dot" style="background:hsl(var(--bp-navy))"></span>Radius · motion</a>
+    <div class="nav-group-label">System</div>
+    <a class="nav-link" data-target="s-semantic"><span class="nav-dot" style="background:hsl(var(--bp-teal))"></span>Semantic layer</a>
+    <a class="nav-link" data-target="s-identities"><span class="nav-dot" style="background:hsl(var(--bp-orange))"></span>Identities</a>
+    <a class="nav-link" data-target="s-components"><span class="nav-dot" style="background:hsl(var(--bp-cyan))"></span>Components</a>
+    <div class="nav-group-label">Adopt</div>
+    <a class="nav-link" data-target="s-migration"><span class="nav-dot" style="background:hsl(var(--bp-navy))"></span>Migration crib</a>
+    <a class="nav-link" data-target="s-rules"><span class="nav-dot" style="background:hsl(var(--bp-teal))"></span>Non-negotiables</a>
+  </aside>
+
+  <main class="main">
+
+    <!-- ══════════ HERO ══════════ -->
+    <header class="doc-hero" id="s-intro">
+      <span class="version-pill"><span class="dot"></span><span class="t-label">Design Language · v1.0</span></span>
+      <h1 class="t-display-2xl">One skeleton. Many faces. Zero forks.</h1>
+      <p class="lead t-body-lg">The shared system behind every Blackpaw &amp; Hakiqa app. Values live in one place, components read a semantic layer, and each app's identity is a single attribute away — so the family stays consistent while Finance, Planner, Flamex and BICC keep their own character.</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="n">1</div><div class="l t-caption">source of truth for values</div></div>
+        <div class="hero-stat"><div class="n">3</div><div class="l t-caption">typefaces, three clear roles</div></div>
+        <div class="hero-stat"><div class="n">5</div><div class="l t-caption">identities on one component set</div></div>
+      </div>
+    </header>
+
+    <!-- ══════════ COLOR ══════════ -->
+    <section class="section" id="s-color">
+      <div class="section-eyebrow t-label">01 · Foundations</div>
+      <h2 class="section-title t-display-lg">The shared palette</h2>
+      <p class="section-lead t-body-lg">Every verticals screen, plus Connect, Admin and Firstlight, wears this one skin. Values are stored as HSL channel triplets in <code style="font-family:ui-monospace,monospace;font-size:13px">brand.css</code> — the only file allowed to hold a raw color.</p>
+
+      <div class="grid cols-4 mt-32">
+        <div class="swatch"><div class="chip" style="background:hsl(184 100% 50%)"></div><div class="meta"><div class="name">Cyan</div><div class="val">#01ECFF · highlight / CTA</div><div class="tok">--bp-cyan</div></div></div>
+        <div class="swatch"><div class="chip" style="background:hsl(190 100% 36%)"></div><div class="meta"><div class="name">Teal</div><div class="val">#00A5B8 · primary accent</div><div class="tok">--bp-teal</div></div></div>
+        <div class="swatch"><div class="chip" style="background:hsl(32 98% 50%)"></div><div class="meta"><div class="name">Orange</div><div class="val">#FD8A03 · accent / warn</div><div class="tok">--bp-orange</div></div></div>
+        <div class="swatch"><div class="chip" style="background:hsl(218 93% 17%)"></div><div class="meta"><div class="name">Navy</div><div class="val">#032053 · hero / ink</div><div class="tok">--bp-navy</div></div></div>
+      </div>
+      <div class="grid cols-4 mt-24">
+        <div class="swatch"><div class="chip" style="background:#fff;border-bottom:1px solid hsl(var(--bp-border))"></div><div class="meta"><div class="name">Page BG</div><div class="val">#FFFFFF pure white</div><div class="tok">--bp-bg</div></div></div>
+        <div class="swatch"><div class="chip" style="background:hsl(142 71% 45%)"></div><div class="meta"><div class="name">Success</div><div class="val">signal green</div><div class="tok">--bp-success</div></div></div>
+        <div class="swatch"><div class="chip" style="background:hsl(38 93% 51%)"></div><div class="meta"><div class="name">Warning</div><div class="val">signal amber</div><div class="tok">--bp-warning</div></div></div>
+        <div class="swatch"><div class="chip" style="background:hsl(0 84% 60%)"></div><div class="meta"><div class="name">Danger</div><div class="val">signal red</div><div class="tok">--bp-danger</div></div></div>
+      </div>
+
+      <div class="callout"><strong>Reconciliation note.</strong> Primaries match the live <code style="font-family:ui-monospace,monospace">@blackpaw/ui</code> repo. The page background is a clean pure white <code style="font-family:ui-monospace,monospace">#FFFFFF</code> — the local <code style="font-family:ui-monospace,monospace">design_system.html</code> warm cream <code style="font-family:ui-monospace,monospace">#F6F7F4</code> should be retired in favour of it.</p></div>
+    </section>
+
+    <!-- ══════════ TYPOGRAPHY ══════════ -->
+    <section class="section" id="s-type">
+      <div class="section-eyebrow t-label">02 · Foundations</div>
+      <h2 class="section-title t-display-lg">Three fonts, three roles</h2>
+      <p class="section-lead t-body-lg">If it's a number you want people to <em>feel</em> — use Newsreader. If it's a word that categorises the thing above or below it — use Manrope. Everything else is Urbanist.</p>
+
+      <div class="grid cols-3 mt-32">
+        <div class="font-card">
+          <div class="big" style="font-family:var(--bp-font-display)">Ag</div>
+          <div class="t-h3">Newsreader</div>
+          <div class="role t-caption">Editorial serif · display</div>
+          <div class="when">KPI numbers, hero statements, page h1, dramatic readouts.</div>
+        </div>
+        <div class="font-card">
+          <div class="big" style="font-family:var(--bp-font-ui);font-weight:800">Ag</div>
+          <div class="t-h3">Urbanist</div>
+          <div class="role t-caption">UI sans · workhorse</div>
+          <div class="when">Nav, body, headings h2–h6, inputs, tables, buttons.</div>
+        </div>
+        <div class="font-card">
+          <div class="big" style="font-family:var(--bp-font-label);font-weight:800;letter-spacing:-.02em">Ag</div>
+          <div class="t-h3">Manrope</div>
+          <div class="role t-caption">Label · categorical</div>
+          <div class="when">Overlines, badge text, uppercase status chips, axis labels.</div>
+        </div>
+      </div>
+
+      <div class="mt-32">
+        <div class="specimen"><div class="tag t-label">Display 2xl · Newsreader 56</div><div class="t-display-2xl">KES 4.82M in circulation</div></div>
+        <div class="specimen"><div class="tag t-label">Display lg · Newsreader 36</div><div class="t-display-lg">Tailors ready for pickup</div></div>
+        <div class="specimen"><div class="tag t-label">Heading 1 · Urbanist 700 · 24</div><div class="t-h1">Weekly operations summary</div></div>
+        <div class="specimen"><div class="tag t-label">Body · Urbanist 400 · 14</div><div class="t-body">Body copy runs in Urbanist at a comfortable 1.6 line height. It carries the bulk of interface prose — descriptions, help text, list detail — without competing with the editorial numbers.</div></div>
+        <div class="specimen"><div class="tag t-label">Label · Manrope 800 · 11</div><div class="t-label">Awaiting fitting · 3 clients</div></div>
+      </div>
+    </section>
+
+    <!-- ══════════ PRIMITIVES ══════════ -->
+    <section class="section" id="s-primitives">
+      <div class="section-eyebrow t-label">03 · Foundations</div>
+      <h2 class="section-title t-display-lg">Radius, motion &amp; elevation</h2>
+      <p class="section-lead t-body-lg">Shared primitives keep the family feeling like one hand made it. Cards are always 16px. Anything that enters the screen uses <code style="font-family:ui-monospace,monospace;font-size:13px">--bp-dur-enter</code> with the spring ease.</p>
+
+      <div class="grid cols-2 mt-32">
+        <div>
+          <div class="t-label" style="color:hsl(var(--bp-muted));margin-bottom:12px">Radius scale</div>
+          <div class="tok-row"><span class="k">--bp-radius-sm</span><span class="v">6px</span><span class="demo"><div class="radius-demo" style="border-radius:6px"></div></span></div>
+          <div class="tok-row"><span class="k">--bp-radius-md</span><span class="v">12px</span><span class="demo"><div class="radius-demo" style="border-radius:12px"></div></span></div>
+          <div class="tok-row" style="border-color:hsl(var(--bp-teal) / .5);background:hsl(var(--bp-teal) / .05)"><span class="k">--bp-radius-lg</span><span class="v">16px · card default</span><span class="demo"><div class="radius-demo" style="border-radius:16px"></div></span></div>
+          <div class="tok-row"><span class="k">--bp-radius-xl</span><span class="v">24px</span><span class="demo"><div class="radius-demo" style="border-radius:24px"></div></span></div>
+        </div>
+        <div>
+          <div class="t-label" style="color:hsl(var(--bp-muted));margin-bottom:12px">Motion — hover a tile</div>
+          <div class="tok-row"><span class="k">--bp-dur-fast</span><span class="v">65ms</span><span class="demo"><div class="motion-demo" style="transition:transform 65ms var(--bp-ease-spring)" onmouseover="this.style.transform='translateY(-6px)'" onmouseout="this.style.transform=''"></div></span></div>
+          <div class="tok-row"><span class="k">--bp-dur-enter</span><span class="v">220ms · spring</span><span class="demo"><div class="motion-demo" style="transition:transform 220ms var(--bp-ease-spring)" onmouseover="this.style.transform='translateY(-6px) scale(1.06)'" onmouseout="this.style.transform=''"></div></span></div>
+          <div class="tok-row"><span class="k">--bp-dur-slow</span><span class="v">350ms</span><span class="demo"><div class="motion-demo" style="transition:transform 350ms var(--bp-ease-out)" onmouseover="this.style.transform='rotate(45deg)'" onmouseout="this.style.transform=''"></div></span></div>
+          <div class="tok-row" style="grid-template-columns:1fr auto"><span class="k">shadow-card → hover</span><span class="demo"><div style="width:56px;height:40px;border-radius:10px;background:#fff;box-shadow:var(--bp-shadow-card);transition:box-shadow 220ms" onmouseover="this.style.boxShadow='var(--bp-shadow-hover)'" onmouseout="this.style.boxShadow='var(--bp-shadow-card)'"></div></span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════ SEMANTIC LAYER ══════════ -->
+    <section class="section" id="s-semantic">
+      <div class="section-eyebrow t-label">04 · System</div>
+      <h2 class="section-title t-display-lg">The semantic layer is the unlock</h2>
+      <p class="section-lead t-body-lg">Components never reference <code style="font-family:ui-monospace,monospace;font-size:13px">--bp-teal</code> directly. They read a thin semantic layer — <code style="font-family:ui-monospace,monospace;font-size:13px">--color-accent</code>, <code style="font-family:ui-monospace,monospace;font-size:13px">--color-bg</code>, <code style="font-family:ui-monospace,monospace;font-size:13px">--color-ink</code>… Change those once per app and everything reskins.</p>
+
+      <div class="grid cols-3 mt-32">
+        <div class="rule-card"><div class="num">1</div><h4>Raw layer</h4><p><code>--bp-*</code> holds values. Lives only in <code>brand.css</code>. Nobody styles against it.</p></div>
+        <div class="rule-card"><div class="num">2</div><h4>Semantic layer</h4><p><code>--color-accent</code> &amp; friends point at raw tokens. Components consume <em>only</em> this.</p></div>
+        <div class="rule-card"><div class="num">3</div><h4>Identity layer</h4><p><code>[data-identity]</code> re-points the semantic layer. One attribute = one app's whole look.</p></div>
+      </div>
+    </section>
+
+    <!-- ══════════ IDENTITIES + LIVE PREVIEW ══════════ -->
+    <section class="section" id="s-identities">
+      <div class="section-eyebrow t-label">05 · System</div>
+      <h2 class="section-title t-display-lg">Five identities, one component set</h2>
+      <p class="section-lead t-body-lg">Everything below is the <em>same markup</em>. Switch the identity and watch the semantic layer repaint it — no component forks, no duplicate stylesheets. The shared skin covers all verticals; Finance, Planner, Flamex and BICC are the only special cases.</p>
+
+      <div class="preview-controls" id="idControls">
+        <button class="id-btn active" data-id=""><span class="sw" style="background:hsl(190 100% 36%)"></span>Shared (Hakiqa)</button>
+        <button class="id-btn" data-id="finance"><span class="sw" style="background:hsl(246 77% 45%)"></span>Finance · Akili</button>
+        <button class="id-btn" data-id="planner"><span class="sw" style="background:hsl(194 100% 29%)"></span>Planner · Prioriti</button>
+        <button class="id-btn" data-id="flamex"><span class="sw" style="background:hsl(22 95% 52%)"></span>Flamex</button>
+        <button class="id-btn" data-id="bicc"><span class="sw" style="background:hsl(184 100% 50%)"></span>BICC</button>
+      </div>
+
+      <div class="preview" id="livePreview">
+        <div class="preview-label" id="pvLabel">Shared skin</div>
+        <div class="preview-inner">
+          <!-- Hero -->
+          <div class="c-hero">
+            <div class="eyebrow t-label" id="heroEyebrow">This week · Nairobi CBD</div>
+            <h3 id="heroTitle">KES 1.28M booked</h3>
+            <p id="heroBody">Up 14% on last week across 42 active jobs. Three clients are awaiting final fitting before pickup.</p>
+            <div class="actions">
+              <button class="btn btn-primary">New order</button>
+              <button class="btn btn-ghost">View board</button>
+            </div>
+          </div>
+
+          <!-- KPI row -->
+          <div class="grid cols-3">
+            <div class="c-kpi">
+              <div class="kpi-label t-label">Revenue</div>
+              <div class="kpi-value">1.28M</div>
+              <div class="kpi-foot"><span class="chip success"><span class="cdot"></span>+14%</span><span class="kpi-insight">vs last week</span></div>
+              <div class="spark"><span style="height:40%"></span><span style="height:55%"></span><span style="height:45%"></span><span style="height:70%"></span><span style="height:60%"></span><span style="height:85%"></span><span style="height:100%"></span></div>
+            </div>
+            <div class="c-kpi">
+              <div class="kpi-label t-label">Active jobs</div>
+              <div class="kpi-value">42</div>
+              <div class="kpi-foot"><span class="chip accent"><span class="cdot pulse"></span>Live</span><span class="kpi-insight">8 due today</span></div>
+              <div class="spark"><span style="height:60%"></span><span style="height:50%"></span><span style="height:65%"></span><span style="height:55%"></span><span style="height:75%"></span><span style="height:70%"></span><span style="height:90%"></span></div>
+            </div>
+            <div class="c-kpi">
+              <div class="kpi-label t-label">Overdue</div>
+              <div class="kpi-value">3</div>
+              <div class="kpi-foot"><span class="chip danger"><span class="cdot"></span>Action</span><span class="kpi-insight">needs follow-up</span></div>
+              <div class="spark"><span style="height:30%"></span><span style="height:45%"></span><span style="height:35%"></span><span style="height:50%"></span><span style="height:40%"></span><span style="height:55%"></span><span style="height:48%"></span></div>
+            </div>
+          </div>
+
+          <!-- Two-up: list + chips/empty -->
+          <div class="grid cols-2">
+            <div class="p-card glowborder">
+              <div class="t-h3" style="color:hsl(var(--color-ink));margin-bottom:6px">Recent activity</div>
+              <div class="p-row">
+                <div class="who"><div class="p-avatar">AK</div><div><div class="name">Amina Kone</div><div class="sub">Kitenge two-piece · fitting</div></div></div>
+                <div class="amt">18,500</div>
+              </div>
+              <div class="p-row">
+                <div class="who"><div class="p-avatar">JM</div><div><div class="name">Joseph Mwangi</div><div class="sub">Suit alteration · ready</div></div></div>
+                <div class="amt">6,200</div>
+              </div>
+              <div class="p-row">
+                <div class="who"><div class="p-avatar">FN</div><div><div class="name">Faith Njeri</div><div class="sub">Bridal · deposit</div></div></div>
+                <div class="amt">45,000</div>
+              </div>
+            </div>
+
+            <!-- Empty state — Haki only shows for shared verticals -->
+            <div class="p-card" id="sideCard">
+              <div class="t-h3" style="color:hsl(var(--color-ink));margin-bottom:10px">Status chips</div>
+              <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px">
+                <span class="chip accent"><span class="cdot pulse"></span>Live</span>
+                <span class="chip success"><span class="cdot"></span>Paid</span>
+                <span class="chip warning"><span class="cdot"></span>Pending</span>
+                <span class="chip danger"><span class="cdot"></span>Overdue</span>
+                <span class="chip info"><span class="cdot"></span>Info</span>
+                <span class="chip neutral"><span class="cdot"></span>Draft</span>
+              </div>
+              <div class="empty" id="hakiEmpty">
+                <img src="assets/haki-encouraging.png" alt="Haki mascot" id="hakiImg">
+                <h4 id="hakiTitle">No messages yet</h4>
+                <p id="hakiBody">When a client replies, Haki will bring it here first.</p>
+                <button class="btn btn-primary">Send a nudge</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- DetailDrawer demo -->
+          <div>
+            <div class="t-label" style="color:hsl(var(--color-muted));margin-bottom:10px">DetailDrawer — click to open</div>
+            <div class="drawer-stage" id="drawerStage">
+              <div class="stage-hint"><button class="btn btn-primary" id="openDrawer">Open detail drawer</button></div>
+              <div class="drawer-backdrop" id="drawerBackdrop"></div>
+              <div class="drawer">
+                <div class="dh">
+                  <div class="t-h3" style="color:hsl(var(--color-ink))">Order #4821</div>
+                  <div class="sub">Amina Kone · Kitenge two-piece</div>
+                </div>
+                <div class="db">
+                  <div style="display:flex;gap:8px"><span class="chip accent"><span class="cdot pulse"></span>In fitting</span><span class="chip success"><span class="cdot"></span>Deposit paid</span></div>
+                  <div class="p-row" style="border:none;padding:6px 0"><span class="sub">Balance due</span><span class="amt">KES 9,250</span></div>
+                  <div class="p-row" style="border:none;padding:6px 0"><span class="sub">Pickup</span><span class="name">Fri, 5 Jul</span></div>
+                </div>
+                <div class="df">
+                  <button class="btn btn-primary" style="flex:1">Mark ready</button>
+                  <button class="btn btn-ghost" id="closeDrawer" style="border-color:hsl(var(--color-border));color:hsl(var(--color-ink))">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="callout" id="idNote"><strong>Shared skin.</strong> Used by every vertical (tailor, gym, salon, retail duka, carwash, imports) plus Connect, Admin and Firstlight. Haki appears in empty states here.</div>
+    </section>
+
+    <!-- ══════════ COMPONENTS ══════════ -->
+    <section class="section" id="s-components">
+      <div class="section-eyebrow t-label">06 · System</div>
+      <h2 class="section-title t-display-lg">Tier-1 components</h2>
+      <p class="section-lead t-body-lg">Build these first — they carry the most duplication across apps today. Each one reads the semantic layer, so it lands identity-correct wherever it's dropped.</p>
+      <div class="grid cols-2 mt-32">
+        <div class="rule-card"><h4>HeroHeader</h4><p>Manrope eyebrow, Newsreader heading, body + actions. Variants navy / dark. Seen at the top of the preview.</p></div>
+        <div class="rule-card"><h4>KpiCard</h4><p>Gradient top-bar (accent-h→accent), Newsreader value, sparkline, trend chip. Consolidates <code>hq-kpi-card</code> + <code>MetricCard</code>.</p></div>
+        <div class="rule-card"><h4>StatusChip</h4><p>Manrope label-sm, optional pulsing dot for live states, tones from the signal tokens. Replaces inline badge spans.</p></div>
+        <div class="rule-card"><h4>DetailDrawer</h4><p>Slides in on <code>--bp-dur-enter</code> + ease-out, navy 50% backdrop with blur, sticky footer for actions.</p></div>
+      </div>
+    </section>
+
+    <!-- ══════════ MIGRATION ══════════ -->
+    <section class="section" id="s-migration">
+      <div class="section-eyebrow t-label">07 · Adopt</div>
+      <h2 class="section-title t-display-lg">Migration crib</h2>
+      <p class="section-lead t-body-lg">Phase 0 is pure plumbing — no visual change. Each app keeps a thin alias file pointing legacy names at the canonical tokens, then deletes them over time.</p>
+
+      <table class="crib mt-32">
+        <thead><tr><th>App</th><th>Legacy prefix</th><th></th><th>Canonical</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>@blackpaw/ui</td><td class="from"><code>--hk-*</code></td><td class="arrow">→</td><td><code>--bp-*</code></td><td>Rename; keep <code>--hk-*</code> as aliases during migration.</td></tr>
+          <tr><td>hakiqa-connect</td><td class="from"><code>--hq-*</code></td><td class="arrow">→</td><td><code>--bp-*</code></td><td>Already aliased in brand.css — finish + delete.</td></tr>
+          <tr><td>blackpaw-admin</td><td class="from"><code>--admin-* / shadcn</code></td><td class="arrow">→</td><td><code>--bp-*</code> bridge</td><td>shadcn vars map onto bp tokens.</td></tr>
+          <tr><td>bp_planner_app</td><td class="from"><code>--t-*</code></td><td class="arrow">→</td><td><code>--color-*</code></td><td>Themes become <code>data-identity="planner"</code> + sub-themes.</td></tr>
+          <tr><td>blackpaw-finance</td><td class="from"><code>--brand-* / --bg</code></td><td class="arrow">→</td><td><code>--color-*</code></td><td>Keep Akili indigo/coral + Playfair as its identity.</td></tr>
+          <tr><td>bp_bicc</td><td class="from"><code>shadcn dark</code></td><td class="arrow">→</td><td><code>--color-*</code> dark</td><td>Already on @blackpaw/ui — smallest lift.</td></tr>
+          <tr><td>local demo</td><td class="from"><code>#F6F7F4 cream</code></td><td class="arrow">→</td><td><code>--bp-bg</code></td><td>Retire the warm cream drift.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ══════════ RULES ══════════ -->
+    <section class="section" id="s-rules">
+      <div class="section-eyebrow t-label">08 · Adopt</div>
+      <h2 class="section-title t-display-lg">The non-negotiables</h2>
+      <p class="section-lead t-body-lg">Short enough to stick on a monitor.</p>
+      <div class="grid cols-2 mt-32">
+        <div class="rule-card"><div class="num">01</div><h4>Values only in brand.css</h4><p>No HSL triplet lives anywhere else, ever.</p></div>
+        <div class="rule-card"><div class="num">02</div><h4>--color-accent, not --bp-teal</h4><p>Components always read the semantic layer.</p></div>
+        <div class="rule-card"><div class="num">03</div><h4>data-identity for a whole look</h4><p>Never a new stylesheet for a sector.</p></div>
+        <div class="rule-card"><div class="num">04</div><h4>16px cards, from the token</h4><p><code>--bp-radius-lg</code> everywhere, always.</p></div>
+        <div class="rule-card"><div class="num">05</div><h4>Newsreader for felt numbers</h4><p>Everything else is Urbanist; labels are Manrope.</p></div>
+        <div class="rule-card"><div class="num">06</div><h4>Enter with spring</h4><p><code>--bp-dur-enter</code> + spring for drawer, toast, modal, sheet.</p></div>
+      </div>
+      <div class="callout warn mt-24"><strong>Next up.</strong> With the language locked, the follow-on deliverables are the Tier-1 component gallery, the identity themes wired into the real apps, and the BICC improvement pass — each built on this foundation.</div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+(function () {
+  // Identity switcher
+  var preview = document.getElementById('livePreview');
+  var label   = document.getElementById('pvLabel');
+  var note    = document.getElementById('idNote');
+  var hakiEmpty = document.getElementById('hakiEmpty');
+  var hakiImg = document.getElementById('hakiImg');
+  var hakiTitle = document.getElementById('hakiTitle');
+  var hakiBody  = document.getElementById('hakiBody');
+  var heroEyebrow = document.getElementById('heroEyebrow');
+  var heroTitle   = document.getElementById('heroTitle');
+  var heroBody    = document.getElementById('heroBody');
+
+  var content = {
+    "": {
+      label: "Shared skin",
+      note: "<strong>Shared skin.</strong> Used by every vertical (tailor, gym, salon, retail duka, carwash, imports) plus Connect, Admin and Firstlight. Haki appears in empty states here.",
+      eyebrow: "This week · Nairobi CBD", title: "KES 1.28M booked",
+      body: "Up 14% on last week across 42 active jobs. Three clients are awaiting final fitting before pickup.",
+      haki: true, hakiSrc: "assets/haki-encouraging.png", hakiTitle: "No messages yet", hakiBody: "When a client replies, Haki will bring it here first."
+    },
+    finance: {
+      label: "Finance · Akili",
+      note: "<strong>Finance (Akili Finance OS).</strong> Its own identity: indigo + coral, Playfair Display for figures, deep-navy dark surfaces. No mascot — this app stays serious about money.",
+      eyebrow: "Tax period · Q3 FY26", title: "KES 842,000 set aside",
+      body: "Akili has reconciled 128 transactions this month. Your provisional tax buffer is on track.",
+      haki: false
+    },
+    planner: {
+      label: "Planner · Prioriti",
+      note: "<strong>Planner (Prioriti).</strong> Cerulean + sky identity with its own ocean / blush / timber / shadow / serene sub-themes layered on top. No mascot — Prioriti uses its Spirit system instead.",
+      eyebrow: "Today · deep-work block", title: "4 priorities in focus",
+      body: "Your morning brief is ready. Two goals are on track and one needs a check-in before noon.",
+      haki: false
+    },
+    flamex: {
+      label: "Flamex",
+      note: "<strong>Flamex.</strong> Fire orange on charcoal — a fully dark identity. Same components, a completely different temperature. No mascot.",
+      eyebrow: "Shift · fuel depot", title: "38,400 L dispensed",
+      body: "Throughput is up 9% on yesterday. Two pumps are flagged for calibration before the evening rush.",
+      haki: false
+    },
+    bicc: {
+      label: "BICC",
+      note: "<strong>BICC (Business Intelligence Command Centre).</strong> Built for CEOs — elegant and serious. Deep ink-navy surfaces, Newsreader for editorial gravitas, cyan used sparingly as a precision accent rather than a glow. Quiet, data-forward, no mascot.",
+      eyebrow: "Owner pulse · live", title: "Health score 82",
+      body: "Three signals need attention this week. Revenue and attendance are healthy; margin is on watch.",
+      haki: false
+    }
+  };
+
+  document.getElementById('idControls').addEventListener('click', function (e) {
+    var btn = e.target.closest('.id-btn');
+    if (!btn) return;
+    var id = btn.getAttribute('data-id');
+    document.querySelectorAll('.id-btn').forEach(function (b) { b.classList.toggle('active', b === btn); });
+
+    if (id) { preview.setAttribute('data-identity', id); }
+    else { preview.removeAttribute('data-identity'); }
+    preview.classList.toggle('glow', id === 'flamex' || id === 'bicc');
+
+    var c = content[id] || content[""];
+    label.textContent = c.label;
+    note.innerHTML = c.note;
+    heroEyebrow.textContent = c.eyebrow;
+    heroTitle.textContent = c.title;
+    heroBody.textContent = c.body;
+    if (c.haki) {
+      hakiEmpty.style.display = '';
+      hakiImg.src = c.hakiSrc;
+      hakiTitle.textContent = c.hakiTitle;
+      hakiBody.textContent = c.hakiBody;
+    } else {
+      hakiEmpty.style.display = 'none';
+    }
+  });
+
+  // Drawer demo
+  var stage = document.getElementById('drawerStage');
+  document.getElementById('openDrawer').addEventListener('click', function () { stage.classList.add('open'); });
+  document.getElementById('closeDrawer').addEventListener('click', function () { stage.classList.remove('open'); });
+  document.getElementById('drawerBackdrop').addEventListener('click', function () { stage.classList.remove('open'); });
+
+  // Scrollspy + smooth nav
+  var links = Array.prototype.slice.call(document.querySelectorAll('.nav-link'));
+  links.forEach(function (l) {
+    l.addEventListener('click', function () {
+      var t = document.getElementById(l.getAttribute('data-target'));
+      if (t) window.scrollTo({ top: t.offsetTop - 8, behavior: 'smooth' });
+    });
+  });
+  var sections = links.map(function (l) { return document.getElementById(l.getAttribute('data-target')); });
+  window.addEventListener('scroll', function () {
+    var y = window.scrollY + 120, cur = 0;
+    sections.forEach(function (s, i) { if (s && s.offsetTop <= y) cur = i; });
+    links.forEach(function (l, i) { l.classList.toggle('active', i === cur); });
+  }, { passive: true });
+})();
+</script>
+</body>
+</html>

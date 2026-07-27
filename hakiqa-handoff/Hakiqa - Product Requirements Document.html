@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hakiqa Duka — Product Requirements Document</title>
+<style>doc-page:not(:defined){visibility:hidden}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{font-family:'Urbanist',sans-serif;color:#1a2035;margin:0;background:#e9e9ee;}
+doc-page{font-size:14px;line-height:1.6;}
+h1{font-size:30px;font-weight:800;margin:0 0 6px;}
+h2{font-size:19px;font-weight:800;margin:36px 0 12px;padding-top:14px;border-top:2px solid #0e1b32;}
+h2:first-of-type{border-top:none;padding-top:0;margin-top:20px;}
+h3{font-size:15px;font-weight:800;margin:20px 0 8px;color:#0e1b32;}
+p{margin:0 0 10px;}
+.doc-sub{font-size:14px;color:#5a6178;margin-bottom:4px;}
+.doc-meta{font-size:11.5px;color:#8a8fa3;margin-bottom:28px;}
+table{width:100%;border-collapse:collapse;margin:10px 0 16px;font-size:13px;}
+th{text-align:left;font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:#5a6178;padding:7px 10px;border-bottom:2px solid #d8d8e0;background:#f4f4f7;}
+td{padding:9px 10px;border-bottom:1px solid #e4e4ea;vertical-align:top;}
+ul,ol{margin:0 0 12px;padding-left:20px;}
+li{margin-bottom:5px;}
+.tag{display:inline-block;font-size:10.5px;font-weight:800;text-transform:uppercase;padding:2px 9px;border-radius:999px;margin-right:4px;}
+.tag.done{background:#dcf0e3;color:#1f6b3d;}
+.tag.partial{background:#faedd2;color:#8a5a00;}
+.tag.gap{background:#f9dede;color:#a3231f;}
+.callout{background:#f4f4f7;border-left:3px solid #0e1b32;border-radius:0 8px 8px 0;padding:10px 14px;margin:12px 0;font-size:13px;}
+.callout.warn{background:#faedd2;border-color:#8a5a00;}
+code{background:#f0f0f4;padding:1px 5px;border-radius:4px;font-size:12.5px;}
+.pagebreak{break-before:page;}
+</style>
+</head>
+<body>
+
+<doc-page size="letter" margin="0.85in">
+<h1>Hakiqa Duka — Product Requirements Document</h1>
+<div class="doc-sub">CEO intelligence &amp; operations platform for Kenyan SMEs — multi-vertical prototype</div>
+<div class="doc-meta">Draft for internal team review · 18 July 2026</div>
+
+<h2>1. What Hakiqa Is</h2>
+<p>Hakiqa is a single operating system for a small or growing business owner in Kenya — replacing a stack of notebooks, WhatsApp groups, and disconnected apps with one place to run sales, stock, staff, customers, and money, plus a CEO-level view that explains what the numbers mean, not just what they are.</p>
+<p>The product is <b>mode-aware at the data layer</b>: a single business selects one "Business Mode" (or a Mixed mode) in Settings, and every app — Home, POS, Analytics, CRM, Inventory, Reports — reshapes its content, vocabulary, and KPIs to match, without the owner configuring each app individually.</p>
+
+<h3>1.1 Business Modes supported</h3>
+<table>
+<tr><th>Mode</th><th>Primary user</th><th>Distinct capability build-out</th></tr>
+<tr><td><b>Retail</b></td><td>Shop owner selling physical goods</td><td>POS, stock, purchase orders, style catalog</td></tr>
+<tr><td><b>Restaurant</b></td><td>Food service owner</td><td>Shares retail POS/inventory scaffolding; food-cost framing</td></tr>
+<tr><td><b>Tailoring</b></td><td>Made-to-order garment business</td><td>Custom job intake, materials/recipe tracking, fittings</td></tr>
+<tr><td><b>Construction</b></td><td>Contractor running projects</td><td>Project Control, milestones, budget-vs-actual, variation orders</td></tr>
+<tr><td><b>Gym</b></td><td>Fitness studio / gym owner</td><td>Membership CRM funnel, Bookings, Trainer Workspace, Access Control, Equipment, Kiosk Check-In, Entitlement Wallet</td></tr>
+<tr><td><b>Dropship</b></td><td>Cross-border e-commerce reseller</td><td>Landed Cost Calculator, Shipment Tracker, Fulfilment Orchestration, Currency &amp; FX, Supplier Scorecard</td></tr>
+<tr><td><b>Mixed</b></td><td>Business spanning &gt;1 mode</td><td>Generalized views; Offer Engine composes multiple offer types side by side</td></tr>
+</table>
+
+<h2>2. Information Architecture</h2>
+<h3>2.1 Navigation model</h3>
+<ul>
+<li><b>Rail (left, 76px)</b> — global icon nav: Home, core apps for the current mode, Calendar, Settings, avatar. Present on every app page.</li>
+<li><b>App-top header</b> — per page: back button + <code>&lt;h1&gt;</code> naming the <i>app group</i> (not the individual page), a centered <b>pill-nav</b> listing that group's own sub-views, and right-aligned actions (search, notifications, avatar).</li>
+<li><b>Rule:</b> pill-nav tabs are for an app's own sub-views only (e.g. Analytics: Revenue/Leaderboard/Customers/Inventory/Reports/Exceptions). They never point at another app group. Cross-links to other apps live in-page instead (a menu action, a card link).</li>
+<li><b>Orphan rule:</b> every page must have a real entry point from somewhere a user would plausibly already be — a rail icon, a pill-nav tab, or a card/link inside an existing page. No standalone page is reachable only by typing a URL.</li>
+</ul>
+
+<h3>2.2 Current top-level app groups</h3>
+<table>
+<tr><th>Group</th><th>Pages</th></tr>
+<tr><td>Home</td><td>Home Screen Concept</td></tr>
+<tr><td>Point of Sale</td><td>Point of Sale (Register), Point of Sale – Daily Close</td></tr>
+<tr><td>Analytics</td><td>Revenue, Sales Leaderboard, Customers, Inventory, Reports, Exceptions</td></tr>
+<tr><td>Sales</td><td>Orders, Calendar (shared), Leaderboard (shared)</td></tr>
+<tr><td>CRM</td><td>Pipeline, Activities, Projects, Contacts, Calendar (shared), Project Control</td></tr>
+<tr><td>Inventory</td><td>Products, Purchase Orders, Supplier Catalog Import, Returns &amp; Disputes, Supplier Scorecard</td></tr>
+<tr><td>Front Desk (Gym)</td><td>Members, Bookings, Access Control (Live Ops / Access Policies / Kiosk Devices), Equipment, Trainer Workspace, Kiosk Check-In (public device screen)</td></tr>
+<tr><td>Dropship</td><td>Shipment Tracker, Fulfilment Orchestration, Landed Cost Calculator</td></tr>
+<tr><td>Settings</td><td>Business profile, Offer Builder, Roles &amp; Access, Reports (scheduling), Data Sharing, Currency &amp; FX, Kiosk Devices</td></tr>
+</table>
+
+<div class="pagebreak"></div>
+<h2>3. Design System</h2>
+<h3>3.1 Visual language</h3>
+<ul>
+<li><b>Typography:</b> Urbanist, single family throughout.</li>
+<li><b>Color:</b> navy, olive, burgundy, deep-rust orange as the four brand hues; no bright yellow/lilac; numbers comma-formatted (K/M-abbreviated only on KPI hero tiles).</li>
+<li><b>No emoji anywhere</b> — every icon is an inline stroke SVG matching the rail/pill-nav/icon-button style. Emoji only appear when quoting real chat content (WhatsApp mockups).</li>
+<li><b>Hero card</b> — a deep solid-color card (radial corner glow + faint diagonal sheen + white text) for the single most important number in a row. Exactly one hero card per row/group; everything else stays plain white.</li>
+<li><b>Haki Tip</b> — the mascot-guided callout component, five emotional variants (tip / advice / warning / announce / alert), used for contextual guidance, warnings, and mismatched-input coaching. User-dismissible via an ×.</li>
+<li><b>Shared card primitive (<code>.mp-card</code>)</b> and a shared multi-stat hero band (<code>.hero-stats</code>) now live once in <code>assets/app-shell.css</code>; new pages should consume these rather than redefining card CSS locally.</li>
+</ul>
+
+<h3>3.2 Shared source of truth</h3>
+<p>All shell chrome (rail, app-top, pill-nav, search box, hero-card system, Haki Tip, shared card styles) lives in <code>assets/app-shell.css</code> and is loaded by every page. <code>assets/business-mode.js</code> holds the Business Mode registry, per-mode Home dashboard data (stats + advice, each with a destination link), and a <code>bmModeCheck()</code> helper that shows a non-blocking mismatch banner on vertical-specific pages viewed outside their intended mode.</p>
+
+<h2>4. Feature Areas — Status</h2>
+<table>
+<tr><th>Area</th><th>Status</th><th>Notes</th></tr>
+<tr><td>Home dashboard (Business Snapshot, Recommended Actions)</td><td><span class="tag done">Done</span></td><td>Mode-aware stats + advice; every stat and advice item is now a clickable link to where the user can act on it.</td></tr>
+<tr><td>Point of Sale</td><td><span class="tag done">Done</span></td><td>Register kept single-purpose and customer-facing; Daily Close moved out of the primary pill-nav into a collapsible "⋯" menu; cashier session now persists across in-app navigation (was resetting on any page trip, incorrectly reading as "session closed").</td></tr>
+<tr><td>CRM (Pipeline / Activities / Projects / Contacts / Project Control)</td><td><span class="tag done">Done</span></td><td>5-tab IA; editable pipeline stages + automation rules; gym mode seeds a Lead→Trial→Joined funnel automatically.</td></tr>
+<tr><td>Offer Engine (Settings → Offer Builder)</td><td><span class="tag done">Done</span></td><td>3-axis composer (what it is / how it's charged / how it's fulfilled) with a Subscription config block, an "Everything You Sell" matrix for mixed businesses, kind mismatch warnings with one-click fixes, and a Haki-guided tip per step.</td></tr>
+<tr><td>Gym vertical (Members, Bookings, Trainer Workspace, Access Control, Equipment, Kiosk Check-In)</td><td><span class="tag done">Done</span></td><td>Full membership lifecycle: intake/KYC/waiver, check-in (QR/PIN/Face ID), capacity scheduling for trainers/rooms/equipment, access policies + live occupancy ops, asset register + work orders.</td></tr>
+<tr><td>Dropship vertical</td><td><span class="tag done">Done</span></td><td>Landed cost calculator, shipment tracker, fulfilment orchestration (consolidation/exceptions), supplier catalog CSV import with diff review, multi-currency/FX exposure, supplier scorecard, returns &amp; disputes with evidence packets.</td></tr>
+<tr><td>Entitlement Wallet</td><td><span class="tag done">Done</span></td><td>Auditable grant/reserve/consume ledger on Member Profile — not just a raw credit number.</td></tr>
+<tr><td>Roles &amp; Access</td><td><span class="tag done">Done</span></td><td>Added Trainer, Dropship Sales Agent, Fulfilment Operator, Finance Manager, and a device-scoped Kiosk Device role.</td></tr>
+<tr><td>Number formatting</td><td><span class="tag partial">Partial</span></td><td>Comma formatting is the enforced rule and applies across display text; a few live numeric <code>&lt;input&gt;</code> fields (e.g. POS float entry) use native browser number inputs, which cannot render thousands separators while typing — flagged as a design constraint, not fixed by convention alone (see §5).</td></tr>
+<tr><td>KPI-card clickability</td><td><span class="tag partial">Partial</span></td><td>Established as a firm UI rule this session and applied to Home's snapshot + recommended actions. Not yet swept across every KPI/hero card project-wide (see backlog).</td></tr>
+</table>
+
+<div class="pagebreak"></div>
+<h2>5. Issues Found &amp; Fixed This Review Cycle</h2>
+<ol>
+<li><b>Emoji badges on Member Profile</b> — achievement badges (flame/trophy/dumbbell/sun) were emoji; replaced with stroke SVG icons consistent with the no-emoji rule. Dead emoji fields also removed from <code>business-mode.js</code>.</li>
+<li><b>Literal escape-sequence rot</b> — many pages had literal text like <code>\u2014</code> instead of an actual em dash, visible on screen as garbled text. Swept and fixed across 35+ files.</li>
+<li><b>Duplicate local card CSS</b> — several newly built pages (Equipment, Trainer Workspace, Supplier Catalog Import, Supplier Scorecard, Kiosk Devices) redefined <code>.mp-card</code> locally instead of using the shared one; removed the duplicates in favor of the single definition in <code>app-shell.css</code>.</li>
+<li><b>Silent mode-blindness</b> — six gym-specific pages (Members, Bookings, Trainer Workspace, Access Control, Equipment, Kiosk Devices) loaded <code>business-mode.js</code> but never checked it, so they'd render gym content even for a non-gym business reaching them directly. Added a shared, non-blocking mismatch banner (<code>bmModeCheck()</code>) to all six.</li>
+<li><b>Access Control / Kiosk Devices menu inconsistency</b> — these pages used a bespoke sub-navigation row instead of the standard header pill-nav every other app group uses. Rebuilt onto the shared pill-nav pattern (Live Operations / Access Policies / Kiosk Devices, shared header "Access Control").</li>
+<li><b>Home page KPIs and Recommended Actions were inert</b> — Business Snapshot stats and the 3 Recommended Actions were plain text with no destination. Every stat and advice line now carries a <code>link</code> and renders as a real, hover-affordant link to the page where the user can act on it.</li>
+<li><b>POS Daily Close / session-close bug</b> — Daily Close lived as a sibling pill-nav tab next to Register. Navigating to it and back caused Point of Sale.html to reload from scratch with no session persistence, which reset the cashier to the PIN/float-count screen — reading as "the session got closed" even though the shift was still open. Fixed by: (a) persisting the active cashier session (owner, opening float, transactions) to <code>localStorage</code> and restoring it silently on load, and (b) removing Daily Close from the primary pill-nav — POS's customer-facing screen is now just "Point of Sale," with Daily Close, Switch User, and Close My Session tucked into a small overflow ("⋯") menu, matching how mainstream POS products (Square, Toast) keep the sale screen uncluttered.</li>
+</ol>
+
+<h2>6. Open Backlog / Recommended Next Steps</h2>
+<table>
+<tr><th>Item</th><th>Why it matters</th></tr>
+<tr><td>Full KPI/hero-card clickability sweep</td><td>The rule ("every KPI card is either a link or carries extra context on click") is now established and applied to Home; it should be swept across Analytics, CRM, Inventory, and the gym/dropship vertical dashboards for consistency.</td></tr>
+<tr><td>Comma-formatted live number inputs</td><td>Native <code>&lt;input type="number"&gt;</code> cannot show thousands separators while typing. Needs a small shared JS helper (masked text input, raw value stored separately) applied to POS float entry, PO/Sales Order line-item pricing, and Currency &amp; FX rate fields.</td></tr>
+<tr><td>Mobile responsiveness</td><td>Entire prototype is desktop-first; no phone/tablet breakpoints yet.</td></tr>
+<tr><td>Deeper mode-specific numbers</td><td>Sales, Expenses, and CEO Command Brief currently read Business Mode but don't yet differentiate the actual figures shown per mode.</td></tr>
+<tr><td>Additional Report Pack templates</td><td>Gym Owner, Access &amp; Attendance, and Fulfilment packs exist as list entries in Settings → Reports; their generated-output preview is not yet built.</td></tr>
+<tr><td>Backend enforcement</td><td>All Roles &amp; Access, mode-gating, and permission rules are frontend-only in this design phase; real API-level enforcement is out of scope until a backend exists.</td></tr>
+</table>
+
+<div class="callout warn"><b>Note for reviewers:</b> this is a static, front-end prototype (no live backend) — every number, chart, and "AI" recommendation is representative sample data wired for demonstration, not computed from real transactions.</div>
+
+<div class="pagebreak"></div>
+<h2>7. Appendix: Maturity Labels</h2>
+<p>Per the <i>World-Class Product Blueprint</i> benchmark review, no feature should be called "complete" in release planning until it reaches <b>Production-grade</b>. Every item in this document's status tables (§4, §6) should be read against this scale, not a binary done/not-done.</p>
+<table>
+<tr><th>Label</th><th>Meaning</th></tr>
+<tr><td><b>Designed</b></td><td>UX and rules are specified.</td></tr>
+<tr><td><b>Clickable</b></td><td>Prototype path works with sample/local data — <b>this is the honest status of nearly everything in this document.</b></td></tr>
+<tr><td><b>Data-backed</b></td><td>Persistent API and validated data model exist.</td></tr>
+<tr><td><b>Controlled</b></td><td>Roles, approvals and validations are enforced server-side.</td></tr>
+<tr><td><b>Reconcilable</b></td><td>Money, stock and operational totals close correctly.</td></tr>
+<tr><td><b>Auditable</b></td><td>Every material change can be attributed and reviewed.</td></tr>
+<tr><td><b>Production-grade</b></td><td>Security, recovery, performance, accessibility, tests and support are proven.</td></tr>
+</table>
+
+<h2>8. Appendix: Differentiators Built This Cycle</h2>
+<p>Following the blueprint's benchmark of Oracle, SAP, Odoo, Square, Toast, Procore, Mindbody/Glofox, Cin7, Bumpa and Yoco, the following novel/high-value differentiators (blueprint §7) were built at Clickable maturity this cycle:</p>
+<table>
+<tr><th>Differentiator</th><th>Where it lives</th></tr>
+<tr><td><b>Exception Cockpit</b> — cross-app accountable queue (why it matters, evidence, owner, due date, confidence, action, snooze/resolve, decision log)</td><td>New page: Exception Cockpit, linked from Home</td></tr>
+<tr><td><b>Hakiqa Truth Chain</b> — KPI → contributing records → source document → reconciliation freshness</td><td>Analytics → Revenue, Total Revenue KPI (drill-down modal)</td></tr>
+<tr><td><b>Project Truth</b> — contract value, actual+committed, and forecast margin in one hero strip</td><td>CRM → Project Control (pre-existing, confirmed against blueprint)</td></tr>
+<tr><td><b>Promise Confidence &amp; Margin Guard</b> — standing per-shipment confidence + landed margin table, not just a one-off flag</td><td>Dropship → Shipment Tracker</td></tr>
+<tr><td><b>Business Passport</b> — audit-ready export package (ledger, invoices, tax/eTIMS status, reconciliation, inventory, history) for an accountant, auditor or lender</td><td>New page: Settings → Business Passport</td></tr>
+<tr><td><b>One-Minute Close</b> — guided, exception-only close ("does your drawer roughly match KES X?") as the default, full recount kept as an escape hatch</td><td>Point of Sale → Daily Close</td></tr>
+<tr><td><b>Role Home &amp; App Lock</b> — a role can be genuinely previewed: Cashier lands directly in POS with every other rail icon hidden, not just a disabled link</td><td>Settings → Roles &amp; Access ("Preview this role's Home"), enforced via <code>applyRoleLock()</code> in <code>business-mode.js</code></td></tr>
+</table>
+<p style="margin-top:14px;">Not yet started from the blueprint's §7–§8 list: Haki Action Coach (bounded AI actions), camera/voice operations, anonymous peer benchmarking, and the full Kenya-rails/ledger/eTIMS/Daraja foundation in §5 — the latter is explicitly backend work, out of scope for this design-only phase.</p>
+
+</doc-page>
+<script src="doc-page.js"></script>
+</body>
+</html>

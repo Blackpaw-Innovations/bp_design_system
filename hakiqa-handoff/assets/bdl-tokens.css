@@ -1,0 +1,157 @@
+/* ============================================================
+   BLACKPAW DESIGN LANGUAGE v1.0 — CANONICAL TOKENS
+   Single source of truth. HSL channel triplets (no hsl() wrapper)
+   so they compose with opacity: hsl(var(--bp-teal) / 0.1)
+
+   Layer 1  --bp-*        raw brand values  (ONLY place values live)
+   Layer 2  --color-*     semantic layer    (components consume THIS)
+   Layer 3  [data-identity]  the 4 special skins override Layer 2 only
+   ============================================================ */
+
+:root {
+  /* ── Brand primaries (from live @blackpaw/ui brand.css) ── */
+  --bp-cyan:    184 100% 50%;   /* #01ECFF */
+  --bp-teal:    190 100% 36%;   /* #00A5B8 */
+  --bp-orange:  32  98%  50%;   /* #FD8A03 */
+  --bp-navy:    218 93%  17%;   /* #032053 */
+  --bp-green:   153 47%  25%;   /* Blackpaw corporate */
+
+  /* ── Neutral surface scale ── */
+  --bp-bg:      0   0%   100%;  /* #FFFFFF pure-white page */
+  --bp-surface: 0   0%   100%;  /* #FFFFFF card */
+  --bp-border:  191 43%  88%;   /* soft teal-tinted hairline */
+  --bp-muted:   216 17%  49%;   /* mid-grey label text */
+  --bp-ink:     219 39%  20%;   /* body text on light */
+
+  /* ── Semantic signals ── */
+  --bp-success: 142 71% 45%;
+  --bp-warning: 38  93% 51%;
+  --bp-danger:  0   84% 60%;
+  --bp-info:    217 91% 60%;
+
+  /* ── Radius ── */
+  --bp-radius-xs:   4px;
+  --bp-radius-sm:   6px;
+  --bp-radius:      8px;
+  --bp-radius-md:  12px;
+  --bp-radius-lg:  16px;   /* the standard card radius */
+  --bp-radius-xl:  24px;
+  --bp-radius-pill: 9999px;
+
+  /* ── Motion ── */
+  --bp-dur-fast:   65ms;
+  --bp-dur-base:  160ms;
+  --bp-dur-enter: 220ms;
+  --bp-dur-slow:  350ms;
+  --bp-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --bp-ease-out:    cubic-bezier(0.2, 0, 0, 1);
+  --bp-ease-in:     cubic-bezier(0.4, 0, 1, 1);
+
+  /* ── Spacing ── */
+  --bp-space-xs:   4px;
+  --bp-space-sm:   8px;
+  --bp-space:     12px;
+  --bp-space-md:  16px;
+  --bp-space-lg:  24px;
+  --bp-space-xl:  32px;
+  --bp-space-2xl: 48px;
+
+  /* ── Elevation ── */
+  --bp-shadow-card:  0 2px 8px  hsl(218 93% 17% / .07);
+  --bp-shadow-hover: 0 6px 20px hsl(218 93% 17% / .13);
+  --bp-shadow-modal: 0 16px 48px hsl(218 93% 17% / .22);
+  --bp-shadow-glow:  0 0 24px hsl(184 100% 50% / .18);
+
+  /* ── Type families ── */
+  --bp-font-ui:      'Urbanist', system-ui, sans-serif;
+  --bp-font-display: 'Newsreader', Georgia, serif;
+  --bp-font-label:   'Manrope', system-ui, sans-serif;
+
+  /* ════════════════════════════════════════════════════════
+     SEMANTIC LAYER — the only thing components should touch.
+     Default = the SHARED Hakiqa skin (all verticals, connect,
+     admin, firstlight). Overridden per identity below.
+     ════════════════════════════════════════════════════════ */
+  --color-accent:    var(--bp-teal);
+  --color-accent-h:  var(--bp-cyan);
+  --color-bg:        var(--bp-bg);
+  --color-surface:   var(--bp-surface);
+  --color-border:    var(--bp-border);
+  --color-ink:       var(--bp-ink);
+  --color-muted:     var(--bp-muted);
+  --color-hero:      var(--bp-navy);
+  --color-hero-ink:  0 0% 100%;
+  --color-display-font: var(--bp-font-display);
+  --color-glow:      transparent;
+}
+
+/* ════════════════════════════════════════════════════════════
+   IDENTITY 1 — FINANCE (Akili Finance OS)
+   Indigo + coral, Playfair display, deep-navy hero.
+   ════════════════════════════════════════════════════════════ */
+[data-identity="finance"] {
+  --color-accent:    246 77% 45%;   /* #2d1aca indigo */
+  --color-accent-h:  2   99% 68%;   /* #fe635f coral */
+  --color-bg:        0   0% 100%;
+  --color-surface:   0   0% 100%;
+  --color-border:    240 33% 93%;   /* #e8e8f2 */
+  --color-ink:       240 27% 14%;   /* #1a1a2e */
+  --color-muted:     236 18% 51%;   /* #6b6f9a */
+  --color-hero:      240 92% 15%;   /* #030347 */
+  --color-hero-ink:  0 0% 100%;
+  --color-display-font: 'Playfair Display', Georgia, serif;
+}
+
+/* ════════════════════════════════════════════════════════════
+   IDENTITY 2 — PLANNER (Prioriti, ocean default)
+   Cerulean + sky, ink-black hero.
+   ════════════════════════════════════════════════════════════ */
+[data-identity="planner"] {
+  --color-accent:    194 100% 29%;  /* #007194 cerulean */
+  --color-accent-h:  195 57% 67%;   /* #7AC3DB sky */
+  --color-bg:        60  20% 98%;   /* #FAFAF8 */
+  --color-surface:   0   0% 100%;
+  --color-border:    198 30% 88%;
+  --color-ink:       195 100% 6%;   /* #00161D */
+  --color-muted:     194 20% 58%;   /* #7AA0AD */
+  --color-hero:      212 100% 8%;   /* #001227 prussian */
+  --color-hero-ink:  0 0% 100%;
+}
+
+/* ════════════════════════════════════════════════════════════
+   IDENTITY 3 — FLAMEX (fire on charcoal — spec)
+   ════════════════════════════════════════════════════════════ */
+[data-identity="flamex"] {
+  --color-accent:    22 95% 52%;    /* fire orange */
+  --color-accent-h:  36 100% 60%;   /* ember amber */
+  --color-bg:        0  0% 10%;     /* charcoal */
+  --color-surface:   0  0% 14%;
+  --color-border:    22 30% 22%;
+  --color-ink:       0  0% 94%;
+  --color-muted:     22 20% 55%;
+  --color-hero:      0  0% 8%;
+  --color-hero-ink:  0 0% 96%;
+  --color-glow:      22 95% 52%;
+}
+
+/* ════════════════════════════════════════════════════════════
+   IDENTITY 4 — BICC (dark intelligence — improved)
+   Deep navy + cyan glow.
+   ════════════════════════════════════════════════════════════ */
+[data-identity="bicc"] {
+  /* Elegant & serious — for CEOs. Restrained cyan as a precision accent,
+     not a glow. Deep ink-navy surfaces, generous contrast, quiet. */
+  --color-accent:    188 78% 52%;   /* refined cyan, desaturated a touch */
+  --color-accent-h:  190 60% 68%;   /* soft cyan highlight */
+  --color-bg:        218 60% 6%;     /* #06101F near-black navy */
+  --color-surface:   217 44% 11%;    /* #101E2E slate-navy card */
+  --color-border:    215 30% 20%;
+  --color-ink:       210 30% 96%;
+  --color-muted:     212 20% 62%;
+  --color-hero:      218 62% 4%;
+  --color-hero-ink:  0 0% 100%;
+  --color-glow:      188 78% 52%;
+  --color-display-font: var(--bp-font-display); /* Newsreader = editorial gravitas */
+  --bp-shadow-card:  0 1px 3px rgba(0,0,0,.5);
+  --bp-shadow-hover: 0 4px 16px rgba(0,0,0,.55);
+}
