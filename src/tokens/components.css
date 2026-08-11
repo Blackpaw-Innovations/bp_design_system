@@ -241,3 +241,56 @@
 .slide-over .dh-close:hover { color: hsl(var(--color-ink)); }
 .slide-over .db { padding: 20px; flex: 1; overflow-y: auto; display: grid; gap: 14px; align-content: start; }
 .slide-over .df { padding: 16px 20px; border-top: 1px solid hsl(var(--color-border)); display: flex; gap: 10px; }
+
+/* ── KpiStat (Codex C2) ──────────────────────────────────────
+   .hq-kpi-card is app-shell.css's own class (already used verbatim
+   by several of the components this replaces) -- ported here rather
+   than invented under a bp_design_system-local name, same reasoning
+   as .overlay/.slide-over above. */
+.hq-kpi-card {
+  background: hsl(var(--color-surface));
+  border-radius: var(--bp-radius-lg);
+  box-shadow: var(--bp-shadow-card);
+  border: 1px solid hsl(var(--color-border));
+  position: relative;
+  overflow: hidden;
+}
+.hq-kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, hsl(var(--bp-cyan)), hsl(var(--bp-teal)));
+}
+.hq-kpi-card.urgent { box-shadow: 0 0 0 1px hsl(var(--bp-orange) / .4); }
+.hq-kpi-card .value { color: hsl(var(--color-ink)); }
+.hq-kpi-card.urgent .value { color: hsl(var(--bp-orange)); }
+.hq-kpi-card .icon { color: hsl(var(--color-accent)); }
+.hq-kpi-card.urgent .icon { color: hsl(var(--bp-orange)); }
+.hq-kpi-card .footer { color: hsl(var(--color-muted)); }
+
+/* ── HeroCard (Commandment 8) ── Fixed brand fills, not themed via
+   --color-*: "solid deep fill", scarce, one per row/group. Ported
+   verbatim from app-shell.css's five hero-* variants. */
+.hero-card {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  color: #fff;
+}
+.hero-card::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(120% 90% at 82% 8%, rgba(255,255,255,.22), transparent 55%);
+}
+.hero-card::after {
+  content: '';
+  position: absolute; inset: -20% -10%; z-index: 0; pointer-events: none;
+  background: linear-gradient(115deg, transparent 42%, rgba(255,255,255,.07) 50%, transparent 58%);
+}
+.hero-card > * { position: relative; z-index: 1; }
+.hero-navy     { background: #032053; }
+.hero-olive    { background: #2f3819; }
+.hero-burgundy { background: #47121f; }
+.hero-orange   { background: #6b3410; }
+.hero-teal     { background: #0b2e35; }

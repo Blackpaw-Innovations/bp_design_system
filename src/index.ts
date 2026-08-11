@@ -23,6 +23,8 @@ export { HakiTip } from './components/HakiTip'
 export type { HakiTipTone, HakiTipProps } from './components/HakiTip'
 export { SlideOver } from './components/SlideOver'
 export type { SlideOverProps } from './components/SlideOver'
+export { KpiStat, fmtKM } from './components/KpiStat'
+export type { KpiStatProps, KpiSize, KpiHeroColor, FmtKmOptions } from './components/KpiStat'
 
 // Utilities
 export { cn } from './lib/utils'
