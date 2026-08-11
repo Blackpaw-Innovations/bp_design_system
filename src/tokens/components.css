@@ -160,6 +160,24 @@
 .empty p  { font-size: 13px; color: hsl(var(--color-muted)); margin-top: 4px; max-width: 260px; }
 .empty .btn { margin-top: 16px; }
 
+/* ── Toast ──────────────────────────────────────────────────── */
+.toast {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 10px 14px 16px; border-radius: var(--bp-radius-lg);
+  box-shadow: var(--bp-shadow-modal);
+  background: hsl(var(--color-surface));
+  border: 1px solid hsl(var(--color-border));
+  border-left: 3px solid transparent;
+}
+.toast .icon { flex: none; }
+.toast p { flex: 1; font-size: 13.5px; font-weight: 600; color: hsl(var(--color-ink)); margin: 0; }
+.toast.success { border-left-color: hsl(var(--bp-success)); }
+.toast.success .icon { color: hsl(var(--bp-success)); }
+.toast.warning { border-left-color: hsl(var(--bp-warning)); }
+.toast.warning .icon { color: hsl(38 93% 38%); }
+.toast.error { border-left-color: hsl(var(--bp-danger)); }
+.toast.error .icon { color: hsl(var(--bp-danger)); }
+
 /* ── DetailDrawer ───────────────────────────────────────────── */
 .drawer {
   position: absolute; top: 0; right: 0; bottom: 0;
