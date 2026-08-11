@@ -21,6 +21,8 @@ export { ToastProvider, useToast } from './components/Toast'
 export type { ToastIntent, ToastOptions } from './components/Toast'
 export { HakiTip } from './components/HakiTip'
 export type { HakiTipTone, HakiTipProps } from './components/HakiTip'
+export { SlideOver } from './components/SlideOver'
+export type { SlideOverProps } from './components/SlideOver'
 
 // Utilities
 export { cn } from './lib/utils'

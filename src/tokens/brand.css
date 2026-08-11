@@ -89,6 +89,21 @@
   --color-glow:      transparent;
 }
 
+/* ── Dark mode for the default (no [data-identity]) skin ──
+   hakiqa-connect (and any other app using the shared skin) toggles
+   [data-theme="dark"] on :root -- app-shell.css's own dark palette
+   (index.css :root[data-theme="dark"], #07090f/#0f1320/#f1f4fa/#8895ae)
+   converted to the unwrapped HSL triplets this layer expects.
+   Scoped off [data-identity] so it can't bleed into the 4 skins
+   below, which define their own light/dark treatment per-identity. */
+[data-theme="dark"]:not([data-identity]) {
+  --color-bg:      225 36% 4%;
+  --color-surface: 226 36% 9%;
+  --color-border:  220 25% 18%;
+  --color-ink:     220 47% 96%;
+  --color-muted:   220 19% 61%;
+}
+
 /* ════════════════════════════════════════════════════════════
    IDENTITY 1 — FINANCE (Akili Finance OS)
    Indigo + coral, Playfair display, deep-navy hero.

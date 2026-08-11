@@ -204,27 +204,40 @@
 .toast.error { border-left-color: hsl(var(--bp-danger)); }
 .toast.error .icon { color: hsl(var(--bp-danger)); }
 
-/* ── DetailDrawer ───────────────────────────────────────────── */
-.drawer {
-  position: absolute; top: 0; right: 0; bottom: 0;
-  width: 320px; max-width: 82%;
+/* ── SlideOver (Codex C3 + Commandment 15) ──────────────────────
+   app-shell.css names this mechanic .overlay/.slide-over (its own
+   comment: "single source; page-local .qe-panel/.tk-panel/.mem-panel/
+   .roster-panel/.session-panel/.pol-panel etc. inherit this") -- so
+   this component uses those exact class names rather than a
+   bp_design_system-local pair, per the app-shell.css > component-css
+   precedence rule. A consumer declares only its own width (inline
+   style) and content, never re-implements the overlay+panel pair
+   itself. Fixed (viewport-relative), not absolute: a slide-over
+   covers the page, it doesn't sit inside whatever ancestor happens
+   to be positioned. */
+.slide-over {
+  position: fixed; top: 0; right: 0; bottom: 0;
+  width: 480px; max-width: 92vw;
   background: hsl(var(--color-surface));
   border-left: 1px solid hsl(var(--color-border));
   transform: translateX(100%);
   transition: transform var(--bp-dur-enter) var(--bp-ease-out);
   display: flex; flex-direction: column;
   box-shadow: var(--bp-shadow-modal);
+  z-index: 61;
 }
-.drawer.open { transform: translateX(0); }
-.drawer-backdrop {
-  position: absolute; inset: 0;
-  background: hsl(var(--bp-navy) / .5);
-  backdrop-filter: blur(2px);
+.slide-over.open { transform: translateX(0); }
+.overlay {
+  position: fixed; inset: 0;
+  background: hsl(var(--bp-navy) / .35);
   opacity: 0; pointer-events: none;
   transition: opacity var(--bp-dur-enter) var(--bp-ease-out);
+  z-index: 60;
 }
-.drawer-backdrop.open { opacity: 1; pointer-events: auto; }
-.drawer .dh { padding: 20px; border-bottom: 1px solid hsl(var(--color-border)); }
-.drawer .dh .sub { font-size: 12px; color: hsl(var(--color-muted)); margin-top: 2px; }
-.drawer .db { padding: 20px; flex: 1; display: grid; gap: 14px; align-content: start; }
-.drawer .df { padding: 16px 20px; border-top: 1px solid hsl(var(--color-border)); display: flex; gap: 10px; }
+.overlay.open { opacity: 1; pointer-events: auto; }
+.slide-over .dh { padding: 20px; border-bottom: 1px solid hsl(var(--color-border)); position: sticky; top: 0; background: hsl(var(--color-surface) / .95); backdrop-filter: blur(6px); display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; z-index: 1; }
+.slide-over .dh .sub { font-size: 12px; color: hsl(var(--color-muted)); margin-top: 2px; }
+.slide-over .dh-close { flex: none; display: flex; height: 44px; width: 44px; align-items: center; justify-content: center; border-radius: var(--bp-radius-md); border: 1px solid hsl(var(--color-border)); color: hsl(var(--color-muted)); background: none; cursor: pointer; }
+.slide-over .dh-close:hover { color: hsl(var(--color-ink)); }
+.slide-over .db { padding: 20px; flex: 1; overflow-y: auto; display: grid; gap: 14px; align-content: start; }
+.slide-over .df { padding: 16px 20px; border-top: 1px solid hsl(var(--color-border)); display: flex; gap: 10px; }
