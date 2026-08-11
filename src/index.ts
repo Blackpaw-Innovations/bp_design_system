@@ -19,6 +19,8 @@ export { StatusChip, STATUS_TONE_MAP } from './components/StatusChip'
 export type { ChipTone, StatusChipProps } from './components/StatusChip'
 export { ToastProvider, useToast } from './components/Toast'
 export type { ToastIntent, ToastOptions } from './components/Toast'
+export { HakiTip } from './components/HakiTip'
+export type { HakiTipTone, HakiTipProps } from './components/HakiTip'
 
 // Utilities
 export { cn } from './lib/utils'
