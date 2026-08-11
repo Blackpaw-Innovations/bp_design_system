@@ -1,4 +1,5 @@
-import { LucideIcon, TrendingUp, TrendingDown, Minus } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
+import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
 import { cn } from '../lib/utils'
 
 type TrendDirection = 'up' | 'down' | 'flat'

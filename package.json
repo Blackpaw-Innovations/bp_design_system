@@ -4,6 +4,7 @@
   "description": "Blackpaw shared design system — tokens, components, Tailwind preset",
   "type": "module",
   "main": "./src/index.ts",
+  "sideEffects": false,
   "exports": {
     ".": "./src/index.ts",
     "./tokens": "./src/tokens/index.css",
@@ -16,9 +17,19 @@
   "peerDependencies": {
     "react": ">=18",
     "react-dom": ">=18",
-    "tailwindcss": ">=3"
+    "tailwindcss": ">=3",
+    "lucide-react": ">=0.300.0"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "lucide-react": "^0.462.0"
   }
 }

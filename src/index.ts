@@ -15,6 +15,8 @@ export { EmptyState } from './components/EmptyState'
 export { MetricCard } from './components/MetricCard'
 export { ViewToggle } from './components/ViewToggle'
 export type { ViewMode } from './components/ViewToggle'
+export { StatusChip, STATUS_TONE_MAP } from './components/StatusChip'
+export type { ChipTone, StatusChipProps } from './components/StatusChip'
 
 // Utilities
 export { cn } from './lib/utils'
