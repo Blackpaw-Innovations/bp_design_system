@@ -1,6 +1,6 @@
 import type { LucideIcon } from 'lucide-react'
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
-import { cn } from '../lib/utils'
+import { cn, type IconComponent } from '../lib/utils'
 
 type TrendDirection = 'up' | 'down' | 'flat'
 
@@ -55,7 +55,7 @@ interface MetricCardProps {
     label: string
   }
   sparkline?: number[]
-  icon?: LucideIcon
+  icon?: IconComponent
   band?: 'teal' | 'orange' | 'navy' | 'amber' | 'green'
   className?: string
 }

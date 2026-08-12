@@ -1,5 +1,5 @@
-import type { ComponentType, ReactNode } from 'react'
-import { cn } from '../lib/utils'
+import type { ReactNode } from 'react'
+import { cn, type IconComponent } from '../lib/utils'
 
 /**
  * One stat tile (Reconciliation Codex C2, Commandment 20) -- replaces
@@ -19,7 +19,7 @@ export interface KpiStatProps {
   variant?: 'plain' | 'hero'
   /** Plain mode only: orange ring + orange value text, for a stat that needs attention. */
   urgent?: boolean
-  icon?: ComponentType<{ size?: number; className?: string }>
+  icon?: IconComponent
   size?: KpiSize
   /** Secondary line under the value (was `detail`/`sub` in the components this replaces). */
   footer?: ReactNode

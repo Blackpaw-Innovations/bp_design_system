@@ -1,5 +1,5 @@
-import type { ComponentType, ReactNode } from 'react'
-import { cn } from '../lib/utils'
+import type { ReactNode } from 'react'
+import { cn, type IconComponent } from '../lib/utils'
 
 /**
  * Wraps the existing `.chip` CSS (tokens/components.css) rather than
@@ -74,7 +74,7 @@ export interface StatusChipProps {
   /** Pulses the dot -- reserve for a genuinely live/real-time state, not decoration. */
   pulse?: boolean
   /** Replaces the dot with an icon (e.g. a spinner for an in-progress state). The dot alone is enough for most statuses -- reach for this only when the icon carries information the tone doesn't (motion, a specific glyph). */
-  icon?: ComponentType<{ size?: number; className?: string }>
+  icon?: IconComponent
   className?: string
 }
 
