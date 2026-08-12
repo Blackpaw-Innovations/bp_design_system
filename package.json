@@ -12,7 +12,8 @@
   },
   "files": [
     "src",
-    "tailwind.preset.js"
+    "tailwind.preset.js",
+    "tailwind.preset.d.ts"
   ],
   "peerDependencies": {
     "react": ">=18",
