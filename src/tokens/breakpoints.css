@@ -1,0 +1,40 @@
+/*
+ * @blackpaw/ui — Responsive primitives
+ *
+ * Breakpoints (1024 / 720 / 600px) are ported from Hakiqa Duka's
+ * hakiqa-handoff/assets/app-shell.css, the one place in the org where this
+ * was actually worked out and audited (see hakiqa-handoff/DESIGN_SYSTEM_NOTES.md
+ * "Responsive contract"). Duka's own page-specific grid classes stay there —
+ * what's ported here is the two genuinely portable, name-agnostic primitives
+ * every product needs: a wide-table wrapper, and a matching JS export
+ * (src/lib/breakpoints.ts) so the same numbers are usable outside CSS.
+ *
+ * A page-local responsive collapse rule (grid-template-columns etc.) still
+ * belongs in the app, not here — only cross-product primitives belong in
+ * this file.
+ */
+
+@layer utilities {
+  /* Wrap any wide table in this so it scrolls inside itself instead of
+     forcing page-level horizontal scroll. Referenced by name in
+     hakiqa-handoff/DESIGN_SYSTEM_NOTES.md but never actually defined in
+     this package until now. */
+  .table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .table-wrap > table {
+    min-width: 640px;
+  }
+}
+
+/* Tablet → phone: touch targets grow to 44px. .tap-target (utilities.css)
+   already enforces this unconditionally; this re-states the breakpoint
+   it's paired with in Duka's contract for anything that isn't using
+   .tap-target directly. */
+@media (max-width: 720px) {
+  .bp-touch-44 {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}

@@ -359,7 +359,7 @@ interface SidebarNavProps {
   accentColor?: string
 }
 
-export function SidebarNav({ sections, activeId, onSelect, accentColor = 'hsl(var(--hk-cyan))' }: SidebarNavProps) {
+export function SidebarNav({ sections, activeId, onSelect, accentColor = 'hsl(var(--bp-cyan))' }: SidebarNavProps) {
   const { collapsed } = useAppShell()
 
   return (
@@ -497,7 +497,7 @@ export function SidebarNav({ sections, activeId, onSelect, accentColor = 'hsl(va
                     width: 6,
                     height: 6,
                     borderRadius: '50%',
-                    background: 'hsl(var(--signal-red))',
+                    background: 'hsl(var(--bp-danger))',
                   }} />
                 )}
               </button>
@@ -541,7 +541,7 @@ export function SidebarFooter({ avatar, name, email, onLogout }: SidebarFooterPr
         justifyContent: 'center',
         fontSize: 11,
         fontWeight: 700,
-        background: 'linear-gradient(135deg, hsl(var(--hk-navy)), hsl(var(--hk-teal)))',
+        background: 'linear-gradient(135deg, hsl(var(--bp-navy)), hsl(var(--bp-teal)))',
         color: '#fff',
         overflow: 'hidden',
       }}>

@@ -1,6 +1,6 @@
 {
   "name": "@blackpaw/ui",
-  "version": "1.0.0",
+  "version": "1.8.0",
   "description": "Blackpaw shared design system — tokens, components, Tailwind preset",
   "type": "module",
   "main": "./src/index.ts",

@@ -115,8 +115,8 @@ export function CommandPalette({ open, onClose, items, placeholder = 'Search or 
           width: '100%',
           maxWidth: 560,
           margin: '0 16px',
-          background: 'hsl(var(--card))',
-          border: '1px solid hsl(var(--border))',
+          background: 'hsl(var(--color-surface))',
+          border: '1px solid hsl(var(--color-border))',
           borderRadius: 14,
           overflow: 'hidden',
           boxShadow: '0 24px 80px rgba(0,0,0,0.35)',
@@ -129,7 +129,7 @@ export function CommandPalette({ open, onClose, items, placeholder = 'Search or 
           alignItems: 'center',
           gap: 10,
           padding: '12px 16px',
-          borderBottom: '1px solid hsl(var(--border))',
+          borderBottom: '1px solid hsl(var(--color-border))',
         }}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ opacity: 0.4, flexShrink: 0 }}>
             <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
@@ -145,7 +145,7 @@ export function CommandPalette({ open, onClose, items, placeholder = 'Search or 
               border: 'none',
               outline: 'none',
               fontSize: 15,
-              color: 'hsl(var(--foreground))',
+              color: 'hsl(var(--color-ink))',
               fontFamily: 'inherit',
             }}
           />
@@ -155,16 +155,16 @@ export function CommandPalette({ open, onClose, items, placeholder = 'Search or 
             fontWeight: 600,
             padding: '2px 6px',
             borderRadius: 4,
-            background: 'hsl(var(--muted))',
-            color: 'hsl(var(--muted-foreground))',
-            border: '1px solid hsl(var(--border))',
+            background: 'hsl(var(--color-border))',
+            color: 'hsl(var(--color-muted))',
+            border: '1px solid hsl(var(--color-border))',
           }}>ESC</kbd>
         </div>
 
         {/* Results */}
         <div ref={listRef} style={{ maxHeight: 360, overflowY: 'auto', padding: '6px 0' }} className="scrollbar-none">
           {flat.length === 0 && (
-            <div style={{ padding: '24px 16px', textAlign: 'center', fontSize: 13, color: 'hsl(var(--muted-foreground))' }}>
+            <div style={{ padding: '24px 16px', textAlign: 'center', fontSize: 13, color: 'hsl(var(--color-muted))' }}>
               No results for "{query}"
             </div>
           )}
@@ -176,7 +176,7 @@ export function CommandPalette({ open, onClose, items, placeholder = 'Search or 
                 fontWeight: 700,
                 textTransform: 'uppercase',
                 letterSpacing: '0.1em',
-                color: 'hsl(var(--muted-foreground))',
+                color: 'hsl(var(--color-muted))',
                 padding: '8px 16px 2px',
                 margin: 0,
               }}>{group}</p>
@@ -196,7 +196,7 @@ export function CommandPalette({ open, onClose, items, placeholder = 'Search or 
                       gap: 10,
                       width: '100%',
                       padding: '8px 16px',
-                      background: isActive ? 'hsl(var(--hk-cyan) / 0.08)' : 'transparent',
+                      background: isActive ? 'hsl(var(--bp-cyan) / 0.08)' : 'transparent',
                       border: 'none',
                       cursor: 'pointer',
                       textAlign: 'left',
@@ -205,12 +205,12 @@ export function CommandPalette({ open, onClose, items, placeholder = 'Search or 
                     }}
                   >
                     {item.icon && (
-                      <span style={{ flexShrink: 0, opacity: isActive ? 1 : 0.5, color: isActive ? 'hsl(var(--hk-cyan))' : 'currentColor' }}>
+                      <span style={{ flexShrink: 0, opacity: isActive ? 1 : 0.5, color: isActive ? 'hsl(var(--bp-cyan))' : 'currentColor' }}>
                         {item.icon}
                       </span>
                     )}
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <p style={{ margin: 0, fontSize: 13, fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', color: isActive ? 'hsl(var(--hk-cyan))' : 'hsl(var(--foreground))' }}>
+                      <p style={{ margin: 0, fontSize: 13, fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', color: isActive ? 'hsl(var(--bp-cyan))' : 'hsl(var(--color-ink))' }}>
                         {item.label}
                       </p>
                       {item.description && (
@@ -220,7 +220,7 @@ export function CommandPalette({ open, onClose, items, placeholder = 'Search or 
                       )}
                     </div>
                     {isActive && (
-                      <kbd style={{ flexShrink: 0, fontSize: 10, padding: '2px 6px', borderRadius: 4, background: 'hsl(var(--muted))', color: 'hsl(var(--muted-foreground))', border: '1px solid hsl(var(--border))' }}>
+                      <kbd style={{ flexShrink: 0, fontSize: 10, padding: '2px 6px', borderRadius: 4, background: 'hsl(var(--color-border))', color: 'hsl(var(--color-muted))', border: '1px solid hsl(var(--color-border))' }}>
                         ↵
                       </kbd>
                     )}

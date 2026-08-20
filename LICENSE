@@ -1,0 +1,20 @@
+Copyright (c) 2026 Blackpaw Innovations. All rights reserved.
+
+This repository — including its source code, design tokens, and all
+brand assets (logos, mascot artwork, icons, and typefaces referenced or
+bundled herein) — is the proprietary and confidential property of
+Blackpaw Innovations. No license, express or implied, is granted to any
+party to use, copy, modify, merge, publish, distribute, sublicense, or
+sell copies of this repository or its contents outside of Blackpaw
+Innovations and its authorized products, without prior written
+permission.
+
+Third-party fonts referenced under `font-library/` retain their own
+licenses (SIL Open Font License — see each family's `OFL.txt`); this
+notice does not affect those terms.
+
+⚠ This repository's GitHub visibility is currently "public." A
+proprietary-rights notice does not restrict who can view or clone a
+public repository, only what they are permitted to do with what they
+find here — visibility should be reviewed as a separate, deliberate
+decision (see the accompanying PR description).

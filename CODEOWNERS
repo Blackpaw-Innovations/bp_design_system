@@ -1,0 +1,14 @@
+# Every change to this repo needs review from someone who owns the brand
+# system, since it's consumed by every Blackpaw and Hakiqa product. Until
+# a second reviewer is added, this is a documentation-of-intent file more
+# than an enforced gate — pair it with a branch-protection rule requiring
+# CODEOWNERS review once a second maintainer joins (see SECURITY.md /
+# AGENTS.md for the governance gaps this closes).
+
+* @Muri-Blackpaw
+
+# Design-token and identity changes affect every downstream product —
+# call these out explicitly so they don't land as part of an unrelated PR.
+/src/tokens/          @Muri-Blackpaw
+/tailwind.preset.js   @Muri-Blackpaw
+/tailwind.preset.d.ts @Muri-Blackpaw

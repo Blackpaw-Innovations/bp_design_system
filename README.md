@@ -37,16 +37,19 @@ Or add manually to `package.json`:
 }
 ```
 
-**Step 2 — Import tokens** in your app's `src/index.css`, before your app-specific tokens:
+**Step 2 — Import tokens** in your app's `src/index.css`, before any app-specific overrides:
 
 ```css
 @import '@blackpaw/ui/tokens';
 
-/* Your app-specific token overrides below */
+/* Override the semantic layer only — never the --bp-* raw layer, and never
+   invent a new custom property (--background, --foreground, etc.) that
+   brand.css doesn't already define; Tailwind's bg-background/text-foreground
+   classes resolve to --color-bg/--color-ink, not to those names directly. */
 @layer base {
   :root {
-    --background: ...;
-    --foreground: ...;
+    --color-bg: ...;
+    --color-ink: ...;
   }
 }
 ```
@@ -89,12 +92,22 @@ import { Skeleton, EmptyState, MetricCard, ViewToggle } from '@blackpaw/ui'
 
 ## Brand tokens at a glance
 
+Values live in exactly one place — `src/tokens/brand.css` — as a two-layer model:
+raw brand values (`--bp-*`) and a semantic layer (`--color-*`) that components and
+apps should consume instead. See `AGENTS.md` for the full model, including the
+`[data-identity]` override layer.
+
 | Token | Value | Use |
 |---|---|---|
-| `--hk-cyan` | #01ECFF | Primary highlight, CTAs |
-| `--hk-teal` | #00A5B8 | Secondary actions, links |
-| `--hk-orange` | #FD8A03 | Accent, warnings |
-| `--hk-navy` | #032053 | Sidebar, dark surfaces |
-| `--signal-green` | 142 71% 45% | Success, active |
-| `--signal-amber` | 38 93% 51% | Warning |
-| `--signal-red` | 0 84% 60% | Error, critical |
+| `--bp-cyan` | #01ECFF | Primary highlight, CTAs |
+| `--bp-teal` | #00A5B8 | Secondary actions, links (`--color-accent` default) |
+| `--bp-orange` | #FD8A03 | Accent, warnings |
+| `--bp-navy` | #032053 | Sidebar, dark surfaces, hero fills |
+| `--bp-success` | 153 82% 30% | Success, active — AA-contrast corrected |
+| `--bp-warning` | 32 100% 39% | Warning — AA-contrast corrected |
+| `--bp-danger` | 0 64% 47% | Error, critical — AA-contrast corrected |
+| `--bp-info` | 217 91% 60% | Informational |
+
+Tailwind classes (`bg-hk-cyan`, `text-signal-red`, `bg-card`, `text-muted-foreground`,
+etc.) are wired to these same tokens via `tailwind.preset.js` — no class in this
+package resolves against a custom property that isn't defined in `brand.css`.
