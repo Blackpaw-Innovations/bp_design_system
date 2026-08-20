@@ -10,7 +10,7 @@ interface SparklineProps {
   height?: number
 }
 
-function Sparkline({ data, color = 'hsl(var(--hk-teal))', height = 32 }: SparklineProps) {
+function Sparkline({ data, color = 'hsl(var(--bp-teal))', height = 32 }: SparklineProps) {
   if (data.length < 2) return null
 
   const min = Math.min(...data)
