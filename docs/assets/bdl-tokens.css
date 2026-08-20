@@ -23,10 +23,14 @@
   --bp-muted:   216 17%  49%;   /* mid-grey label text */
   --bp-ink:     219 39%  20%;   /* body text on light */
 
-  /* ── Semantic signals ── */
-  --bp-success: 142 71% 45%;
-  --bp-warning: 38  93% 51%;
-  --bp-danger:  0   84% 60%;
+  /* ── Semantic signals ──
+     AA-contrast-corrected — must match src/tokens/brand.css exactly.
+     The previous brighter values here (142 71% 45% / 38 93% 51% / 0 84% 60%)
+     predated that fix and reintroduced the same contrast failure in the
+     public docs; do not restore them. */
+  --bp-success: 153 82% 30%;
+  --bp-warning: 32  100% 39%;
+  --bp-danger:  0   64%  47%;
   --bp-info:    217 91% 60%;
 
   /* ── Radius ── */
