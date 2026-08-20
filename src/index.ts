@@ -25,6 +25,10 @@ export { SlideOver } from './components/SlideOver'
 export type { SlideOverProps } from './components/SlideOver'
 export { KpiStat, fmtKM } from './components/KpiStat'
 export type { KpiStatProps, KpiSize, KpiHeroColor, FmtKmOptions } from './components/KpiStat'
+export { ImpersonationBanner } from './components/ImpersonationBanner'
+export type { ImpersonationBannerProps } from './components/ImpersonationBanner'
 
 // Utilities
 export { cn } from './lib/utils'
+export { BREAKPOINTS } from './lib/breakpoints'
+export type { Breakpoint } from './lib/breakpoints'

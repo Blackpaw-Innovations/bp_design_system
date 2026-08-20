@@ -154,6 +154,29 @@
 }
 
 /* ════════════════════════════════════════════════════════════
+   HAKIQA VERTICALS — [data-vertical], NOT [data-identity]
+   ════════════════════════════════════════════════════════════
+   PROPOSED DEFAULTS — pending Blackpaw sign-off, not ratified brand
+   color. A vertical is a different Hakiqa product line sharing
+   everything (typography, components, spacing, interaction, icon
+   language) except a controlled accent and its product icon — the
+   opposite of an [data-identity] skin above, which is a different
+   company/product with its own full character. Do not add a new
+   [data-identity] for a Hakiqa vertical; add a [data-vertical] entry
+   here instead, touching only --color-accent-h.
+
+   Hakiqa Duka needs no override — every existing example (see
+   docs/Blackpaw Identities.html) already renders it on the shared
+   default skin, so [data-vertical="duka"] is listed for
+   completeness/documentation only. ════════════════════════════ */
+[data-vertical="duka"]    { --color-accent-h: var(--bp-cyan); }
+[data-vertical="gym"]     { --color-accent-h: 350 85% 55%; } /* energetic coral-red */
+[data-vertical="rental"]  { --color-accent-h: 165 70% 32%; } /* emerald — circularity/trust */
+[data-vertical="optical"] { --color-accent-h: 255 75% 60%; } /* indigo-violet — clarity/precision */
+[data-vertical="garage"]  { --color-accent-h: 16  88% 48%; } /* rust-orange — industrial */
+[data-vertical="mjengo"]  { --color-accent-h: 38  85% 45%; } /* construction amber/ochre */
+
+/* ════════════════════════════════════════════════════════════
    IDENTITY 4 — BICC (dark intelligence — improved)
    Deep navy + cyan glow.
    ════════════════════════════════════════════════════════════ */
