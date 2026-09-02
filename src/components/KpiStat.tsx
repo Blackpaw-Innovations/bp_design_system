@@ -59,7 +59,7 @@ export function KpiStat({ label, value, variant = 'plain', urgent, icon: Icon, s
         <p className="t-label-sm text-[hsl(var(--color-muted))]">{label}</p>
         {Icon && <Icon size={size === 'xl' ? 18 : 15} className="icon" />}
       </div>
-      <p className={cn('value mt-2 font-manrope font-800', VALUE_SIZE[size], size === 'xl' && 'font-urbanist font-600 leading-none')}>{value}</p>
+      <p className={cn('value mt-2 font-urbanist font-800', VALUE_SIZE[size], size === 'xl' && 'font-600 leading-none')}>{value}</p>
       {footer && <div className="footer mt-2 text-xs">{footer}</div>}
     </div>
   )

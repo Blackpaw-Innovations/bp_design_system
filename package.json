@@ -10,8 +10,14 @@
     "./tokens": "./src/tokens/index.css",
     "./tailwind": "./tailwind.preset.js"
   },
+  "scripts": {
+    "check:brand": "node scripts/check-brand-system.mjs"
+  },
   "files": [
     "src",
+    "font-library/Urbanist/Urbanist-VariableFont_wght.ttf",
+    "font-library/Urbanist/Urbanist-Italic-VariableFont_wght.ttf",
+    "font-library/Urbanist/OFL.txt",
     "tailwind.preset.js",
     "tailwind.preset.d.ts"
   ],

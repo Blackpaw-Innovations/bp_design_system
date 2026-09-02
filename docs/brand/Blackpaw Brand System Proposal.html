@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Blackpaw Brand System Proposal</title>
+  <style>
+    @font-face {
+      font-family: "Urbanist";
+      src: url("../../font-library/Urbanist/Urbanist-VariableFont_wght.ttf") format("truetype");
+      font-style: normal;
+      font-weight: 100 900;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Urbanist";
+      src: url("../../font-library/Urbanist/Urbanist-Italic-VariableFont_wght.ttf") format("truetype");
+      font-style: italic;
+      font-weight: 100 900;
+      font-display: swap;
+    }
+    :root {
+      /* Approved Blackpaw reference colours */
+      --purple: #451D6A;
+      --navy: #030347;
+      --deep-navy: #0D0D50;
+      --blue: #3228CF;
+      --violet: #8540E0;
+      --coral: #FE635F;
+      --coral-rose: #E8547A;
+      --white: #FFFFFF;
+      --off-white: #F8F7FF;
+      --ink: #17152B;
+      --muted: #625F78;
+      --line: #DDD9EE;
+
+      /* Proposed document tints: approved Blue mixed only with white. */
+      --light-blue: color-mix(in srgb, var(--blue) 10%, white);
+      --light-blue-strong: color-mix(in srgb, var(--blue) 18%, white);
+
+      /* Approved Hakiqa reference colours */
+      --hk-cyan: #01ECFF;
+      --hk-teal: #00A5B8;
+      --hk-orange: #FD8A03;
+      --hk-navy: #032053;
+
+      --gradient: linear-gradient(135deg, #E8547A 0%, #8540E0 50%, #3228CF 100%);
+      --shadow: 0 18px 55px rgba(3, 3, 71, .12);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--off-white);
+      color: var(--ink);
+      font-family: "Urbanist", system-ui, sans-serif;
+      line-height: 1.55;
+    }
+    button, input, textarea, select { font: inherit; }
+    a { color: var(--blue); }
+    .shell { width: min(1180px, calc(100% - 36px)); margin: 0 auto; }
+    .eyebrow {
+      margin: 0 0 10px;
+      color: inherit;
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+    .hero {
+      position: relative;
+      overflow: hidden;
+      min-height: 720px;
+      padding: 40px 0 86px;
+      background: var(--navy);
+      color: white;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: -35% -20% auto 45%;
+      width: 720px;
+      height: 720px;
+      border-radius: 50%;
+      background: var(--gradient);
+      filter: blur(15px);
+      opacity: .62;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -12% -42% 35%;
+      height: 620px;
+      border-radius: 50%;
+      background: rgba(50, 40, 207, .42);
+      filter: blur(60px);
+    }
+    .nav, .hero-grid { position: relative; z-index: 1; }
+    .nav { display: flex; align-items: center; justify-content: space-between; }
+    .wordmark { font-size: 1rem; font-weight: 900; letter-spacing: .14em; }
+    .status {
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 999px;
+      padding: 8px 14px;
+      color: rgba(255,255,255,.8);
+      font-size: .76rem;
+      font-weight: 700;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(300px, .75fr);
+      gap: 72px;
+      align-items: end;
+      padding-top: 126px;
+    }
+    h1 {
+      max-width: 800px;
+      margin: 0;
+      font-size: clamp(3.5rem, 8vw, 7.6rem);
+      font-weight: 860;
+      letter-spacing: -.065em;
+      line-height: .89;
+    }
+    .hero-copy { max-width: 650px; margin: 32px 0 0; font-size: 1.2rem; color: rgba(255,255,255,.78); }
+    .hero-note {
+      padding: 24px;
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 22px;
+      background: rgba(255,255,255,.08);
+      backdrop-filter: blur(14px);
+    }
+    .hero-note strong { display: block; margin-bottom: 8px; font-size: 1.1rem; }
+    .hero-note p { margin: 0; color: rgba(255,255,255,.72); }
+    main { padding: 72px 0 120px; }
+    section { margin-top: 88px; }
+    section:first-child { margin-top: 0; }
+    .section-head { display: grid; grid-template-columns: 220px 1fr; gap: 36px; margin-bottom: 30px; }
+    .section-head h2 { margin: 0; color: var(--navy); font-size: clamp(2rem, 4vw, 4rem); line-height: 1; letter-spacing: -.045em; }
+    .section-head p { max-width: 700px; margin: 5px 0 0; color: var(--muted); font-size: 1.05rem; }
+    .decision {
+      padding: 32px;
+      border-radius: 24px;
+      background: var(--light-blue);
+      border: 1px solid var(--light-blue-strong);
+    }
+    .decision blockquote { margin: 0; color: var(--purple); font-size: clamp(1.7rem, 3.5vw, 3rem); font-weight: 760; line-height: 1.12; letter-spacing: -.035em; }
+    .decision p { max-width: 790px; margin: 20px 0 0; }
+    .roles, .type-grid, .plan-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+    .role {
+      min-height: 230px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.06);
+    }
+    .role b { font-size: 1.35rem; letter-spacing: -.025em; }
+    .role p { margin: 8px 0 0; font-size: .9rem; }
+    .role code { font-size: .72rem; opacity: .7; }
+    .role.blue { color: var(--navy); background: var(--light-blue); }
+    .role.white { color: var(--navy); background: white; }
+    .role.purple { color: white; background: var(--purple); }
+    .role.navy { color: white; background: var(--navy); }
+    .role.coral { color: var(--navy); background: var(--coral); }
+    .tint-note { margin: 14px 0 0; color: var(--muted); font-size: .82rem; }
+    .mode-controls { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+    .mode-button {
+      cursor: pointer;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 9px 15px;
+      background: white;
+      color: var(--navy);
+      font-size: .82rem;
+      font-weight: 760;
+    }
+    .mode-button[aria-pressed="true"] { color: white; background: var(--purple); border-color: var(--purple); }
+    .mode-stage { padding: 24px; border-radius: 28px; background: #EAE7F7; transition: background .25s ease; }
+    .document {
+      overflow: hidden;
+      min-height: 610px;
+      display: grid;
+      grid-template-columns: 1fr 1.25fr;
+      border-radius: 20px;
+      background: white;
+      box-shadow: var(--shadow);
+    }
+    .doc-cover { padding: 42px; background: var(--light-blue); color: var(--navy); transition: .25s ease; }
+    .doc-cover .bar { width: 72px; height: 7px; margin-bottom: 90px; border-radius: 9px; background: var(--purple); }
+    .doc-cover h3 { margin: 0; max-width: 420px; font-size: clamp(2.4rem, 5vw, 5rem); line-height: .93; letter-spacing: -.055em; }
+    .doc-cover .subtitle { max-width: 430px; margin: 24px 0 0; color: currentColor; opacity: .72; }
+    .doc-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 88px; font-size: .75rem; }
+    .doc-body { padding: 42px; background: white; color: var(--ink); transition: .25s ease; }
+    .doc-body h4 { margin: 0 0 8px; color: var(--purple); font-size: 1.7rem; letter-spacing: -.03em; }
+    .doc-body > p { margin-top: 0; color: var(--muted); }
+    .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 28px 0; }
+    .metric { padding: 18px; border-radius: 14px; background: var(--light-blue); }
+    .metric span { display: block; font-size: .72rem; font-weight: 750; text-transform: uppercase; letter-spacing: .08em; }
+    .metric strong { display: block; margin-top: 5px; color: var(--purple); font-size: 1.9rem; }
+    .callout { margin-top: 24px; padding: 18px; border-left: 5px solid var(--purple); background: var(--off-white); }
+    .document[data-mode="authority"] .doc-cover { color: white; background: linear-gradient(145deg, var(--purple), var(--navy)); }
+    .document[data-mode="authority"] .doc-cover .bar { background: white; }
+    .document[data-mode="authority"] .metric { background: #EEEBF4; }
+    .document[data-mode="human"] .doc-cover { color: var(--navy); background: var(--coral); }
+    .document[data-mode="human"] .doc-cover .bar { background: white; }
+    .document[data-mode="human"] .metric { background: #FFF0EF; }
+    .document[data-mode="human"] .metric strong, .document[data-mode="human"] .doc-body h4 { color: #B72F3F; }
+    .document[data-mode="human"] .callout { border-color: var(--coral); }
+    .document[data-mode="precision"] .doc-cover { color: var(--navy); background: white; border-right: 1px solid var(--line); }
+    .document[data-mode="precision"] .doc-cover .bar { background: var(--blue); }
+    .document[data-mode="precision"] .metric { border: 1px solid var(--line); background: white; }
+    .document[data-mode="signature"] .doc-cover { color: white; background: var(--gradient); }
+    .document[data-mode="signature"] .doc-cover .bar { background: white; }
+    .document[data-mode="signature"] .metric { background: #F0EAF9; }
+    .mode-summary { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 16px; }
+    .mode-card { padding: 16px; border-radius: 16px; background: white; border: 1px solid var(--line); }
+    .mode-card b { color: var(--purple); }
+    .mode-card p { margin: 6px 0 0; color: var(--muted); font-size: .83rem; }
+    .brand-split { overflow: hidden; display: grid; grid-template-columns: 1fr 1fr; border-radius: 26px; box-shadow: var(--shadow); }
+    .brand-panel { min-height: 440px; padding: 42px; }
+    .brand-panel h3 { margin: 0; font-size: 3.5rem; letter-spacing: -.055em; }
+    .brand-panel p { max-width: 460px; }
+    .bp-panel { color: var(--navy); background: var(--light-blue); }
+    .bp-panel h3 { color: var(--purple); }
+    .hk-panel { color: var(--hk-navy); background: white; border-left: 12px solid var(--hk-cyan); }
+    .hk-panel h3 { color: var(--hk-teal); }
+    .hk-action { display: inline-block; margin-top: 22px; padding: 11px 18px; border-radius: 999px; background: var(--hk-orange); font-weight: 800; }
+    .type-grid { grid-template-columns: 1fr 1fr 1fr; }
+    .type-card { padding: 25px; border-radius: 20px; background: white; border: 1px solid var(--line); }
+    .type-card h3 { margin: 0; color: var(--navy); }
+    .type-sample { margin: 26px 0; color: var(--purple); font-size: 2.4rem; font-weight: 780; line-height: 1; letter-spacing: -.045em; }
+    .type-card p { color: var(--muted); }
+    .locked { border-top: 7px solid var(--blue); }
+    .candidate { border-top: 7px solid var(--coral); }
+    .signature-font { border-top: 7px solid var(--purple); }
+    .hierarchy { display: grid; gap: 8px; counter-reset: level; }
+    .message {
+      display: grid;
+      grid-template-columns: 170px 1fr 230px;
+      gap: 24px;
+      align-items: center;
+      padding: 18px 20px;
+      border-radius: 14px;
+      background: white;
+      border: 1px solid var(--line);
+    }
+    .message b { color: var(--purple); }
+    .message small { color: var(--muted); }
+    .workflow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .phase { padding: 24px; border-radius: 18px; background: white; border: 1px solid var(--line); }
+    .phase .number { color: var(--coral); font-size: 2.5rem; font-weight: 850; }
+    .phase h3 { margin: 10px 0 8px; color: var(--navy); }
+    .phase p { margin: 0; color: var(--muted); font-size: .9rem; }
+    .approval {
+      display: grid;
+      grid-template-columns: 1.3fr .7fr;
+      gap: 24px;
+      padding: 42px;
+      border-radius: 28px;
+      background: var(--navy);
+      color: white;
+    }
+    .approval h2 { margin: 0; font-size: 3rem; line-height: 1; letter-spacing: -.04em; }
+    .approval p { color: rgba(255,255,255,.72); }
+    .approval ul { margin: 0; padding-left: 20px; color: rgba(255,255,255,.8); }
+    .approval li + li { margin-top: 8px; }
+    footer { padding: 35px 0; background: var(--deep-navy); color: rgba(255,255,255,.65); font-size: .8rem; }
+    @media (max-width: 900px) {
+      .hero-grid, .section-head, .document, .brand-split, .approval { grid-template-columns: 1fr; }
+      .roles, .mode-summary { grid-template-columns: 1fr 1fr; }
+      .type-grid, .workflow { grid-template-columns: 1fr 1fr; }
+      .hero-grid { padding-top: 80px; }
+      .section-head { gap: 10px; }
+      .document { min-height: auto; }
+      .hk-panel { border-left: 0; border-top: 12px solid var(--hk-cyan); }
+      .message { grid-template-columns: 1fr; gap: 5px; }
+    }
+    @media (max-width: 580px) {
+      .roles, .mode-summary, .type-grid, .workflow, .metric-grid { grid-template-columns: 1fr; }
+      .hero { min-height: auto; }
+      .hero-grid { padding-top: 70px; }
+      .doc-cover, .doc-body, .brand-panel, .approval { padding: 28px; }
+    }
+    @media print {
+      body { background: white; }
+      .hero { min-height: 100vh; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .shell { width: calc(100% - 48px); }
+      section { break-inside: avoid; }
+      .mode-controls { display: none; }
+      .mode-stage, .role, .brand-panel, .phase, .approval { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="shell">
+      <nav class="nav" aria-label="Document status">
+        <div class="wordmark">BLACKPAW</div>
+        <div class="status">APPROVED · CANONICAL DIRECTION</div>
+      </nav>
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">Approved brand system · 02 September 2026</p>
+          <h1>Clear by default. Distinct by design.</h1>
+          <p class="hero-copy">A visual test of Blackpaw's proposed colour modes, Urbanist-led typography, document language and relationship with Hakiqa.</p>
+        </div>
+        <aside class="hero-note">
+          <strong>What this artefact records</strong>
+          <p>The approved system in use. Colours come from the official reference; the light-blue field is a documented tint, not a new unrelated colour.</p>
+        </aside>
+      </div>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section>
+      <div class="section-head">
+        <p class="eyebrow">01 · Direction</p>
+        <div>
+          <h2>The proposal in one thought</h2>
+          <p>Blackpaw needs one coherent system that guides products, documents, language and experiences without forcing every application into the same mood.</p>
+        </div>
+      </div>
+      <div class="decision">
+        <blockquote>Blackpaw normally feels bright, clear and intelligent. Light blue carries the work; purple creates focus.</blockquote>
+        <p>Dark navy brings authority. Coral brings human energy. White creates room to understand. The signature gradient is reserved for moments that deserve ceremony.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <p class="eyebrow">02 · Colour roles</p>
+        <div>
+          <h2>A palette with jobs</h2>
+          <p>The colours are not interchangeable decoration. Each one communicates a different kind of intent.</p>
+        </div>
+      </div>
+      <div class="roles">
+        <article class="role blue"><div><b>Light blue</b><p>Working colour. Clear, calm document fields and explanatory surfaces.</p></div><code>10% tint of #3228CF</code></article>
+        <article class="role white"><div><b>White</b><p>Canvas. Breathing room, structure and reading clarity.</p></div><code>#FFFFFF</code></article>
+        <article class="role purple"><div><b>Purple</b><p>Focus. Headlines, key concepts, decisions and intellectual distinction.</p></div><code>#451D6A</code></article>
+        <article class="role navy"><div><b>Dark navy</b><p>Authority. Executive, technical and high-trust environments.</p></div><code>#030347</code></article>
+        <article class="role coral"><div><b>Coral</b><p>Human energy. People, movement, announcements and selective action.</p></div><code>#FE635F</code></article>
+      </div>
+      <p class="tint-note"><strong>Foundation decision:</strong> the reference did not specify a separately named light-blue hex. Blackpaw Light Blue <code>#EBEAFA</code> is therefore the approved 10% tint of official Electric Blue <code>#3228CF</code> over white.</p>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <p class="eyebrow">03 · Expression modes</p>
+        <div>
+          <h2>One document, five valid moods</h2>
+          <p>Select each mode to see how Blackpaw can change emphasis while retaining the same structure, type and identity.</p>
+        </div>
+      </div>
+      <div class="mode-controls" role="group" aria-label="Choose an expression mode">
+        <button class="mode-button" data-mode="clear" aria-pressed="true">Clear · default</button>
+        <button class="mode-button" data-mode="authority" aria-pressed="false">Authority</button>
+        <button class="mode-button" data-mode="human" aria-pressed="false">Human</button>
+        <button class="mode-button" data-mode="precision" aria-pressed="false">Precision</button>
+        <button class="mode-button" data-mode="signature" aria-pressed="false">Signature</button>
+      </div>
+      <div class="mode-stage">
+        <article class="document" id="document-example" data-mode="clear">
+          <div class="doc-cover">
+            <div class="bar"></div>
+            <p class="eyebrow">Blackpaw Innovations</p>
+            <h3>Operational clarity, designed in.</h3>
+            <p class="subtitle">A quarterly systems review for a growing multi-branch business.</p>
+            <div class="doc-meta"><span>Q3 · 2026</span><span>Decision document</span><span>Owner · Operations</span><span>Status · Review</span></div>
+          </div>
+          <div class="doc-body">
+            <p class="eyebrow">Executive signal</p>
+            <h4>Make the next decision obvious.</h4>
+            <p>Connect finance, stock and customer activity around one trustworthy operating view. Keep assumptions separate from actual performance.</p>
+            <div class="metric-grid">
+              <div class="metric"><span>Primary constraint</span><strong>Capacity</strong></div>
+              <div class="metric"><span>Next review</span><strong>30 days</strong></div>
+              <div class="metric"><span>Customer health</span><strong>Visible</strong></div>
+              <div class="metric"><span>Decision owner</span><strong>Named</strong></div>
+            </div>
+            <div class="callout"><strong>Blackpaw principle</strong><br>Low effort in front. High rigour behind.</div>
+          </div>
+        </article>
+      </div>
+      <div class="mode-summary">
+        <div class="mode-card"><b>Clear</b><p>Default documents, proposals, reports, training and SOPs.</p></div>
+        <div class="mode-card"><b>Authority</b><p>Board, enterprise, security, governance and major architecture.</p></div>
+        <div class="mode-card"><b>Human</b><p>People, culture, founder communication and customer stories.</p></div>
+        <div class="mode-card"><b>Precision</b><p>Technical reports, audits, diagrams, specifications and financials.</p></div>
+        <div class="mode-card"><b>Signature</b><p>Launches, covers, campaigns and rare ceremonial moments.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <p class="eyebrow">04 · Brand relationship</p>
+        <div>
+          <h2>Related, never interchangeable</h2>
+          <p>Blackpaw carries architecture, assurance and corporate trust. Hakiqa carries accessible, immediate, everyday usefulness.</p>
+        </div>
+      </div>
+      <div class="brand-split">
+        <article class="brand-panel bp-panel">
+          <p class="eyebrow">Company · Method · Trust mark</p>
+          <h3>Blackpaw</h3>
+          <p><strong>Explains. Assures. Architects.</strong></p>
+          <p>White and light-blue clarity, purple focus, navy authority and coral humanity.</p>
+          <p><strong>We make complex businesses easier to run.</strong></p>
+        </article>
+        <article class="brand-panel hk-panel">
+          <p class="eyebrow">Everyday product family</p>
+          <h3>Hakiqa</h3>
+          <p><strong>Helps. Guides. Gets the task done.</strong></p>
+          <p>Cyan recognition, white simplicity, orange action and navy stability.</p>
+          <span class="hk-action">Your biashara, clear.</span>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <p class="eyebrow">05 · Typography</p>
+        <div>
+          <h2>Urbanist is the application law</h2>
+          <p>The repository's licensed Urbanist variable files are loaded by this artefact. The remaining typography decisions concern documents and signature moments—not exceptions to the app rule.</p>
+        </div>
+      </div>
+      <div class="type-grid">
+        <article class="type-card locked">
+          <p class="eyebrow">Locked</p>
+          <h3>Urbanist</h3>
+          <div class="type-sample">Simple should feel effortless.</div>
+          <p><strong>Every Blackpaw and Hakiqa application.</strong> UI, controls, navigation, data and product communication. No product-level font substitutions.</p>
+        </article>
+        <article class="type-card candidate">
+          <p class="eyebrow">Proposed document default</p>
+          <h3>Urbanist first</h3>
+          <div class="type-sample">One family, fewer inconsistencies.</div>
+          <p>Use Urbanist for digital and generated documents by default. Test Google Sans only as an office-document alternative where embedding and licensing are confirmed.</p>
+        </article>
+        <article class="type-card signature-font">
+          <p class="eyebrow">Reserved</p>
+          <h3>Gotham</h3>
+          <div class="type-sample">Signature, not system.</div>
+          <p>Retain for approved logo artwork, major brand declarations and selected campaign headlines. Do not require it for routine documents or applications.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <p class="eyebrow">06 · Language</p>
+        <div>
+          <h2>One hierarchy, not seven slogans</h2>
+          <p>Each expression has one job and one home.</p>
+        </div>
+      </div>
+      <div class="hierarchy">
+        <div class="message"><b>Customer proposition</b><strong>We make complex businesses easier to run.</strong><small>Website hero, introductions, proposals</small></div>
+        <div class="message"><b>Mission</b><strong>Build Africa's future on honest technology.</strong><small>Strategy, culture and recruitment</small></div>
+        <div class="message"><b>Company category</b><strong>An African business-systems and technology architecture company.</strong><small>Profiles, press and boilerplate</small></div>
+        <div class="message"><b>Promise</b><strong>It just works.</strong><small>Experience and product narrative</small></div>
+        <div class="message"><b>Reputation aim</b><strong>You call Blackpaw when you want it done right.</strong><small>Internal standard and proof-led stories</small></div>
+        <div class="message"><b>Corporate tagline</b><strong>Inspiring the Extraordinary</strong><small>Logo lockup and signature campaigns</small></div>
+        <div class="message"><b>Design doctrine</b><strong>Low effort in front. High rigour behind.</strong><small>Product, service and engineering decisions</small></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <p class="eyebrow">07 · Document system</p>
+        <div>
+          <h2>Consistency below the colour</h2>
+          <p>Expression modes may change, but every governed Blackpaw document keeps the same operating grammar.</p>
+        </div>
+      </div>
+      <div class="workflow">
+        <article class="phase"><div class="number">01</div><h3>Identify</h3><p>Title, purpose, owner, version, status, date, review date and confidentiality.</p></article>
+        <article class="phase"><div class="number">02</div><h3>Distinguish</h3><p>Label actuals, assumptions, forecasts, targets, decisions and recommendations.</p></article>
+        <article class="phase"><div class="number">03</div><h3>Structure</h3><p>Use shared headings, tables, decision blocks, diagrams and evidence patterns.</p></article>
+        <article class="phase"><div class="number">04</div><h3>Express</h3><p>Select the approved colour mode appropriate to the audience and purpose.</p></article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <p class="eyebrow">08 · Proposed plan</p>
+        <div>
+          <h2>Decide, systemise, test, then publish</h2>
+          <p>The final brand booklet should document tested decisions. It should not create those decisions invisibly while being designed.</p>
+        </div>
+      </div>
+      <div class="workflow">
+        <article class="phase"><div class="number">01</div><h3>Lock foundations</h3><p>Approve colour roles, blue tint, brand relationship, language hierarchy and type policy.</p></article>
+        <article class="phase"><div class="number">02</div><h3>Build tokens</h3><p>Create primitive, semantic, expression-mode and component-level tokens.</p></article>
+        <article class="phase"><div class="number">03</div><h3>Test documents</h3><p>Prototype proposal, SOP, report, PRD, case study, presentation and letter.</p></article>
+        <article class="phase"><div class="number">04</div><h3>Publish canon</h3><p>Produce the brand book, templates, QA checklist, migration map and versioned repository release.</p></article>
+      </div>
+    </section>
+
+    <section class="approval">
+      <div>
+        <p class="eyebrow">Approval gate</p>
+        <h2>This is the direction being tested.</h2>
+        <p>The foundation choices are approved. Token implementation and controlled template rollout may now proceed through the repository.</p>
+      </div>
+      <ul>
+        <li>Confirm the light-blue treatment.</li>
+        <li>Confirm five Blackpaw modes.</li>
+        <li>Confirm Urbanist everywhere in apps.</li>
+        <li>Choose the document-font policy.</li>
+        <li>Confirm Blackpaw/Hakiqa separation.</li>
+        <li>Approve the message hierarchy.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell">Blackpaw Brand System · Approved 02 September 2026 · Urbanist rendered from the design-system repository</div>
+  </footer>
+
+  <script>
+    const buttons = [...document.querySelectorAll('.mode-button')];
+    const documentExample = document.querySelector('#document-example');
+    const modeStage = document.querySelector('.mode-stage');
+    const stageColours = {
+      clear: '#EAE7F7',
+      authority: '#DAD7EB',
+      human: '#FFE3E1',
+      precision: '#ECECF2',
+      signature: '#E9E2F5'
+    };
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        buttons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+        documentExample.dataset.mode = button.dataset.mode;
+        modeStage.style.background = stageColours[button.dataset.mode];
+      });
+    });
+  </script>
+</body>
+</html>

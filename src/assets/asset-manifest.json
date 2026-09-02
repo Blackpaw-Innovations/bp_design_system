@@ -1,0 +1,76 @@
+{
+  "$schema": "./asset-manifest.schema.json",
+  "version": "1.0.0",
+  "approved": "2026-09-02",
+  "assets": [
+    {
+      "id": "blackpaw.logo.lockup.colour",
+      "identity": "blackpaw",
+      "status": "approved",
+      "files": ["src/assets/brand/blackpaw/logo/blackpaw-lockup-tagline-colour.png"],
+      "backgrounds": ["white", "light-blue", "light-neutral"],
+      "recolour": false,
+      "minimumWidthPx": 220,
+      "notes": "Primary Blackpaw lockup with tagline."
+    },
+    {
+      "id": "blackpaw.logo.lockup.reversed",
+      "identity": "blackpaw",
+      "status": "approved",
+      "files": ["src/assets/brand/blackpaw/logo/blackpaw-lockup-tagline-reversed.png"],
+      "backgrounds": ["purple", "dark-navy", "photography-dark"],
+      "recolour": false,
+      "minimumWidthPx": 220,
+      "notes": "Reversed lockup for dark fields."
+    },
+    {
+      "id": "blackpaw.signature.gradient",
+      "identity": "blackpaw",
+      "status": "approved",
+      "files": ["src/assets/brand/blackpaw/logo/blackpaw-signature-gradient.png"],
+      "backgrounds": ["standalone"],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Signature artwork; not a substitute for the primary lockup."
+    },
+    {
+      "id": "hakiqa.logo.transparent",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": ["src/assets/brand/hakiqa/logo/hakiqa-logo-transparent.png"],
+      "backgrounds": ["white", "light-neutral"],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Primary transparent Hakiqa logo."
+    },
+    {
+      "id": "hakiqa.logo.white-background",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": ["src/assets/brand/hakiqa/logo/hakiqa-logo-white-background.png"],
+      "backgrounds": ["standalone"],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Use when a controlled white field is required."
+    },
+    {
+      "id": "hakiqa.mascot.set",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/mascot/haki-celebrating.png",
+        "src/assets/brand/hakiqa/mascot/haki-encouraging.png",
+        "src/assets/brand/hakiqa/mascot/haki-icon.png",
+        "src/assets/brand/hakiqa/mascot/haki-sad.png",
+        "src/assets/brand/hakiqa/mascot/haki-surprised.png",
+        "src/assets/brand/hakiqa/mascot/haki-thumbs-up.png",
+        "src/assets/brand/hakiqa/mascot/haki-waving.png"
+      ],
+      "backgrounds": ["white", "hakiqa-navy", "transparent"],
+      "recolour": false,
+      "minimumWidthPx": 96,
+      "notes": "Choose the pose that matches the state; never use celebration for errors or distress for routine empty states."
+    }
+  ]
+}
+

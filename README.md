@@ -2,6 +2,20 @@
 
 Single source of truth for all Blackpaw/Hakiqa brand tokens, design utilities, and shared React components.
 
+## Brand platform
+
+Open the unified public [Brand & Design System](docs/index.html) first. The
+approved strategy, message hierarchy and application rules live in
+[`docs/brand/`](docs/brand/README.md). Review the
+[Blackpaw Brand Book](docs/brand/BLACKPAW_BRAND_BOOK.md),
+[Brand Guidelines](docs/brand/BRAND_GUIDELINES.md) and
+[Voice and Messaging](docs/brand/VOICE_AND_MESSAGING.md) for production work.
+
+Coding agents must begin with [`AGENTS.md`](AGENTS.md). Approved public exports
+live in [`src/assets/brand/`](src/assets/brand/) and must be selected by stable ID
+from the [asset manifest](src/assets/asset-manifest.json). Do not redraw assets or
+copy them from screenshots.
+
 ## Structure
 
 ```

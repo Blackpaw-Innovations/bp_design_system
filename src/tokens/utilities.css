@@ -9,13 +9,13 @@
 
   /* ── Typography helpers ────────────────────────────────────────────────── */
   .font-display {
-    font-family: var(--font-display);
+    font-family: var(--bp-font-ui);
     font-weight: 800;
     letter-spacing: -0.04em;
   }
 
   .font-label {
-    font-family: var(--font-display);
+    font-family: var(--bp-font-ui);
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;

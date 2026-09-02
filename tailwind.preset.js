@@ -28,6 +28,15 @@ export default {
 
         /* Blackpaw brand */
         'bp-green':  'hsl(var(--bp-green) / <alpha-value>)',
+        'bp-light-blue':    'hsl(var(--bp-light-blue) / <alpha-value>)',
+        'bp-electric-blue': 'hsl(var(--bp-electric-blue) / <alpha-value>)',
+        'bp-purple':        'hsl(var(--bp-purple) / <alpha-value>)',
+        'bp-violet':        'hsl(var(--bp-violet) / <alpha-value>)',
+        'bp-coral':         'hsl(var(--bp-coral) / <alpha-value>)',
+        'bp-coral-rose':    'hsl(var(--bp-coral-rose) / <alpha-value>)',
+        'bp-dark-navy':     'hsl(var(--bp-dark-navy) / <alpha-value>)',
+        'bp-deep-navy':     'hsl(var(--bp-deep-navy) / <alpha-value>)',
+        'bp-offwhite':      'hsl(var(--bp-corporate-offwhite) / <alpha-value>)',
 
         /* Semantic signals */
         'signal-red':   'hsl(var(--signal-red)   / <alpha-value>)',
@@ -48,6 +57,12 @@ export default {
         border:      'hsl(var(--border)       / <alpha-value>)',
         input:       'hsl(var(--input)        / <alpha-value>)',
         ring:        'hsl(var(--ring)         / <alpha-value>)',
+
+        /* Brand-aware semantic aliases */
+        'brand-accent': 'hsl(var(--color-accent) / <alpha-value>)',
+        'brand-focus':  'hsl(var(--color-accent-h) / <alpha-value>)',
+        'brand-hero':   'hsl(var(--color-hero) / <alpha-value>)',
+        'brand-ink':    'hsl(var(--color-ink) / <alpha-value>)',
       },
 
       borderRadius: {
