@@ -46,6 +46,8 @@ jobs:
           printf '%s\n' '<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=./docs/"><title>Blackpaw Brand &amp; Design System</title><a href="./docs/">Open the design system</a>' > _site/index.html
           touch _site/.nojekyll
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
