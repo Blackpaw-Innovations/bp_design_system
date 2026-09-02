@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en" data-brand="blackpaw" data-expression="clear">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blackpaw Document Template</title>
+  <link rel="stylesheet" href="../../src/tokens/index.css">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body { background: hsl(var(--bp-corporate-offwhite)); }
+    .template-toolbar {
+      position: sticky; top: 0; z-index: 5;
+      display: flex; align-items: center; justify-content: space-between; gap: 14px;
+      padding: 12px 20px;
+      color: white; background: hsl(var(--bp-dark-navy));
+      font-family: var(--bp-font-ui);
+    }
+    .template-toolbar strong { letter-spacing: .05em; }
+    .template-toolbar label { display: flex; align-items: center; gap: 8px; }
+    .template-toolbar select { border: 0; border-radius: 999px; padding: 7px 12px; }
+    .page { width: min(960px, calc(100% - 32px)); margin: 28px auto; box-shadow: var(--bp-shadow-modal); }
+    .cover-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: end; min-height: 500px; }
+    .rule { width: 68px; height: 7px; margin-bottom: 80px; border-radius: 9px; background: hsl(var(--document-focus)); }
+    [data-expression="authority"] .rule,
+    [data-expression="signature"] .rule { background: white; }
+    .purpose { max-width: 52ch; opacity: .76; }
+    .metadata { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; font-size: .8rem; }
+    .metadata span { display: block; margin-top: 3px; font-weight: 720; }
+    .content-grid { display: grid; grid-template-columns: .7fr 1.3fr; gap: 32px; }
+    .signal { color: hsl(var(--document-muted)); }
+    .status-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+    .footer { display: flex; justify-content: space-between; padding: 18px 64px; border-top: 1px solid hsl(var(--document-border)); color: hsl(var(--document-muted)); font-size: .75rem; }
+    @media (max-width: 700px) {
+      .cover-grid, .content-grid { grid-template-columns: 1fr; }
+      .template-toolbar { align-items: flex-start; flex-direction: column; }
+      .page { width: 100%; margin: 0; box-shadow: none; }
+    }
+    @media print {
+      .template-toolbar { display: none; }
+      body { background: white; }
+      .page { width: 100%; margin: 0; box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <aside class="template-toolbar">
+    <strong>BLACKPAW DOCUMENT SPECIMEN</strong>
+    <label>Expression
+      <select id="expression">
+        <option value="clear">Clear · default</option>
+        <option value="authority">Authority</option>
+        <option value="human">Human</option>
+        <option value="precision">Precision</option>
+        <option value="signature">Signature</option>
+      </select>
+    </label>
+  </aside>
+
+  <article class="bp-document page">
+    <header class="bp-document-cover cover-grid">
+      <div>
+        <div class="rule"></div>
+        <div class="bp-document-kicker">Blackpaw Innovations</div>
+        <h1 class="bp-document-title">Make the next decision obvious.</h1>
+        <p class="purpose">A universal structure for governed Blackpaw reports, proposals, SOPs, PRDs and decision documents.</p>
+      </div>
+      <div class="metadata">
+        <div><div class="bp-document-meta-label">Owner</div><span>Named accountable owner</span></div>
+        <div><div class="bp-document-meta-label">Status</div><span>Draft / Review / Approved</span></div>
+        <div><div class="bp-document-meta-label">Version</div><span>1.0</span></div>
+        <div><div class="bp-document-meta-label">Review date</div><span>YYYY-MM-DD</span></div>
+      </div>
+    </header>
+
+    <section class="bp-document-section content-grid">
+      <div>
+        <div class="bp-document-kicker">Executive signal</div>
+        <p class="signal">State the condition that matters most and the action it requires.</p>
+        <div class="status-row">
+          <span class="bp-document-status">Actual</span>
+          <span class="bp-document-status">Target</span>
+          <span class="bp-document-status">Decision</span>
+        </div>
+      </div>
+      <div>
+        <h2 class="bp-document-heading">Operational truth before decoration.</h2>
+        <p>Lead with the business outcome. Name evidence, ownership and trade-offs. Keep actuals, assumptions, forecasts and targets visibly distinct.</p>
+        <div class="bp-document-callout"><strong>Blackpaw principle</strong><br>Low effort in front. High rigour behind.</div>
+      </div>
+    </section>
+
+    <section class="bp-document-section">
+      <h2 class="bp-document-heading">Evidence</h2>
+      <table class="bp-document-table">
+        <thead><tr><th>Measure</th><th>Actual</th><th>Target</th><th>Owner</th></tr></thead>
+        <tbody>
+          <tr><td>Customer outcome</td><td>Verified value</td><td>Agreed threshold</td><td>Named person</td></tr>
+          <tr><td>Delivery signal</td><td>Verified value</td><td>Agreed threshold</td><td>Named person</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <footer class="footer"><span>Blackpaw Innovations</span><span>Version · Status · Classification</span></footer>
+  </article>
+
+  <script>
+    const picker = document.querySelector('#expression');
+    const requestedMode = new URLSearchParams(location.search).get('mode');
+    const allowedModes = ['clear', 'authority', 'human', 'precision', 'signature'];
+    if (allowedModes.includes(requestedMode)) {
+      document.documentElement.dataset.expression = requestedMode;
+      picker.value = requestedMode;
+    }
+    picker.addEventListener('change', (event) => {
+      document.documentElement.dataset.expression = event.target.value;
+    });
+  </script>
+</body>
+</html>

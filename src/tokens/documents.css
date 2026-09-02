@@ -1,0 +1,102 @@
+/* ============================================================
+   BLACKPAW DOCUMENT PRIMITIVES
+   Requires data-brand="blackpaw" and an optional data-expression.
+   Suitable for browser documents and HTML-to-PDF workflows.
+   ============================================================ */
+
+.bp-document {
+  min-height: 100%;
+  color: hsl(var(--document-ink));
+  background: hsl(var(--document-page));
+  font-family: var(--bp-font-ui);
+  line-height: 1.55;
+}
+
+.bp-document-cover {
+  padding: clamp(32px, 7vw, 84px);
+  color: hsl(var(--color-hero-ink));
+  background: hsl(var(--document-field));
+}
+
+[data-brand="blackpaw"][data-expression="signature"] .bp-document-cover {
+  background: var(--bp-signature-gradient);
+}
+
+[data-brand="blackpaw"][data-expression="authority"] .bp-document-cover {
+  background: linear-gradient(145deg, hsl(var(--bp-purple)), hsl(var(--bp-dark-navy)));
+}
+
+.bp-document-kicker,
+.bp-document-meta-label {
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.bp-document-title {
+  max-width: 15ch;
+  margin: .35em 0;
+  font-size: clamp(2.5rem, 7vw, 6.5rem);
+  font-weight: 850;
+  letter-spacing: -.055em;
+  line-height: .92;
+}
+
+.bp-document-section { padding: clamp(28px, 5vw, 64px); }
+
+.bp-document-heading {
+  margin: 0 0 .45em;
+  color: hsl(var(--document-focus));
+  font-size: clamp(1.6rem, 3vw, 2.6rem);
+  font-weight: 780;
+  letter-spacing: -.035em;
+  line-height: 1.08;
+}
+
+.bp-document-callout {
+  padding: 18px 20px;
+  border-inline-start: 5px solid hsl(var(--document-focus));
+  background: hsl(var(--document-callout));
+}
+
+.bp-document-table { width: 100%; border-collapse: collapse; }
+.bp-document-table th {
+  color: hsl(var(--document-ink));
+  background: hsl(var(--document-table-head));
+  font-size: .75rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-align: start;
+  text-transform: uppercase;
+}
+[data-brand="blackpaw"][data-expression="authority"] .bp-document-table th {
+  color: hsl(var(--bp-corporate-white));
+}
+.bp-document-table th,
+.bp-document-table td {
+  padding: 12px 14px;
+  border: 1px solid hsl(var(--document-border));
+  vertical-align: top;
+}
+
+.bp-document-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 9px;
+  border: 1px solid hsl(var(--document-border));
+  border-radius: 999px;
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+@media print {
+  .bp-document-cover,
+  .bp-document-callout,
+  .bp-document-table th {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}

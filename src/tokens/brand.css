@@ -1,3 +1,19 @@
+@font-face {
+  font-family: 'Urbanist';
+  src: url('../../font-library/Urbanist/Urbanist-VariableFont_wght.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Urbanist';
+  src: url('../../font-library/Urbanist/Urbanist-Italic-VariableFont_wght.ttf') format('truetype');
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
 /* ============================================================
    BLACKPAW DESIGN LANGUAGE v1.0 — CANONICAL TOKENS
    Single source of truth. HSL channel triplets (no hsl() wrapper)
@@ -14,7 +30,29 @@
   --bp-teal:    190 100% 36%;   /* #00A5B8 */
   --bp-orange:  32  98%  50%;   /* #FD8A03 */
   --bp-navy:    218 93%  17%;   /* #032053 */
-  --bp-green:   153 47%  25%;   /* Blackpaw corporate */
+  --bp-green:   153 47%  25%;   /* Legacy compatibility token; not corporate primary */
+
+  /* ── Approved Blackpaw corporate primitives ── */
+  --bp-light-blue:        244 62% 95%; /* #EBEAFA; 10% Electric Blue over white */
+  --bp-electric-blue:     244 68% 48%; /* #3228CF */
+  --bp-purple:            271 57% 26%; /* #451D6A */
+  --bp-violet:            266 72% 56%; /* #8540E0 */
+  --bp-coral:               2 99% 68%; /* #FE635F */
+  --bp-coral-rose:        345 76% 62%; /* #E8547A */
+  --bp-dark-navy:         240 92% 15%; /* #030347 */
+  --bp-deep-navy:         240 72% 18%; /* #0D0D50 */
+  --bp-wordmark-navy:     240 74% 27%; /* #12127A */
+  --bp-corporate-white:     0  0% 100%; /* #FFFFFF */
+  --bp-corporate-offwhite: 248 100% 98%; /* #F8F7FF */
+  --bp-corporate-ink:     244 34% 13%; /* #17152B */
+  --bp-corporate-muted:   246 12% 42%; /* #625F78 */
+  --bp-corporate-border:  251 38% 89%; /* #DDD9EE */
+  --bp-signature-gradient: linear-gradient(
+    135deg,
+    hsl(var(--bp-coral-rose)) 0%,
+    hsl(var(--bp-violet)) 50%,
+    hsl(var(--bp-electric-blue)) 100%
+  );
 
   /* ── Neutral surface scale ── */
   --bp-bg:      0   0%   100%;  /* #FFFFFF pure-white page */
@@ -68,8 +106,8 @@
 
   /* ── Type families ── */
   --bp-font-ui:      'Urbanist', system-ui, sans-serif;
-  --bp-font-display: 'Newsreader', Georgia, serif;
-  --bp-font-label:   'Manrope', system-ui, sans-serif;
+  --bp-font-display: 'Urbanist', system-ui, sans-serif;
+  --bp-font-label:   'Urbanist', system-ui, sans-serif;
 
   /* ════════════════════════════════════════════════════════
      SEMANTIC LAYER — the only thing components should touch.
@@ -89,6 +127,93 @@
   --color-glow:      transparent;
 }
 
+/* Urbanist is the shared application baseline. Component-specific inheritance
+   may still adjust weight, size and style, but not the application family. */
+:where(html, body, button, input, textarea, select) {
+  font-family: var(--bp-font-ui);
+}
+
+/* ════════════════════════════════════════════════════════
+   BLACKPAW CORPORATE EXPRESSION MODES
+   Use data-brand="blackpaw" on a document or corporate surface.
+   Clear is the default. Modes override semantic values only.
+   ════════════════════════════════════════════════════════ */
+[data-brand="blackpaw"] {
+  --color-accent: var(--bp-purple);
+  --color-accent-h: var(--bp-electric-blue);
+  --color-bg: var(--bp-corporate-white);
+  --color-surface: var(--bp-corporate-white);
+  --color-border: var(--bp-corporate-border);
+  --color-ink: var(--bp-corporate-ink);
+  --color-muted: var(--bp-corporate-muted);
+  --color-hero: var(--bp-light-blue);
+  --color-hero-ink: var(--bp-dark-navy);
+  --color-display-font: var(--bp-font-ui);
+  --document-page: var(--bp-corporate-white);
+  --document-field: var(--bp-light-blue);
+  --document-focus: var(--bp-purple);
+  --document-ink: var(--bp-corporate-ink);
+  --document-muted: var(--bp-corporate-muted);
+  --document-border: var(--bp-corporate-border);
+  --document-table-head: var(--bp-light-blue);
+  --document-callout: var(--bp-corporate-offwhite);
+}
+
+[data-brand="blackpaw"][data-expression="authority"] {
+  --color-accent: var(--bp-violet);
+  --color-accent-h: var(--bp-coral-rose);
+  --color-bg: var(--bp-deep-navy);
+  --color-surface: var(--bp-dark-navy);
+  --color-border: 244 30% 32%;
+  --color-ink: var(--bp-corporate-white);
+  --color-muted: 242 20% 78%;
+  --color-hero: var(--bp-dark-navy);
+  --color-hero-ink: var(--bp-corporate-white);
+  --document-field: var(--bp-deep-navy);
+  --document-focus: var(--bp-violet);
+  --document-table-head: var(--bp-purple);
+  --document-callout: var(--bp-light-blue);
+}
+
+[data-brand="blackpaw"][data-expression="human"] {
+  --color-accent: var(--bp-coral);
+  --color-accent-h: var(--bp-coral-rose);
+  --color-border: 2 70% 89%;
+  --color-hero: var(--bp-coral);
+  --color-hero-ink: var(--bp-dark-navy);
+  --document-field: var(--bp-coral);
+  --document-focus: var(--bp-purple);
+  --document-border: 2 70% 89%;
+  --document-table-head: 2 100% 95%;
+  --document-callout: 2 100% 97%;
+}
+
+[data-brand="blackpaw"][data-expression="precision"] {
+  --color-accent: var(--bp-electric-blue);
+  --color-accent-h: var(--bp-purple);
+  --color-hero: var(--bp-corporate-white);
+  --color-hero-ink: var(--bp-dark-navy);
+  --document-field: var(--bp-corporate-white);
+  --document-focus: var(--bp-purple);
+  --document-table-head: var(--bp-light-blue);
+  --document-callout: var(--bp-light-blue);
+}
+
+[data-brand="blackpaw"][data-expression="signature"] {
+  --color-accent: var(--bp-coral-rose);
+  --color-accent-h: var(--bp-electric-blue);
+  --color-bg: var(--bp-deep-navy);
+  --color-surface: var(--bp-dark-navy);
+  --color-border: 244 30% 32%;
+  --color-ink: var(--bp-corporate-white);
+  --color-muted: 242 20% 78%;
+  --color-hero: var(--bp-deep-navy);
+  --color-hero-ink: var(--bp-corporate-white);
+  --document-field: var(--bp-deep-navy);
+  --document-focus: var(--bp-violet);
+  --document-table-head: var(--bp-light-blue);
+}
+
 /* ── Dark mode for the default (no [data-identity]) skin ──
    hakiqa-connect (and any other app using the shared skin) toggles
    [data-theme="dark"] on :root -- app-shell.css's own dark palette
@@ -106,7 +231,7 @@
 
 /* ════════════════════════════════════════════════════════════
    IDENTITY 1 — FINANCE (Akili Finance OS)
-   Indigo + coral, Playfair display, deep-navy hero.
+   Indigo + coral, Urbanist display, deep-navy hero.
    ════════════════════════════════════════════════════════════ */
 [data-identity="finance"] {
   --color-accent:    246 77% 45%;   /* #2d1aca indigo */
@@ -118,7 +243,7 @@
   --color-muted:     236 18% 51%;   /* #6b6f9a */
   --color-hero:      240 92% 15%;   /* #030347 */
   --color-hero-ink:  0 0% 100%;
-  --color-display-font: 'Playfair Display', Georgia, serif;
+  --color-display-font: var(--bp-font-ui);
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -170,7 +295,7 @@
   --color-hero:      218 62% 4%;
   --color-hero-ink:  0 0% 100%;
   --color-glow:      188 78% 52%;
-  --color-display-font: var(--bp-font-display); /* Newsreader = editorial gravitas */
+  --color-display-font: var(--bp-font-ui);
   --bp-shadow-card:  0 1px 3px rgba(0,0,0,.5);
   --bp-shadow-hover: 0 4px 16px rgba(0,0,0,.55);
 }
