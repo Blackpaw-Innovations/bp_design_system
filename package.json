@@ -7,14 +7,18 @@
   "sideEffects": false,
   "exports": {
     ".": "./src/index.ts",
+    "./conformance": "./conformance/experience-rules.json",
     "./tokens": "./src/tokens/index.css",
     "./tailwind": "./tailwind.preset.js"
   },
   "scripts": {
-    "check:brand": "node scripts/check-brand-system.mjs"
+    "check:brand": "node scripts/check-brand-system.mjs",
+    "check:experience": "node scripts/check-experience-contract.mjs",
+    "check:consumer": "node scripts/check-consumer-conformance.mjs"
   },
   "files": [
     "src",
+    "conformance",
     "font-library/Urbanist/Urbanist-VariableFont_wght.ttf",
     "font-library/Urbanist/Urbanist-Italic-VariableFont_wght.ttf",
     "font-library/Urbanist/OFL.txt",

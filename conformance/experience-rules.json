@@ -1,0 +1,29 @@
+{
+  "$schema": "./experience-rules.schema.json",
+  "version": "1.0.0",
+  "principle": "Low effort in front. High rigour behind.",
+  "gates": [
+    { "id": "DS-01", "name": "Dependency", "blocking": true, "owner": "design-system" },
+    { "id": "DS-02", "name": "Tokens", "blocking": true, "owner": "design-system" },
+    { "id": "DS-03", "name": "Composition", "blocking": true, "owner": "design-system" },
+    { "id": "DS-04", "name": "Shared components", "blocking": true, "owner": "design-system" },
+    { "id": "DS-05", "name": "Shell and navigation", "blocking": true, "owner": "product-shell" },
+    { "id": "DS-06", "name": "Interaction honesty", "blocking": true, "owner": "vertical" },
+    { "id": "DS-07", "name": "State completeness", "blocking": true, "owner": "vertical" },
+    { "id": "DS-08", "name": "Responsive behavior", "blocking": true, "owner": "product-shell" },
+    { "id": "DS-09", "name": "Accessibility", "blocking": true, "owner": "shared" },
+    { "id": "DS-10", "name": "Visual regression", "blocking": true, "owner": "vertical" },
+    { "id": "DS-11", "name": "Task effort", "blocking": true, "owner": "vertical" },
+    { "id": "DS-12", "name": "Release conformance", "blocking": true, "owner": "release" },
+    { "id": "DS-13", "name": "Production delivery", "blocking": true, "owner": "platform-infrastructure" }
+  ],
+  "staticDefaults": {
+    "approvedFonts": ["Urbanist", "system-ui", "sans-serif"],
+    "bannedFonts": ["Google Sans", "Gotham", "Manrope", "Newsreader", "Inter", "Poppins"],
+    "sharedComponentNames": ["AppShell", "SlideOver", "MetricCard", "KpiStat", "EmptyState", "ViewToggle", "StatusChip", "Toast"],
+    "minimumTouchTargetPx": 44,
+    "requiredViewports": [[390, 844], [768, 1024], [1440, 900]],
+    "maxHorizontalOverflowPx": 1,
+    "maxCoreTaskSteps": 3
+  }
+}
