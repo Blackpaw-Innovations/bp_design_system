@@ -8,6 +8,7 @@
   "exports": {
     ".": "./src/index.ts",
     "./conformance": "./conformance/experience-rules.json",
+    "./conformance/playwright": "./conformance/playwright.mjs",
     "./tokens": "./src/tokens/index.css",
     "./tailwind": "./tailwind.preset.js"
   },
@@ -19,6 +20,7 @@
   "files": [
     "src",
     "conformance",
+    "scripts",
     "font-library/Urbanist/Urbanist-VariableFont_wght.ttf",
     "font-library/Urbanist/Urbanist-Italic-VariableFont_wght.ttf",
     "font-library/Urbanist/OFL.txt",
@@ -26,10 +28,16 @@
     "tailwind.preset.d.ts"
   ],
   "peerDependencies": {
+    "@playwright/test": ">=1.50.0",
     "react": ">=18",
     "react-dom": ">=18",
     "tailwindcss": ">=3",
     "lucide-react": ">=0.300.0"
+  },
+  "peerDependenciesMeta": {
+    "@playwright/test": {
+      "optional": true
+    }
   },
   "dependencies": {
     "clsx": "^2.1.1",

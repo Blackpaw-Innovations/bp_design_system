@@ -3,5 +3,30 @@
   "vertical": "example",
   "sourceRoots": ["src"],
   "excludes": ["src/generated"],
-  "legacyBaseline": null
+  "legacyBaseline": null,
+  "browser": {
+    "productionUrl": "https://example.hakiqa.com",
+    "authenticatedStorageState": "playwright/.auth/owner.json",
+    "routes": [
+      {
+        "name": "home",
+        "path": "/",
+        "parent": null,
+        "archetype": "dashboard",
+        "primaryAction": "Create record",
+        "roles": ["owner"],
+        "dataAuthority": "Odoo",
+        "auth": "required",
+        "states": ["loading", "empty", "error", "populated", "disabled", "permission"]
+      }
+    ],
+    "coreTasks": [
+      {
+        "name": "Create record",
+        "startPath": "/",
+        "steps": [{ "role": "button", "name": "Create record" }],
+        "expectedPath": "/records/new"
+      }
+    ]
+  }
 }
