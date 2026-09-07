@@ -20,7 +20,14 @@ Run against a consuming application:
 node node_modules/@blackpaw/ui/scripts/check-consumer-conformance.mjs --root .
 ```
 
-The consumer must commit `blackpaw.conformance.json`. The checker currently
-enforces DS-01 through DS-04 statically; DS-05 through DS-13 are registered as
-blocking browser/release contracts and will be delivered through the shared
-Playwright harness. A registry entry is not evidence of a pass.
+The consumer must commit `blackpaw.conformance.json`. The static checker
+enforces DS-01 through DS-04. Import
+`defineBlackpawConformance` from
+`@blackpaw/ui/conformance/playwright` in the consumer's Playwright suite to
+enforce DS-05 through DS-13. A registry entry, local screenshot or manual
+review is not evidence of a pass; retain the browser suite's reports and traces
+against the tested release commit and environment.
+
+These gates apply to every Blackpaw/Hakiqa vertical. They complement rather
+than replace Project Ironclad: Ironclad/Car Parts governs architectural
+soundness, while this package governs design and experience conformance.
