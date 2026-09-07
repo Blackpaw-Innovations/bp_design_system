@@ -41,3 +41,23 @@ Use `docs/index.html` as the human-facing navigator. Detailed files remain autho
 
 Run `npm run check:brand`. Check keyboard use, contrast, responsive layout, plain-language labels, loading, empty, error, permission, and recovery states. Record any approved exception in the pull request; do not silently create a parallel standard.
 
+## Mandatory consumer gate
+
+Every new or materially changed Blackpaw/Hakiqa application must pin
+`@blackpaw/ui`, commit a `blackpaw.conformance.json` route/state/task contract,
+and run both the static consumer checker and the shared Playwright conformance
+suite in pull-request and main-branch CI. New verticals start with zero
+exceptions. Existing products may use only an explicitly approved, owned and
+expiring baseline that blocks every regression and has a zero-debt burn-down.
+
+Do not describe a product as design-conformant from screenshots, a manual
+review, or a passing build. Conformance requires DS-01–DS-13 evidence tied to
+the same release commit and environment. A failed or absent gate blocks
+production promotion.
+
+This is independent of Project Ironclad's architecture gate. Car Parts remains
+the proving vertical for cross-vertical architecture; this repository remains
+the authority for design and experience conformance. Passing either gate does
+not imply passing the other, and future verticals must satisfy both applicable
+gate families.
+
