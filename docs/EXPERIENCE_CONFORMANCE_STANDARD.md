@@ -55,3 +55,17 @@ An exception is a versioned record with the gate, affected files/routes,
 business reason, owner, evidence, approval and expiry date. Inline suppression
 without a matching live exception fails. New verticals start at zero exceptions;
 legacy baselines may only prevent regression when paired with a dated burn-down.
+
+## Consumer implementation
+
+Each vertical commits `blackpaw.conformance.json` as its route, state and task
+contract. Static gates run with `check-consumer-conformance.mjs`; browser gates
+import `defineBlackpawConformance` from `@blackpaw/ui/conformance/playwright` in
+a Playwright test. Protected routes require a CI-generated storage-state file.
+If that evidence is absent, the suite fails instead of certifying the login
+screen as the protected experience.
+
+Visual baselines are created only in a reviewed change using Playwright's
+snapshot update mode. Normal pull requests compare against those committed
+baselines. The HTML report and machine-readable Playwright JSON report are
+release evidence and must be retained against the tested commit and target URL.
