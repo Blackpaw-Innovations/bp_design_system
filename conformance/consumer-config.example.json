@@ -1,0 +1,7 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Blackpaw-Innovations/bp_design_system/main/conformance/consumer-config.schema.json",
+  "vertical": "example",
+  "sourceRoots": ["src"],
+  "excludes": ["src/generated"],
+  "legacyBaseline": null
+}

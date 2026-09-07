@@ -24,6 +24,7 @@ jobs:
         with:
           node-version: 20
       - run: npm run check:brand
+      - run: npm run check:experience
 
   deploy:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
@@ -37,11 +38,12 @@ jobs:
       - name: Stage public design system
         shell: bash
         run: |
-          mkdir -p _site/docs _site/src _site/font-library
+          mkdir -p _site/docs _site/src _site/font-library _site/conformance
           cp -R docs/. _site/docs/
           cp -R src/tokens _site/src/tokens
           cp -R src/assets _site/src/assets
           cp -R font-library/Urbanist _site/font-library/Urbanist
+          cp -R conformance/. _site/conformance/
           cp AGENTS.md BRAND.md tailwind.preset.js _site/
           printf '%s\n' '<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=./docs/"><title>Blackpaw Brand &amp; Design System</title><a href="./docs/">Open the design system</a>' > _site/index.html
           touch _site/.nojekyll

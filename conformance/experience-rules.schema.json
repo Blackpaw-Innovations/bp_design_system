@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["version", "principle", "gates", "staticDefaults"],
+  "properties": {
+    "version": { "type": "string" },
+    "principle": { "type": "string" },
+    "gates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "blocking", "owner"],
+        "properties": {
+          "id": { "pattern": "^DS-[0-9]{2}$" },
+          "name": { "type": "string" },
+          "blocking": { "const": true },
+          "owner": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "staticDefaults": { "type": "object" }
+  },
+  "additionalProperties": false
+}

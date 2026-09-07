@@ -4,6 +4,7 @@ import { dirname, extname, join, relative, resolve } from 'node:path';
 const root = resolve(import.meta.dirname, '..');
 const failures = [];
 const required = ['AGENTS.md', 'BRAND.md', 'docs/index.html', 'docs/brand/BRAND_GUIDELINES.md', 'src/tokens/index.css'];
+required.push('docs/EXPERIENCE_CONFORMANCE_STANDARD.md', 'conformance/experience-rules.json');
 for (const file of required) if (!existsSync(join(root, file))) failures.push(`Missing required file: ${file}`);
 
 const manifestPath = join(root, 'src/assets/asset-manifest.json');
