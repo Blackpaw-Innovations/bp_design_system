@@ -36,8 +36,18 @@ export function SlideOver({ open, title, subtitle, onClose, children, footer, wi
 
   return (
     <>
-      <div className={`overlay${open ? ' open' : ''}`} onClick={onClose} />
-      <aside className={`slide-over${open ? ' open' : ''}`} style={width ? { width, maxWidth: '92vw' } : undefined}>
+      <div className={`overlay${open ? ' open' : ''}`} onClick={onClose} aria-hidden={!open} {...(!open ? { inert: true } : {})} />
+      {/* A01: when closed, this stayed in the DOM fully focusable/in the
+         accessibility tree (audit A01) -- `inert` removes it from focus,
+         hit-testing and the a11y tree without unmounting its state. */}
+      <aside
+        className={`slide-over${open ? ' open' : ''}`}
+        style={width ? { width, maxWidth: '92vw' } : undefined}
+        role="dialog"
+        aria-modal={open || undefined}
+        aria-hidden={!open}
+        {...(!open ? { inert: true } : {})}
+      >
         <div className="dh">
           <div>
             <h2 className="t-h2">{title}</h2>
