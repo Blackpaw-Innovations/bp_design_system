@@ -5,10 +5,11 @@ This repository is the canonical source for Blackpaw and Hakiqa brand implementa
 ## Required reading order
 
 1. `BRAND.md` — the quick decision guide.
-2. `docs/brand/BRAND_FOUNDATION.md` — purpose, positioning, promise, and doctrine.
-3. `docs/brand/BRAND_GUIDELINES.md` — visual and application rules.
-4. `docs/brand/VOICE_AND_MESSAGING.md` — approved language and claims.
-5. `src/assets/asset-manifest.json` — approved asset IDs and usage metadata.
+2. `BUILDING_PRINCIPLES.md` — the canonical design and app-building doctrine.
+3. `docs/brand/BRAND_FOUNDATION.md` — purpose, positioning, promise, and doctrine.
+4. `docs/brand/BRAND_GUIDELINES.md` — visual and application rules.
+5. `docs/brand/VOICE_AND_MESSAGING.md` — approved language and claims.
+6. `src/assets/asset-manifest.json` — approved asset IDs and usage metadata.
 
 Use `docs/index.html` as the human-facing navigator. Detailed files remain authoritative when the portal summarizes them.
 
@@ -36,6 +37,7 @@ Use `docs/index.html` as the human-facing navigator. Detailed files remain autho
 | Document template | `docs/templates/blackpaw-document.html` |
 | Brand rules | `docs/brand/` |
 | Public portal | `docs/index.html` |
+| Design and app-building principles | `BUILDING_PRINCIPLES.md` and `docs/building-principles/` |
 
 ## Before handing work over
 

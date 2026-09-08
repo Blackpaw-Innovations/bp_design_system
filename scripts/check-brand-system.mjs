@@ -3,7 +3,7 @@ import { dirname, extname, join, relative, resolve } from 'node:path';
 
 const root = resolve(import.meta.dirname, '..');
 const failures = [];
-const required = ['AGENTS.md', 'BRAND.md', 'docs/index.html', 'docs/brand/BRAND_GUIDELINES.md', 'src/tokens/index.css'];
+const required = ['AGENTS.md', 'BRAND.md', 'BUILDING_PRINCIPLES.md', 'docs/index.html', 'docs/building-principles/index.html', 'docs/brand/BRAND_GUIDELINES.md', 'src/tokens/index.css'];
 required.push('docs/EXPERIENCE_CONFORMANCE_STANDARD.md', 'conformance/experience-rules.json');
 for (const file of required) if (!existsSync(join(root, file))) failures.push(`Missing required file: ${file}`);
 
@@ -53,6 +53,18 @@ for (const match of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
   if (/^(?:#|https?:|data:|mailto:)/.test(link)) continue;
   const clean = decodeURIComponent(link.split('#')[0].split('?')[0]);
   if (!existsSync(resolve(dirname(join(root, 'docs/index.html')), clean))) failures.push(`Broken portal link: ${link}`);
+}
+
+const principlesHtmlPath = join(root, 'docs/building-principles/index.html');
+const principlesHtml = readFileSync(principlesHtmlPath, 'utf8');
+for (const anchor of ['principles', 'loop', 'done', 'start']) {
+  if (!principlesHtml.includes(`id="${anchor}"`)) failures.push(`Principles page missing section: #${anchor}`);
+}
+for (const match of principlesHtml.matchAll(/(?:href|src)="([^"]+)"/g)) {
+  const link = match[1];
+  if (/^(?:#|https?:|data:|mailto:)/.test(link)) continue;
+  const clean = decodeURIComponent(link.split('#')[0].split('?')[0]);
+  if (!existsSync(resolve(dirname(principlesHtmlPath), clean))) failures.push(`Broken principles-page link: ${link}`);
 }
 
 if (failures.length) {

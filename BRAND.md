@@ -28,6 +28,7 @@ Do not implement these hex values directly. Use the semantic tokens in `src/toke
 ## Start here
 
 - Human portal: `docs/index.html`
+- Design and app-building doctrine: `BUILDING_PRINCIPLES.md`
 - Full rules: `docs/brand/BRAND_GUIDELINES.md`
 - Voice: `docs/brand/VOICE_AND_MESSAGING.md`
 - Approved assets: `src/assets/asset-manifest.json`

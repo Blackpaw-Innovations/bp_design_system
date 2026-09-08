@@ -44,7 +44,7 @@ jobs:
           cp -R src/assets _site/src/assets
           cp -R font-library/Urbanist _site/font-library/Urbanist
           cp -R conformance/. _site/conformance/
-          cp AGENTS.md BRAND.md tailwind.preset.js _site/
+          cp AGENTS.md BRAND.md BUILDING_PRINCIPLES.md tailwind.preset.js _site/
           printf '%s\n' '<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=./docs/"><title>Blackpaw Brand &amp; Design System</title><a href="./docs/">Open the design system</a>' > _site/index.html
           touch _site/.nojekyll
       - uses: actions/configure-pages@v5

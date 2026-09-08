@@ -11,6 +11,10 @@ approved strategy, message hierarchy and application rules live in
 [Brand Guidelines](docs/brand/BRAND_GUIDELINES.md) and
 [Voice and Messaging](docs/brand/VOICE_AND_MESSAGING.md) for production work.
 
+The canonical [Design and App-Building Principles](BUILDING_PRINCIPLES.md) are
+also available as a dedicated visual page under
+[`docs/building-principles/`](docs/building-principles/index.html).
+
 Coding agents must begin with [`AGENTS.md`](AGENTS.md). Approved public exports
 live in [`src/assets/brand/`](src/assets/brand/) and must be selected by stable ID
 from the [asset manifest](src/assets/asset-manifest.json). Do not redraw assets or

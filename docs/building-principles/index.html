@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="The canonical principles Blackpaw uses to design, build, validate, release, and improve applications.">
+  <meta property="og:title" content="The Blackpaw Way — Design & App-Building Principles">
+  <meta property="og:description" content="Low effort in front. High rigour behind. The canonical operating principles for Blackpaw-built software.">
+  <title>The Blackpaw Way — Design &amp; App-Building Principles</title>
+  <link rel="stylesheet" href="../assets/portal.css">
+  <link rel="stylesheet" href="../assets/principles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="topbar">
+    <a class="brand" href="../">BLACKPAW <span>/ SYSTEM</span></a>
+    <nav aria-label="Principles"><a href="#principles">Principles</a><a href="#loop">Build loop</a><a href="#done">Definition of done</a><a href="#start">Start</a></nav>
+  </header>
+  <main id="main">
+    <section class="principles-hero">
+      <div><span class="eyebrow">Canonical operating doctrine · v1.0</span><h1>Design and build as if complexity is our burden—not the user's.</h1><p class="lead">The principles Blackpaw uses to turn difficult business operations into trustworthy, low-effort software.</p><span class="doctrine">Low effort in front. High rigour behind.</span></div>
+    </section>
+
+    <section id="loop">
+      <div class="section-head"><div><span class="eyebrow">The production line</span><h2>From outcome to improvement.</h2></div><p>We do not begin with a blank canvas. We begin with a user outcome, select the closest proven recipe, configure it, and feed what we learn back into the shared system.</p></div>
+      <div class="loop">
+        <div class="loop-step"><b>01</b><strong>Understand</strong><p>User, outcome, constraint, risk, measure.</p></div><div class="loop-step"><b>02</b><strong>Select</strong><p>Flow, screen recipe, pattern, identity.</p></div><div class="loop-step"><b>03</b><strong>Configure</strong><p>Permissions, language, data, business rules.</p></div><div class="loop-step"><b>04</b><strong>Assemble</strong><p>Approved components and semantic tokens.</p></div><div class="loop-step"><b>05</b><strong>Validate</strong><p>States, breakpoints, permissions, tasks.</p></div><div class="loop-step"><b>06</b><strong>Release</strong><p>Controlled promotion with rollback readiness.</p></div><div class="loop-step"><b>07</b><strong>Observe</strong><p>Reliability, effort, abandonment, support.</p></div><div class="loop-step"><b>08</b><strong>Improve</strong><p>Return proven learning to the shared system.</p></div>
+      </div>
+    </section>
+
+    <section class="dark-section">
+      <div class="section-head"><div><span class="eyebrow">Reuse model</span><h2>The menu, not a blank kitchen.</h2></div><p>Teams choose tested ingredients and complete recipes before inventing anything bespoke. Novelty must answer a distinct user need.</p></div>
+      <div class="stack"><article><small>Layer 1</small><h3>Components</h3><p>Button, field, dialog, card, table, alert.</p></article><article><small>Layer 2</small><h3>Patterns</h3><p>Search, approval, upload, stepper, bulk action.</p></article><article><small>Layer 3</small><h3>Screens</h3><p>Record list, detail, onboarding, work queue.</p></article><article><small>Layer 4</small><h3>Flows</h3><p>Lead conversion, reconciliation, resolution.</p></article></div>
+    </section>
+
+    <section id="principles">
+      <div class="section-head"><div><span class="eyebrow">Eleven principles</span><h2>What guides every decision.</h2></div><p>These principles apply across research, interface design, engineering, deployment, support, and continuous improvement.</p></div>
+      <div class="principle-grid">
+        <article class="principle"><span class="principle-number">1</span><div><h3>Begin with the outcome</h3><p>Name the job before choosing screens, components, data structures, or technology.</p></div></article>
+        <article class="principle"><span class="principle-number">2</span><div><h3>Make the next action obvious</h3><p>Use one primary action, finite choices, and progressive disclosure.</p></div></article>
+        <article class="principle"><span class="principle-number">3</span><div><h3>Let the system carry complexity</h3><p>Use orchestration, defaults, automation, pre-filling, and reconciliation without hiding consequences.</p></div></article>
+        <article class="principle"><span class="principle-number">4</span><div><h3>Prevent before explaining</h3><p>Constrain invalid choices, validate early, and preserve entered work.</p></div></article>
+        <article class="principle"><span class="principle-number">5</span><div><h3>Close every loop</h3><p>Show what happened, what changed, what remains, and how to recover.</p></div></article>
+        <article class="principle"><span class="principle-number">6</span><div><h3>Design the whole state machine</h3><p>Loading, empty, error, permission, offline, success, and recovery are part of the screen.</p></div></article>
+        <article class="principle"><span class="principle-number">7</span><div><h3>Reuse before invention</h3><p>Select a canonical screen, then patterns, before creating a new standard.</p></div></article>
+        <article class="principle"><span class="principle-number">8</span><div><h3>Build for real conditions</h3><p>Expect interruptions, slow networks, small screens, shared devices, and users under pressure.</p></div></article>
+        <article class="principle"><span class="principle-number">9</span><div><h3>Make trust inspectable</h3><p>Make permissions, ownership, sources, consequences, audit trails, and recovery visible.</p></div></article>
+        <article class="principle"><span class="principle-number">10</span><div><h3>Ship safely and learn continuously</h3><p>Release observable changes with automated gates, named owners, and rollback paths.</p></div></article>
+        <article class="principle"><span class="principle-number">11</span><div><h3>Earn “It just works”</h3><p>Reliability, performance, security, accessibility, and supportability are product qualities.</p></div></article>
+      </div>
+    </section>
+
+    <section class="dark-section">
+      <div class="callout"><span class="eyebrow">The three-step constraint</span><h2>Understand. Act. Confirm.</h2><p>For a core task, aim for one obvious primary action and no more than three meaningful user steps. A meaningful step is a decision—not every click or system event. Safety and informed consent always outrank artificial brevity.</p></div>
+    </section>
+
+    <section id="done">
+      <div class="section-head"><div><span class="eyebrow">Release gate</span><h2>Done means proven.</h2></div><p>A screenshot, manual review, or passing build alone is not evidence that a Blackpaw product is ready.</p></div>
+      <ul class="checklist"><li>Brand identity, Urbanist, tokens, and approved assets</li><li>Clear hierarchy and plain-language actions</li><li>Loading, empty, error, permission, success, and recovery</li><li>Responsive keyboard, touch, and assistive use</li><li>Security, privacy, roles, and auditability</li><li>Representative performance and network conditions</li><li>Automated, visual, and critical-task tests</li><li>Deployment, observation, support, and rollback ownership</li><li>DS-01–DS-13 conformance evidence from the same release</li></ul>
+    </section>
+
+    <section class="dark-section" id="start">
+      <div class="section-head"><div><span class="eyebrow">Builder path</span><h2>Start from the system.</h2></div><p>People and copilots follow the same sources and produce evidence against the same release.</p></div>
+      <ol class="decision-path"><li>Read the agent instructions, brand quick guide, and canonical principles.</li><li>Search the shared portal, screens, patterns, and components before creating anything new.</li><li>Import semantic tokens and approved assets; choose the correct identity and expression.</li><li>Define the core outcome and its three meaningful steps—or document why safety needs more.</li><li>Implement every relevant state, breakpoint, permission, and recovery path.</li><li>Run the brand and experience gates and attach evidence to the release.</li></ol>
+    </section>
+  </main>
+  <footer><strong>Blackpaw Brand &amp; Design System</strong><div class="page-footer-links"><a href="../">Main portal</a><a href="../../BUILDING_PRINCIPLES.md">Canonical Markdown</a><a href="../EXPERIENCE_CONFORMANCE_STANDARD.md">Experience standard</a><a href="../../AGENTS.md">Copilot guide</a></div></footer>
+</body>
+</html>
