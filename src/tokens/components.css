@@ -239,7 +239,7 @@
 .slide-over .dh .sub { font-size: 12px; color: hsl(var(--color-muted)); margin-top: 2px; }
 .slide-over .dh-close { flex: none; display: flex; height: 44px; width: 44px; align-items: center; justify-content: center; border-radius: var(--bp-radius-md); border: 1px solid hsl(var(--color-border)); color: hsl(var(--color-muted)); background: none; cursor: pointer; }
 .slide-over .dh-close:hover { color: hsl(var(--color-ink)); }
-.slide-over .db { padding: 20px; flex: 1; overflow-y: auto; display: grid; gap: 14px; align-content: start; }
+.slide-over .db { min-height: 0; padding: 20px; flex: 1; overflow-y: auto; overscroll-behavior: contain; display: grid; gap: 14px; align-content: start; }
 .slide-over .df { padding: 16px 20px; border-top: 1px solid hsl(var(--color-border)); display: flex; gap: 10px; }
 
 /* ── KpiStat (Codex C2) ──────────────────────────────────────
