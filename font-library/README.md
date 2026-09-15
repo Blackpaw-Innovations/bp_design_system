@@ -36,6 +36,7 @@ licensing from scratch:
 - **Montserrat**
 - **Google Sans** — note the large variable-font files (this family alone is ~41MB)
 - **Oswald**
+- **Outfit** — slated as `--bp-font-display` for the BICC restructure (headings, figures, totals, Intelligence Brief headlines per `BICC_COPILOT_RESTRUCTURE_IMPLEMENTATION_PLAN.md`); not yet wired into `bdl-tokens.css`
 
 ## Adding a font here later
 
