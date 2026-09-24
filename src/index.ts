@@ -28,5 +28,15 @@ export type { SelectOption, SelectProps } from './components/Select'
 export { KpiStat, fmtKM } from './components/KpiStat'
 export type { KpiStatProps, KpiSize, KpiHeroColor, FmtKmOptions } from './components/KpiStat'
 
+// Badges
+export { BadgeMedal } from './components/BadgeMedal'
+export type { BadgeMedalProps, MedalSize } from './components/BadgeMedal'
+export { BadgeProgressCard } from './components/BadgeProgressCard'
+export type { BadgeProgressCardProps, RingProgressCardProps, TrendProgressCardProps, ProgressCardVariant } from './components/BadgeProgressCard'
+export { CompletionBadge, CompletionList } from './components/CompletionBadge'
+export type { CompletionBadgeProps, CompletionListProps } from './components/CompletionBadge'
+export { TIER_ORDER, TIER_META, CATEGORY_LABEL, progressFraction, nextTier } from './badges/tokens'
+export type { BadgeTier, BadgeCategory, TierMeta } from './badges/tokens'
+
 // Utilities
 export { cn } from './lib/utils'

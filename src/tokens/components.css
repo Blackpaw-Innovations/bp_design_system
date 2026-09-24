@@ -294,3 +294,46 @@
 .hero-burgundy { background: #47121f; }
 .hero-orange   { background: #6b3410; }
 .hero-teal     { background: #0b2e35; }
+
+/* ── Badge system (BadgeMedal, BadgeProgressCard, CompletionBadge) ──
+   See src/badges/tokens.ts for the tier colour/label table these read.
+   The medal artwork itself (front/back plates) comes from the render-3d
+   pipeline (badge-system/), never from CSS -- these classes only lay out
+   and animate whatever image src the consuming app passes in. */
+
+/* Ring progress (BadgeProgressCard variant="ring") */
+.bdg-ring-wrap { position: relative; display: inline-flex; align-items: center; justify-content: center; }
+.bdg-ring-track, .bdg-ring-fill { fill: none; }
+.bdg-ring-track { stroke: hsl(var(--color-border)); }
+.bdg-ring-fill { stroke-linecap: round; transition: stroke-dashoffset var(--bp-dur-slow) var(--bp-ease-out); }
+.bdg-ring-num { position: absolute; text-align: center; }
+.bdg-ring-num b { display: block; font-family: var(--color-display-font); font-weight: 800; line-height: 1; letter-spacing: -.02em; }
+.bdg-ring-num small { display: block; margin-top: 3px; color: hsl(var(--color-muted)); font-size: 11px; }
+
+/* Trend card (BadgeProgressCard variant="trend") */
+.bdg-trend-line { fill: none; stroke-width: 2.5; vector-effect: non-scaling-stroke; }
+
+/* Tier chip -- a badge-aware StatusChip, tier colour instead of a status tone */
+.bdg-tier-chip { display: inline-flex; align-items: center; gap: 6px; background: hsl(var(--color-bg)); border: 1px solid hsl(var(--color-border)); border-radius: 999px; padding: 3px 9px 3px 3px; }
+.bdg-tier-chip img { width: 22px; height: 22px; border-radius: 50%; display: block; background: hsl(var(--color-surface)); }
+.bdg-tier-chip span { font-family: var(--bp-font-label); font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: hsl(var(--color-muted)); }
+
+/* BadgeMedal: earned (flip) + locked (silhouette + bar) states */
+.bdg-medal { perspective: 900px; cursor: pointer; background: none; border: none; padding: 0; font: inherit; display: block; }
+.bdg-medal-inner { position: relative; width: 100%; height: 100%; transition: transform .6s var(--bp-ease-spring); transform-style: preserve-3d; }
+.bdg-medal.is-flipped .bdg-medal-inner { transform: rotateY(180deg); }
+.bdg-medal-face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: var(--bp-radius-md); overflow: hidden; }
+.bdg-medal-face img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.bdg-medal-face.back { transform: rotateY(180deg); }
+.bdg-medal.locked { cursor: default; }
+.bdg-medal.locked .bdg-medal-face img { filter: grayscale(1); opacity: .3; }
+.bdg-medal-bar { height: 4px; border-radius: 3px; background: hsl(var(--color-border)); margin-top: 6px; overflow: hidden; }
+.bdg-medal-bar i { display: block; height: 100%; background: hsl(var(--color-accent)); }
+.bdg-medal-label { font-size: 10.5px; color: hsl(var(--color-muted)); margin-top: 4px; text-align: center; line-height: 1.25; }
+
+/* CompletionBadge: flat done/pending row item, deliberately not a medal */
+.bdg-completion { display: flex; align-items: center; gap: 10px; padding: 9px 0; font-size: 13px; }
+.bdg-completion.pending { color: hsl(var(--color-muted)); }
+.bdg-completion-tick { width: 22px; height: 22px; border-radius: 50%; flex: 0 0 auto; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; }
+.bdg-completion-tick.done { background: hsl(var(--bp-success)); color: #fff; }
+.bdg-completion-tick.pending { border: 2px solid hsl(var(--color-border)); }
