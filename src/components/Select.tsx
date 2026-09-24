@@ -193,7 +193,8 @@ export function Select({
         aria-label={label}
         className={`flex min-h-11 w-full items-center justify-between gap-2 rounded-hq-md border border-hq-border bg-hq-surface px-3.5 py-2.5 text-left text-[13.5px] font-600 text-hq-text transition-colors hover:border-hq-navy focus:outline-none focus:border-hq-navy focus:shadow-[0_0_0_3px_rgba(0,165,184,0.12)] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-hq-border ${buttonClassName}`}
       >
-        <span className="truncate">{current ? current.label : placeholder ?? 'Select...'}</span>
+        {/* Placeholder always reads lighter and greyed than a real selection, so it never looks like a pre-filled answer. */}
+        <span className={`truncate ${current ? 'font-600 text-hq-text' : 'font-400 text-hq-muted'}`}>{current ? current.label : placeholder ?? 'Select...'}</span>
         <ChevronDown size={14} className={`flex-none text-hq-muted transition-transform duration-150 ${open ? 'rotate-180' : ''}`} />
       </button>
       {menu}
