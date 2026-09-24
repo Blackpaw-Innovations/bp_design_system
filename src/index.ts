@@ -18,7 +18,7 @@ export type { ViewMode } from './components/ViewToggle'
 export { StatusChip, STATUS_TONE_MAP } from './components/StatusChip'
 export type { ChipTone, StatusChipProps } from './components/StatusChip'
 export { ToastProvider, useToast } from './components/Toast'
-export type { ToastIntent, ToastOptions } from './components/Toast'
+export type { ToastIntent, ToastOptions, ToastSupportEscalation } from './components/Toast'
 export { HakiTip } from './components/HakiTip'
 export type { HakiTipTone, HakiTipProps } from './components/HakiTip'
 export { SlideOver } from './components/SlideOver'
@@ -40,3 +40,4 @@ export type { BadgeTier, BadgeCategory, TierMeta } from './badges/tokens'
 
 // Utilities
 export { cn } from './lib/utils'
+export { BLACKPAW_SUPPORT_PHONE, buildWhatsAppUrl } from './lib/whatsapp'
