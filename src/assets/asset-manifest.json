@@ -74,7 +74,7 @@
     {
       "id": "hakiqa.mascot.campaign-poses",
       "identity": "hakiqa",
-      "status": "experimental",
+      "status": "approved",
       "files": [
         "src/assets/brand/hakiqa/mascot/haki-brake-pads.png",
         "src/assets/brand/hakiqa/mascot/haki-empty.png",
@@ -93,12 +93,12 @@
       "backgrounds": ["white", "hakiqa-navy", "hakiqa-orange", "transparent"],
       "recolour": false,
       "minimumWidthPx": 96,
-      "notes": "October 2026 campaign poses, rendered from the haki-encouraging.png reference. Peeking poses are cropped by the frame edge on purpose (peeking-bottom is 1639x960). Experimental until brand-owner sign-off; then flip to approved."
+      "notes": "October 2026 campaign poses, rendered from the haki-encouraging.png reference. Peeking poses are cropped by the frame edge on purpose (peeking-bottom is 1639x960; peeking-side touches the right edge): place them flush against a card or screen edge, never floating. Approved by the brand owner on 2026-10-08."
     },
     {
       "id": "hakiqa.mascot.occasions",
       "identity": "hakiqa",
-      "status": "experimental",
+      "status": "approved",
       "files": [
         "src/assets/brand/hakiqa/mascot/occasions/haki-back-to-school.png",
         "src/assets/brand/hakiqa/mascot/occasions/haki-black-friday.png",
@@ -114,7 +114,21 @@
       "backgrounds": ["white", "hakiqa-navy", "hakiqa-orange", "transparent"],
       "recolour": false,
       "minimumWidthPx": 96,
-      "notes": "Seasonal and national-day poses for the occasion calendar. Use only on or around the matching date. Experimental until brand-owner sign-off."
+      "notes": "Seasonal and national-day poses for the occasion calendar. Use only on or around the matching date. Approved by the brand owner on 2026-10-08; check national symbols against a reference before each use."
+    },
+    {
+      "id": "hakiqa.textures.kenya-flag",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/textures/kenya-ribbon-transparent.png",
+        "src/assets/brand/hakiqa/textures/kenya-flag-transparent.png",
+        "src/assets/brand/hakiqa/textures/kenya-flag-pole-transparent.png"
+      ],
+      "backgrounds": ["white", "hakiqa-navy", "transparent"],
+      "recolour": false,
+      "minimumWidthPx": 96,
+      "notes": "Transparent Kenya-flag ribbon, flag and pole for national-day campaigns, from the Week 02 asset brief. Approved by the brand owner on 2026-10-08. Check the flag against an official reference before use."
     }
   ]
 }
