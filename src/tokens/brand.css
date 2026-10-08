@@ -71,6 +71,13 @@
   --bp-danger:  0   64%  47%;
   --bp-info:    217 91% 60%;
 
+  /* Premium set (2026-10-08): the deeper navy for sealed surfaces, and
+     signal tints readable ON that navy (the AA values above are for light). */
+  --bp-navy-deep:        218 93% 13%;
+  --bp-success-on-dark:  153 70% 62%;
+  --bp-warning-on-dark:   32 98% 62%;
+  --bp-danger-on-dark:     0 90% 76%;
+
   /* ── Radius ── */
   --bp-radius-xs:   4px;
   --bp-radius-sm:   6px;
@@ -103,6 +110,9 @@
   --bp-shadow-hover: 0 6px 20px hsl(218 93% 17% / .13);
   --bp-shadow-modal: 0 16px 48px hsl(218 93% 17% / .22);
   --bp-shadow-glow:  0 0 24px hsl(184 100% 50% / .18);
+  /* A soft lift that replaces card borders (premium set). */
+  --bp-shadow-surface: 0 1px 0 hsl(218 93% 17% / .05), 0 12px 32px hsl(218 93% 17% / .06);
+  --bp-shadow-sealed:  0 18px 40px hsl(218 93% 17% / .26);
 
   /* ── Type families ── */
   --bp-font-ui:      'Urbanist', system-ui, sans-serif;
@@ -125,6 +135,11 @@
   --color-hero-ink:  0 0% 100%;
   --color-display-font: var(--bp-font-display);
   --color-glow:      transparent;
+  /* Dark means it matters: identity, secrets, totals, notices. Max two per screen. */
+  --color-sealed:     var(--bp-navy-deep);
+  --color-sealed-ink: 0 0% 100%;
+  /* The only divider: hsl(var(--color-hairline) / .09). Space groups, a hairline separates. */
+  --color-hairline:   var(--bp-navy);
 }
 
 /* Urbanist is the shared application baseline. Component-specific inheritance
@@ -227,6 +242,16 @@
   --color-border:  220 25% 18%;
   --color-ink:     220 47% 96%;
   --color-muted:   220 19% 61%;
+}
+
+/* Dark skins: a navy hairline/sealed surface vanishes on a dark page. */
+[data-theme="dark"]:not([data-identity]),
+[data-identity="flamex"],
+[data-identity="bicc"],
+[data-brand="blackpaw"][data-expression="authority"],
+[data-brand="blackpaw"][data-expression="signature"] {
+  --color-hairline: 0 0% 100%;
+  --color-sealed:   var(--color-surface);
 }
 
 /* ════════════════════════════════════════════════════════════

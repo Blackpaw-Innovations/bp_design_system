@@ -84,6 +84,16 @@ Reliability is a user experience. Performance, security, accessibility, supporta
 
 The shared system should become the default menu. Bespoke work is justified by a distinct user need, not a preference for novelty.
 
+### Page structure: quiet authority (premium set, 2026-10-08)
+
+Richness comes from restraint, not more decoration. Five rules, each with its component:
+
+1. **One hero per page.** Pages open with `PageHeader`, a compact title row. The record (a lease, a unit, a passport) is the hero, never a page banner repeating the tab name.
+2. **Space before frames.** Group with space and one hairline (`Dock` + `DockSection` + `Facts`). A bordered box inside a bordered box is a defect, and so are pale tinted info boxes used as containers.
+3. **Ledgers, not tiles.** Related numbers share one surface (`MetricLedger`), and parts of a whole share one bar (`MetricProportion`). Use `KpiStat` only for a number that genuinely stands alone.
+4. **Dark means it matters.** `SealedCard` (`--color-sealed`) is for identity, a secret shown once, or the total someone must act on. At most two per screen.
+5. **Confirmations whisper.** `useToast` shows one small dark notice at a time, bottom right, with the next step (`action`) and an optional `detail` line. A new notice replaces the current one.
+
 ## Definition of done
 
 A Blackpaw application or material change is not done until it has evidence for:

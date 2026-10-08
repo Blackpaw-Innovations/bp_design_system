@@ -20,7 +20,7 @@
   "staticDefaults": {
     "approvedFonts": ["Urbanist", "system-ui", "sans-serif"],
     "bannedFonts": ["Google Sans", "Gotham", "Manrope", "Newsreader", "Inter", "Poppins"],
-    "sharedComponentNames": ["AppShell", "SlideOver", "MetricCard", "KpiStat", "EmptyState", "ViewToggle", "StatusChip", "Toast"],
+    "sharedComponentNames": ["AppShell", "SlideOver", "MetricCard", "KpiStat", "MetricLedger", "MetricProportion", "SealedCard", "PageHeader", "DockSection", "EmptyState", "ViewToggle", "StatusChip", "Toast"],
     "minimumTouchTargetPx": 44,
     "requiredViewports": [[390, 844], [768, 1024], [1440, 900]],
     "maxHorizontalOverflowPx": 1,

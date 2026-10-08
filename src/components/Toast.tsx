@@ -1,14 +1,16 @@
-import { createContext, useCallback, useContext, useRef, useState, type ReactNode } from 'react'
-import { CheckCircle2, AlertTriangle, XCircle, X, MessageCircle } from 'lucide-react'
+import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from 'react'
+import { Check, AlertTriangle, X, MessageCircle } from 'lucide-react'
 import { cn } from '../lib/utils'
 import { BLACKPAW_SUPPORT_PHONE, buildWhatsAppUrl } from '../lib/whatsapp'
 
 /**
- * One notifier, one visual spec (Reconciliation Codex C4) -- replaces every
- * page-local toast implementation (each with its own state, timeout, and
- * markup). Success/warning/error intents map onto the same tone tokens as
- * StatusChip; a 44px dismiss target and role="status" are part of the spec,
- * not optional -- prior local implementations had neither.
+ * One notifier, one visual spec (Reconciliation Codex C4; premium set
+ * 2026-10-08). A small dark capsule, bottom right, ONE at a time: a new
+ * notice replaces the current one, so confirmations never pile up over the
+ * page header. It offers the next step (`action`) instead of just shouting.
+ * The timer pauses while hovered or focused. role="status" for success and
+ * warning, role="alert" for errors, 44px close target.
+ * Consumers with a bottom nav set `--toast-offset-bottom` on :root.
  */
 export type ToastIntent = 'success' | 'warning' | 'error'
 
@@ -20,25 +22,38 @@ export interface ToastSupportEscalation {
   phone?: string
 }
 
+export interface ToastAction {
+  label: string
+  onClick: () => void
+}
+
 export interface ToastOptions {
+  /** The headline: what happened, in a few words ("Hold placed on Shop G13"). */
   message: string
+  /** Optional second line: the consequence or what happens next. */
+  detail?: string
   intent?: ToastIntent
+  /** The next step (Undo, View, Try again). Clicking it also closes the notice. */
+  action?: ToastAction
   /** ms before auto-dismiss. 0 disables auto-dismiss (user must close it). */
   duration?: number
   /**
    * Only for a real system/backend/network failure a human could actually
    * do something about -- never for client-side validation ("subject is
    * required"), which no amount of support escalation fixes. Adds a wa.me
-   * link pre-filled with `context` and `message`, so the person doesn't
-   * have to retype what broke and support doesn't have to ask. Implies
-   * duration: 0 unless a duration is explicitly given, since the point is
-   * for it to stay on screen until the person acts or dismisses it.
+   * link pre-filled with `context` and `message`. Implies duration: 0 unless
+   * a duration is explicitly given.
    */
   supportEscalation?: ToastSupportEscalation
 }
 
-interface ActiveToast extends Required<Omit<ToastOptions, 'duration' | 'supportEscalation'>> {
+interface ActiveToast {
   id: number
+  message: string
+  detail?: string
+  intent: ToastIntent
+  action?: ToastAction
+  duration: number
   supportEscalation?: ToastSupportEscalation
 }
 
@@ -48,78 +63,84 @@ interface ToastContextValue {
 
 const ToastContext = createContext<ToastContextValue | null>(null)
 
-const INTENT_ICON: Record<ToastIntent, typeof CheckCircle2> = {
-  success: CheckCircle2,
-  warning: AlertTriangle,
-  error: XCircle,
-}
-
 export function useToast() {
   const ctx = useContext(ToastContext)
   if (!ctx) throw new Error('useToast must be used inside <ToastProvider>')
   return ctx
 }
 
+function ToastView({ toast, onClose }: { toast: ActiveToast; onClose: () => void }) {
+  const [paused, setPaused] = useState(false)
+  const remaining = useRef(toast.duration)
+
+  useEffect(() => {
+    if (paused || toast.duration <= 0) return
+    const started = Date.now()
+    const timer = setTimeout(onClose, remaining.current)
+    return () => {
+      clearTimeout(timer)
+      remaining.current -= Date.now() - started
+    }
+  }, [paused, toast.duration, onClose])
+
+  const Icon = toast.intent === 'success' ? Check : AlertTriangle
+  return (
+    <div
+      role={toast.intent === 'error' ? 'alert' : 'status'}
+      className={cn('toast', toast.intent)}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocus={() => setPaused(true)}
+      onBlur={() => setPaused(false)}
+    >
+      <span className="toast-icon" aria-hidden="true"><Icon size={16} strokeWidth={2.5} /></span>
+      <div className="toast-body">
+        <p className="toast-title">{toast.message}</p>
+        {toast.detail && <p className="toast-detail">{toast.detail}</p>}
+        {toast.supportEscalation && (
+          <a
+            href={buildWhatsAppUrl(
+              toast.supportEscalation.phone ?? BLACKPAW_SUPPORT_PHONE,
+              `Hi Blackpaw, I ran into an issue.\n\n*Where:* ${toast.supportEscalation.context}\n*Error:* ${toast.message}\n\nCan you help?`
+            )}
+            target="_blank"
+            rel="noreferrer"
+            className="toast-link inline-flex min-h-11 items-center gap-1.5 text-sm font-700 underline underline-offset-2"
+          >
+            <MessageCircle size={15} className="shrink-0" />
+            Message us on WhatsApp
+          </a>
+        )}
+      </div>
+      {toast.action && (
+        <button type="button" className="toast-action" onClick={() => { toast.action?.onClick(); onClose() }}>
+          {toast.action.label}
+        </button>
+      )}
+      <button type="button" className="toast-close" onClick={onClose} aria-label="Dismiss">
+        <X size={16} />
+      </button>
+    </div>
+  )
+}
+
 /** Mount once, near the root of the app (alongside the shell), not per-page. */
 export function ToastProvider({ children }: { children: ReactNode }) {
-  const [toasts, setToasts] = useState<ActiveToast[]>([])
+  const [toast, setToast] = useState<ActiveToast | null>(null)
   const nextId = useRef(0)
 
-  const dismiss = useCallback((id: number) => {
-    setToasts((current) => current.filter((t) => t.id !== id))
-  }, [])
+  const close = useCallback(() => setToast(null), [])
 
-  const showToast = useCallback(({ message, intent = 'success', duration, supportEscalation }: ToastOptions) => {
-    const id = nextId.current++
-    const resolvedDuration = duration ?? (supportEscalation ? 0 : 4000)
-    setToasts((current) => [...current, { id, message, intent, supportEscalation }])
-    if (resolvedDuration > 0) {
-      setTimeout(() => dismiss(id), resolvedDuration)
-    }
-  }, [dismiss])
+  const showToast = useCallback(({ message, detail, intent = 'success', action, duration, supportEscalation }: ToastOptions) => {
+    const resolved = duration ?? (supportEscalation ? 0 : intent === 'error' ? 8000 : 5000)
+    setToast({ id: nextId.current++, message, detail, intent, action, duration: resolved, supportEscalation })
+  }, [])
 
   return (
     <ToastContext.Provider value={{ showToast }}>
       {children}
-      <div className="fixed right-4 top-4 z-50 flex flex-col gap-2" aria-live="polite">
-        {toasts.map((toast) => {
-          const Icon = INTENT_ICON[toast.intent]
-          return (
-            <div
-              key={toast.id}
-              role="status"
-              className={cn('toast', toast.intent)}
-              style={{ minWidth: 280, maxWidth: 420 }}
-            >
-              <Icon size={18} className="icon" />
-              <div className="flex min-w-0 flex-1 flex-col gap-1.5">
-                <p>{toast.message}</p>
-                {toast.supportEscalation && (
-                  <a
-                    href={buildWhatsAppUrl(
-                      toast.supportEscalation.phone ?? BLACKPAW_SUPPORT_PHONE,
-                      `Hi Blackpaw, I ran into an issue.\n\n*Where:* ${toast.supportEscalation.context}\n*Error:* ${toast.message}\n\nCan you help?`
-                    )}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex min-h-11 items-center gap-1.5 text-sm font-800 underline underline-offset-2"
-                  >
-                    <MessageCircle size={15} className="shrink-0" />
-                    Message us on WhatsApp
-                  </a>
-                )}
-              </div>
-              <button
-                type="button"
-                onClick={() => dismiss(toast.id)}
-                aria-label="Dismiss"
-                className="relative flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full opacity-60 hover:opacity-100 before:absolute before:left-1/2 before:top-1/2 before:h-11 before:w-11 before:-translate-x-1/2 before:-translate-y-1/2"
-              >
-                <X size={14} />
-              </button>
-            </div>
-          )
-        })}
+      <div className="toast-region" aria-live="polite">
+        {toast && <ToastView key={toast.id} toast={toast} onClose={close} />}
       </div>
     </ToastContext.Provider>
   )

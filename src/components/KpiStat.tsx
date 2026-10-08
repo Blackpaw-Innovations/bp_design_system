@@ -17,7 +17,7 @@ export interface KpiStatProps {
   label: ReactNode
   value: ReactNode
   variant?: 'plain' | 'hero'
-  /** Plain mode only: orange ring + orange value text, for a stat that needs attention. */
+  /** Plain mode only: a small orange dot by the label and an amber footer -- attention, not alarm. */
   urgent?: boolean
   icon?: IconComponent
   size?: KpiSize
@@ -29,14 +29,14 @@ export interface KpiStatProps {
 }
 
 const VALUE_SIZE: Record<KpiSize, string> = {
-  sm: 'text-sm',
-  md: 'text-lg',
-  lg: 'text-xl',
-  xl: 'text-3xl',
+  sm: 'text-base',
+  md: 'text-2xl',
+  lg: 'text-3xl',
+  xl: 'text-[40px]',
 }
 
 const PADDING: Record<KpiSize, string> = {
-  sm: 'p-4', md: 'p-4', lg: 'p-4', xl: 'p-5',
+  sm: 'p-4', md: 'p-5', lg: 'p-5', xl: 'p-6',
 }
 
 export function KpiStat({ label, value, variant = 'plain', urgent, icon: Icon, size = 'md', footer, heroColor = 'navy', className }: KpiStatProps) {
@@ -56,10 +56,10 @@ export function KpiStat({ label, value, variant = 'plain', urgent, icon: Icon, s
   return (
     <div className={cn('hq-kpi-card', urgent && 'urgent', PADDING[size], className)}>
       <div className="flex items-center justify-between">
-        <p className="t-label-sm text-[hsl(var(--color-muted))]">{label}</p>
+        <p className="label text-[13px] font-600">{label}</p>
         {Icon && <Icon size={size === 'xl' ? 18 : 15} className="icon" />}
       </div>
-      <p className={cn('value mt-2 font-urbanist font-800', VALUE_SIZE[size], size === 'xl' && 'font-600 leading-none')}>{value}</p>
+      <p className={cn('value mt-2.5 font-urbanist font-600 leading-none', VALUE_SIZE[size])}>{value}</p>
       {footer && <div className="footer mt-2 text-xs">{footer}</div>}
     </div>
   )
