@@ -389,8 +389,10 @@
 .bp-ledger .note.positive { color: hsl(var(--bp-success)); font-weight: 700; }
 .bp-ledger .note.attention { color: hsl(var(--bp-warning)); font-weight: 700; }
 .bp-ledger .note.negative { color: hsl(var(--bp-danger)); font-weight: 700; }
+/* In a 2-column ledger the second row needs a hairline above it. */
+.bp-ledger[data-cols="2"] > div:nth-child(n + 3) { box-shadow: -1px 0 0 hsl(var(--color-hairline) / .09), 0 -1px 0 hsl(var(--color-hairline) / .09); }
 @media (max-width: 720px) {
-  .bp-ledger { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bp-ledger { grid-template-columns: repeat(min(2, var(--ledger-cols, 4)), minmax(0, 1fr)); }
   .bp-ledger > div { padding: 18px; box-shadow: -1px 0 0 hsl(var(--color-hairline) / .09), 0 -1px 0 hsl(var(--color-hairline) / .09); }
 }
 

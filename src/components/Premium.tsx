@@ -46,10 +46,11 @@ export interface MetricItem {
 }
 
 /** Related numbers on one surface with hairlines between. Replaces rows of equal KPI tiles. */
-export function MetricLedger({ items, className, label }: { items: MetricItem[]; className?: string; label?: string }) {
-  const style = { '--ledger-cols': String(Math.min(Math.max(items.length, 1), 4)) } as CSSProperties
+export function MetricLedger({ items, className, label, columns }: { items: MetricItem[]; className?: string; label?: string; columns?: 1 | 2 | 3 | 4 }) {
+  const cols = columns ?? Math.min(Math.max(items.length, 1), 4)
+  const style = { '--ledger-cols': String(cols) } as CSSProperties
   return (
-    <section className={cn('bp-ledger', className)} style={style} aria-label={label}>
+    <section className={cn('bp-ledger', className)} style={style} data-cols={cols} aria-label={label}>
       {items.map((item, index) => (
         <div key={index}>
           <p className="label">{item.label}</p>
