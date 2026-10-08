@@ -367,7 +367,7 @@
 
 /* PageHeader: a compact title row, never a banner. */
 .bp-page-header { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; }
-.bp-page-header .crumbs { margin: 0 0 6px; font-size: 13px; font-weight: 600; color: hsl(var(--color-muted)); }
+.bp-page-header .crumbs { margin: 0 0 8px; font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: hsl(var(--color-accent)); }
 .bp-page-header h1, .bp-page-header h2 { margin: 0; font-family: var(--color-display-font); font-size: clamp(26px, 3vw, 32px); line-height: 1.1; font-weight: 600; letter-spacing: -.015em; color: hsl(var(--color-ink)); }
 .bp-page-header .meta { margin: 6px 0 0; font-size: 14px; color: hsl(var(--color-muted)); }
 .bp-page-header .actions { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -435,3 +435,14 @@
 .bp-dock-section .facts { margin: 0; display: grid; grid-template-columns: minmax(96px, auto) minmax(0, 1fr); gap: 10px 16px; font-size: 14px; }
 .bp-dock-section .facts dt { color: hsl(var(--color-muted)); }
 .bp-dock-section .facts dd { margin: 0; font-weight: 700; color: hsl(var(--color-ink)); overflow-wrap: anywhere; }
+
+/* Attention, used sparingly (2026-10-08, after review: "some text can be highlighted").
+   .bp-accent   brand accent text for the one phrase that matters in a sentence.
+   .bp-mark     an action-orange highlighter for a figure or deadline the reader must act on. */
+.bp-accent { color: hsl(var(--color-accent)); font-weight: 700; }
+.bp-mark {
+  font-weight: 700; color: hsl(var(--color-ink));
+  background: linear-gradient(transparent 58%, hsl(var(--bp-orange) / .32) 58%, hsl(var(--bp-orange) / .32) 92%, transparent 92%);
+  padding: 0 2px; border-radius: 2px;
+}
+.bp-sealed .bp-mark { color: inherit; background: linear-gradient(transparent 58%, hsl(var(--bp-orange) / .45) 58%, hsl(var(--bp-orange) / .45) 92%, transparent 92%); }
