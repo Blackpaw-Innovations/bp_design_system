@@ -368,9 +368,13 @@
 /* PageHeader: a compact title row, never a banner. */
 .bp-page-header { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; }
 .bp-page-header .crumbs { margin: 0 0 6px; font-size: 13px; font-weight: 600; color: hsl(var(--color-muted)); }
-.bp-page-header h1 { margin: 0; font-family: var(--color-display-font); font-size: clamp(26px, 3vw, 32px); line-height: 1.1; font-weight: 600; letter-spacing: -.015em; color: hsl(var(--color-ink)); }
+.bp-page-header h1, .bp-page-header h2 { margin: 0; font-family: var(--color-display-font); font-size: clamp(26px, 3vw, 32px); line-height: 1.1; font-weight: 600; letter-spacing: -.015em; color: hsl(var(--color-ink)); }
 .bp-page-header .meta { margin: 6px 0 0; font-size: 14px; color: hsl(var(--color-muted)); }
 .bp-page-header .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+/* Surface: a white plane lifted by shadow, no border. The default container. */
+.bp-surface { background: hsl(var(--color-surface)); border-radius: 20px; box-shadow: var(--bp-shadow-surface); }
+.bp-surface-title { margin: 0; font-family: var(--color-display-font); font-size: 18px; font-weight: 700; letter-spacing: -.01em; color: hsl(var(--color-ink)); }
 
 /* MetricLedger: related numbers on one surface, hairlines between. */
 .bp-ledger {
