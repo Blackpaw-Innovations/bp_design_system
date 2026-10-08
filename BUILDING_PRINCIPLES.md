@@ -92,8 +92,8 @@ Richness comes from restraint, not more decoration. Five rules, each with its co
 2. **Space before frames.** Group with space and one hairline (`Dock` + `DockSection` + `Facts`). A bordered box inside a bordered box is a defect, and so are pale tinted info boxes used as containers.
 3. **Ledgers, not tiles.** Related numbers share one surface (`MetricLedger`), and parts of a whole share one bar (`MetricProportion`). Use `KpiStat` only for a number that genuinely stands alone.
 4. **Dark means it matters.** `SealedCard` (`--color-sealed`) is for identity, a secret shown once, or the total someone must act on. At most two per screen.
-6. **Restraint is not grey.** Keep the brand's colour where it earns attention: the primary action is solid action orange with navy text, the secondary action carries the accent colour, page eyebrows use the accent, and the one phrase or figure that matters in a sentence may use `.bp-accent` (accent text) or `.bp-mark` (orange highlighter). Never more than one or two per view.
 5. **Confirmations whisper.** `useToast` shows one small dark notice at a time, bottom right, with the next step (`action`) and an optional `detail` line. A new notice replaces the current one.
+6. **Restraint is not grey.** Keep the brand's colour where it earns attention: the primary action is solid action orange with navy text, the secondary action carries the accent colour, page eyebrows use the accent, and the one phrase or figure that matters in a sentence may use `.bp-accent` (accent text) or `.bp-mark` (orange highlighter). Never more than one or two per view.
 
 ## Definition of done
 
