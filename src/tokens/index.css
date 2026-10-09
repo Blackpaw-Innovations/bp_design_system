@@ -6,6 +6,7 @@
  *   @import '@blackpaw/ui/tokens';
  *
  * Then define your app-specific theme tokens below it.
+ * guardrails.css is last on purpose: its rules win (see the file header).
  */
 
 @import './brand.css';
@@ -13,3 +14,4 @@
 @import './utilities.css';
 @import './components.css';
 @import './documents.css';
+@import './guardrails.css';

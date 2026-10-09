@@ -41,7 +41,17 @@ export type { BadgeTier, BadgeCategory, TierMeta } from './badges/tokens'
 // Utilities
 export { cn } from './lib/utils'
 export { BLACKPAW_SUPPORT_PHONE, buildWhatsAppUrl } from './lib/whatsapp'
+export { formatMoney, formatDate, formatDateTime, formatPeriod, normaliseCurrency, isDateOnly } from './lib/format'
+export type { MoneyOptions } from './lib/format'
 
 // Premium set (2026-10-08): page structure + ledgers + sealed surfaces
 export { PageHeader, MetricLedger, MetricProportion, SealedCard, Dock, DockSection, Facts } from './components/Premium'
 export type { PageHeaderProps, MetricItem, MetricNoteTone, ProportionSegment, ProportionTone } from './components/Premium'
+
+// Guarded set (2026-10-09): the rules live in the props
+export { Button, ButtonLink, IconButton, ConfirmDialog, PageTitle, DecisionPanel, StatGroup, DataTable, Money, RecordId } from './components/Guarded'
+export type { ButtonProps, ButtonLinkProps, ButtonVariant, ButtonSize, IconButtonProps, ConfirmDialogProps, PageTitleProps, DecisionPanelProps, PanelAction, StatGroupProps, StatItem, StatTone, DataTableProps, Column, ColumnKind } from './components/Guarded'
+
+// Home snapshot (2026-10-09, standards §5a)
+export { SnapshotCarousel } from './components/SnapshotCarousel'
+export type { SnapshotCarouselProps, SnapshotPage, SnapshotCard, SnapshotChart, SnapshotTone } from './components/SnapshotCarousel'
