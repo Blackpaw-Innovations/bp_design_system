@@ -110,14 +110,17 @@ html:root[data-theme="dark"] {
 }
 
 /* ── 4 · Dark surfaces: text is white and solid, no sheen ───── */
-:root:not([data-identity]) :is(.hero-card, .hero-action, .bp-sealed, .c-hero, .bp-decision, .gp-hero, .bg-identity, .bg-hq-navy, .bg-navy, .bg-hero-navy, [data-surface="dark"])
+/* .hero-action is navy except in the Premium-set verticals, where the app
+   restyles it light with ink text (hakiqa-connect index.css, 8 Oct 2026);
+   keep this list in step with that rule. */
+:root:not([data-identity]) :is(.hero-card, :root:not(:is([data-vertical="gym"], [data-vertical="car_parts"], [data-vertical="property_management"], [data-vertical="imports"])) .hero-action, .bp-sealed, .c-hero, .bp-decision, .gp-hero, .bg-identity, .bg-hq-navy, .bg-navy, .bg-hero-navy, [data-surface="dark"])
   :not(:is(button, a, input, select, textarea, .chip, [data-keep-ink], .bg-white, .bg-hq-surface, .bg-card-bg, .bg-v-surface, .hq-card, [data-surface="light"]),
        :is(button, a, input, select, textarea, .chip, [data-keep-ink], .bg-white, .bg-hq-surface, .bg-card-bg, .bg-v-surface, .hq-card, [data-surface="light"]) *) {
   color: #fff;
 }
-:root:not([data-identity]) :is(.hero-card, .hero-action, .bp-sealed, .c-hero, .bp-decision, .gp-hero, .bg-identity, [data-surface="dark"])
+:root:not([data-identity]) :is(.hero-card, :root:not(:is([data-vertical="gym"], [data-vertical="car_parts"], [data-vertical="property_management"], [data-vertical="imports"])) .hero-action, .bp-sealed, .c-hero, .bp-decision, .gp-hero, .bg-identity, [data-surface="dark"])
   :is(p, span, small, strong, b, h1, h2, h3, h4, dt, dd, li, label):not([data-keep-ink]) { opacity: 1; }
-:root:not([data-identity]) .hero-action .ha-sub,
+:root:not([data-identity]):not(:is([data-vertical="gym"], [data-vertical="car_parts"], [data-vertical="property_management"], [data-vertical="imports"])) .hero-action .ha-sub,
 :root:not([data-identity]) .bp-sealed .figure small,
 :root:not([data-identity]) .bp-sealed .muted { opacity: 1; color: #fff; }
 :root:not([data-identity]) :is(.hero-card, .gp-hero)::before,
