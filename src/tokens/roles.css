@@ -1,0 +1,88 @@
+/*
+ * @blackpaw/ui — Role tokens (the switchboard)
+ *
+ * Three layers. Apps may only use layer 3 (roles) in component CSS:
+ *   1. Brand palette   --hk-*            raw Hakiqa colours (Hakiqa Brand Book, Edition 1)
+ *   2. Vertical family --role-family-*   set per vertical via [data-vertical]
+ *   3. Roles           --role-*          what a colour is FOR (card, button, input, ...)
+ *
+ * To change a look everywhere, change ONE role line here and release:
+ *   e.g. all card borders red ->  --role-card-border: var(--hk-red);
+ *
+ * Surface roles fall back to the app's existing theme variables
+ * (--card-bg, --line, ...) so dark/warm themes keep working while
+ * apps migrate. Values are full CSS colours (not HSL triplets).
+ */
+
+:root {
+  /* 1 · Hakiqa brand palette */
+  --hk-navy:      #032053; /* text on light, bands */
+  --hk-orange:    #FD8A03; /* highlighter fill, button shadow; never text */
+  --hk-cyan:      #01ECFF; /* fills only; never a button or text */
+  --hk-teal:      #00A5B8; /* decoration */
+  --hk-red:       #D0181F; /* red mark on light */
+  --hk-ink-2:     #3B5470; /* secondary text */
+  --hk-muted:     #3D4F6E; /* quietest text */
+  --hk-teal-ink:  #005468; /* teal text, app buttons */
+  --hk-ice:       #E8FBFD; /* badges, tips, tables */
+  --hk-sand:      #FFE2BF; /* warm fill */
+  --hk-sun:       #FFD08A; /* card fronts */
+  --hk-white:     #FFFFFF;
+
+  /* 2 · Vertical family (default: none) */
+  --role-family-accent: var(--hk-navy);
+  --role-family-tint:   var(--hk-ice);
+}
+
+/* 3 · Roles. Declared on every [data-theme] element too, so a nested theme
+   (e.g. the member portal) re-resolves them against its own theme vars. */
+:root, [data-theme] {
+  --role-page-bg:          var(--bg, var(--hk-white));
+  --role-text:             var(--ink, var(--hk-navy));
+  --role-text-muted:       var(--ink-soft, var(--hk-ink-2));
+  --role-line:             var(--line, #DCE3EC);
+
+  --role-card-bg:          var(--card-bg, var(--hk-white));
+  --role-card-border:      var(--role-line);
+  --role-card-accent:      transparent;           /* top edge; set to a colour to mark every card */
+  --role-card-radius:      var(--radius-lg, 16px);
+  --role-card-shadow:      var(--shadow-md, 0 16px 28px -16px rgba(0,0,0,.35));
+
+  --role-btn-primary-bg:     var(--hk-teal-ink);  /* app primary, per 9 Oct resolutions */
+  --role-btn-primary-ink:    var(--hk-white);
+  --role-btn-secondary-bg:   var(--role-card-bg);
+  --role-btn-secondary-ink:  var(--role-text);
+  --role-btn-secondary-border: var(--role-line);
+  --role-btn-radius:         14px;
+  --role-control-height:     44px;
+
+  --role-input-bg:         var(--role-card-bg);
+  --role-input-border:     var(--role-line);
+  --role-input-focus:      var(--hk-teal-ink);
+
+  --role-chip-bg:          var(--role-family-tint);
+  --role-chip-ink:         var(--hk-navy);
+  --role-kpi-accent:       var(--role-family-accent);
+  --role-hero-bg:          var(--hk-navy);
+  --role-hero-ink:         var(--hk-white);        /* text on navy is white only */
+  --role-link:             var(--hk-teal-ink);
+  --role-focus-ring:       var(--hk-teal-ink);
+  --role-highlight:        var(--hk-orange);       /* fill behind navy text, light grounds only */
+}
+
+/* Vertical families (Hakiqa Brand Book, Verticals): set data-vertical on <html>. */
+:root:is([data-vertical="retail_duka"], [data-vertical="car_parts"], [data-vertical="imports"],
+         [data-vertical="events"], [data-vertical="equipment_rental"]) {
+  --role-family-accent: var(--hk-orange);  /* commerce and trade */
+  --role-family-tint:   var(--hk-sand);
+}
+:root:is([data-vertical="optical"], [data-vertical="gym"], [data-vertical="salon_spa"],
+         [data-vertical="car_wash"], [data-vertical="dairy"]) {
+  --role-family-accent: var(--hk-teal);    /* care and daily services */
+  --role-family-tint:   var(--hk-ice);
+}
+:root:is([data-vertical="tailor_construction"], [data-vertical="field_connect"],
+         [data-vertical="property_management"], [data-vertical="hospitality"]) {
+  --role-family-accent: var(--hk-red);     /* making, building and places */
+  --role-family-tint:   #FDE8E8;
+}

@@ -80,6 +80,7 @@ Laid out like the Brand Kit folder (`Documents\Brand Kit`). Same numbers, same o
 |---|---|
 | Which file to use, by stable ID and status | `src/assets/asset-manifest.json` |
 | Colours, spacing, motion tokens | `src/tokens/` |
+| One switch for a look across every app (role tokens: card, button, input, chip, hero, vertical family) | `src/tokens/roles.css` |
 | React components | `src/components/` |
 | Fonts | `font-library/` |
 | Checks (`npm run check:brand`, `check:experience`) | `scripts/`, `conformance/` |
