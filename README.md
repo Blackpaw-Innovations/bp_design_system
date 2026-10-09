@@ -2,6 +2,35 @@
 
 Single source of truth for all Blackpaw/Hakiqa brand tokens, design utilities, and shared React components.
 
+## Download logos
+
+No GitHub account or tools needed. Click a link and the file downloads.
+
+**Ready-made packs** (rebuilt automatically every time this repo changes; retired logos left out)
+
+| Pack | What is inside |
+|---|---|
+| [blackpaw-logos.zip](https://blackpaw-innovations.github.io/bp_design_system/downloads/blackpaw-logos.zip) | Every current Blackpaw logo, PNG and SVG |
+| [blackpaw-everything.zip](https://blackpaw-innovations.github.io/bp_design_system/downloads/blackpaw-everything.zip) | Logos, icons, print, backgrounds, logo animations |
+| [hakiqa-logos.zip](https://blackpaw-innovations.github.io/bp_design_system/downloads/hakiqa-logos.zip) | Every current Hakiqa logo, incl. the 15 vertical logos and the woven alternative |
+| [hakiqa-vertical-logos.zip](https://blackpaw-innovations.github.io/bp_design_system/downloads/hakiqa-vertical-logos.zip) | Only the vertical logos (duka, gym, optical, ...) |
+| [haki-mascot.zip](https://blackpaw-innovations.github.io/bp_design_system/downloads/haki-mascot.zip) | Haki: poses, occasions, 17 industries (happy and calm) |
+| [hakiqa-everything.zip](https://blackpaw-innovations.github.io/bp_design_system/downloads/hakiqa-everything.zip) | All Hakiqa files: logos, icons, Haki, motion, stickers |
+
+**The main logos, one click each**
+
+| Logo | PNG | SVG |
+|---|---|---|
+| Blackpaw main logo (bp mark, light backgrounds) | [PNG](https://blackpaw-innovations.github.io/bp_design_system/src/assets/brand/blackpaw/logo/mark/transparent/bp-mark-color-transparent.png) | [SVG](https://blackpaw-innovations.github.io/bp_design_system/src/assets/brand/blackpaw/logo/mark/transparent/bp-mark-color-transparent.svg) |
+| Blackpaw main logo (bp mark, dark backgrounds) | [PNG](https://blackpaw-innovations.github.io/bp_design_system/src/assets/brand/blackpaw/logo/mark/transparent/bp-mark-color-dark-transparent.png) | [SVG](https://blackpaw-innovations.github.io/bp_design_system/src/assets/brand/blackpaw/logo/mark/transparent/bp-mark-color-dark-transparent.svg) |
+| Blackpaw stacked (name under the mark, dark backgrounds) | [PNG](https://blackpaw-innovations.github.io/bp_design_system/src/assets/brand/blackpaw/logo/stacked/transparent/bp-stacked-color-dark-transparent.png) | [SVG](https://blackpaw-innovations.github.io/bp_design_system/src/assets/brand/blackpaw/logo/stacked/transparent/bp-stacked-color-dark-transparent.svg) |
+| Hakiqa main logo (light backgrounds only) | [PNG](https://blackpaw-innovations.github.io/bp_design_system/src/assets/brand/hakiqa/logo/symbol/hakiqa-mark-full.png) | [SVG](https://blackpaw-innovations.github.io/bp_design_system/src/assets/brand/hakiqa/logo/symbol/hakiqa-mark-full.svg) |
+| Hakiqa woven alternative (campaigns, merch) | [PNG](https://blackpaw-innovations.github.io/bp_design_system/src/assets/brand/hakiqa/logo/alternatives/hakiqa-mark-woven-boucle.png) | — |
+
+**Looking for one file on GitHub?** Open the folder from the table below, click the file, then click the download button (arrow) at the top right of the preview. GitHub cannot download a whole folder; use the packs above for that.
+
+Not sure which logo goes on which background? Read the brand book first: [Blackpaw](https://blackpaw-innovations.github.io/bp_design_system/docs/brand/blackpaw-brand-book.html) · [Hakiqa](https://blackpaw-innovations.github.io/bp_design_system/docs/brand/hakiqa-brand-book.html).
+
 ## Find it fast
 
 Laid out like the Brand Kit folder (`Documents\Brand Kit`). Same numbers, same order.
@@ -35,6 +64,7 @@ Laid out like the Brand Kit folder (`Documents\Brand Kit`). Same numbers, same o
 | 1 Logos · D Symbol and name, stacked | `logo/lockups/stacked/`, `stacked-script/` |
 | 1 Logos · E Duka and Connect names | `logo/product/` |
 | 1 Logos · F Vertical logos | `logo/product/verticals/` |
+| 1 Logos · G Material alternative (woven) | `logo/alternatives/` |
 | 1 Logos · Z Old logo, do not use | `logo/z-retired/` |
 | 2 App icons and favicons | `digital/` |
 | 3 Haki the mascot | `mascot/` (+ `occasions/`, `industries/excited/`, `industries/calm/`) |

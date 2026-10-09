@@ -1,6 +1,6 @@
 {
   "$schema": "./asset-manifest.schema.json",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "approved": "2026-10-09",
   "assets": [
     {
@@ -727,6 +727,22 @@
       "recolour": false,
       "minimumWidthPx": 24,
       "notes": "MAIN Hakiqa logo for all official use and for all logo animation: the full-colour four-panel symbol (hakiqa-mark-full). Neutral fields only (white, warm white, light grey). Never on navy, orange or teal: one panel disappears. On brand-colour or dark fields use a one-colour mark (white or orange by default). No gloss, shine or glow. Decided by Marvin 2026-10-09. See docs/brand/hakiqa/HAKIQA_LOGO_USAGE.md (field rules)."
+    },
+    {
+      "id": "hakiqa.logo.alternative.woven",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/alternatives/hakiqa-mark-woven-boucle.png"
+      ],
+      "backgrounds": [
+        "white",
+        "light-neutral",
+        "paper"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Material alternative of the main mark: the four panels as woven bouclé fabric, the same texture as Haki. 3D render built from the approved vector contours (Batch 8, 8 Oct 2026), 2048 px transparent PNG. Approved as an alternative by Marvin 2026-10-09 for campaigns, merchandise, hero imagery and social. Never a replacement for hakiqa.logo.main in the app, documents, favicon or anywhere the logo must be flat."
     },
     {
       "id": "hakiqa.logo.symbol.red",

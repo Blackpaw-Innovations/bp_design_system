@@ -47,6 +47,19 @@ jobs:
           cp AGENTS.md BRAND.md BUILDING_PRINCIPLES.md tailwind.preset.js _site/
           printf '%s\n' '<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=./docs/"><title>Blackpaw Brand &amp; Design System</title><a href="./docs/">Open the design system</a>' > _site/index.html
           touch _site/.nojekyll
+      - name: Build download packs
+        shell: bash
+        run: |
+          mkdir -p _site/downloads
+          B=src/assets/brand
+          pack() { out="$PWD/_site/downloads/$1.zip"; shift; (cd "$B" && zip -qr "$out" "$@" -x '*/z-retired/*'); }
+          pack blackpaw-logos blackpaw/logo
+          pack blackpaw-everything blackpaw
+          pack hakiqa-logos hakiqa/logo
+          pack hakiqa-vertical-logos hakiqa/logo/product/verticals
+          pack haki-mascot hakiqa/mascot
+          pack hakiqa-everything hakiqa
+          ls -la _site/downloads
       - uses: actions/configure-pages@v5
         with:
           enablement: true
