@@ -25,6 +25,8 @@ Marvin (brand owner) approved the complete Blackpaw and Hakiqa brand kit on 9 Oc
 
 Red, teal and cyan one-colour Hakiqa marks added, and Hakiqa field rules approved: full colour on neutral fields only, a one-colour mark on brand-colour or dark fields, no gloss on any logo. All `full-dark` and `gloss` Hakiqa logo files are withdrawn (deprecated). See `HAKIQA_ONE_COLOUR_MARKS_2026-10-09.md` and the field rules at the top of `HAKIQA_LOGO_USAGE.md`.
 
+**Vertical logos:** 15 Hakiqa Connect vertical wordmarks (horizontal, stacked, light and dark; 120 files) approved. See `HAKIQA_VERTICAL_WORDMARKS_2026-10-09.md`.
+
 ## Where it lives
 
 | Need | Path |
@@ -35,7 +37,7 @@ Red, teal and cyan one-colour Hakiqa marks added, and Hakiqa field rules approve
 | Hakiqa icons, applications, stickers | `src/assets/brand/hakiqa/{digital,applications,stickers}` |
 | Hakiqa motion and sound | `src/assets/brand/hakiqa/motion/{logo,sonic}` |
 | Haki mascot | `src/assets/brand/hakiqa/mascot/` (+ `occasions/`, `industries/{excited,calm}`) |
-| Usage metadata | `src/assets/asset-manifest.json` (v1.3.2) |
+| Usage metadata | `src/assets/asset-manifest.json` (v1.3.3) |
 | Hakiqa main logo | `src/assets/brand/hakiqa/logo/symbol/hakiqa-mark-full.png` (`hakiqa.logo.main`) |
 
 ## Kept out of this repository
