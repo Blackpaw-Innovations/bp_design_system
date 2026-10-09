@@ -21,6 +21,10 @@ Marvin (brand owner) approved the complete Blackpaw and Hakiqa brand kit on 9 Oc
 - Haki mascot: core, campaign and occasion poses (from PR #7, now approved) plus the new by-industry sets, excited and calm, 17 verticals each.
 - Usage guide: `HAKIQA_LOGO_USAGE.pdf` / `.md` / `HAKIQA_LOGO_GUIDELINES.html`.
 
+## Update, later on 9 October 2026
+
+Red, teal and cyan one-colour Hakiqa marks added, and Hakiqa field rules approved: full colour on neutral fields only, a one-colour mark on brand-colour or dark fields, no gloss on any logo. All `full-dark` and `gloss` Hakiqa logo files are withdrawn (deprecated). See `HAKIQA_ONE_COLOUR_MARKS_2026-10-09.md` and the field rules at the top of `HAKIQA_LOGO_USAGE.md`.
+
 ## Where it lives
 
 | Need | Path |
@@ -31,7 +35,7 @@ Marvin (brand owner) approved the complete Blackpaw and Hakiqa brand kit on 9 Oc
 | Hakiqa icons, applications, stickers | `src/assets/brand/hakiqa/{digital,applications,stickers}` |
 | Hakiqa motion and sound | `src/assets/brand/hakiqa/motion/{logo,sonic}` |
 | Haki mascot | `src/assets/brand/hakiqa/mascot/` (+ `occasions/`, `industries/{excited,calm}`) |
-| Usage metadata | `src/assets/asset-manifest.json` (v1.3.1) |
+| Usage metadata | `src/assets/asset-manifest.json` (v1.3.2) |
 | Hakiqa main logo | `src/assets/brand/hakiqa/logo/symbol/hakiqa-mark-full.png` (`hakiqa.logo.main`) |
 
 ## Kept out of this repository

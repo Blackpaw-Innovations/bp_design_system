@@ -4,9 +4,28 @@
 
 8 October 2026 · Application guide for the approved Hakiqa identity
 
+## Field rules (approved 9 October 2026)
+
+These rules come first and override any older guidance below. Approval record: `HAKIQA_ONE_COLOUR_MARKS_2026-10-09.md`.
+
+1. **`hakiqa-mark-full` is the official mark.** Use it for official use and for all logo animation, on neutral fields only: white, warm white, light grey.
+2. **Never put the full-colour mark on navy, orange or teal.** One panel disappears.
+3. **On a brand-colour or dark field, use a one-colour mark.** White or orange are the defaults on dark.
+4. **Pair each colour with a field it contrasts with:**
+   - **White:** navy and dark. On orange it is 2.4:1, so use it large only.
+   - **Orange:** navy and dark. Not on white (2.4:1).
+   - **Teal** (`hakiqa-mark-teal`): navy and dark. Borderline on white.
+   - **Cyan** (`hakiqa-mark-cyan`): navy and dark only. Fails on white.
+   - **Red** (`hakiqa-mark-red`): white and light fields. Not on navy (2.9:1).
+   - **Navy and black:** light fields and print.
+5. **No sticker tile is needed** to place the mark on a dark field.
+6. **No gloss, shine or glow** on any logo.
+
+**Withdrawn:** every `*-full-dark` file (symbol and lockups), because its light-blue base (#557CB9) is not a Hakiqa colour, and every `*-gloss` logo file. They are `deprecated` in the manifest and must not be used for new work.
+
 ## Source artwork
 
-Use the approved four-panel symbol in `src/assets/brand/hakiqa/logo/approved/`. Its teal and orange screens sit over the navy and red bases. Keep all four panels, their gaps, corner curves and proportions. Choose an approved colour treatment by background; do not redraw, stretch, or shift individual paths in a static logo.
+Use the approved four-panel symbol in `src/assets/brand/hakiqa/logo/symbol/`. Its teal and orange screens sit over the navy and red bases. Keep all four panels, their gaps, corner curves and proportions. Choose an approved colour treatment by background; do not redraw, stretch, or shift individual paths in a static logo.
 
 Use only the approved capitalised **Hakiqa** and brush-script **Hakiqa** wordmarks. The capitalised wordmark is the default for product and interface use. The script is for expressive moments where its small strokes remain legible. Do not substitute lowercase-only or all-capitals lettering.
 
@@ -18,7 +37,7 @@ The full four-panel mark is the favicon even at 16 px. Fine seams may merge natu
 
 ## Colour and production
 
-Use the supplied full, full-dark, gloss, orange, navy, white, black or orange/navy variants. Use the matched file for light or dark fields rather than recolouring one ad hoc. The receipt logo is a 384 px, one-bit black PNG on white for thermal printing. Print and sticker vendors should proof physical size and cut line from the final vector artwork before production.
+Superseded 9 October 2026: follow the field rules above. Full colour on neutral fields only; a one-colour mark (white, orange, navy, black, teal, cyan, red or orange/navy duotone) on everything else. Never recolour a file ad hoc. The receipt logo is a 384 px, one-bit black PNG on white for thermal printing. Print and sticker vendors should proof physical size and cut line from the final vector artwork before production.
 
 The Duka and Connect product wordmarks use the approved capitalised Hakiqa artwork with lighter Urbanist product names. The Pay wordmark remains unmade until that product is confirmed live.
 
