@@ -1,6 +1,6 @@
 {
   "$schema": "./asset-manifest.schema.json",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "approved": "2026-10-09",
   "assets": [
     {
@@ -1336,6 +1336,561 @@
       "backgrounds": [],
       "recolour": false,
       "notes": "Withdrawn 2026-10-09. full-dark: its light-blue base (#557CB9) is not a Hakiqa colour; use a one-colour mark on dark fields. gloss: no gloss, shine or glow on any logo. Kept only so existing consumers do not break."
+    },
+    {
+      "id": "hakiqa.logo.vertical.duka.light",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-duka.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-duka.svg",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-duka-stacked.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-duka-stacked.svg"
+      ],
+      "backgrounds": [
+        "white",
+        "warm-white",
+        "light-neutral"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Hakiqa duka vertical wordmark (Orange · commerce and trade family). Horizontal is the default; stacked for square or narrow spaces. Never retype the name, change the colour or the weight. Use hakiqa-mark-full only as a separate element, no mark + vertical lockups. Approved 2026-10-09. Orange on white is 2.4:1: logo sizes only (name at least 24 px tall), never small UI text."
+    },
+    {
+      "id": "hakiqa.logo.vertical.duka.dark",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-duka-white.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-duka-white.svg",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-duka-stacked-white.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-duka-stacked-white.svg"
+      ],
+      "backgrounds": [
+        "navy",
+        "photography-dark"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Hakiqa duka vertical wordmark (Orange · commerce and trade family). Horizontal is the default; stacked for square or narrow spaces. Never retype the name, change the colour or the weight. Use hakiqa-mark-full only as a separate element, no mark + vertical lockups. Approved 2026-10-09."
+    },
+    {
+      "id": "hakiqa.logo.vertical.car-parts.light",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-car-parts.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-car-parts.svg",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-car-parts-stacked.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-car-parts-stacked.svg"
+      ],
+      "backgrounds": [
+        "white",
+        "warm-white",
+        "light-neutral"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Hakiqa car parts vertical wordmark (Orange · commerce and trade family). Horizontal is the default; stacked for square or narrow spaces. Never retype the name, change the colour or the weight. Use hakiqa-mark-full only as a separate element, no mark + vertical lockups. Approved 2026-10-09. Orange on white is 2.4:1: logo sizes only (name at least 24 px tall), never small UI text."
+    },
+    {
+      "id": "hakiqa.logo.vertical.car-parts.dark",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-car-parts-white.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-car-parts-white.svg",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-car-parts-stacked-white.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-car-parts-stacked-white.svg"
+      ],
+      "backgrounds": [
+        "navy",
+        "photography-dark"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Hakiqa car parts vertical wordmark (Orange · commerce and trade family). Horizontal is the default; stacked for square or narrow spaces. Never retype the name, change the colour or the weight. Use hakiqa-mark-full only as a separate element, no mark + vertical lockups. Approved 2026-10-09."
+    },
+    {
+      "id": "hakiqa.logo.vertical.imports.light",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-imports.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-imports.svg",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-imports-stacked.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-imports-stacked.svg"
+      ],
+      "backgrounds": [
+        "white",
+        "warm-white",
+        "light-neutral"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Hakiqa imports vertical wordmark (Orange · commerce and trade family). Horizontal is the default; stacked for square or narrow spaces. Never retype the name, change the colour or the weight. Use hakiqa-mark-full only as a separate element, no mark + vertical lockups. Approved 2026-10-09. Orange on white is 2.4:1: logo sizes only (name at least 24 px tall), never small UI text."
+    },
+    {
+      "id": "hakiqa.logo.vertical.imports.dark",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-imports-white.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-imports-white.svg",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-imports-stacked-white.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-imports-stacked-white.svg"
+      ],
+      "backgrounds": [
+        "navy",
+        "photography-dark"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Hakiqa imports vertical wordmark (Orange · commerce and trade family). Horizontal is the default; stacked for square or narrow spaces. Never retype the name, change the colour or the weight. Use hakiqa-mark-full only as a separate element, no mark + vertical lockups. Approved 2026-10-09."
+    },
+    {
+      "id": "hakiqa.logo.vertical.events.light",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-events.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-events.svg",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-events-stacked.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-events-stacked.svg"
+      ],
+      "backgrounds": [
+        "white",
+        "warm-white",
+        "light-neutral"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Hakiqa events vertical wordmark (Orange · commerce and trade family). Horizontal is the default; stacked for square or narrow spaces. Never retype the name, change the colour or the weight. Use hakiqa-mark-full only as a separate element, no mark + vertical lockups. Approved 2026-10-09. Orange on white is 2.4:1: logo sizes only (name at least 24 px tall), never small UI text."
+    },
+    {
+      "id": "hakiqa.logo.vertical.events.dark",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-events-white.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-events-white.svg",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-events-stacked-white.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-events-stacked-white.svg"
+      ],
+      "backgrounds": [
+        "navy",
+        "photography-dark"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Hakiqa events vertical wordmark (Orange · commerce and trade family). Horizontal is the default; stacked for square or narrow spaces. Never retype the name, change the colour or the weight. Use hakiqa-mark-full only as a separate element, no mark + vertical lockups. Approved 2026-10-09."
+    },
+    {
+      "id": "hakiqa.logo.vertical.rentals.light",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-rentals.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-rentals.svg",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-rentals-stacked.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-rentals-stacked.svg"
+      ],
+      "backgrounds": [
+        "white",
+        "warm-white",
+        "light-neutral"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Hakiqa rentals vertical wordmark (Orange · commerce and trade family). Horizontal is the default; stacked for square or narrow spaces. Never retype the name, change the colour or the weight. Use hakiqa-mark-full only as a separate element, no mark + vertical lockups. Approved 2026-10-09. Orange on white is 2.4:1: logo sizes only (name at least 24 px tall), never small UI text."
+    },
+    {
+      "id": "hakiqa.logo.vertical.rentals.dark",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-rentals-white.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-rentals-white.svg",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-rentals-stacked-white.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-rentals-stacked-white.svg"
+      ],
+      "backgrounds": [
+        "navy",
+        "photography-dark"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Hakiqa rentals vertical wordmark (Orange · commerce and trade family). Horizontal is the default; stacked for square or narrow spaces. Never retype the name, change the colour or the weight. Use hakiqa-mark-full only as a separate element, no mark + vertical lockups. Approved 2026-10-09."
+    },
+    {
+      "id": "hakiqa.logo.vertical.optical.light",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-optical.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-optical.svg",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-optical-stacked.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-optical-stacked.svg"
+      ],
+      "backgrounds": [
+        "white",
+        "warm-white",
+        "light-neutral"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Hakiqa optical vertical wordmark (Teal · care and daily services family). Horizontal is the default; stacked for square or narrow spaces. Never retype the name, change the colour or the weight. Use hakiqa-mark-full only as a separate element, no mark + vertical lockups. Approved 2026-10-09."
+    },
+    {
+      "id": "hakiqa.logo.vertical.optical.dark",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-optical-white.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-optical-white.svg",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-optical-stacked-white.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-optical-stacked-white.svg"
+      ],
+      "backgrounds": [
+        "navy",
+        "photography-dark"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Hakiqa optical vertical wordmark (Teal · care and daily services family). Horizontal is the default; stacked for square or narrow spaces. Never retype the name, change the colour or the weight. Use hakiqa-mark-full only as a separate element, no mark + vertical lockups. Approved 2026-10-09."
+    },
+    {
+      "id": "hakiqa.logo.vertical.gym.light",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-gym.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-gym.svg",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-gym-stacked.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-gym-stacked.svg"
+      ],
+      "backgrounds": [
+        "white",
+        "warm-white",
+        "light-neutral"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Hakiqa gym vertical wordmark (Teal · care and daily services family). Horizontal is the default; stacked for square or narrow spaces. Never retype the name, change the colour or the weight. Use hakiqa-mark-full only as a separate element, no mark + vertical lockups. Approved 2026-10-09."
+    },
+    {
+      "id": "hakiqa.logo.vertical.gym.dark",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-gym-white.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-gym-white.svg",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-gym-stacked-white.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-gym-stacked-white.svg"
+      ],
+      "backgrounds": [
+        "navy",
+        "photography-dark"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Hakiqa gym vertical wordmark (Teal · care and daily services family). Horizontal is the default; stacked for square or narrow spaces. Never retype the name, change the colour or the weight. Use hakiqa-mark-full only as a separate element, no mark + vertical lockups. Approved 2026-10-09."
+    },
+    {
+      "id": "hakiqa.logo.vertical.salon-spa.light",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-salon-spa.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-salon-spa.svg",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-salon-spa-stacked.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-salon-spa-stacked.svg"
+      ],
+      "backgrounds": [
+        "white",
+        "warm-white",
+        "light-neutral"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Hakiqa salon spa vertical wordmark (Teal · care and daily services family). Horizontal is the default; stacked for square or narrow spaces. Never retype the name, change the colour or the weight. Use hakiqa-mark-full only as a separate element, no mark + vertical lockups. Approved 2026-10-09."
+    },
+    {
+      "id": "hakiqa.logo.vertical.salon-spa.dark",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-salon-spa-white.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-salon-spa-white.svg",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-salon-spa-stacked-white.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-salon-spa-stacked-white.svg"
+      ],
+      "backgrounds": [
+        "navy",
+        "photography-dark"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Hakiqa salon spa vertical wordmark (Teal · care and daily services family). Horizontal is the default; stacked for square or narrow spaces. Never retype the name, change the colour or the weight. Use hakiqa-mark-full only as a separate element, no mark + vertical lockups. Approved 2026-10-09."
+    },
+    {
+      "id": "hakiqa.logo.vertical.car-wash.light",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-car-wash.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-car-wash.svg",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-car-wash-stacked.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-car-wash-stacked.svg"
+      ],
+      "backgrounds": [
+        "white",
+        "warm-white",
+        "light-neutral"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Hakiqa car wash vertical wordmark (Teal · care and daily services family). Horizontal is the default; stacked for square or narrow spaces. Never retype the name, change the colour or the weight. Use hakiqa-mark-full only as a separate element, no mark + vertical lockups. Approved 2026-10-09."
+    },
+    {
+      "id": "hakiqa.logo.vertical.car-wash.dark",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-car-wash-white.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-car-wash-white.svg",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-car-wash-stacked-white.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-car-wash-stacked-white.svg"
+      ],
+      "backgrounds": [
+        "navy",
+        "photography-dark"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Hakiqa car wash vertical wordmark (Teal · care and daily services family). Horizontal is the default; stacked for square or narrow spaces. Never retype the name, change the colour or the weight. Use hakiqa-mark-full only as a separate element, no mark + vertical lockups. Approved 2026-10-09."
+    },
+    {
+      "id": "hakiqa.logo.vertical.dairy.light",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-dairy.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-dairy.svg",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-dairy-stacked.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-dairy-stacked.svg"
+      ],
+      "backgrounds": [
+        "white",
+        "warm-white",
+        "light-neutral"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Hakiqa dairy vertical wordmark (Teal · care and daily services family). Horizontal is the default; stacked for square or narrow spaces. Never retype the name, change the colour or the weight. Use hakiqa-mark-full only as a separate element, no mark + vertical lockups. Approved 2026-10-09."
+    },
+    {
+      "id": "hakiqa.logo.vertical.dairy.dark",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-dairy-white.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-dairy-white.svg",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-dairy-stacked-white.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-dairy-stacked-white.svg"
+      ],
+      "backgrounds": [
+        "navy",
+        "photography-dark"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Hakiqa dairy vertical wordmark (Teal · care and daily services family). Horizontal is the default; stacked for square or narrow spaces. Never retype the name, change the colour or the weight. Use hakiqa-mark-full only as a separate element, no mark + vertical lockups. Approved 2026-10-09."
+    },
+    {
+      "id": "hakiqa.logo.vertical.tailor.light",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-tailor.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-tailor.svg",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-tailor-stacked.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-tailor-stacked.svg"
+      ],
+      "backgrounds": [
+        "white",
+        "warm-white",
+        "light-neutral"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Hakiqa tailor vertical wordmark (Red · making, building and places family). Horizontal is the default; stacked for square or narrow spaces. Never retype the name, change the colour or the weight. Use hakiqa-mark-full only as a separate element, no mark + vertical lockups. Approved 2026-10-09."
+    },
+    {
+      "id": "hakiqa.logo.vertical.tailor.dark",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-tailor-white.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-tailor-white.svg",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-tailor-stacked-white.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-tailor-stacked-white.svg"
+      ],
+      "backgrounds": [
+        "navy",
+        "photography-dark"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Hakiqa tailor vertical wordmark (Red · making, building and places family). Horizontal is the default; stacked for square or narrow spaces. Never retype the name, change the colour or the weight. Use hakiqa-mark-full only as a separate element, no mark + vertical lockups. Approved 2026-10-09."
+    },
+    {
+      "id": "hakiqa.logo.vertical.mjengo.light",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-mjengo.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-mjengo.svg",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-mjengo-stacked.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-mjengo-stacked.svg"
+      ],
+      "backgrounds": [
+        "white",
+        "warm-white",
+        "light-neutral"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Hakiqa mjengo vertical wordmark (Red · making, building and places family). Horizontal is the default; stacked for square or narrow spaces. Never retype the name, change the colour or the weight. Use hakiqa-mark-full only as a separate element, no mark + vertical lockups. Approved 2026-10-09."
+    },
+    {
+      "id": "hakiqa.logo.vertical.mjengo.dark",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-mjengo-white.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-mjengo-white.svg",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-mjengo-stacked-white.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-mjengo-stacked-white.svg"
+      ],
+      "backgrounds": [
+        "navy",
+        "photography-dark"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Hakiqa mjengo vertical wordmark (Red · making, building and places family). Horizontal is the default; stacked for square or narrow spaces. Never retype the name, change the colour or the weight. Use hakiqa-mark-full only as a separate element, no mark + vertical lockups. Approved 2026-10-09."
+    },
+    {
+      "id": "hakiqa.logo.vertical.field-connect.light",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-field-connect.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-field-connect.svg",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-field-connect-stacked.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-field-connect-stacked.svg"
+      ],
+      "backgrounds": [
+        "white",
+        "warm-white",
+        "light-neutral"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Hakiqa field connect vertical wordmark (Red · making, building and places family). Horizontal is the default; stacked for square or narrow spaces. Never retype the name, change the colour or the weight. Use hakiqa-mark-full only as a separate element, no mark + vertical lockups. Approved 2026-10-09."
+    },
+    {
+      "id": "hakiqa.logo.vertical.field-connect.dark",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-field-connect-white.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-field-connect-white.svg",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-field-connect-stacked-white.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-field-connect-stacked-white.svg"
+      ],
+      "backgrounds": [
+        "navy",
+        "photography-dark"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Hakiqa field connect vertical wordmark (Red · making, building and places family). Horizontal is the default; stacked for square or narrow spaces. Never retype the name, change the colour or the weight. Use hakiqa-mark-full only as a separate element, no mark + vertical lockups. Approved 2026-10-09."
+    },
+    {
+      "id": "hakiqa.logo.vertical.properties.light",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-properties.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-properties.svg",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-properties-stacked.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-properties-stacked.svg"
+      ],
+      "backgrounds": [
+        "white",
+        "warm-white",
+        "light-neutral"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Hakiqa properties vertical wordmark (Red · making, building and places family). Horizontal is the default; stacked for square or narrow spaces. Never retype the name, change the colour or the weight. Use hakiqa-mark-full only as a separate element, no mark + vertical lockups. Approved 2026-10-09."
+    },
+    {
+      "id": "hakiqa.logo.vertical.properties.dark",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-properties-white.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-properties-white.svg",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-properties-stacked-white.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-properties-stacked-white.svg"
+      ],
+      "backgrounds": [
+        "navy",
+        "photography-dark"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Hakiqa properties vertical wordmark (Red · making, building and places family). Horizontal is the default; stacked for square or narrow spaces. Never retype the name, change the colour or the weight. Use hakiqa-mark-full only as a separate element, no mark + vertical lockups. Approved 2026-10-09."
+    },
+    {
+      "id": "hakiqa.logo.vertical.stay.light",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-stay.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-stay.svg",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-stay-stacked.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-stay-stacked.svg"
+      ],
+      "backgrounds": [
+        "white",
+        "warm-white",
+        "light-neutral"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Hakiqa stay vertical wordmark (Red · making, building and places family). Horizontal is the default; stacked for square or narrow spaces. Never retype the name, change the colour or the weight. Use hakiqa-mark-full only as a separate element, no mark + vertical lockups. Approved 2026-10-09."
+    },
+    {
+      "id": "hakiqa.logo.vertical.stay.dark",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-stay-white.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-stay-white.svg",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-stay-stacked-white.png",
+        "src/assets/brand/hakiqa/logo/product/verticals/hakiqa-wordmark-stay-stacked-white.svg"
+      ],
+      "backgrounds": [
+        "navy",
+        "photography-dark"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Hakiqa stay vertical wordmark (Red · making, building and places family). Horizontal is the default; stacked for square or narrow spaces. Never retype the name, change the colour or the weight. Use hakiqa-mark-full only as a separate element, no mark + vertical lockups. Approved 2026-10-09."
     }
   ]
 }

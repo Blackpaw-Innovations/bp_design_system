@@ -23,6 +23,17 @@ These rules come first and override any older guidance below. Approval record: `
 
 **Withdrawn:** every `*-full-dark` file (symbol and lockups), because its light-blue base (#557CB9) is not a Hakiqa colour, and every `*-gloss` logo file. They are `deprecated` in the manifest and must not be used for new work.
 
+## Vertical logos (approved 9 October 2026)
+
+Every Hakiqa Connect vertical has its own wordmark: **Hakiqa** + half-laptop symbol + the vertical name, in `src/assets/brand/hakiqa/logo/product/verticals/` (manifest `hakiqa.logo.vertical.<id>.light|dark`). Full construction and rules: `HAKIQA_VERTICAL_WORDMARKS_2026-10-09.md`.
+
+- **Colour families:** orange for commerce and trade (duka, car parts, imports, events, rentals); teal for care and daily services (optical, gym, salon + spa, car wash, dairy); red for making, building and places (tailor, mjengo, field connect, properties, stay).
+- **Backgrounds:** default files on white, warm white or light grey; `-white` files on navy or dark photos.
+- **Layout:** horizontal is the default (app headers, web, documents); stacked for square or narrow spaces.
+- **Never** retype the name or change its colour or weight. No mark + vertical lockups; `hakiqa-mark-full` may sit beside them only as a separate element.
+- **Orange-family light files** are 2.4:1 on white: logo sizes only (name at least 24 px tall).
+- `hakiqa-wordmark-connect` is the platform; `field-connect` is the Field Connect vertical.
+
 ## Source artwork
 
 Use the approved four-panel symbol in `src/assets/brand/hakiqa/logo/symbol/`. Its teal and orange screens sit over the navy and red bases. Keep all four panels, their gaps, corner curves and proportions. Choose an approved colour treatment by background; do not redraw, stretch, or shift individual paths in a static logo.
