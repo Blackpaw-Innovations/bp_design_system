@@ -70,6 +70,65 @@
       "recolour": false,
       "minimumWidthPx": 96,
       "notes": "Choose the pose that matches the state; never use celebration for errors or distress for routine empty states."
+    },
+    {
+      "id": "hakiqa.mascot.campaign-poses",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/mascot/haki-brake-pads.png",
+        "src/assets/brand/hakiqa/mascot/haki-empty.png",
+        "src/assets/brand/hakiqa/mascot/haki-highlighting.png",
+        "src/assets/brand/hakiqa/mascot/haki-laughing.png",
+        "src/assets/brand/hakiqa/mascot/haki-offline.png",
+        "src/assets/brand/hakiqa/mascot/haki-peeking-bottom.png",
+        "src/assets/brand/hakiqa/mascot/haki-peeking-side.png",
+        "src/assets/brand/hakiqa/mascot/haki-pointing.png",
+        "src/assets/brand/hakiqa/mascot/haki-presenting.png",
+        "src/assets/brand/hakiqa/mascot/haki-relieved.png",
+        "src/assets/brand/hakiqa/mascot/haki-searching.png",
+        "src/assets/brand/hakiqa/mascot/haki-thinking.png",
+        "src/assets/brand/hakiqa/mascot/haki-waiting.png"
+      ],
+      "backgrounds": ["white", "hakiqa-navy", "hakiqa-orange", "transparent"],
+      "recolour": false,
+      "minimumWidthPx": 96,
+      "notes": "October 2026 campaign poses, rendered from the haki-encouraging.png reference. Peeking poses are cropped by the frame edge on purpose (peeking-bottom is 1639x960; peeking-side touches the right edge): place them flush against a card or screen edge, never floating. Approved by the brand owner on 2026-10-08."
+    },
+    {
+      "id": "hakiqa.mascot.occasions",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/mascot/occasions/haki-back-to-school.png",
+        "src/assets/brand/hakiqa/mascot/occasions/haki-black-friday.png",
+        "src/assets/brand/hakiqa/mascot/occasions/haki-christmas.png",
+        "src/assets/brand/hakiqa/mascot/occasions/haki-flag.png",
+        "src/assets/brand/hakiqa/mascot/occasions/haki-labour-day.png",
+        "src/assets/brand/hakiqa/mascot/occasions/haki-mashujaa.png",
+        "src/assets/brand/hakiqa/mascot/occasions/haki-mashujaa-salute.png",
+        "src/assets/brand/hakiqa/mascot/occasions/haki-mazingira.png",
+        "src/assets/brand/hakiqa/mascot/occasions/haki-mazingira-watering.png",
+        "src/assets/brand/hakiqa/mascot/occasions/haki-new-year.png"
+      ],
+      "backgrounds": ["white", "hakiqa-navy", "hakiqa-orange", "transparent"],
+      "recolour": false,
+      "minimumWidthPx": 96,
+      "notes": "Seasonal and national-day poses for the occasion calendar. Use only on or around the matching date. Approved by the brand owner on 2026-10-08; check national symbols against a reference before each use."
+    },
+    {
+      "id": "hakiqa.textures.kenya-flag",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/textures/kenya-ribbon-transparent.png",
+        "src/assets/brand/hakiqa/textures/kenya-flag-transparent.png",
+        "src/assets/brand/hakiqa/textures/kenya-flag-pole-transparent.png"
+      ],
+      "backgrounds": ["white", "hakiqa-navy", "transparent"],
+      "recolour": false,
+      "minimumWidthPx": 96,
+      "notes": "Transparent Kenya-flag ribbon, flag and pole for national-day campaigns, from the Week 02 asset brief. Approved by the brand owner on 2026-10-08. Check the flag against an official reference before use."
     }
   ]
 }
