@@ -32,6 +32,7 @@ Do not implement these hex values directly. Use the semantic tokens in `src/toke
 - Full rules: `docs/brand/BRAND_GUIDELINES.md`
 - Voice: `docs/brand/VOICE_AND_MESSAGING.md`
 - Approved assets: `src/assets/asset-manifest.json`
+- Current brand kit (Blackpaw identity kit v2 + Hakiqa identity, approved 2026-10-09): `docs/brand/BRAND_KIT_APPROVAL_2026-10-09.md`
 - AI/build instructions: `AGENTS.md`
 - Validation: `npm run check:brand`
 

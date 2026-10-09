@@ -1,0 +1,41 @@
+# Brand kit approval / 9 October 2026
+
+Marvin (brand owner) approved the complete Blackpaw and Hakiqa brand kit on 9 October 2026 and asked for it to become the design-system source. This is the versioned record required by `BRAND.md`.
+
+## What is approved
+
+**Blackpaw identity kit v2** (source: `C:\LocalHost\blackpaw-identity-kit`, published 9 Oct 2026)
+- Primary logo: the new BLACK/PAW type lockups (set 6). Use first.
+- Logo collection set 5: mark, horizontal and stacked, transparent and on midnight, ink navy, gradient and white backgrounds; taglines.
+- Transparent pack, no-tagline masters, digital icons and favicon, print (mono, engraving, thermal receipt), graphics (backgrounds, pattern, signature rules, clear-space guide, stickers).
+- Every PNG is the approved original. Each SVG is a vector reconstruction of the same design (see `BLACKPAW_IDENTITY_KIT_V2.md`); proof before colour-critical print.
+- Colour rules: midnight `#140F33` for digital, flat ink navy `#0A0A3A` for print, warm white `#FBF7F2` on dark, no pure-black backgrounds, one wordmark B-height of clear space.
+- The earlier Blackpaw files in `blackpaw/logo/` (tagline lockups, signature gradient) are now `deprecated`. They remain only so existing consumers do not break.
+
+**Hakiqa**
+- Symbol (8 treatments), capitalised and script wordmarks (script vector trace included), horizontal and stacked lockups (capitalised and script), Duka and Connect product wordmarks.
+- App icons, favicons, social avatar; stamp, receipt logo, pattern, shapes and stickers.
+- Logo motion (assemble, breathe, lockup reveal: MP4, animated SVG, Lottie) and the sonic logo. Previously review proposals, now approved.
+- Haki mascot: core, campaign and occasion poses (from PR #7, now approved) plus the new by-industry sets, excited and calm, 17 verticals each.
+- Usage guide: `HAKIQA_LOGO_USAGE.pdf` / `.md` / `HAKIQA_LOGO_GUIDELINES.html`.
+
+## Where it lives
+
+| Need | Path |
+|---|---|
+| Blackpaw logos | `src/assets/brand/blackpaw/logo/{primary,mark,horizontal,stacked,tagline,transparent-pack,no-tagline}` |
+| Blackpaw icons, print, graphics | `src/assets/brand/blackpaw/{digital,print,graphics}` |
+| Hakiqa logos | `src/assets/brand/hakiqa/logo/{symbol,wordmarks,lockups,product}` |
+| Hakiqa icons, applications, stickers | `src/assets/brand/hakiqa/{digital,applications,stickers}` |
+| Hakiqa motion and sound | `src/assets/brand/hakiqa/motion/{logo,sonic}` |
+| Haki mascot | `src/assets/brand/hakiqa/mascot/` (+ `occasions/`, `industries/{excited,calm}`) |
+| Usage metadata | `src/assets/asset-manifest.json` (v1.3.0) |
+
+## Kept out of this repository
+
+Video ads, draft animatics and 3D material renders (about 180 MB) are campaign media, not design-system assets. They stay in Marvin's Brand Kit folder (`Documents\Brand Kit`) and the LocalHost `output` / `video-output` working folders.
+
+## Still to do
+
+- Swap consumers (apps, blackpawinnovations.com, documents) from the deprecated Blackpaw files to the v2 IDs.
+- Warm-white tagline variants and original-source SVG masters remain open items in the Blackpaw kit notes.

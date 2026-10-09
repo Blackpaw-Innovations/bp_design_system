@@ -1,44 +1,65 @@
 {
   "$schema": "./asset-manifest.schema.json",
-  "version": "1.0.0",
-  "approved": "2026-09-02",
+  "version": "1.3.0",
+  "approved": "2026-10-09",
   "assets": [
     {
       "id": "blackpaw.logo.lockup.colour",
       "identity": "blackpaw",
-      "status": "approved",
-      "files": ["src/assets/brand/blackpaw/logo/blackpaw-lockup-tagline-colour.png"],
-      "backgrounds": ["white", "light-blue", "light-neutral"],
+      "status": "deprecated",
+      "files": [
+        "src/assets/brand/blackpaw/logo/blackpaw-lockup-tagline-colour.png"
+      ],
+      "backgrounds": [
+        "white",
+        "light-blue",
+        "light-neutral"
+      ],
       "recolour": false,
       "minimumWidthPx": 220,
-      "notes": "Primary Blackpaw lockup with tagline."
+      "notes": "Primary Blackpaw lockup with tagline. Superseded by the Blackpaw identity kit v2 (2026-10-09); keep only for existing consumers."
     },
     {
       "id": "blackpaw.logo.lockup.reversed",
       "identity": "blackpaw",
-      "status": "approved",
-      "files": ["src/assets/brand/blackpaw/logo/blackpaw-lockup-tagline-reversed.png"],
-      "backgrounds": ["purple", "dark-navy", "photography-dark"],
+      "status": "deprecated",
+      "files": [
+        "src/assets/brand/blackpaw/logo/blackpaw-lockup-tagline-reversed.png"
+      ],
+      "backgrounds": [
+        "purple",
+        "dark-navy",
+        "photography-dark"
+      ],
       "recolour": false,
       "minimumWidthPx": 220,
-      "notes": "Reversed lockup for dark fields."
+      "notes": "Reversed lockup for dark fields. Superseded by the Blackpaw identity kit v2 (2026-10-09); keep only for existing consumers."
     },
     {
       "id": "blackpaw.signature.gradient",
       "identity": "blackpaw",
-      "status": "approved",
-      "files": ["src/assets/brand/blackpaw/logo/blackpaw-signature-gradient.png"],
-      "backgrounds": ["standalone"],
+      "status": "deprecated",
+      "files": [
+        "src/assets/brand/blackpaw/logo/blackpaw-signature-gradient.png"
+      ],
+      "backgrounds": [
+        "standalone"
+      ],
       "recolour": false,
       "minimumWidthPx": 160,
-      "notes": "Signature artwork; not a substitute for the primary lockup."
+      "notes": "Signature artwork; not a substitute for the primary lockup. Superseded by the Blackpaw identity kit v2 (2026-10-09); keep only for existing consumers."
     },
     {
       "id": "hakiqa.logo.transparent",
       "identity": "hakiqa",
       "status": "approved",
-      "files": ["src/assets/brand/hakiqa/logo/hakiqa-logo-transparent.png"],
-      "backgrounds": ["white", "light-neutral"],
+      "files": [
+        "src/assets/brand/hakiqa/logo/hakiqa-logo-transparent.png"
+      ],
+      "backgrounds": [
+        "white",
+        "light-neutral"
+      ],
       "recolour": false,
       "minimumWidthPx": 160,
       "notes": "Primary transparent Hakiqa logo."
@@ -47,8 +68,12 @@
       "id": "hakiqa.logo.white-background",
       "identity": "hakiqa",
       "status": "approved",
-      "files": ["src/assets/brand/hakiqa/logo/hakiqa-logo-white-background.png"],
-      "backgrounds": ["standalone"],
+      "files": [
+        "src/assets/brand/hakiqa/logo/hakiqa-logo-white-background.png"
+      ],
+      "backgrounds": [
+        "standalone"
+      ],
       "recolour": false,
       "minimumWidthPx": 160,
       "notes": "Use when a controlled white field is required."
@@ -66,7 +91,11 @@
         "src/assets/brand/hakiqa/mascot/haki-thumbs-up.png",
         "src/assets/brand/hakiqa/mascot/haki-waving.png"
       ],
-      "backgrounds": ["white", "hakiqa-navy", "transparent"],
+      "backgrounds": [
+        "white",
+        "hakiqa-navy",
+        "transparent"
+      ],
       "recolour": false,
       "minimumWidthPx": 96,
       "notes": "Choose the pose that matches the state; never use celebration for errors or distress for routine empty states."
@@ -90,7 +119,12 @@
         "src/assets/brand/hakiqa/mascot/haki-thinking.png",
         "src/assets/brand/hakiqa/mascot/haki-waiting.png"
       ],
-      "backgrounds": ["white", "hakiqa-navy", "hakiqa-orange", "transparent"],
+      "backgrounds": [
+        "white",
+        "hakiqa-navy",
+        "hakiqa-orange",
+        "transparent"
+      ],
       "recolour": false,
       "minimumWidthPx": 96,
       "notes": "October 2026 campaign poses, rendered from the haki-encouraging.png reference. Peeking poses are cropped by the frame edge on purpose (peeking-bottom is 1639x960; peeking-side touches the right edge): place them flush against a card or screen edge, never floating. Approved by the brand owner on 2026-10-08."
@@ -111,7 +145,12 @@
         "src/assets/brand/hakiqa/mascot/occasions/haki-mazingira-watering.png",
         "src/assets/brand/hakiqa/mascot/occasions/haki-new-year.png"
       ],
-      "backgrounds": ["white", "hakiqa-navy", "hakiqa-orange", "transparent"],
+      "backgrounds": [
+        "white",
+        "hakiqa-navy",
+        "hakiqa-orange",
+        "transparent"
+      ],
       "recolour": false,
       "minimumWidthPx": 96,
       "notes": "Seasonal and national-day poses for the occasion calendar. Use only on or around the matching date. Approved by the brand owner on 2026-10-08; check national symbols against a reference before each use."
@@ -125,11 +164,1064 @@
         "src/assets/brand/hakiqa/textures/kenya-flag-transparent.png",
         "src/assets/brand/hakiqa/textures/kenya-flag-pole-transparent.png"
       ],
-      "backgrounds": ["white", "hakiqa-navy", "transparent"],
+      "backgrounds": [
+        "white",
+        "hakiqa-navy",
+        "transparent"
+      ],
       "recolour": false,
       "minimumWidthPx": 96,
       "notes": "Transparent Kenya-flag ribbon, flag and pole for national-day campaigns, from the Week 02 asset brief. Approved by the brand owner on 2026-10-08. Check the flag against an official reference before use."
+    },
+    {
+      "id": "blackpaw.logo.primary.dark",
+      "identity": "blackpaw",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/blackpaw/logo/primary/bp-lockup-horizontal-dark-transparent.png",
+        "src/assets/brand/blackpaw/logo/primary/bp-lockup-horizontal-dark-transparent.svg",
+        "src/assets/brand/blackpaw/logo/primary/bp-lockup-stacked-dark-transparent.png",
+        "src/assets/brand/blackpaw/logo/primary/bp-lockup-stacked-dark-transparent.svg",
+        "src/assets/brand/blackpaw/logo/primary/bp-lockup-wordtag-dark-transparent.png",
+        "src/assets/brand/blackpaw/logo/primary/bp-lockup-wordtag-dark-transparent.svg",
+        "src/assets/brand/blackpaw/logo/primary/bp-tagline-line-warmwhite-transparent.png",
+        "src/assets/brand/blackpaw/logo/primary/bp-tagline-line-warmwhite-transparent.svg",
+        "src/assets/brand/blackpaw/logo/primary/bp-wordmark-mono-warmwhite-transparent.png",
+        "src/assets/brand/blackpaw/logo/primary/bp-wordmark-mono-warmwhite-transparent.svg"
+      ],
+      "backgrounds": [
+        "midnight",
+        "ink-navy",
+        "photography-dark"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Primary BLACK/PAW type lockups (set 6). Use first. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
+    },
+    {
+      "id": "blackpaw.logo.primary.light",
+      "identity": "blackpaw",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/blackpaw/logo/primary/bp-lockup-horizontal-light-transparent.png",
+        "src/assets/brand/blackpaw/logo/primary/bp-lockup-horizontal-light-transparent.svg",
+        "src/assets/brand/blackpaw/logo/primary/bp-lockup-stacked-light-transparent.png",
+        "src/assets/brand/blackpaw/logo/primary/bp-lockup-stacked-light-transparent.svg",
+        "src/assets/brand/blackpaw/logo/primary/bp-lockup-wordtag-light-transparent.png",
+        "src/assets/brand/blackpaw/logo/primary/bp-lockup-wordtag-light-transparent.svg",
+        "src/assets/brand/blackpaw/logo/primary/bp-tagline-line-navy-transparent.png",
+        "src/assets/brand/blackpaw/logo/primary/bp-tagline-line-navy-transparent.svg",
+        "src/assets/brand/blackpaw/logo/primary/bp-wordmark-mono-navy-transparent.png",
+        "src/assets/brand/blackpaw/logo/primary/bp-wordmark-mono-navy-transparent.svg"
+      ],
+      "backgrounds": [
+        "white",
+        "light-neutral",
+        "paper"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Primary BLACK/PAW type lockups (set 6). Use first. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
+    },
+    {
+      "id": "blackpaw.logo.mark.transparent.dark",
+      "identity": "blackpaw",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/blackpaw/logo/mark/transparent/bp-mark-color-dark-transparent.png",
+        "src/assets/brand/blackpaw/logo/mark/transparent/bp-mark-color-dark-transparent.svg",
+        "src/assets/brand/blackpaw/logo/mark/transparent/bp-mark-warmwhite-transparent.png",
+        "src/assets/brand/blackpaw/logo/mark/transparent/bp-mark-warmwhite-transparent.svg"
+      ],
+      "backgrounds": [
+        "midnight",
+        "ink-navy",
+        "photography-dark"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 24,
+      "notes": "Logo collection set 5. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
+    },
+    {
+      "id": "blackpaw.logo.mark.transparent.light",
+      "identity": "blackpaw",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/blackpaw/logo/mark/transparent/bp-mark-color-transparent.png",
+        "src/assets/brand/blackpaw/logo/mark/transparent/bp-mark-color-transparent.svg",
+        "src/assets/brand/blackpaw/logo/mark/transparent/bp-mark-outline-transparent.png",
+        "src/assets/brand/blackpaw/logo/mark/transparent/bp-mark-outline-transparent.svg"
+      ],
+      "backgrounds": [
+        "white",
+        "light-neutral",
+        "paper"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 24,
+      "notes": "Logo collection set 5. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
+    },
+    {
+      "id": "blackpaw.logo.mark.on-background.standalone",
+      "identity": "blackpaw",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/blackpaw/logo/mark/on-background/bp-mark-color-on-ink-circle.png",
+        "src/assets/brand/blackpaw/logo/mark/on-background/bp-mark-color-on-ink-circle.svg",
+        "src/assets/brand/blackpaw/logo/mark/on-background/bp-mark-color-on-ink-square.png",
+        "src/assets/brand/blackpaw/logo/mark/on-background/bp-mark-color-on-ink-square.svg",
+        "src/assets/brand/blackpaw/logo/mark/on-background/bp-mark-color-on-midnight-circle.png",
+        "src/assets/brand/blackpaw/logo/mark/on-background/bp-mark-color-on-midnight-circle.svg",
+        "src/assets/brand/blackpaw/logo/mark/on-background/bp-mark-color-on-midnight-square.png",
+        "src/assets/brand/blackpaw/logo/mark/on-background/bp-mark-color-on-midnight-square.svg",
+        "src/assets/brand/blackpaw/logo/mark/on-background/bp-mark-color-on-white-circle.png",
+        "src/assets/brand/blackpaw/logo/mark/on-background/bp-mark-color-on-white-circle.svg",
+        "src/assets/brand/blackpaw/logo/mark/on-background/bp-mark-outline-on-white-circle.png",
+        "src/assets/brand/blackpaw/logo/mark/on-background/bp-mark-outline-on-white-circle.svg",
+        "src/assets/brand/blackpaw/logo/mark/on-background/bp-mark-white-on-gradient-circle.png",
+        "src/assets/brand/blackpaw/logo/mark/on-background/bp-mark-white-on-gradient-circle.svg",
+        "src/assets/brand/blackpaw/logo/mark/on-background/bp-mark-white-on-gradient-square.png",
+        "src/assets/brand/blackpaw/logo/mark/on-background/bp-mark-white-on-gradient-square.svg"
+      ],
+      "backgrounds": [
+        "standalone"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 24,
+      "notes": "Logo collection set 5. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
+    },
+    {
+      "id": "blackpaw.logo.horizontal.transparent.dark",
+      "identity": "blackpaw",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/blackpaw/logo/horizontal/transparent/bp-horizontal-color-dark-cropped-transparent.png",
+        "src/assets/brand/blackpaw/logo/horizontal/transparent/bp-horizontal-color-dark-cropped-transparent.svg",
+        "src/assets/brand/blackpaw/logo/horizontal/transparent/bp-horizontal-color-dark-transparent.png",
+        "src/assets/brand/blackpaw/logo/horizontal/transparent/bp-horizontal-color-dark-transparent.svg",
+        "src/assets/brand/blackpaw/logo/horizontal/transparent/bp-horizontal-warmwhite-transparent.png",
+        "src/assets/brand/blackpaw/logo/horizontal/transparent/bp-horizontal-warmwhite-transparent.svg",
+        "src/assets/brand/blackpaw/logo/horizontal/transparent/bp-horizontal-white-cropped-transparent.png",
+        "src/assets/brand/blackpaw/logo/horizontal/transparent/bp-horizontal-white-cropped-transparent.svg"
+      ],
+      "backgrounds": [
+        "midnight",
+        "ink-navy",
+        "photography-dark"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Logo collection set 5. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
+    },
+    {
+      "id": "blackpaw.logo.horizontal.transparent.light",
+      "identity": "blackpaw",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/blackpaw/logo/horizontal/transparent/bp-horizontal-color-cropped-transparent.png",
+        "src/assets/brand/blackpaw/logo/horizontal/transparent/bp-horizontal-color-cropped-transparent.svg",
+        "src/assets/brand/blackpaw/logo/horizontal/transparent/bp-horizontal-color-transparent.png",
+        "src/assets/brand/blackpaw/logo/horizontal/transparent/bp-horizontal-color-transparent.svg",
+        "src/assets/brand/blackpaw/logo/horizontal/transparent/bp-horizontal-navy-cropped-transparent.png",
+        "src/assets/brand/blackpaw/logo/horizontal/transparent/bp-horizontal-navy-cropped-transparent.svg",
+        "src/assets/brand/blackpaw/logo/horizontal/transparent/bp-horizontal-navy-transparent.png",
+        "src/assets/brand/blackpaw/logo/horizontal/transparent/bp-horizontal-navy-transparent.svg"
+      ],
+      "backgrounds": [
+        "white",
+        "light-neutral",
+        "paper"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Logo collection set 5. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
+    },
+    {
+      "id": "blackpaw.logo.horizontal.on-background.standalone",
+      "identity": "blackpaw",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/blackpaw/logo/horizontal/on-background/bp-horizontal-color-on-ink-circle.png",
+        "src/assets/brand/blackpaw/logo/horizontal/on-background/bp-horizontal-color-on-ink-circle.svg",
+        "src/assets/brand/blackpaw/logo/horizontal/on-background/bp-horizontal-color-on-ink-square.png",
+        "src/assets/brand/blackpaw/logo/horizontal/on-background/bp-horizontal-color-on-ink-square.svg",
+        "src/assets/brand/blackpaw/logo/horizontal/on-background/bp-horizontal-color-on-midnight-circle.png",
+        "src/assets/brand/blackpaw/logo/horizontal/on-background/bp-horizontal-color-on-midnight-circle.svg",
+        "src/assets/brand/blackpaw/logo/horizontal/on-background/bp-horizontal-color-on-midnight-square.png",
+        "src/assets/brand/blackpaw/logo/horizontal/on-background/bp-horizontal-color-on-midnight-square.svg",
+        "src/assets/brand/blackpaw/logo/horizontal/on-background/bp-horizontal-color-on-white-circle.png",
+        "src/assets/brand/blackpaw/logo/horizontal/on-background/bp-horizontal-color-on-white-circle.svg",
+        "src/assets/brand/blackpaw/logo/horizontal/on-background/bp-horizontal-navy-on-white-circle.png",
+        "src/assets/brand/blackpaw/logo/horizontal/on-background/bp-horizontal-navy-on-white-circle.svg",
+        "src/assets/brand/blackpaw/logo/horizontal/on-background/bp-horizontal-white-on-gradient-circle.png",
+        "src/assets/brand/blackpaw/logo/horizontal/on-background/bp-horizontal-white-on-gradient-circle.svg",
+        "src/assets/brand/blackpaw/logo/horizontal/on-background/bp-horizontal-white-on-gradient-square.png",
+        "src/assets/brand/blackpaw/logo/horizontal/on-background/bp-horizontal-white-on-gradient-square.svg"
+      ],
+      "backgrounds": [
+        "standalone"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Logo collection set 5. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
+    },
+    {
+      "id": "blackpaw.logo.stacked.transparent.dark",
+      "identity": "blackpaw",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/blackpaw/logo/stacked/transparent/bp-stacked-color-dark-transparent.png",
+        "src/assets/brand/blackpaw/logo/stacked/transparent/bp-stacked-color-dark-transparent.svg",
+        "src/assets/brand/blackpaw/logo/stacked/transparent/bp-stacked-warmwhite-transparent.png",
+        "src/assets/brand/blackpaw/logo/stacked/transparent/bp-stacked-warmwhite-transparent.svg"
+      ],
+      "backgrounds": [
+        "midnight",
+        "ink-navy",
+        "photography-dark"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Logo collection set 5. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
+    },
+    {
+      "id": "blackpaw.logo.stacked.transparent.light",
+      "identity": "blackpaw",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/blackpaw/logo/stacked/transparent/bp-stacked-color-transparent.png",
+        "src/assets/brand/blackpaw/logo/stacked/transparent/bp-stacked-color-transparent.svg",
+        "src/assets/brand/blackpaw/logo/stacked/transparent/bp-stacked-navy-transparent.png",
+        "src/assets/brand/blackpaw/logo/stacked/transparent/bp-stacked-navy-transparent.svg"
+      ],
+      "backgrounds": [
+        "white",
+        "light-neutral",
+        "paper"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Logo collection set 5. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
+    },
+    {
+      "id": "blackpaw.logo.stacked.on-background.standalone",
+      "identity": "blackpaw",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/blackpaw/logo/stacked/on-background/bp-stacked-color-on-ink-circle.png",
+        "src/assets/brand/blackpaw/logo/stacked/on-background/bp-stacked-color-on-ink-circle.svg",
+        "src/assets/brand/blackpaw/logo/stacked/on-background/bp-stacked-color-on-ink-square.png",
+        "src/assets/brand/blackpaw/logo/stacked/on-background/bp-stacked-color-on-ink-square.svg",
+        "src/assets/brand/blackpaw/logo/stacked/on-background/bp-stacked-color-on-midnight-circle.png",
+        "src/assets/brand/blackpaw/logo/stacked/on-background/bp-stacked-color-on-midnight-circle.svg",
+        "src/assets/brand/blackpaw/logo/stacked/on-background/bp-stacked-color-on-midnight-square.png",
+        "src/assets/brand/blackpaw/logo/stacked/on-background/bp-stacked-color-on-midnight-square.svg",
+        "src/assets/brand/blackpaw/logo/stacked/on-background/bp-stacked-color-on-white-circle.png",
+        "src/assets/brand/blackpaw/logo/stacked/on-background/bp-stacked-color-on-white-circle.svg",
+        "src/assets/brand/blackpaw/logo/stacked/on-background/bp-stacked-navy-on-white-circle.png",
+        "src/assets/brand/blackpaw/logo/stacked/on-background/bp-stacked-navy-on-white-circle.svg",
+        "src/assets/brand/blackpaw/logo/stacked/on-background/bp-stacked-white-on-gradient-circle.png",
+        "src/assets/brand/blackpaw/logo/stacked/on-background/bp-stacked-white-on-gradient-circle.svg",
+        "src/assets/brand/blackpaw/logo/stacked/on-background/bp-stacked-white-on-gradient-square.png",
+        "src/assets/brand/blackpaw/logo/stacked/on-background/bp-stacked-white-on-gradient-square.svg"
+      ],
+      "backgrounds": [
+        "standalone"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Logo collection set 5. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
+    },
+    {
+      "id": "blackpaw.logo.tagline.dark",
+      "identity": "blackpaw",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/blackpaw/logo/tagline/bp-tagline-white-transparent.png",
+        "src/assets/brand/blackpaw/logo/tagline/bp-tagline-white-transparent.svg"
+      ],
+      "backgrounds": [
+        "midnight",
+        "ink-navy",
+        "photography-dark"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
+    },
+    {
+      "id": "blackpaw.logo.tagline.light",
+      "identity": "blackpaw",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/blackpaw/logo/tagline/bp-tagline-color-transparent.png",
+        "src/assets/brand/blackpaw/logo/tagline/bp-tagline-color-transparent.svg"
+      ],
+      "backgrounds": [
+        "white",
+        "light-neutral",
+        "paper"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
+    },
+    {
+      "id": "blackpaw.logo.transparent-pack.dark",
+      "identity": "blackpaw",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-horizontal-dark-no-tagline.png",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-horizontal-dark-no-tagline.svg",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-horizontal-dark.png",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-horizontal-dark.svg",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-mark-dark.png",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-mark-dark.svg",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-mark-warmwhite.png",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-mark-warmwhite.svg",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-stacked-dark-no-tagline.png",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-stacked-dark-no-tagline.svg",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-stacked-dark.png",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-stacked-dark.svg",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-tagline-display-warmwhite.png",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-tagline-display-warmwhite.svg",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-tagline-line-warmwhite.png",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-tagline-line-warmwhite.svg",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-wordmark-warmwhite.png",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-wordmark-warmwhite.svg",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-wordtag-dark.png",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-wordtag-dark.svg"
+      ],
+      "backgrounds": [
+        "midnight",
+        "ink-navy",
+        "photography-dark"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 24,
+      "notes": "21 transparent exports, 4% margin. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
+    },
+    {
+      "id": "blackpaw.logo.transparent-pack.light",
+      "identity": "blackpaw",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-horizontal-light-no-tagline.png",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-horizontal-light-no-tagline.svg",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-horizontal-light.png",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-horizontal-light.svg",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-mark-ink.png",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-mark-ink.svg",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-mark-light.png",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-mark-light.svg",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-mark-outline.png",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-mark-outline.svg",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-stacked-light-no-tagline.png",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-stacked-light-no-tagline.svg",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-stacked-light.png",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-stacked-light.svg",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-tagline-display-colour.png",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-tagline-display-colour.svg",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-tagline-line-ink.png",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-tagline-line-ink.svg",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-wordmark-ink.png",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-wordmark-ink.svg",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-wordtag-light.png",
+        "src/assets/brand/blackpaw/logo/transparent-pack/bp-transparent-wordtag-light.svg"
+      ],
+      "backgrounds": [
+        "white",
+        "light-neutral",
+        "paper"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 24,
+      "notes": "21 transparent exports, 4% margin. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
+    },
+    {
+      "id": "blackpaw.logo.no-tagline.dark",
+      "identity": "blackpaw",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/blackpaw/logo/no-tagline/bp-lockup-horizontal-dark-no-tagline.png",
+        "src/assets/brand/blackpaw/logo/no-tagline/bp-lockup-horizontal-dark-no-tagline.svg",
+        "src/assets/brand/blackpaw/logo/no-tagline/bp-lockup-stacked-dark-no-tagline.png",
+        "src/assets/brand/blackpaw/logo/no-tagline/bp-lockup-stacked-dark-no-tagline.svg",
+        "src/assets/brand/blackpaw/logo/no-tagline/bp-mark-dark.png",
+        "src/assets/brand/blackpaw/logo/no-tagline/bp-mark-dark.svg",
+        "src/assets/brand/blackpaw/logo/no-tagline/bp-mark-warmwhite.png",
+        "src/assets/brand/blackpaw/logo/no-tagline/bp-mark-warmwhite.svg"
+      ],
+      "backgrounds": [
+        "midnight",
+        "ink-navy",
+        "photography-dark"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
+    },
+    {
+      "id": "blackpaw.logo.no-tagline.light",
+      "identity": "blackpaw",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/blackpaw/logo/no-tagline/bp-lockup-horizontal-light-no-tagline.png",
+        "src/assets/brand/blackpaw/logo/no-tagline/bp-lockup-horizontal-light-no-tagline.svg",
+        "src/assets/brand/blackpaw/logo/no-tagline/bp-lockup-stacked-light-no-tagline.png",
+        "src/assets/brand/blackpaw/logo/no-tagline/bp-lockup-stacked-light-no-tagline.svg",
+        "src/assets/brand/blackpaw/logo/no-tagline/bp-mark-ink.png",
+        "src/assets/brand/blackpaw/logo/no-tagline/bp-mark-ink.svg",
+        "src/assets/brand/blackpaw/logo/no-tagline/bp-mark-light.png",
+        "src/assets/brand/blackpaw/logo/no-tagline/bp-mark-light.svg"
+      ],
+      "backgrounds": [
+        "white",
+        "light-neutral",
+        "paper"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
+    },
+    {
+      "id": "blackpaw.digital.standalone",
+      "identity": "blackpaw",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/blackpaw/digital/bp-appicon-ink-1024.png",
+        "src/assets/brand/blackpaw/digital/bp-appicon-ink-1024.svg",
+        "src/assets/brand/blackpaw/digital/bp-appicon-midnight-1024.png",
+        "src/assets/brand/blackpaw/digital/bp-appicon-midnight-1024.svg",
+        "src/assets/brand/blackpaw/digital/bp-avatar-ink-1080.png",
+        "src/assets/brand/blackpaw/digital/bp-avatar-ink-1080.svg",
+        "src/assets/brand/blackpaw/digital/bp-avatar-midnight-1080.png",
+        "src/assets/brand/blackpaw/digital/bp-avatar-midnight-1080.svg",
+        "src/assets/brand/blackpaw/digital/bp-icon-16.png",
+        "src/assets/brand/blackpaw/digital/bp-icon-16.svg",
+        "src/assets/brand/blackpaw/digital/bp-icon-180.png",
+        "src/assets/brand/blackpaw/digital/bp-icon-180.svg",
+        "src/assets/brand/blackpaw/digital/bp-icon-192.png",
+        "src/assets/brand/blackpaw/digital/bp-icon-192.svg",
+        "src/assets/brand/blackpaw/digital/bp-icon-32.png",
+        "src/assets/brand/blackpaw/digital/bp-icon-32.svg",
+        "src/assets/brand/blackpaw/digital/bp-icon-48.png",
+        "src/assets/brand/blackpaw/digital/bp-icon-48.svg",
+        "src/assets/brand/blackpaw/digital/bp-icon-512.png",
+        "src/assets/brand/blackpaw/digital/bp-icon-512.svg",
+        "src/assets/brand/blackpaw/digital/favicon.ico"
+      ],
+      "backgrounds": [
+        "standalone"
+      ],
+      "recolour": false,
+      "notes": "App icons, avatars, 16-512 px icons, favicon.ico. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
+    },
+    {
+      "id": "blackpaw.print.light",
+      "identity": "blackpaw",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/blackpaw/print/bp-horizontal-mono.png",
+        "src/assets/brand/blackpaw/print/bp-horizontal-mono.svg"
+      ],
+      "backgrounds": [
+        "white",
+        "light-neutral",
+        "paper"
+      ],
+      "recolour": false,
+      "notes": "Mono, engraving and 384 px thermal receipt. Proof before production. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
+    },
+    {
+      "id": "blackpaw.print.standalone",
+      "identity": "blackpaw",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/blackpaw/print/bp-mark-engraving.png",
+        "src/assets/brand/blackpaw/print/bp-mark-engraving.svg",
+        "src/assets/brand/blackpaw/print/bp-receipt-mono-384.png",
+        "src/assets/brand/blackpaw/print/bp-receipt-mono-384.svg"
+      ],
+      "backgrounds": [
+        "standalone"
+      ],
+      "recolour": false,
+      "notes": "Mono, engraving and 384 px thermal receipt. Proof before production. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
+    },
+    {
+      "id": "blackpaw.graphics.dark",
+      "identity": "blackpaw",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/blackpaw/graphics/bp-signature-rule-dark.png",
+        "src/assets/brand/blackpaw/graphics/bp-signature-rule-dark.svg",
+        "src/assets/brand/blackpaw/graphics/bp-tagline-display-warmwhite.png",
+        "src/assets/brand/blackpaw/graphics/bp-tagline-display-warmwhite.svg"
+      ],
+      "backgrounds": [
+        "midnight",
+        "ink-navy",
+        "photography-dark"
+      ],
+      "recolour": false,
+      "notes": "Midnight, ink and signature backgrounds, pattern, signature rules, clear-space guide, stickers. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
+    },
+    {
+      "id": "blackpaw.graphics.light",
+      "identity": "blackpaw",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/blackpaw/graphics/bp-clear-space-construction.png",
+        "src/assets/brand/blackpaw/graphics/bp-clear-space-construction.svg",
+        "src/assets/brand/blackpaw/graphics/bp-signature-rule-light.png",
+        "src/assets/brand/blackpaw/graphics/bp-signature-rule-light.svg"
+      ],
+      "backgrounds": [
+        "white",
+        "light-neutral",
+        "paper"
+      ],
+      "recolour": false,
+      "notes": "Midnight, ink and signature backgrounds, pattern, signature rules, clear-space guide, stickers. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
+    },
+    {
+      "id": "blackpaw.graphics.standalone",
+      "identity": "blackpaw",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/blackpaw/graphics/bp-background-gradient.png",
+        "src/assets/brand/blackpaw/graphics/bp-background-gradient.svg",
+        "src/assets/brand/blackpaw/graphics/bp-background-ink.png",
+        "src/assets/brand/blackpaw/graphics/bp-background-ink.svg",
+        "src/assets/brand/blackpaw/graphics/bp-background-midnight.png",
+        "src/assets/brand/blackpaw/graphics/bp-background-midnight.svg",
+        "src/assets/brand/blackpaw/graphics/bp-mark-pattern-midnight.png",
+        "src/assets/brand/blackpaw/graphics/bp-mark-pattern-midnight.svg",
+        "src/assets/brand/blackpaw/graphics/bp-sticker-horizontal.png",
+        "src/assets/brand/blackpaw/graphics/bp-sticker-horizontal.svg",
+        "src/assets/brand/blackpaw/graphics/bp-sticker-mark.png",
+        "src/assets/brand/blackpaw/graphics/bp-sticker-mark.svg",
+        "src/assets/brand/blackpaw/graphics/bp-sticker-wordmark.png",
+        "src/assets/brand/blackpaw/graphics/bp-sticker-wordmark.svg"
+      ],
+      "backgrounds": [
+        "standalone"
+      ],
+      "recolour": false,
+      "notes": "Midnight, ink and signature backgrounds, pattern, signature rules, clear-space guide, stickers. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
+    },
+    {
+      "id": "hakiqa.logo.symbol.dark",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/symbol/hakiqa-mark-full-dark.png",
+        "src/assets/brand/hakiqa/logo/symbol/hakiqa-mark-full-dark.svg",
+        "src/assets/brand/hakiqa/logo/symbol/hakiqa-mark-white.png",
+        "src/assets/brand/hakiqa/logo/symbol/hakiqa-mark-white.svg"
+      ],
+      "backgrounds": [
+        "midnight",
+        "ink-navy",
+        "photography-dark"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 24,
+      "notes": "Four-panel symbol, 8 treatments. Hakiqa identity, approved 2026-10-08/09. Do not redraw or recolour."
+    },
+    {
+      "id": "hakiqa.logo.symbol.light",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/symbol/hakiqa-mark-black.png",
+        "src/assets/brand/hakiqa/logo/symbol/hakiqa-mark-black.svg",
+        "src/assets/brand/hakiqa/logo/symbol/hakiqa-mark-duotone-orange-navy.png",
+        "src/assets/brand/hakiqa/logo/symbol/hakiqa-mark-duotone-orange-navy.svg",
+        "src/assets/brand/hakiqa/logo/symbol/hakiqa-mark-full.png",
+        "src/assets/brand/hakiqa/logo/symbol/hakiqa-mark-full.svg",
+        "src/assets/brand/hakiqa/logo/symbol/hakiqa-mark-gloss.png",
+        "src/assets/brand/hakiqa/logo/symbol/hakiqa-mark-gloss.svg",
+        "src/assets/brand/hakiqa/logo/symbol/hakiqa-mark-navy.png",
+        "src/assets/brand/hakiqa/logo/symbol/hakiqa-mark-navy.svg",
+        "src/assets/brand/hakiqa/logo/symbol/hakiqa-mark-orange.png",
+        "src/assets/brand/hakiqa/logo/symbol/hakiqa-mark-orange.svg"
+      ],
+      "backgrounds": [
+        "white",
+        "light-neutral",
+        "paper"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 24,
+      "notes": "Four-panel symbol, 8 treatments. Hakiqa identity, approved 2026-10-08/09. Do not redraw or recolour."
+    },
+    {
+      "id": "hakiqa.logo.wordmark.dark",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/wordmarks/hakiqa-wordmark-capitalised-white.png",
+        "src/assets/brand/hakiqa/logo/wordmarks/hakiqa-wordmark-capitalised-white.svg"
+      ],
+      "backgrounds": [
+        "midnight",
+        "ink-navy",
+        "photography-dark"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 96,
+      "notes": "Capitalised (default) and script. Hakiqa identity, approved 2026-10-08/09. Do not redraw or recolour."
+    },
+    {
+      "id": "hakiqa.logo.wordmark.light",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/wordmarks/hakiqa-wordmark-capitalised.png",
+        "src/assets/brand/hakiqa/logo/wordmarks/hakiqa-wordmark-capitalised.svg",
+        "src/assets/brand/hakiqa/logo/wordmarks/hakiqa-wordmark-script-vector-trace.svg",
+        "src/assets/brand/hakiqa/logo/wordmarks/hakiqa-wordmark-script.png"
+      ],
+      "backgrounds": [
+        "white",
+        "light-neutral",
+        "paper"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 96,
+      "notes": "Capitalised (default) and script. Hakiqa identity, approved 2026-10-08/09. Do not redraw or recolour."
+    },
+    {
+      "id": "hakiqa.logo.lockup.horizontal.dark",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/lockups/horizontal/hakiqa-lockup-horizontal-capitalised-full-dark.png",
+        "src/assets/brand/hakiqa/logo/lockups/horizontal/hakiqa-lockup-horizontal-capitalised-full-dark.svg",
+        "src/assets/brand/hakiqa/logo/lockups/horizontal/hakiqa-lockup-horizontal-capitalised-white.png",
+        "src/assets/brand/hakiqa/logo/lockups/horizontal/hakiqa-lockup-horizontal-capitalised-white.svg"
+      ],
+      "backgrounds": [
+        "midnight",
+        "ink-navy",
+        "photography-dark"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Hakiqa identity, approved 2026-10-08/09. Do not redraw or recolour."
+    },
+    {
+      "id": "hakiqa.logo.lockup.horizontal.light",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/lockups/horizontal/hakiqa-lockup-horizontal-capitalised-black.png",
+        "src/assets/brand/hakiqa/logo/lockups/horizontal/hakiqa-lockup-horizontal-capitalised-black.svg",
+        "src/assets/brand/hakiqa/logo/lockups/horizontal/hakiqa-lockup-horizontal-capitalised-duotone-orange-navy.png",
+        "src/assets/brand/hakiqa/logo/lockups/horizontal/hakiqa-lockup-horizontal-capitalised-duotone-orange-navy.svg",
+        "src/assets/brand/hakiqa/logo/lockups/horizontal/hakiqa-lockup-horizontal-capitalised-full.png",
+        "src/assets/brand/hakiqa/logo/lockups/horizontal/hakiqa-lockup-horizontal-capitalised-full.svg",
+        "src/assets/brand/hakiqa/logo/lockups/horizontal/hakiqa-lockup-horizontal-capitalised-gloss.png",
+        "src/assets/brand/hakiqa/logo/lockups/horizontal/hakiqa-lockup-horizontal-capitalised-gloss.svg",
+        "src/assets/brand/hakiqa/logo/lockups/horizontal/hakiqa-lockup-horizontal-capitalised-navy.png",
+        "src/assets/brand/hakiqa/logo/lockups/horizontal/hakiqa-lockup-horizontal-capitalised-navy.svg",
+        "src/assets/brand/hakiqa/logo/lockups/horizontal/hakiqa-lockup-horizontal-capitalised-orange.png",
+        "src/assets/brand/hakiqa/logo/lockups/horizontal/hakiqa-lockup-horizontal-capitalised-orange.svg"
+      ],
+      "backgrounds": [
+        "white",
+        "light-neutral",
+        "paper"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 160,
+      "notes": "Hakiqa identity, approved 2026-10-08/09. Do not redraw or recolour."
+    },
+    {
+      "id": "hakiqa.logo.lockup.horizontal-script.dark",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/lockups/horizontal-script/hakiqa-lockup-horizontal-script-full-dark.png",
+        "src/assets/brand/hakiqa/logo/lockups/horizontal-script/hakiqa-lockup-horizontal-script-full-dark.svg",
+        "src/assets/brand/hakiqa/logo/lockups/horizontal-script/hakiqa-lockup-horizontal-script-white.png",
+        "src/assets/brand/hakiqa/logo/lockups/horizontal-script/hakiqa-lockup-horizontal-script-white.svg"
+      ],
+      "backgrounds": [
+        "midnight",
+        "ink-navy",
+        "photography-dark"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 200,
+      "notes": "Hakiqa identity, approved 2026-10-08/09. Do not redraw or recolour."
+    },
+    {
+      "id": "hakiqa.logo.lockup.horizontal-script.light",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/lockups/horizontal-script/hakiqa-lockup-horizontal-script-black.png",
+        "src/assets/brand/hakiqa/logo/lockups/horizontal-script/hakiqa-lockup-horizontal-script-black.svg",
+        "src/assets/brand/hakiqa/logo/lockups/horizontal-script/hakiqa-lockup-horizontal-script-duotone-orange-navy.png",
+        "src/assets/brand/hakiqa/logo/lockups/horizontal-script/hakiqa-lockup-horizontal-script-duotone-orange-navy.svg",
+        "src/assets/brand/hakiqa/logo/lockups/horizontal-script/hakiqa-lockup-horizontal-script-full.png",
+        "src/assets/brand/hakiqa/logo/lockups/horizontal-script/hakiqa-lockup-horizontal-script-full.svg",
+        "src/assets/brand/hakiqa/logo/lockups/horizontal-script/hakiqa-lockup-horizontal-script-gloss.png",
+        "src/assets/brand/hakiqa/logo/lockups/horizontal-script/hakiqa-lockup-horizontal-script-gloss.svg",
+        "src/assets/brand/hakiqa/logo/lockups/horizontal-script/hakiqa-lockup-horizontal-script-navy.png",
+        "src/assets/brand/hakiqa/logo/lockups/horizontal-script/hakiqa-lockup-horizontal-script-navy.svg",
+        "src/assets/brand/hakiqa/logo/lockups/horizontal-script/hakiqa-lockup-horizontal-script-orange.png",
+        "src/assets/brand/hakiqa/logo/lockups/horizontal-script/hakiqa-lockup-horizontal-script-orange.svg"
+      ],
+      "backgrounds": [
+        "white",
+        "light-neutral",
+        "paper"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 200,
+      "notes": "Hakiqa identity, approved 2026-10-08/09. Do not redraw or recolour."
+    },
+    {
+      "id": "hakiqa.logo.lockup.stacked.dark",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/lockups/stacked/hakiqa-lockup-stacked-capitalised-full-dark.png",
+        "src/assets/brand/hakiqa/logo/lockups/stacked/hakiqa-lockup-stacked-capitalised-full-dark.svg",
+        "src/assets/brand/hakiqa/logo/lockups/stacked/hakiqa-lockup-stacked-capitalised-white.png",
+        "src/assets/brand/hakiqa/logo/lockups/stacked/hakiqa-lockup-stacked-capitalised-white.svg"
+      ],
+      "backgrounds": [
+        "midnight",
+        "ink-navy",
+        "photography-dark"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 120,
+      "notes": "Hakiqa identity, approved 2026-10-08/09. Do not redraw or recolour."
+    },
+    {
+      "id": "hakiqa.logo.lockup.stacked.light",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/lockups/stacked/hakiqa-lockup-stacked-capitalised-black.png",
+        "src/assets/brand/hakiqa/logo/lockups/stacked/hakiqa-lockup-stacked-capitalised-black.svg",
+        "src/assets/brand/hakiqa/logo/lockups/stacked/hakiqa-lockup-stacked-capitalised-duotone-orange-navy.png",
+        "src/assets/brand/hakiqa/logo/lockups/stacked/hakiqa-lockup-stacked-capitalised-duotone-orange-navy.svg",
+        "src/assets/brand/hakiqa/logo/lockups/stacked/hakiqa-lockup-stacked-capitalised-full.png",
+        "src/assets/brand/hakiqa/logo/lockups/stacked/hakiqa-lockup-stacked-capitalised-full.svg",
+        "src/assets/brand/hakiqa/logo/lockups/stacked/hakiqa-lockup-stacked-capitalised-gloss.png",
+        "src/assets/brand/hakiqa/logo/lockups/stacked/hakiqa-lockup-stacked-capitalised-gloss.svg",
+        "src/assets/brand/hakiqa/logo/lockups/stacked/hakiqa-lockup-stacked-capitalised-navy.png",
+        "src/assets/brand/hakiqa/logo/lockups/stacked/hakiqa-lockup-stacked-capitalised-navy.svg",
+        "src/assets/brand/hakiqa/logo/lockups/stacked/hakiqa-lockup-stacked-capitalised-orange.png",
+        "src/assets/brand/hakiqa/logo/lockups/stacked/hakiqa-lockup-stacked-capitalised-orange.svg"
+      ],
+      "backgrounds": [
+        "white",
+        "light-neutral",
+        "paper"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 120,
+      "notes": "Hakiqa identity, approved 2026-10-08/09. Do not redraw or recolour."
+    },
+    {
+      "id": "hakiqa.logo.lockup.stacked-script.dark",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/lockups/stacked-script/hakiqa-lockup-stacked-script-full-dark.png",
+        "src/assets/brand/hakiqa/logo/lockups/stacked-script/hakiqa-lockup-stacked-script-full-dark.svg",
+        "src/assets/brand/hakiqa/logo/lockups/stacked-script/hakiqa-lockup-stacked-script-white.png",
+        "src/assets/brand/hakiqa/logo/lockups/stacked-script/hakiqa-lockup-stacked-script-white.svg"
+      ],
+      "backgrounds": [
+        "midnight",
+        "ink-navy",
+        "photography-dark"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 140,
+      "notes": "Hakiqa identity, approved 2026-10-08/09. Do not redraw or recolour."
+    },
+    {
+      "id": "hakiqa.logo.lockup.stacked-script.light",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/lockups/stacked-script/hakiqa-lockup-stacked-script-black.png",
+        "src/assets/brand/hakiqa/logo/lockups/stacked-script/hakiqa-lockup-stacked-script-black.svg",
+        "src/assets/brand/hakiqa/logo/lockups/stacked-script/hakiqa-lockup-stacked-script-duotone-orange-navy.png",
+        "src/assets/brand/hakiqa/logo/lockups/stacked-script/hakiqa-lockup-stacked-script-duotone-orange-navy.svg",
+        "src/assets/brand/hakiqa/logo/lockups/stacked-script/hakiqa-lockup-stacked-script-full.png",
+        "src/assets/brand/hakiqa/logo/lockups/stacked-script/hakiqa-lockup-stacked-script-full.svg",
+        "src/assets/brand/hakiqa/logo/lockups/stacked-script/hakiqa-lockup-stacked-script-gloss.png",
+        "src/assets/brand/hakiqa/logo/lockups/stacked-script/hakiqa-lockup-stacked-script-gloss.svg",
+        "src/assets/brand/hakiqa/logo/lockups/stacked-script/hakiqa-lockup-stacked-script-navy.png",
+        "src/assets/brand/hakiqa/logo/lockups/stacked-script/hakiqa-lockup-stacked-script-navy.svg",
+        "src/assets/brand/hakiqa/logo/lockups/stacked-script/hakiqa-lockup-stacked-script-orange.png",
+        "src/assets/brand/hakiqa/logo/lockups/stacked-script/hakiqa-lockup-stacked-script-orange.svg"
+      ],
+      "backgrounds": [
+        "white",
+        "light-neutral",
+        "paper"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 140,
+      "notes": "Hakiqa identity, approved 2026-10-08/09. Do not redraw or recolour."
+    },
+    {
+      "id": "hakiqa.logo.product.dark",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/product/hakiqa-wordmark-duka-white.svg"
+      ],
+      "backgrounds": [
+        "midnight",
+        "ink-navy",
+        "photography-dark"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 120,
+      "notes": "Duka and Connect product wordmarks. Hakiqa identity, approved 2026-10-08/09. Do not redraw or recolour."
+    },
+    {
+      "id": "hakiqa.logo.product.light",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/logo/product/hakiqa-wordmark-connect.png",
+        "src/assets/brand/hakiqa/logo/product/hakiqa-wordmark-connect.svg",
+        "src/assets/brand/hakiqa/logo/product/hakiqa-wordmark-duka.png",
+        "src/assets/brand/hakiqa/logo/product/hakiqa-wordmark-duka.svg"
+      ],
+      "backgrounds": [
+        "white",
+        "light-neutral",
+        "paper"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 120,
+      "notes": "Duka and Connect product wordmarks. Hakiqa identity, approved 2026-10-08/09. Do not redraw or recolour."
+    },
+    {
+      "id": "hakiqa.digital.app-icons.standalone",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/digital/app-icons/hakiqa-appicon-1024-navy.png",
+        "src/assets/brand/hakiqa/digital/app-icons/hakiqa-appicon-1024-navy.svg",
+        "src/assets/brand/hakiqa/digital/app-icons/hakiqa-appicon-1024-orange.png",
+        "src/assets/brand/hakiqa/digital/app-icons/hakiqa-appicon-1024-orange.svg",
+        "src/assets/brand/hakiqa/digital/app-icons/hakiqa-appicon-connect.png",
+        "src/assets/brand/hakiqa/digital/app-icons/hakiqa-appicon-connect.svg",
+        "src/assets/brand/hakiqa/digital/app-icons/hakiqa-appicon-duka.png",
+        "src/assets/brand/hakiqa/digital/app-icons/hakiqa-appicon-duka.svg"
+      ],
+      "backgrounds": [
+        "standalone"
+      ],
+      "recolour": false,
+      "notes": "Hakiqa identity, approved 2026-10-08/09. Do not redraw or recolour."
+    },
+    {
+      "id": "hakiqa.digital.favicons.standalone",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/digital/favicons/favicon-16.png",
+        "src/assets/brand/hakiqa/digital/favicons/favicon-16.svg",
+        "src/assets/brand/hakiqa/digital/favicons/favicon-32.png",
+        "src/assets/brand/hakiqa/digital/favicons/favicon-32.svg",
+        "src/assets/brand/hakiqa/digital/favicons/hakiqa-favicon.png",
+        "src/assets/brand/hakiqa/digital/favicons/hakiqa-favicon.svg"
+      ],
+      "backgrounds": [
+        "standalone"
+      ],
+      "recolour": false,
+      "notes": "Hakiqa identity, approved 2026-10-08/09. Do not redraw or recolour."
+    },
+    {
+      "id": "hakiqa.digital.social-avatar.standalone",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/digital/social-avatar/hakiqa-avatar-ig.png",
+        "src/assets/brand/hakiqa/digital/social-avatar/hakiqa-avatar-ig.svg"
+      ],
+      "backgrounds": [
+        "standalone"
+      ],
+      "recolour": false,
+      "notes": "Hakiqa identity, approved 2026-10-08/09. Do not redraw or recolour."
+    },
+    {
+      "id": "hakiqa.applications.light",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/applications/hakiqa-shape-base.png",
+        "src/assets/brand/hakiqa/applications/hakiqa-shape-base.svg",
+        "src/assets/brand/hakiqa/applications/hakiqa-shape-screen.png",
+        "src/assets/brand/hakiqa/applications/hakiqa-shape-screen.svg"
+      ],
+      "backgrounds": [
+        "white",
+        "light-neutral",
+        "paper"
+      ],
+      "recolour": false,
+      "notes": "Round stamp, thermal receipt logo, panel pattern, shapes, mark sticker. Hakiqa identity, approved 2026-10-08/09. Do not redraw or recolour."
+    },
+    {
+      "id": "hakiqa.applications.standalone",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/applications/hakiqa-duka-round-stamp.png",
+        "src/assets/brand/hakiqa/applications/hakiqa-duka-round-stamp.svg",
+        "src/assets/brand/hakiqa/applications/hakiqa-mark-sticker.png",
+        "src/assets/brand/hakiqa/applications/hakiqa-mark-sticker.svg",
+        "src/assets/brand/hakiqa/applications/hakiqa-panel-pattern.png",
+        "src/assets/brand/hakiqa/applications/hakiqa-panel-pattern.svg",
+        "src/assets/brand/hakiqa/applications/hakiqa-receipt-384.png",
+        "src/assets/brand/hakiqa/applications/hakiqa-receipt-384.svg"
+      ],
+      "backgrounds": [
+        "standalone"
+      ],
+      "recolour": false,
+      "notes": "Round stamp, thermal receipt logo, panel pattern, shapes, mark sticker. Hakiqa identity, approved 2026-10-08/09. Do not redraw or recolour."
+    },
+    {
+      "id": "hakiqa.stickers.standalone",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/stickers/hakiqa-sticker-ipo-kwa-duka.png",
+        "src/assets/brand/hakiqa/stickers/hakiqa-sticker-ipo-kwa-duka.svg",
+        "src/assets/brand/hakiqa/stickers/hakiqa-sticker-wordmark-capitalised.png",
+        "src/assets/brand/hakiqa/stickers/hakiqa-sticker-wordmark-capitalised.svg",
+        "src/assets/brand/hakiqa/stickers/hakiqa-sticker-wordmark-script.png",
+        "src/assets/brand/hakiqa/stickers/hakiqa-sticker-wordmark-script.svg"
+      ],
+      "backgrounds": [
+        "standalone"
+      ],
+      "recolour": false,
+      "notes": "Hakiqa identity, approved 2026-10-08/09. Do not redraw or recolour."
+    },
+    {
+      "id": "hakiqa.motion.logo.standalone",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/motion/logo/hakiqa-loader.json",
+        "src/assets/brand/hakiqa/motion/logo/hakiqa-motion-assemble.svg",
+        "src/assets/brand/hakiqa/motion/logo/hakiqa-motion-breathe.svg",
+        "src/assets/brand/hakiqa/motion/logo/hakiqa-motion-lockup-reveal.svg",
+        "src/assets/brand/hakiqa/motion/logo/hakiqa-opening.json",
+        "src/assets/brand/hakiqa/motion/logo/hakiqa-motion-assemble.png",
+        "src/assets/brand/hakiqa/motion/logo/hakiqa-motion-breathe.png",
+        "src/assets/brand/hakiqa/motion/logo/hakiqa-motion-lockup-reveal.png",
+        "src/assets/brand/hakiqa/motion/logo/hakiqa-motion-assemble.mp4",
+        "src/assets/brand/hakiqa/motion/logo/hakiqa-motion-breathe.mp4",
+        "src/assets/brand/hakiqa/motion/logo/hakiqa-motion-lockup-reveal.mp4"
+      ],
+      "backgrounds": [
+        "standalone"
+      ],
+      "recolour": false,
+      "notes": "Assemble, breathe and lockup-reveal: MP4, animated SVG (reduced-motion aware), Lottie JSON, still posters. Hakiqa identity, approved 2026-10-08/09. Do not redraw or recolour."
+    },
+    {
+      "id": "hakiqa.motion.sonic.standalone",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/motion/sonic/hakiqa-sonic-logo_instrumental_4s.wav",
+        "src/assets/brand/hakiqa/motion/sonic/hakiqa-sonic-logo_mnemonic_1.5s.wav",
+        "src/assets/brand/hakiqa/motion/sonic/hakiqa-sonic-endcard-landscape.mp4",
+        "src/assets/brand/hakiqa/motion/sonic/hakiqa-sonic-endcard-vertical.mp4"
+      ],
+      "backgrounds": [
+        "standalone"
+      ],
+      "recolour": false,
+      "notes": "Sonic logo: 4 s instrumental, 1.5 s mnemonic, end cards with sound. Hakiqa identity, approved 2026-10-08/09. Do not redraw or recolour."
+    },
+    {
+      "id": "hakiqa.mascot.industries.excited.light",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/mascot/industries/excited/haki-v-barber.png",
+        "src/assets/brand/hakiqa/mascot/industries/excited/haki-v-car-parts.png",
+        "src/assets/brand/hakiqa/mascot/industries/excited/haki-v-car-wash.png",
+        "src/assets/brand/hakiqa/mascot/industries/excited/haki-v-construction.png",
+        "src/assets/brand/hakiqa/mascot/industries/excited/haki-v-dairy.png",
+        "src/assets/brand/hakiqa/mascot/industries/excited/haki-v-equipment-rental.png",
+        "src/assets/brand/hakiqa/mascot/industries/excited/haki-v-events.png",
+        "src/assets/brand/hakiqa/mascot/industries/excited/haki-v-field-connect.png",
+        "src/assets/brand/hakiqa/mascot/industries/excited/haki-v-gym.png",
+        "src/assets/brand/hakiqa/mascot/industries/excited/haki-v-hospitality.png",
+        "src/assets/brand/hakiqa/mascot/industries/excited/haki-v-imports.png",
+        "src/assets/brand/hakiqa/mascot/industries/excited/haki-v-optical.png",
+        "src/assets/brand/hakiqa/mascot/industries/excited/haki-v-property.png",
+        "src/assets/brand/hakiqa/mascot/industries/excited/haki-v-retail-duka.png",
+        "src/assets/brand/hakiqa/mascot/industries/excited/haki-v-salon.png",
+        "src/assets/brand/hakiqa/mascot/industries/excited/haki-v-spa.png",
+        "src/assets/brand/hakiqa/mascot/industries/excited/haki-v-tailor.png"
+      ],
+      "backgrounds": [
+        "white",
+        "light-neutral",
+        "paper"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 120,
+      "notes": "One Haki per vertical, hero/excited energy. Transparent. Character artwork only."
+    },
+    {
+      "id": "hakiqa.mascot.industries.calm.light",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/mascot/industries/calm/haki-v-barber-empty.png",
+        "src/assets/brand/hakiqa/mascot/industries/calm/haki-v-car-parts-empty.png",
+        "src/assets/brand/hakiqa/mascot/industries/calm/haki-v-car-wash-empty.png",
+        "src/assets/brand/hakiqa/mascot/industries/calm/haki-v-construction-empty.png",
+        "src/assets/brand/hakiqa/mascot/industries/calm/haki-v-dairy-empty.png",
+        "src/assets/brand/hakiqa/mascot/industries/calm/haki-v-equipment-rental-empty.png",
+        "src/assets/brand/hakiqa/mascot/industries/calm/haki-v-events-empty.png",
+        "src/assets/brand/hakiqa/mascot/industries/calm/haki-v-field-connect-empty.png",
+        "src/assets/brand/hakiqa/mascot/industries/calm/haki-v-gym-empty.png",
+        "src/assets/brand/hakiqa/mascot/industries/calm/haki-v-hospitality-empty.png",
+        "src/assets/brand/hakiqa/mascot/industries/calm/haki-v-imports-empty.png",
+        "src/assets/brand/hakiqa/mascot/industries/calm/haki-v-optical-empty.png",
+        "src/assets/brand/hakiqa/mascot/industries/calm/haki-v-property-empty.png",
+        "src/assets/brand/hakiqa/mascot/industries/calm/haki-v-retail-duka-empty.png",
+        "src/assets/brand/hakiqa/mascot/industries/calm/haki-v-salon-empty.png",
+        "src/assets/brand/hakiqa/mascot/industries/calm/haki-v-spa-empty.png",
+        "src/assets/brand/hakiqa/mascot/industries/calm/haki-v-tailor-empty.png"
+      ],
+      "backgrounds": [
+        "white",
+        "light-neutral",
+        "paper"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 120,
+      "notes": "One Haki per vertical for empty states; friendly, never sad. Transparent."
     }
   ]
 }
-
