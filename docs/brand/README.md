@@ -16,8 +16,12 @@ visual identity.
   — the visual decision artefact approved on 2026-09-02.
 - [Brand Foundation](./BRAND_FOUNDATION.md) — locked decisions, token model and
   authority.
-- [Blackpaw Brand Book](./BLACKPAW_BRAND_BOOK.md) — the concise human-readable
-  story and identity.
+- [Blackpaw Brand Book](./blackpaw-brand-book.html) — Edition 1, October 2026:
+  story, logo, colour, type, applications.
+- [Hakiqa Brand Book](./hakiqa-brand-book.html) — Edition 1, October 2026:
+  story, Haki, voice, logo, verticals, colour, type, applications.
+- [Copilot document prompt](./COPILOT_DOCUMENT_PROMPT.md) — paste at the start of
+  any Blackpaw proposal, profile or report.
 - [Brand Guidelines](./BRAND_GUIDELINES.md) — rules for applying the brand.
 - [Voice and Messaging](./VOICE_AND_MESSAGING.md) — approved message hierarchy,
   copy patterns and examples.
