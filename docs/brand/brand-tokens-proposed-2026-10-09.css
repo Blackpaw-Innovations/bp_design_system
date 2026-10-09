@@ -1,0 +1,29 @@
+/* DRAFT 9 Oct 2026, not approved. Additions only; merge into src/tokens/brand.css after sign-off. */
+:root{
+  /* Hakiqa (from Hakiqa Brand Guidelines PDF) */
+  --hk-red:#D0181F;
+  --hk-ink-2:#3B5470;
+  --hk-muted:#3D4F6E;
+  --hk-teal-ink:#005468;
+  --hk-ice:#E8FBFD;
+  --hk-sand:#FFE2BF;
+  --hk-sun:#FFD08A;
+  /* Blackpaw kit v2 (online, slides) */
+  --bp-midnight:#140F33;
+  --bp-ink-navy:#0A0A3A;
+  --bp-contrast:#09081A;
+  --bp-violet-glow:#7A2FA8;
+  --bp-plum-glow:#4B1E55;
+  --bp-warm-white:#FBF7F2;
+  --bp-coral-on-dark:#FF8A7A;
+  --bp-text-secondary-dark:#BDB6D3;
+  --bp-label-dark:#ADA6CC;
+  /* Gradients */
+  --bp-gradient:linear-gradient(90deg,#FE635F 0%,#8441B1 50%,#3228CF 100%);
+  --bp-gradient-dark:linear-gradient(90deg,#FF8A7A 0%,#B455C0 50%,#6A7BFF 100%);
+  --bp-gradient-offering:linear-gradient(90deg,#8441B1 0%,#5946F5 55%,#3228CF 100%);
+  /* Type */
+  --bp-font-voice:'Google Sans',system-ui,sans-serif;
+  --bp-font-mono:'JetBrains Mono',ui-monospace,monospace;
+  --app-font:'Urbanist',system-ui,sans-serif;
+}
