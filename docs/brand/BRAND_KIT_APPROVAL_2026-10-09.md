@@ -14,6 +14,7 @@ Marvin (brand owner) approved the complete Blackpaw and Hakiqa brand kit on 9 Oc
 - The earlier Blackpaw files in `blackpaw/logo/` (tagline lockups, signature gradient) are now `deprecated`. They remain only so existing consumers do not break.
 
 **Hakiqa**
+- **Main logo: the full-colour symbol `hakiqa-mark-full`** (`src/assets/brand/hakiqa/logo/symbol/hakiqa-mark-full.png` / `.svg`, manifest ID `hakiqa.logo.main`). This is the official Hakiqa logo for all official use. Other colour treatments are only for backgrounds where it does not show properly.
 - Symbol (8 treatments), capitalised and script wordmarks (script vector trace included), horizontal and stacked lockups (capitalised and script), Duka and Connect product wordmarks.
 - App icons, favicons, social avatar; stamp, receipt logo, pattern, shapes and stickers.
 - Logo motion (assemble, breathe, lockup reveal: MP4, animated SVG, Lottie) and the sonic logo. Previously review proposals, now approved.
@@ -30,7 +31,8 @@ Marvin (brand owner) approved the complete Blackpaw and Hakiqa brand kit on 9 Oc
 | Hakiqa icons, applications, stickers | `src/assets/brand/hakiqa/{digital,applications,stickers}` |
 | Hakiqa motion and sound | `src/assets/brand/hakiqa/motion/{logo,sonic}` |
 | Haki mascot | `src/assets/brand/hakiqa/mascot/` (+ `occasions/`, `industries/{excited,calm}`) |
-| Usage metadata | `src/assets/asset-manifest.json` (v1.3.0) |
+| Usage metadata | `src/assets/asset-manifest.json` (v1.3.1) |
+| Hakiqa main logo | `src/assets/brand/hakiqa/logo/symbol/hakiqa-mark-full.png` (`hakiqa.logo.main`) |
 
 ## Kept out of this repository
 

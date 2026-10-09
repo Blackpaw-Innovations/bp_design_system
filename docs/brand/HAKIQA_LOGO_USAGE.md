@@ -1,3 +1,5 @@
+> **Main logo (Marvin, 9 Oct 2026):** the official Hakiqa logo is the full-colour symbol `hakiqa-mark-full` (`src/assets/brand/hakiqa/logo/symbol/hakiqa-mark-full.png`, manifest ID `hakiqa.logo.main`). Use it for all official use; other treatments only where the background requires.
+
 # Hakiqa logo usage / Batch 7 review
 
 8 October 2026 · Application guide for the approved Hakiqa identity
