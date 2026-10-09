@@ -15,7 +15,8 @@ import { formatDate, formatMoney } from '../lib/format'
  *   Money, RecordId
  */
 
-const dev = typeof process !== 'undefined' && process.env?.NODE_ENV !== 'production'
+// Vite sets import.meta.env.DEV; anywhere else the dev warnings stay off.
+const dev = (import.meta as { env?: { DEV?: boolean } }).env?.DEV === true
 const warn = (msg: string) => { if (dev) console.warn(`[@blackpaw/ui] ${msg}`) }
 
 /* ── Buttons ───────────────────────────────────────────────── */
