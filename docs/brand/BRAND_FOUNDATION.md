@@ -1,5 +1,7 @@
 # Blackpaw Brand Foundation
 
+> **Superseded in part (9 Oct 2026).** The gradient `#E8547A → #8540E0 → #3228CF`, colours `#00A69C`, `#030347`, `#F8F7FF`, `#F4F3F8` and the old proposition are retired. Read `BRAND_RESOLUTIONS_2026-10-09.md` first; it wins where this file disagrees.
+
 Status: **Approved**  
 Version: **1.0**  
 Decision date: **2026-09-02**  

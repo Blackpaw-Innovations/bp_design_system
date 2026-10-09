@@ -46,6 +46,12 @@ Red, teal and cyan one-colour Hakiqa marks added, and Hakiqa field rules approve
 
 Video ads, draft animatics and 3D material renders (about 180 MB) are campaign media, not design-system assets. They stay in Marvin's Brand Kit folder (`Documents\Brand Kit`) and the LocalHost `output` / `video-output` working folders.
 
+## Brand resolutions (9 Oct 2026)
+
+`BRAND_RESOLUTIONS_2026-10-09.md` settles the contradictions found in the guidelines audit: Blackpaw voice type (Google Sans + JetBrains Mono), Urbanist in every app, one coral on light (#FE635F), the retired colours, the new gradients 1a to 1d, document modes, and the new proposition "We make complex businesses easier to run." Where an older doc in this repo disagrees, the resolutions win.
+
+The proposed tokens are in `brand-tokens-proposed-2026-10-09.css`. They are a draft and are **not** merged into `src/tokens/brand.css` until signed off.
+
 ## Still to do
 
 - Swap consumers (apps, blackpawinnovations.com, documents) from the deprecated Blackpaw files to the v2 IDs.
