@@ -297,3 +297,18 @@ html .rail > .hq-led-glow ~ .hq-led-glow::before { display: none; }
   :root .bp-snap-track { scroll-behavior: auto; }
   :root .bp-snap-foot .dots span { transition: none; }
 }
+
+/* ── 9 · Quick actions row (standards §5c, 4a) ────────────── */
+:root .bp-quick-row { display: flex; flex-wrap: wrap; gap: 10px; }
+:root .bp-quick { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 18px; border-radius: 14px;
+  border: 1.5px solid var(--g-line); background: var(--g-surface); color: var(--g-ink);
+  font: 700 16px/1 var(--g-font); text-decoration: none; white-space: nowrap; cursor: pointer; }
+:root .bp-quick:hover { border-color: var(--g-signal); color: var(--g-signal-text); }
+:root .bp-quick:active { transform: scale(.98); }
+:root .bp-quick:focus-visible { outline: 2px solid var(--g-focus); outline-offset: 2px; }
+@media (max-width: 599px) {
+  :root .bp-quick-row { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain;
+    margin: 0 -16px; padding: 0 16px; scroll-padding-left: 16px; }
+  :root .bp-quick-row::-webkit-scrollbar { display: none; }
+  :root .bp-quick { flex: none; padding: 0 16px; }
+}
