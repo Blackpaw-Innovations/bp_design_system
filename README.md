@@ -2,6 +2,59 @@
 
 Single source of truth for all Blackpaw/Hakiqa brand tokens, design utilities, and shared React components.
 
+## Find it fast
+
+Laid out like the Brand Kit folder (`Documents\Brand Kit`). Same numbers, same order.
+
+**0 · Start here:** [`docs/brand/`](docs/brand/README.md) has both brand books, the 9 Oct resolutions (the current rules) and the Copilot document prompt. Live site: <https://blackpaw-innovations.github.io/bp_design_system/>
+
+**Blackpaw** (`src/assets/brand/blackpaw/`)
+
+| Brand Kit | Repo folder |
+|---|---|
+| 1 Logos · A bp symbol (main logo) | `logo/mark/` |
+| 1 Logos · B Symbol and name, stacked | `logo/stacked/` |
+| 1 Logos · C Symbol and name, side by side | `logo/horizontal/` |
+| 1 Logos · D Tagline | `logo/tagline/` |
+| 1 Logos · E Wordmark and type lockups | `logo/wordmark-lockups/` |
+| 1 Logos · F All logos, transparent | `logo/transparent-pack/` |
+| 1 Logos · G Without tagline | `logo/no-tagline/` |
+| Old logos, do not use | `logo/z-retired/` |
+| 2 App icons and favicons | `digital/` |
+| 3 Print | `print/` |
+| 4 Backgrounds, patterns and stickers | `graphics/` |
+| 6 Logo animations | `motion/logo-animations/` |
+
+**Hakiqa** (`src/assets/brand/hakiqa/`)
+
+| Brand Kit | Repo folder |
+|---|---|
+| 1 Logos · A Symbol only (main: `hakiqa-mark-full`) | `logo/symbol/` |
+| 1 Logos · B Name only (wordmarks) | `logo/wordmarks/` |
+| 1 Logos · C Symbol and name, side by side | `logo/lockups/horizontal/`, `horizontal-script/` |
+| 1 Logos · D Symbol and name, stacked | `logo/lockups/stacked/`, `stacked-script/` |
+| 1 Logos · E Duka and Connect names | `logo/product/` |
+| 1 Logos · F Vertical logos | `logo/product/verticals/` |
+| 1 Logos · Z Old logo, do not use | `logo/z-retired/` |
+| 2 App icons and favicons | `digital/` |
+| 3 Haki the mascot | `mascot/` (+ `occasions/`, `industries/excited/`, `industries/calm/`) |
+| 4 Motion graphics · A Logo animations | `motion/logo-animations/`, `motion/logo/` |
+| 4 Motion graphics · B Sonic logo | `motion/sonic/` |
+| 5 Stickers, stamps and patterns | `stickers/`, `applications/`, `textures/` |
+
+**Not in the repo, on purpose:** 3D renders, video ads, drafts and the Kenyan flag set. These are campaign media and stay in the Brand Kit folder.
+
+**Everything else**
+
+| Need | Where |
+|---|---|
+| Which file to use, by stable ID and status | `src/assets/asset-manifest.json` |
+| Colours, spacing, motion tokens | `src/tokens/` |
+| React components | `src/components/` |
+| Fonts | `font-library/` |
+| Checks (`npm run check:brand`, `check:experience`) | `scripts/`, `conformance/` |
+| Old handoffs and decision records | `docs/history/`, `docs/brand/history/` |
+
 ## Brand platform
 
 Open the unified public [Brand & Design System](docs/index.html) first. The
@@ -9,8 +62,8 @@ approved strategy, message hierarchy and application rules live in
 [`docs/brand/`](docs/brand/README.md). Review the
 [Blackpaw Brand Book](docs/brand/blackpaw-brand-book.html),
 [Hakiqa Brand Book](docs/brand/hakiqa-brand-book.html),
-[Brand Guidelines](docs/brand/BRAND_GUIDELINES.md) and
-[Voice and Messaging](docs/brand/VOICE_AND_MESSAGING.md) for production work.
+[Brand Guidelines](docs/brand/blackpaw/BRAND_GUIDELINES.md) and
+[Voice and Messaging](docs/brand/blackpaw/VOICE_AND_MESSAGING.md) for production work.
 
 The canonical [Design and App-Building Principles](BUILDING_PRINCIPLES.md) are
 also available as a dedicated visual page under

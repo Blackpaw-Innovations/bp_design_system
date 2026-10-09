@@ -29,8 +29,8 @@ Do not implement these hex values directly. Use the semantic tokens in `src/toke
 
 - Human portal: `docs/index.html`
 - Design and app-building doctrine: `BUILDING_PRINCIPLES.md`
-- Full rules: `docs/brand/BRAND_GUIDELINES.md`
-- Voice: `docs/brand/VOICE_AND_MESSAGING.md`
+- Full rules: `docs/brand/blackpaw/BRAND_GUIDELINES.md`
+- Voice: `docs/brand/blackpaw/VOICE_AND_MESSAGING.md`
 - Approved assets: `src/assets/asset-manifest.json`
 - Current brand kit (Blackpaw identity kit v2 + Hakiqa identity, approved 2026-10-09): `docs/brand/BRAND_KIT_APPROVAL_2026-10-09.md`
 - Brand resolutions (type, colour, gradients, document modes, copy; approved 2026-10-09, overrides older docs where they disagree): `docs/brand/BRAND_RESOLUTIONS_2026-10-09.md`
