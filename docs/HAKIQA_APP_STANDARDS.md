@@ -148,6 +148,34 @@ The Home snapshot is the one carousel allowed in an app, and it follows a fixed 
 - **Links and buttons:** actions that navigate are links; actions that do something in place (copy, message) are buttons with a toast.
 - **What belongs here:** "How do I…?" and other help go to Support, not here.
 
+## 5e · Home: Haki's focus note (replaces "Intelligence brief · Where to focus today")
+
+Approved 5c (10 Oct 2026). Reference render: `Hakiqa Focus Brief.dc.html` 5c.
+
+**Job:** say the first step and why, in one line. It never repeats a Needs you count on its own; it gives the order or the reason.
+
+**Where:** the last (third) page of the Home snapshot carousel, in place of the old Intelligence brief page (confirmed by Marvin, 10 Oct). With nothing waiting, the page is left out and the carousel has two pages. One per page, Home only.
+
+**Structure**
+- **Desktop:** Haki (encouraging or pointing, 88px) on the left. Beside it, a speech bubble on `--identity-3` with a 10px pointer, holding "Haki · today" (15px, weight 700), one or two sentences (20px, weight 800, white) and one action at the right.
+- **Phone:** Haki at 60px beside a bubble with a tail at the bottom left, holding one sentence (17px). The action goes full width below, at 52px.
+
+**Action:** a white pill with navy ink and an arrow, verb first. When the Insight Spotlight is on the same page, it becomes a white outline instead, so there is only one solid lead.
+
+**Copy**
+- Built from real figures only: requests, quotes, orders, payments.
+- One step plus its reason: "Start with the 4 requests that have no quote yet. KES 214K is already waiting for approval behind them."
+- No speculation ("before it drifts") unless a real trend shows it.
+- No em dashes. Money via formatMoney or fmtKM.
+
+**When it hides:** when nothing is waiting, the note hides entirely. Never show a filler line or a celebrating Haki for "all clear".
+
+**Not allowed:**
+- "!" icons, "Watch" labels or the left accent stripe;
+- more than one note;
+- Haki on a figure;
+- Haki celebrating, surprised or sad here.
+
 ## 6 · Navigation
 
 - **Two levels only.** The rail icon picks the app; the top pill-nav picks the view. No tab bars inside pages and no extra rail icons for sub-screens. (Conformance)
