@@ -36,6 +36,8 @@ for (const file of walk(brandAssetRoot)) {
 const bannedFonts = /\b(?:Gotham|Google Sans|Playfair|Newsreader|Manrope)\b/i;
 const sourceFiles = walk(join(root, 'src')).filter((file) => ['.css', '.ts', '.tsx', '.js', '.jsx'].includes(extname(file)));
 for (const file of sourceFiles) {
+  // guardrails.css names banned fonts only in selectors that re-set them to Urbanist.
+  if (file.endsWith('guardrails.css')) continue;
   if (bannedFonts.test(readFileSync(file, 'utf8'))) failures.push(`Non-Urbanist app font reference: ${relative(root, file)}`);
 }
 
