@@ -1,3 +1,5 @@
+> **Main logo decision (Marvin, 9 Oct 2026):** the Blackpaw main logo is the bp symbol (`src/assets/brand/blackpaw/logo/mark`); prefer the stacked lockup when the name must appear. The set 6 BLACK/PAW type lockups are approved options, not the main logo. This overrides any "primary" wording below.
+
 # Blackpaw identity kit v2
 
 Authority: user-approved `Marketing sheet access issue (5).zip` and `(6).zip`.

@@ -174,20 +174,20 @@
       "notes": "Transparent Kenya-flag ribbon, flag and pole for national-day campaigns, from the Week 02 asset brief. Approved by the brand owner on 2026-10-08. Check the flag against an official reference before use."
     },
     {
-      "id": "blackpaw.logo.primary.dark",
+      "id": "blackpaw.logo.wordmark-lockups.dark",
       "identity": "blackpaw",
       "status": "approved",
       "files": [
-        "src/assets/brand/blackpaw/logo/primary/bp-lockup-horizontal-dark-transparent.png",
-        "src/assets/brand/blackpaw/logo/primary/bp-lockup-horizontal-dark-transparent.svg",
-        "src/assets/brand/blackpaw/logo/primary/bp-lockup-stacked-dark-transparent.png",
-        "src/assets/brand/blackpaw/logo/primary/bp-lockup-stacked-dark-transparent.svg",
-        "src/assets/brand/blackpaw/logo/primary/bp-lockup-wordtag-dark-transparent.png",
-        "src/assets/brand/blackpaw/logo/primary/bp-lockup-wordtag-dark-transparent.svg",
-        "src/assets/brand/blackpaw/logo/primary/bp-tagline-line-warmwhite-transparent.png",
-        "src/assets/brand/blackpaw/logo/primary/bp-tagline-line-warmwhite-transparent.svg",
-        "src/assets/brand/blackpaw/logo/primary/bp-wordmark-mono-warmwhite-transparent.png",
-        "src/assets/brand/blackpaw/logo/primary/bp-wordmark-mono-warmwhite-transparent.svg"
+        "src/assets/brand/blackpaw/logo/wordmark-lockups/bp-lockup-horizontal-dark-transparent.png",
+        "src/assets/brand/blackpaw/logo/wordmark-lockups/bp-lockup-horizontal-dark-transparent.svg",
+        "src/assets/brand/blackpaw/logo/wordmark-lockups/bp-lockup-stacked-dark-transparent.png",
+        "src/assets/brand/blackpaw/logo/wordmark-lockups/bp-lockup-stacked-dark-transparent.svg",
+        "src/assets/brand/blackpaw/logo/wordmark-lockups/bp-lockup-wordtag-dark-transparent.png",
+        "src/assets/brand/blackpaw/logo/wordmark-lockups/bp-lockup-wordtag-dark-transparent.svg",
+        "src/assets/brand/blackpaw/logo/wordmark-lockups/bp-tagline-line-warmwhite-transparent.png",
+        "src/assets/brand/blackpaw/logo/wordmark-lockups/bp-tagline-line-warmwhite-transparent.svg",
+        "src/assets/brand/blackpaw/logo/wordmark-lockups/bp-wordmark-mono-warmwhite-transparent.png",
+        "src/assets/brand/blackpaw/logo/wordmark-lockups/bp-wordmark-mono-warmwhite-transparent.svg"
       ],
       "backgrounds": [
         "midnight",
@@ -196,23 +196,23 @@
       ],
       "recolour": false,
       "minimumWidthPx": 160,
-      "notes": "Primary BLACK/PAW type lockups (set 6). Use first. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
+      "notes": "BLACK/PAW wordmark and type lockups (set 6). Approved option, NOT the main logo. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
     },
     {
-      "id": "blackpaw.logo.primary.light",
+      "id": "blackpaw.logo.wordmark-lockups.light",
       "identity": "blackpaw",
       "status": "approved",
       "files": [
-        "src/assets/brand/blackpaw/logo/primary/bp-lockup-horizontal-light-transparent.png",
-        "src/assets/brand/blackpaw/logo/primary/bp-lockup-horizontal-light-transparent.svg",
-        "src/assets/brand/blackpaw/logo/primary/bp-lockup-stacked-light-transparent.png",
-        "src/assets/brand/blackpaw/logo/primary/bp-lockup-stacked-light-transparent.svg",
-        "src/assets/brand/blackpaw/logo/primary/bp-lockup-wordtag-light-transparent.png",
-        "src/assets/brand/blackpaw/logo/primary/bp-lockup-wordtag-light-transparent.svg",
-        "src/assets/brand/blackpaw/logo/primary/bp-tagline-line-navy-transparent.png",
-        "src/assets/brand/blackpaw/logo/primary/bp-tagline-line-navy-transparent.svg",
-        "src/assets/brand/blackpaw/logo/primary/bp-wordmark-mono-navy-transparent.png",
-        "src/assets/brand/blackpaw/logo/primary/bp-wordmark-mono-navy-transparent.svg"
+        "src/assets/brand/blackpaw/logo/wordmark-lockups/bp-lockup-horizontal-light-transparent.png",
+        "src/assets/brand/blackpaw/logo/wordmark-lockups/bp-lockup-horizontal-light-transparent.svg",
+        "src/assets/brand/blackpaw/logo/wordmark-lockups/bp-lockup-stacked-light-transparent.png",
+        "src/assets/brand/blackpaw/logo/wordmark-lockups/bp-lockup-stacked-light-transparent.svg",
+        "src/assets/brand/blackpaw/logo/wordmark-lockups/bp-lockup-wordtag-light-transparent.png",
+        "src/assets/brand/blackpaw/logo/wordmark-lockups/bp-lockup-wordtag-light-transparent.svg",
+        "src/assets/brand/blackpaw/logo/wordmark-lockups/bp-tagline-line-navy-transparent.png",
+        "src/assets/brand/blackpaw/logo/wordmark-lockups/bp-tagline-line-navy-transparent.svg",
+        "src/assets/brand/blackpaw/logo/wordmark-lockups/bp-wordmark-mono-navy-transparent.png",
+        "src/assets/brand/blackpaw/logo/wordmark-lockups/bp-wordmark-mono-navy-transparent.svg"
       ],
       "backgrounds": [
         "white",
@@ -221,7 +221,7 @@
       ],
       "recolour": false,
       "minimumWidthPx": 160,
-      "notes": "Primary BLACK/PAW type lockups (set 6). Use first. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
+      "notes": "BLACK/PAW wordmark and type lockups (set 6). Approved option, NOT the main logo. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
     },
     {
       "id": "blackpaw.logo.mark.transparent.dark",
@@ -240,7 +240,7 @@
       ],
       "recolour": false,
       "minimumWidthPx": 24,
-      "notes": "Logo collection set 5. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
+      "notes": "MAIN Blackpaw logo: the bp symbol (gradient mark). Logo collection set 5. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
     },
     {
       "id": "blackpaw.logo.mark.transparent.light",
@@ -259,7 +259,7 @@
       ],
       "recolour": false,
       "minimumWidthPx": 24,
-      "notes": "Logo collection set 5. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
+      "notes": "MAIN Blackpaw logo: the bp symbol (gradient mark). Logo collection set 5. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
     },
     {
       "id": "blackpaw.logo.mark.on-background.standalone",
@@ -288,7 +288,7 @@
       ],
       "recolour": false,
       "minimumWidthPx": 24,
-      "notes": "Logo collection set 5. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
+      "notes": "MAIN Blackpaw logo: the bp symbol (gradient mark). Logo collection set 5. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
     },
     {
       "id": "blackpaw.logo.horizontal.transparent.dark",
@@ -382,7 +382,7 @@
       ],
       "recolour": false,
       "minimumWidthPx": 160,
-      "notes": "Logo collection set 5. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
+      "notes": "Preferred lockup when the name must appear with the symbol. Logo collection set 5. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
     },
     {
       "id": "blackpaw.logo.stacked.transparent.light",
@@ -401,7 +401,7 @@
       ],
       "recolour": false,
       "minimumWidthPx": 160,
-      "notes": "Logo collection set 5. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
+      "notes": "Preferred lockup when the name must appear with the symbol. Logo collection set 5. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
     },
     {
       "id": "blackpaw.logo.stacked.on-background.standalone",
@@ -430,7 +430,7 @@
       ],
       "recolour": false,
       "minimumWidthPx": 160,
-      "notes": "Logo collection set 5. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
+      "notes": "Preferred lockup when the name must appear with the symbol. Logo collection set 5. Blackpaw identity kit v2, approved 2026-10-09. PNG is the approved original; SVG is the vector reconstruction of the same design."
     },
     {
       "id": "blackpaw.logo.tagline.dark",

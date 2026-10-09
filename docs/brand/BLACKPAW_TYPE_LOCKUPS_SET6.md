@@ -1,3 +1,5 @@
+> **Main logo decision (Marvin, 9 Oct 2026):** the Blackpaw main logo is the bp symbol (`src/assets/brand/blackpaw/logo/mark`); prefer the stacked lockup when the name must appear. The set 6 BLACK/PAW type lockups are approved options, not the main logo. This overrides any "primary" wording below.
+
 # Blackpaw type assets v2 (8 Oct 2026)
 
 Approved from Blackpaw Wordmark Board.dc.html: 3h, 3i, 3q, 3r, 3v. All PNGs are transparent and exported at 4× from Montserrat. They are stand-ins until vector masters are redrawn in the source file.

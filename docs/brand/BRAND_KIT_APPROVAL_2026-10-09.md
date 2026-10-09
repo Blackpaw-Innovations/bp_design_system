@@ -5,7 +5,8 @@ Marvin (brand owner) approved the complete Blackpaw and Hakiqa brand kit on 9 Oc
 ## What is approved
 
 **Blackpaw identity kit v2** (source: `C:\LocalHost\blackpaw-identity-kit`, published 9 Oct 2026)
-- Primary logo: the new BLACK/PAW type lockups (set 6). Use first.
+- **Main logo: the bp symbol** (the gradient mark), in `blackpaw/logo/mark`. When the name must appear, prefer the stacked lockup (`blackpaw/logo/stacked`).
+- BLACK/PAW wordmark and type lockups (set 6), in `blackpaw/logo/wordmark-lockups`: approved options, **not** the main logo. Where the kit notes call set 6 "primary", this decision overrides them.
 - Logo collection set 5: mark, horizontal and stacked, transparent and on midnight, ink navy, gradient and white backgrounds; taglines.
 - Transparent pack, no-tagline masters, digital icons and favicon, print (mono, engraving, thermal receipt), graphics (backgrounds, pattern, signature rules, clear-space guide, stickers).
 - Every PNG is the approved original. Each SVG is a vector reconstruction of the same design (see `BLACKPAW_IDENTITY_KIT_V2.md`); proof before colour-critical print.
@@ -23,7 +24,7 @@ Marvin (brand owner) approved the complete Blackpaw and Hakiqa brand kit on 9 Oc
 
 | Need | Path |
 |---|---|
-| Blackpaw logos | `src/assets/brand/blackpaw/logo/{primary,mark,horizontal,stacked,tagline,transparent-pack,no-tagline}` |
+| Blackpaw logos | `src/assets/brand/blackpaw/logo/{mark,stacked,horizontal,tagline,wordmark-lockups,transparent-pack,no-tagline}` (main logo = `mark`) |
 | Blackpaw icons, print, graphics | `src/assets/brand/blackpaw/{digital,print,graphics}` |
 | Hakiqa logos | `src/assets/brand/hakiqa/logo/{symbol,wordmarks,lockups,product}` |
 | Hakiqa icons, applications, stickers | `src/assets/brand/hakiqa/{digital,applications,stickers}` |
