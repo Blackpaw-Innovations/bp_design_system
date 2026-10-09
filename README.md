@@ -7,7 +7,8 @@ Single source of truth for all Blackpaw/Hakiqa brand tokens, design utilities, a
 Open the unified public [Brand & Design System](docs/index.html) first. The
 approved strategy, message hierarchy and application rules live in
 [`docs/brand/`](docs/brand/README.md). Review the
-[Blackpaw Brand Book](docs/brand/BLACKPAW_BRAND_BOOK.md),
+[Blackpaw Brand Book](docs/brand/blackpaw-brand-book.html),
+[Hakiqa Brand Book](docs/brand/hakiqa-brand-book.html),
 [Brand Guidelines](docs/brand/BRAND_GUIDELINES.md) and
 [Voice and Messaging](docs/brand/VOICE_AND_MESSAGING.md) for production work.
 
