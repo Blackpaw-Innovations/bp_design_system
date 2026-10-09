@@ -27,6 +27,8 @@ Red, teal and cyan one-colour Hakiqa marks added, and Hakiqa field rules approve
 
 **Vertical logos:** 15 Hakiqa Connect vertical wordmarks (horizontal, stacked, light and dark; 120 files) approved. See `HAKIQA_VERTICAL_WORDMARKS_2026-10-09.md`.
 
+**Logo animations (final set, end of the rendering round):** Blackpaw Infinity, Signature, Sweep and Unfold on midnight, ink navy and warm white; Hakiqa Breathe, Lids, Reveal and Haki on white, warm white and navy. MP4 files named by background, in `src/assets/brand/{blackpaw,hakiqa}/motion/logo-animations/` (manifest `*.motion.logo-animation.<name>`).
+
 ## Where it lives
 
 | Need | Path |
@@ -37,7 +39,7 @@ Red, teal and cyan one-colour Hakiqa marks added, and Hakiqa field rules approve
 | Hakiqa icons, applications, stickers | `src/assets/brand/hakiqa/{digital,applications,stickers}` |
 | Hakiqa motion and sound | `src/assets/brand/hakiqa/motion/{logo,sonic}` |
 | Haki mascot | `src/assets/brand/hakiqa/mascot/` (+ `occasions/`, `industries/{excited,calm}`) |
-| Usage metadata | `src/assets/asset-manifest.json` (v1.3.3) |
+| Usage metadata | `src/assets/asset-manifest.json` (v1.3.4) |
 | Hakiqa main logo | `src/assets/brand/hakiqa/logo/symbol/hakiqa-mark-full.png` (`hakiqa.logo.main`) |
 
 ## Kept out of this repository
