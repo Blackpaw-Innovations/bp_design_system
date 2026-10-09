@@ -3,7 +3,7 @@ import { dirname, extname, join, relative, resolve } from 'node:path';
 
 const root = resolve(import.meta.dirname, '..');
 const failures = [];
-const required = ['AGENTS.md', 'BRAND.md', 'BUILDING_PRINCIPLES.md', 'docs/index.html', 'docs/building-principles/index.html', 'docs/brand/BRAND_GUIDELINES.md', 'src/tokens/index.css'];
+const required = ['AGENTS.md', 'BRAND.md', 'BUILDING_PRINCIPLES.md', 'docs/index.html', 'docs/building-principles/index.html', 'docs/brand/blackpaw/BRAND_GUIDELINES.md', 'src/tokens/index.css'];
 required.push('docs/EXPERIENCE_CONFORMANCE_STANDARD.md', 'conformance/experience-rules.json');
 for (const file of required) if (!existsSync(join(root, file))) failures.push(`Missing required file: ${file}`);
 

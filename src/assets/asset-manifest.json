@@ -1,6 +1,6 @@
 {
   "$schema": "./asset-manifest.schema.json",
-  "version": "1.3.4",
+  "version": "1.4.0",
   "approved": "2026-10-09",
   "assets": [
     {
@@ -8,7 +8,7 @@
       "identity": "blackpaw",
       "status": "deprecated",
       "files": [
-        "src/assets/brand/blackpaw/logo/blackpaw-lockup-tagline-colour.png"
+        "src/assets/brand/blackpaw/logo/z-retired/blackpaw-lockup-tagline-colour.png"
       ],
       "backgrounds": [
         "white",
@@ -24,7 +24,7 @@
       "identity": "blackpaw",
       "status": "deprecated",
       "files": [
-        "src/assets/brand/blackpaw/logo/blackpaw-lockup-tagline-reversed.png"
+        "src/assets/brand/blackpaw/logo/z-retired/blackpaw-lockup-tagline-reversed.png"
       ],
       "backgrounds": [
         "purple",
@@ -40,7 +40,7 @@
       "identity": "blackpaw",
       "status": "deprecated",
       "files": [
-        "src/assets/brand/blackpaw/logo/blackpaw-signature-gradient.png"
+        "src/assets/brand/blackpaw/logo/z-retired/blackpaw-signature-gradient.png"
       ],
       "backgrounds": [
         "standalone"
@@ -52,9 +52,9 @@
     {
       "id": "hakiqa.logo.transparent",
       "identity": "hakiqa",
-      "status": "approved",
+      "status": "deprecated",
       "files": [
-        "src/assets/brand/hakiqa/logo/hakiqa-logo-transparent.png"
+        "src/assets/brand/hakiqa/logo/z-retired/hakiqa-logo-transparent.png"
       ],
       "backgrounds": [
         "white",
@@ -62,21 +62,21 @@
       ],
       "recolour": false,
       "minimumWidthPx": 160,
-      "notes": "Primary transparent Hakiqa logo."
+      "notes": "Old Hakiqa logo, retired. Shown in the Brand Kit as \"Old logo - do not use\". Use hakiqa.logo.main (hakiqa-mark-full) instead. Primary transparent Hakiqa logo."
     },
     {
       "id": "hakiqa.logo.white-background",
       "identity": "hakiqa",
-      "status": "approved",
+      "status": "deprecated",
       "files": [
-        "src/assets/brand/hakiqa/logo/hakiqa-logo-white-background.png"
+        "src/assets/brand/hakiqa/logo/z-retired/hakiqa-logo-white-background.png"
       ],
       "backgrounds": [
         "standalone"
       ],
       "recolour": false,
       "minimumWidthPx": 160,
-      "notes": "Use when a controlled white field is required."
+      "notes": "Old Hakiqa logo, retired. Shown in the Brand Kit as \"Old logo - do not use\". Use hakiqa.logo.main (hakiqa-mark-full) instead. Use when a controlled white field is required."
     },
     {
       "id": "hakiqa.mascot.set",
@@ -726,7 +726,7 @@
       ],
       "recolour": false,
       "minimumWidthPx": 24,
-      "notes": "MAIN Hakiqa logo for all official use and for all logo animation: the full-colour four-panel symbol (hakiqa-mark-full). Neutral fields only (white, warm white, light grey). Never on navy, orange or teal: one panel disappears. On brand-colour or dark fields use a one-colour mark (white or orange by default). No gloss, shine or glow. Decided by Marvin 2026-10-09. See docs/brand/HAKIQA_LOGO_USAGE.md (field rules)."
+      "notes": "MAIN Hakiqa logo for all official use and for all logo animation: the full-colour four-panel symbol (hakiqa-mark-full). Neutral fields only (white, warm white, light grey). Never on navy, orange or teal: one panel disappears. On brand-colour or dark fields use a one-colour mark (white or orange by default). No gloss, shine or glow. Decided by Marvin 2026-10-09. See docs/brand/hakiqa/HAKIQA_LOGO_USAGE.md (field rules)."
     },
     {
       "id": "hakiqa.logo.symbol.red",
@@ -1272,10 +1272,10 @@
       "identity": "hakiqa",
       "status": "deprecated",
       "files": [
-        "src/assets/brand/hakiqa/logo/symbol/hakiqa-mark-full-dark.png",
-        "src/assets/brand/hakiqa/logo/symbol/hakiqa-mark-full-dark.svg",
-        "src/assets/brand/hakiqa/logo/symbol/hakiqa-mark-gloss.png",
-        "src/assets/brand/hakiqa/logo/symbol/hakiqa-mark-gloss.svg"
+        "src/assets/brand/hakiqa/logo/z-retired/hakiqa-mark-full-dark.png",
+        "src/assets/brand/hakiqa/logo/z-retired/hakiqa-mark-full-dark.svg",
+        "src/assets/brand/hakiqa/logo/z-retired/hakiqa-mark-gloss.png",
+        "src/assets/brand/hakiqa/logo/z-retired/hakiqa-mark-gloss.svg"
       ],
       "backgrounds": [],
       "recolour": false,
@@ -1286,10 +1286,10 @@
       "identity": "hakiqa",
       "status": "deprecated",
       "files": [
-        "src/assets/brand/hakiqa/logo/lockups/horizontal/hakiqa-lockup-horizontal-capitalised-full-dark.png",
-        "src/assets/brand/hakiqa/logo/lockups/horizontal/hakiqa-lockup-horizontal-capitalised-full-dark.svg",
-        "src/assets/brand/hakiqa/logo/lockups/horizontal/hakiqa-lockup-horizontal-capitalised-gloss.png",
-        "src/assets/brand/hakiqa/logo/lockups/horizontal/hakiqa-lockup-horizontal-capitalised-gloss.svg"
+        "src/assets/brand/hakiqa/logo/z-retired/hakiqa-lockup-horizontal-capitalised-full-dark.png",
+        "src/assets/brand/hakiqa/logo/z-retired/hakiqa-lockup-horizontal-capitalised-full-dark.svg",
+        "src/assets/brand/hakiqa/logo/z-retired/hakiqa-lockup-horizontal-capitalised-gloss.png",
+        "src/assets/brand/hakiqa/logo/z-retired/hakiqa-lockup-horizontal-capitalised-gloss.svg"
       ],
       "backgrounds": [],
       "recolour": false,
@@ -1300,10 +1300,10 @@
       "identity": "hakiqa",
       "status": "deprecated",
       "files": [
-        "src/assets/brand/hakiqa/logo/lockups/horizontal-script/hakiqa-lockup-horizontal-script-full-dark.png",
-        "src/assets/brand/hakiqa/logo/lockups/horizontal-script/hakiqa-lockup-horizontal-script-full-dark.svg",
-        "src/assets/brand/hakiqa/logo/lockups/horizontal-script/hakiqa-lockup-horizontal-script-gloss.png",
-        "src/assets/brand/hakiqa/logo/lockups/horizontal-script/hakiqa-lockup-horizontal-script-gloss.svg"
+        "src/assets/brand/hakiqa/logo/z-retired/hakiqa-lockup-horizontal-script-full-dark.png",
+        "src/assets/brand/hakiqa/logo/z-retired/hakiqa-lockup-horizontal-script-full-dark.svg",
+        "src/assets/brand/hakiqa/logo/z-retired/hakiqa-lockup-horizontal-script-gloss.png",
+        "src/assets/brand/hakiqa/logo/z-retired/hakiqa-lockup-horizontal-script-gloss.svg"
       ],
       "backgrounds": [],
       "recolour": false,
@@ -1314,10 +1314,10 @@
       "identity": "hakiqa",
       "status": "deprecated",
       "files": [
-        "src/assets/brand/hakiqa/logo/lockups/stacked/hakiqa-lockup-stacked-capitalised-full-dark.png",
-        "src/assets/brand/hakiqa/logo/lockups/stacked/hakiqa-lockup-stacked-capitalised-full-dark.svg",
-        "src/assets/brand/hakiqa/logo/lockups/stacked/hakiqa-lockup-stacked-capitalised-gloss.png",
-        "src/assets/brand/hakiqa/logo/lockups/stacked/hakiqa-lockup-stacked-capitalised-gloss.svg"
+        "src/assets/brand/hakiqa/logo/z-retired/hakiqa-lockup-stacked-capitalised-full-dark.png",
+        "src/assets/brand/hakiqa/logo/z-retired/hakiqa-lockup-stacked-capitalised-full-dark.svg",
+        "src/assets/brand/hakiqa/logo/z-retired/hakiqa-lockup-stacked-capitalised-gloss.png",
+        "src/assets/brand/hakiqa/logo/z-retired/hakiqa-lockup-stacked-capitalised-gloss.svg"
       ],
       "backgrounds": [],
       "recolour": false,
@@ -1328,10 +1328,10 @@
       "identity": "hakiqa",
       "status": "deprecated",
       "files": [
-        "src/assets/brand/hakiqa/logo/lockups/stacked-script/hakiqa-lockup-stacked-script-full-dark.png",
-        "src/assets/brand/hakiqa/logo/lockups/stacked-script/hakiqa-lockup-stacked-script-full-dark.svg",
-        "src/assets/brand/hakiqa/logo/lockups/stacked-script/hakiqa-lockup-stacked-script-gloss.png",
-        "src/assets/brand/hakiqa/logo/lockups/stacked-script/hakiqa-lockup-stacked-script-gloss.svg"
+        "src/assets/brand/hakiqa/logo/z-retired/hakiqa-lockup-stacked-script-full-dark.png",
+        "src/assets/brand/hakiqa/logo/z-retired/hakiqa-lockup-stacked-script-full-dark.svg",
+        "src/assets/brand/hakiqa/logo/z-retired/hakiqa-lockup-stacked-script-gloss.png",
+        "src/assets/brand/hakiqa/logo/z-retired/hakiqa-lockup-stacked-script-gloss.svg"
       ],
       "backgrounds": [],
       "recolour": false,

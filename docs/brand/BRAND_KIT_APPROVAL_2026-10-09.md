@@ -39,7 +39,7 @@ Red, teal and cyan one-colour Hakiqa marks added, and Hakiqa field rules approve
 | Hakiqa icons, applications, stickers | `src/assets/brand/hakiqa/{digital,applications,stickers}` |
 | Hakiqa motion and sound | `src/assets/brand/hakiqa/motion/{logo,sonic}` |
 | Haki mascot | `src/assets/brand/hakiqa/mascot/` (+ `occasions/`, `industries/{excited,calm}`) |
-| Usage metadata | `src/assets/asset-manifest.json` (v1.3.4) |
+| Usage metadata | `src/assets/asset-manifest.json` (v1.4.0) |
 | Hakiqa main logo | `src/assets/brand/hakiqa/logo/symbol/hakiqa-mark-full.png` (`hakiqa.logo.main`) |
 
 ## Kept out of this repository

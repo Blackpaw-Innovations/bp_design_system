@@ -2,7 +2,7 @@
 
 # Hakiqa one-colour marks + field rules (approved 9 Oct 2026)
 
-Approved by Marvin on 9 Oct 2026 on `Logo Approval.dc.html` (rounds 5–7). Drop the files into `src/assets/brand/hakiqa/logo/symbol/`, add them to `asset-manifest.json`, and add the rules below to `docs/brand/HAKIQA_LOGO_USAGE.md`.
+Approved by Marvin on 9 Oct 2026 on `Logo Approval.dc.html` (rounds 5–7). Drop the files into `src/assets/brand/hakiqa/logo/symbol/`, add them to `asset-manifest.json`, and add the rules below to `docs/brand/hakiqa/HAKIQA_LOGO_USAGE.md`.
 
 ## New files
 

@@ -1,46 +1,45 @@
-# Blackpaw Brand Platform
+# Brand docs: start here
 
-Status: **approved — canonical**  
-Version: **1.0**  
-Owner: **Blackpaw Innovations**  
-Last reviewed: **2026-09-02**
+Laid out like the local Brand Kit folder: pick the brand, read the start-here files once, then find the file you need.
 
-This directory governs how Blackpaw presents itself in words, visuals and
-experiences. It reconciles the strategic direction in Project Ironclad and the
-Blackpaw Operating System with the company's current website and established
-visual identity.
+## 0 · Start here (everyone)
 
-## Start here
+| Read | What it is |
+|---|---|
+| [Blackpaw Brand Book](./blackpaw-brand-book.html) | Edition 1, Oct 2026. Story, logo, colour, type, documents, social, merch. |
+| [Hakiqa Brand Book](./hakiqa-brand-book.html) | Edition 1, Oct 2026. Story, Haki, voice, logo, verticals, colour, type. |
+| [Brand resolutions, 9 Oct 2026](./BRAND_RESOLUTIONS_2026-10-09.md) | The current rules. Wins over every older doc. |
+| [Brand kit approval, 9 Oct 2026](./BRAND_KIT_APPROVAL_2026-10-09.md) | Which logo files are approved and where they live. |
+| [Copilot document prompt](./COPILOT_DOCUMENT_PROMPT.md) | Paste at the start of any Blackpaw proposal, profile or report. |
+| [Proposed tokens (draft)](./brand-tokens-proposed-2026-10-09.css) | Not approved yet. Do not use in apps. |
 
-- [Approved Brand System Proposal](./Blackpaw%20Brand%20System%20Proposal.html)
-  — the visual decision artefact approved on 2026-09-02.
-- [Brand Foundation](./BRAND_FOUNDATION.md) — locked decisions, token model and
-  authority.
-- [Blackpaw Brand Book](./blackpaw-brand-book.html) — Edition 1, October 2026:
-  story, logo, colour, type, applications.
-- [Hakiqa Brand Book](./hakiqa-brand-book.html) — Edition 1, October 2026:
-  story, Haki, voice, logo, verticals, colour, type, applications.
-- [Copilot document prompt](./COPILOT_DOCUMENT_PROMPT.md) — paste at the start of
-  any Blackpaw proposal, profile or report.
-- [Brand Guidelines](./BRAND_GUIDELINES.md) — rules for applying the brand.
-- [Voice and Messaging](./VOICE_AND_MESSAGING.md) — approved message hierarchy,
-  copy patterns and examples.
-- [Reconciliation Record](./RECONCILIATION.md) — what was retained, reframed or
-  retired and why.
-- [Document Templates](../templates/README.md) — first reusable production
-  specimens built from the approved modes.
+## Blackpaw (`blackpaw/`)
+
+| File | What it is |
+|---|---|
+| [BRAND_FOUNDATION.md](./blackpaw/BRAND_FOUNDATION.md) | Positioning, promise, doctrine, token model. |
+| [BRAND_GUIDELINES.md](./blackpaw/BRAND_GUIDELINES.md) | Applying the brand. Partly replaced by the resolutions. |
+| [VOICE_AND_MESSAGING.md](./blackpaw/VOICE_AND_MESSAGING.md) | Message hierarchy and copy patterns. |
+| [BLACKPAW_IDENTITY_KIT_V2.md](./blackpaw/BLACKPAW_IDENTITY_KIT_V2.md) | The v2 logo kit: files and colours. |
+| [Brand System Proposal](./blackpaw/Blackpaw%20Brand%20System%20Proposal.html) | Visual proposal approved 2 Sep 2026 (background). |
+
+## Hakiqa (`hakiqa/`)
+
+| File | What it is |
+|---|---|
+| [HAKIQA_LOGO_USAGE.md](./hakiqa/HAKIQA_LOGO_USAGE.md) ([PDF](./hakiqa/HAKIQA_LOGO_USAGE.pdf)) | Logo rules: which mark on which background. |
+| [HAKIQA_LOGO_GUIDELINES.html](./hakiqa/HAKIQA_LOGO_GUIDELINES.html) | The visual logo guide. |
+| [HAKIQA_ONE_COLOUR_MARKS_2026-10-09.md](./hakiqa/HAKIQA_ONE_COLOUR_MARKS_2026-10-09.md) | One-colour marks for coloured and dark backgrounds. |
+| [HAKIQA_VERTICAL_WORDMARKS_2026-10-09.md](./hakiqa/HAKIQA_VERTICAL_WORDMARKS_2026-10-09.md) | The 15 vertical logos (duka, gym, ...). |
+
+## History (`history/`)
+
+Decision records, reviews and earlier logo sets, kept for the trail. Not rules: if one disagrees with the start-here files, the start-here files win.
+
+## Where the files are
+
+Logo, icon, mascot and motion files live in `src/assets/brand/<brand>/`. The map is in the repository [README](../../README.md#find-it-fast).
 
 ## Authority
 
-Resolve conflicts in this order:
-
-1. This directory for brand strategy, messaging and application rules.
-2. Published design tokens and components in `src/` for digital implementation.
-3. Approved logo masters and source artwork in the legacy
-   `Blackpaw-Innovations/blackpaw_brand` repository until those assets are
-   deliberately migrated here.
-4. Existing websites, proposals and brochures as historical material only.
-
-Do not infer current positioning from old collateral. Do not redraw the logo or
-recreate it from screenshots. A future change to the mission, promise, tagline,
-logo or primary palette requires a documented brand decision and version bump.
+When two sources disagree: the start-here files above, then the tokens and components in `src/`, then the files in `history/`. Old websites, proposals and brochures are history only. Never redraw a logo or rebuild it from a screenshot. Changing the proposition, tagline, logo or main palette needs a recorded brand decision and a version bump.
