@@ -132,6 +132,22 @@ The Home snapshot is the one carousel allowed in an app, and it follows a fixed 
 
 **Large figures:** use `fmtKM` on cards (KES 192.5M). Show the full amount on the detail page.
 
+## 5c · Home: Needs you and Quick actions
+
+**Needs you** (approved 3b, 10 Oct 2026): equal figure tiles under the snapshot.
+- **Order:** urgent items first. Six at most, with the rest in the snapshot's "Show all".
+- **Each tile:** label (15px, sentence case), figure (40px, or 30px on phone, with a small unit), one insight line (15px, wrapping; desktop only), and one secondary action with a verb.
+- **Status:** urgent items carry an "Urgent" StatusChip before the label. Nothing else is coloured: no stripes, no icon tiles, no "Watch ·" prefix.
+- **Layout:** three per row on desktop, two on phone. An odd last tile spans the row, so there is never a hole.
+- **Header:** "Needs you · N things", with a tertiary "Hide for now". The section is left out entirely when nothing is waiting.
+
+**Quick actions** (approved 4a, 10 Oct 2026): one row of outline buttons (`.bp-quick`, guardrails §9), each with a 20px icon and a verb.
+- **Count and source:** five at most, all from `manifest.quickActions`. Never hand-built per vertical.
+- **Style:** never orange. The page's one primary action is the Insight Spotlight or the page title action.
+- **Phone:** the row scrolls sideways in one line, edge to edge.
+- **Links and buttons:** actions that navigate are links; actions that do something in place (copy, message) are buttons with a toast.
+- **What belongs here:** "How do I…?" and other help go to Support, not here.
+
 ## 6 · Navigation
 
 - **Two levels only.** The rail icon picks the app; the top pill-nav picks the view. No tab bars inside pages and no extra rail icons for sub-screens. (Conformance)

@@ -22,6 +22,7 @@ export const STATUS_TONE_MAP: Record<string, { tone: ChipTone; label: string }> 
   pending: { tone: 'warning', label: 'Pending' },
   suspended: { tone: 'danger', label: 'Suspended' },
   overdue: { tone: 'danger', label: 'Overdue' },
+  urgent: { tone: 'danger', label: 'Urgent' },
   cancelled: { tone: 'neutral', label: 'Cancelled' },
   draft: { tone: 'neutral', label: 'Draft' },
   // payments / invoices
