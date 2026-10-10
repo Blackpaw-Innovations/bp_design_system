@@ -47,7 +47,7 @@ const allow = existsSync(allowPath)
   : [];
 const allowed = (rel) => allow.some((a) => (a.endsWith('/') ? rel.startsWith(a) : rel === a));
 
-// Decoded 8-bit RGBA PNG, or null for palette/greyscale/interlaced files.
+// Decoded 8-bit RGB or RGBA PNG (RGB reads as fully opaque), or null for palette/greyscale/interlaced files.
 function decodePng(file) {
   const buf = readFileSync(file);
   let pos = 8, width = 0, height = 0, colorType = 0, bitDepth = 0, interlace = 0;
@@ -58,8 +58,8 @@ function decodePng(file) {
     if (type === 'IDAT') idat.push(data);
     pos += 12 + len;
   }
-  if (colorType !== 6 || bitDepth !== 8 || interlace) return null;
-  const raw = inflateSync(Buffer.concat(idat)), bpp = 4, stride = width * bpp, rows = [];
+  if ((colorType !== 6 && colorType !== 2) || bitDepth !== 8 || interlace) return null;
+  const raw = inflateSync(Buffer.concat(idat)), bpp = colorType === 6 ? 4 : 3, stride = width * bpp, rows = [];
   let prev = Buffer.alloc(stride);
   for (let y = 0; y < height; y++) {
     const filter = raw[y * (stride + 1)], line = Buffer.from(raw.subarray(y * (stride + 1) + 1, (y + 1) * (stride + 1)));
@@ -72,10 +72,10 @@ function decodePng(file) {
     rows.push(line);
     prev = line;
   }
-  return { width, height, rows };
+  return { width, height, rows, bpp };
 }
 const cornerAlphas = (png) => [[0, 0], [png.width - 1, 0], [0, png.height - 1], [png.width - 1, png.height - 1]]
-  .map(([x, y]) => png.rows[y][x * 4 + 3]);
+  .map(([x, y]) => (png.bpp === 4 ? png.rows[y][x * 4 + 3] : 255));
 // 16x16 grid of mean alpha and mean premultiplied luma: a resized copy of the same art lands within a few points,
 // different art (an older Haki render, another logo) does not.
 // ponytail: grid compare, not a real perceptual hash; tighten MAX_DIFF if a near-miss ever slips through.
@@ -83,8 +83,8 @@ const GRID = 16, MAX_DIFF = 0.04;
 function signature(png) {
   const sig = new Float64Array(GRID * GRID * 2), n = new Float64Array(GRID * GRID);
   for (let y = 0; y < png.height; y++) for (let x = 0; x < png.width; x++) {
-    const i = Math.floor((y * GRID) / png.height) * GRID + Math.floor((x * GRID) / png.width), p = x * 4, r = png.rows[y];
-    const a = r[p + 3] / 255;
+    const i = Math.floor((y * GRID) / png.height) * GRID + Math.floor((x * GRID) / png.width), p = x * png.bpp, r = png.rows[y];
+    const a = png.bpp === 4 ? r[p + 3] / 255 : 1;
     sig[i * 2] += a; sig[i * 2 + 1] += a * (0.299 * r[p] + 0.587 * r[p + 1] + 0.114 * r[p + 2]) / 255; n[i]++;
   }
   return sig.map((v, k) => v / n[k >> 1]);
@@ -107,14 +107,14 @@ for (const file of files.filter((f) => IMAGE.test(f) && BRAND_NAME.test(basename
     const diff = srcPng ? sigDiff(signature(png), signature(srcPng)) : 1;
     if (diff > MAX_DIFF) {
       problems.push(source
-        ? `${rel}: named like ${relative(dsRoot, source).replaceAll('\\', '/')} but ${png ? `the art differs (${diff.toFixed(3)})` : 'not an RGBA PNG'}; resize the design-system file`
+        ? `${rel}: named like ${relative(dsRoot, source).replaceAll('\\', '/')} but ${png ? `the art differs (${diff.toFixed(3)})` : 'not an 8-bit RGB or RGBA PNG'}; resize the design-system file`
         : `${rel}: not a design-system brand file; use @blackpaw/ui/assets/... (or add to .brand-assets-allow if it is not ours)`);
       continue;
     }
   }
   if (/(^|\/)haki-[^/]*\.png$/i.test(rel)) {
     const corners = png && cornerAlphas(png);
-    if (!corners) { problems.push(`${rel}: Haki without an RGBA alpha channel; use the transparent design-system pose`); continue; }
+    if (!corners) { problems.push(`${rel}: Haki without an alpha channel; use the transparent design-system pose`); continue; }
     if (corners.some((a) => a > 8)) { problems.push(`${rel}: Haki with an opaque corner (alpha ${corners.join('/')}), a baked tile`); continue; }
   }
   ok++;
