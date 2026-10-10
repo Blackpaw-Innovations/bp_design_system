@@ -10,12 +10,14 @@
     "./conformance": "./conformance/experience-rules.json",
     "./conformance/playwright": "./conformance/playwright.mjs",
     "./tokens": "./src/tokens/index.css",
-    "./tailwind": "./tailwind.preset.js"
+    "./tailwind": "./tailwind.preset.js",
+    "./assets/*": "./src/assets/*"
   },
   "scripts": {
     "check:brand": "node scripts/check-brand-system.mjs",
     "check:experience": "node scripts/check-experience-contract.mjs",
-    "check:consumer": "node scripts/check-consumer-conformance.mjs"
+    "check:consumer": "node scripts/check-consumer-conformance.mjs",
+    "check:brand-assets": "node scripts/check-brand-assets.mjs"
   },
   "files": [
     "src",

@@ -1,7 +1,7 @@
 {
   "$schema": "./asset-manifest.schema.json",
   "version": "1.5.0",
-  "approved": "2026-10-09",
+  "approved": "2026-10-10",
   "assets": [
     {
       "id": "blackpaw.logo.lockup.colour",
@@ -1123,6 +1123,20 @@
       ],
       "recolour": false,
       "notes": "Hakiqa identity, approved 2026-10-08/09. Do not redraw or recolour."
+    },
+    {
+      "id": "hakiqa.social.og",
+      "identity": "hakiqa",
+      "status": "approved",
+      "files": [
+        "src/assets/brand/hakiqa/digital/social-og/hakiqa-og-1200x630.png"
+      ],
+      "backgrounds": [
+        "standalone"
+      ],
+      "recolour": false,
+      "minimumWidthPx": 1200,
+      "notes": "Social share (og:image / twitter:image) for hakiqa.com and the Hakiqa apps, 1200x630, approved by Marvin 2026-10-10. Built only from approved parts: hakiqa-lockup-horizontal-capitalised-full on white, haki-presenting, Urbanist, live hakiqa.com hero copy. Use as supplied; do not crop or retext."
     },
     {
       "id": "hakiqa.applications.light",
