@@ -4,8 +4,8 @@
 //   node <bp_design_system checkout at a tag>/scripts/check-brand-assets.mjs --root .   (Odoo repos)
 // Fails when the repo ships
 //   1. a retired design-system brand file (manifest status "deprecated", e.g. hakiqa-logo-transparent, *-full-dark, *-gloss),
-//   2. a logo / wordmark / favicon / app icon / Haki file that is not a design-system file. Resized copies are allowed
-//      when named <design-system file name>-<size>.png (e.g. haki-empty-200.png, hakiqa-appicon-connect-192.png),
+//   2. a logo / wordmark / favicon / app icon / Haki file that is not a design-system file. Resized PNG copies are
+//      allowed when named <design-system file name>[-<size>].png (e.g. haki-empty-200.png) and the pixels match,
 //   3. a Haki PNG with an opaque corner (a baked white or coloured tile),
 //   4. code that puts Haki on a white tile or fades it, or names a retired logo file.
 // Files that are not ours (client logos, payment badges) go in .brand-assets-allow at the repo root: one path or
@@ -32,13 +32,13 @@ const stem = (name) => basename(name, extname(name)).toLowerCase();
 
 // Design-system brand files, keyed by content hash and by file stem.
 const manifest = JSON.parse(readFileSync(join(dsRoot, 'src/assets/asset-manifest.json'), 'utf8'));
-const byHash = new Map(), approvedStems = new Set(), retiredNames = new Set();
+const byHash = new Map(), approvedPng = new Map(), retiredNames = new Set();
 for (const asset of manifest.assets) for (const file of asset.files) {
   const path = join(dsRoot, file);
   if (!existsSync(path)) continue;
   byHash.set(sha(path), { file, id: asset.id, status: asset.status });
   if (asset.status === 'deprecated') retiredNames.add(basename(file).toLowerCase());
-  else approvedStems.add(stem(file));
+  else if (file.endsWith('.png')) approvedPng.set(stem(file), path);
 }
 
 const allowPath = join(root, '.brand-assets-allow');
@@ -47,8 +47,8 @@ const allow = existsSync(allowPath)
   : [];
 const allowed = (rel) => allow.some((a) => (a.endsWith('/') ? rel.startsWith(a) : rel === a));
 
-// Alpha of a PNG's four corners; null when it has no 8-bit RGBA channel (palette/greyscale/interlaced).
-function cornerAlphas(file) {
+// Decoded 8-bit RGBA PNG, or null for palette/greyscale/interlaced files.
+function decodePng(file) {
   const buf = readFileSync(file);
   let pos = 8, width = 0, height = 0, colorType = 0, bitDepth = 0, interlace = 0;
   const idat = [];
@@ -72,9 +72,24 @@ function cornerAlphas(file) {
     rows.push(line);
     prev = line;
   }
-  const alpha = (x, y) => rows[y][x * bpp + 3];
-  return [alpha(0, 0), alpha(width - 1, 0), alpha(0, height - 1), alpha(width - 1, height - 1)];
+  return { width, height, rows };
 }
+const cornerAlphas = (png) => [[0, 0], [png.width - 1, 0], [0, png.height - 1], [png.width - 1, png.height - 1]]
+  .map(([x, y]) => png.rows[y][x * 4 + 3]);
+// 16x16 grid of mean alpha and mean premultiplied luma: a resized copy of the same art lands within a few points,
+// different art (an older Haki render, another logo) does not.
+// ponytail: grid compare, not a real perceptual hash; tighten MAX_DIFF if a near-miss ever slips through.
+const GRID = 16, MAX_DIFF = 0.04;
+function signature(png) {
+  const sig = new Float64Array(GRID * GRID * 2), n = new Float64Array(GRID * GRID);
+  for (let y = 0; y < png.height; y++) for (let x = 0; x < png.width; x++) {
+    const i = Math.floor((y * GRID) / png.height) * GRID + Math.floor((x * GRID) / png.width), p = x * 4, r = png.rows[y];
+    const a = r[p + 3] / 255;
+    sig[i * 2] += a; sig[i * 2 + 1] += a * (0.299 * r[p] + 0.587 * r[p + 1] + 0.114 * r[p + 2]) / 255; n[i]++;
+  }
+  return sig.map((v, k) => v / n[k >> 1]);
+}
+const sigDiff = (a, b) => a.reduce((sum, v, k) => sum + Math.abs(v - b[k]), 0) / a.length;
 
 const problems = [];
 let ok = 0;
@@ -83,11 +98,22 @@ for (const file of files.filter((f) => IMAGE.test(f) && BRAND_NAME.test(basename
   const rel = relative(root, file).replaceAll('\\', '/');
   if (allowed(rel)) continue;
   const hit = byHash.get(sha(file));
-  const resized = !hit && /\.(png|webp)$/i.test(rel) && approvedStems.has(stem(rel).replace(/-\d+(x\d+)?$/, ''));
   if (hit?.status === 'deprecated') { problems.push(`${rel}: retired design-system file ${hit.file} (${hit.id})`); continue; }
-  if (!hit && !resized) { problems.push(`${rel}: not a design-system brand file; use @blackpaw/ui/assets/... (or add to .brand-assets-allow if it is not ours)`); continue; }
+  const png = rel.endsWith('.png') ? decodePng(file) : null;
+  if (!hit) {
+    // A resized copy must be named <design-system file>-<size>.png (or keep the name) and match its pixels.
+    const source = approvedPng.get(stem(rel).replace(/-\d+(x\d+)?$/, ''));
+    const srcPng = source && png && decodePng(source);
+    const diff = srcPng ? sigDiff(signature(png), signature(srcPng)) : 1;
+    if (diff > MAX_DIFF) {
+      problems.push(source
+        ? `${rel}: named like ${relative(dsRoot, source).replaceAll('\\', '/')} but ${png ? `the art differs (${diff.toFixed(3)})` : 'not an RGBA PNG'}; resize the design-system file`
+        : `${rel}: not a design-system brand file; use @blackpaw/ui/assets/... (or add to .brand-assets-allow if it is not ours)`);
+      continue;
+    }
+  }
   if (/(^|\/)haki-[^/]*\.png$/i.test(rel)) {
-    const corners = cornerAlphas(file);
+    const corners = png && cornerAlphas(png);
     if (!corners) { problems.push(`${rel}: Haki without an RGBA alpha channel; use the transparent design-system pose`); continue; }
     if (corners.some((a) => a > 8)) { problems.push(`${rel}: Haki with an opaque corner (alpha ${corners.join('/')}), a baked tile`); continue; }
   }
