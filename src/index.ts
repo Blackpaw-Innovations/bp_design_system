@@ -54,6 +54,11 @@ export { BadgeProgressCard } from './components/BadgeProgressCard'
 export type { BadgeProgressCardProps, RingProgressCardProps, TrendProgressCardProps, ProgressCardVariant } from './components/BadgeProgressCard'
 export { CompletionBadge, CompletionList } from './components/CompletionBadge'
 export type { CompletionBadgeProps, CompletionListProps } from './components/CompletionBadge'
+// Gym track (HAKIQA_GYM_STANDARDS.md, 10 Oct 2026)
+export { BadgeMedal3D } from './components/BadgeMedal3D'
+export type { BadgeMedal3DProps } from './components/BadgeMedal3D'
+export { StreakProgress } from './components/StreakProgress'
+export type { StreakProgressProps, LadderRung } from './components/StreakProgress'
 export { TIER_ORDER, TIER_META, CATEGORY_LABEL, progressFraction, nextTier } from './badges/tokens'
 export type { BadgeTier, BadgeCategory, TierMeta } from './badges/tokens'
 
