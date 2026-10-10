@@ -53,20 +53,19 @@ There is one design system for Hakiqa apps: **`@blackpaw/ui`** (repo `bp_design_
 |---|---|---|---|
 | Identity | `--identity` #032053 | hero and decision surfaces, flat | gradients, sheens, coloured text on it |
 | Where you are | `--signal` #2a6fda | active rail item, active tab, focus ring, secondary buttons, links | primary actions |
-| What to do | `--action` #fd8a03 + `--on-action` #071b3c | the one primary action, attention dot, rail attention glow | text on a light ground |
+| What to do | `--action` #fd8a03 + `--on-action` #071b3c | the one primary action and the attention dot | text on a light ground |
 | Status | `--v-pos`, `--v-warn`, `--v-crit`, `--v-info`, `--v-draft` on their own tints | chips, dots, the sentence that states the status | marketing; large fills |
 | Family | `--role-family-accent` | wordmark panel, a thin product accent | buttons, nav, status |
 
 - **On navy, text is white at full opacity.** Colour lives in a dot or chip. (CSS)
 - **Orange and cyan are fills, never text.** (CSS + check)
 - **No gradients, gloss or glow in app UI.** (CSS + check) The allowed exceptions, each needing a comment on the line, are:
-  - the rail attention glow;
   - scroll-edge fades;
   - the skeleton shimmer;
   - data visualisation (for example the donut chart);
   - physical medal metal in the badge set;
   - photo scrims.
-- **Retired:** the olive, burgundy and orange hero variants (Northstar §16), `hq-gradient`, `hq-btn-gradient` and the `.hero-card` sheen.
+- **Retired:** the olive, burgundy and orange `.hero-card` variants (Northstar §16), `hq-gradient`, `hq-btn-gradient` and the `.hero-card` sheen. Burgundy, olive and cream remain allowed in Insight Spotlight only (Vivid Core §06, §5b).
 
 ## 4 · Type
 
@@ -86,8 +85,8 @@ Top to bottom:
 6. **Side dock** (desktop, optional): `Dock` / `DockSection` / `Facts`.
 
 **Never on a page:**
-- decorative photos or objects inside data cards;
-- a second hero;
+- decorative photos or objects inside data cards (the Insight Spotlight object is the one exception, §5b);
+- a second hero (the Home trend panel, §5d, is the chart panel, not a hero);
 - carousels with more than one set of controls;
 - repeated entity chips.
 
@@ -132,6 +131,48 @@ The Home snapshot is the one carousel allowed in an app, and it follows a fixed 
 
 **Large figures:** use `fmtKM` on cards (KES 192.5M). Show the full amount on the detail page.
 
+## 5b · Insight Spotlight (the navy card with an object)
+
+Kept as is in Car Parts, with rules. Component: `InsightSpotlight` (hakiqa-connect `src/components/insights/`; moves to `@blackpaw/ui`). Reference render: `Hakiqa Insight Spotlight.dc.html` (1c).
+
+**Where**
+- At the top of a page, one per page, only when one specific record is waiting.
+- Never in data cards, StatGroup, the snapshot carousel, tables or forms. The "no decorative objects" rule (§5) applies everywhere except here.
+
+**Object**
+- Only the app objects in `public/assets/objects`. The component maps topic to object; pages pass a topic, not a file:
+  - gears: stock, parts and work;
+  - basket: orders, sales and payments;
+  - chess: leads and decisions;
+  - origami: setup and documents;
+  - pot: food and hospitality.
+- Desktop: the right 34%, contained in its column (not 115% wide).
+- Phone: a 128 × 84px corner beside the eyebrow, with the title starting below it.
+- It never sits behind text, is never cropped mid-object, and has `alt=""` and `aria-hidden`.
+
+**Tones:** Vivid Core §06, allowed in the spotlight only. Elsewhere they stay retired.
+- Navy: the default.
+- Burgundy: urgent, for money owed or something off the road.
+- Olive: a reminder.
+- Cream: good news, with navy ink.
+
+**Text**
+- **Eyebrow:** an orange pill, 15px, sentence case, weight 800, navy ink.
+- **Title:** 24–28px at weight 900, two lines at most, with its figure.
+- **Body:** one sentence at 16px, solid white (navy on cream). No `text-white/75`.
+
+**Action**
+- One white pill with navy ink (a navy pill on cream), 48px tall (52px full width on phone), verb first, with an arrow.
+- It is the page's lead action, so there is no orange button above the fold. Orange stays in the eyebrow.
+- Dark mode keeps the tone and adds the 1px `--border-subtle` edge.
+
+**Code fixes in `InsightSpotlight.tsx`:**
+- eyebrow `text-[10px] font-900 uppercase tracking-wider` becomes `text-[15px] font-800`;
+- body `text-white/75` becomes `text-white`, at 16px;
+- CTA `text-sm` becomes `text-base`, with `min-h-12`;
+- object `w-[115%]` becomes `w-full`;
+- add the phone corner layout below 640px.
+
 ## 5c · Home: Needs you and Quick actions
 
 **Needs you** (approved 3b, 10 Oct 2026): equal figure tiles under the snapshot.
@@ -148,9 +189,31 @@ The Home snapshot is the one carousel allowed in an app, and it follows a fixed 
 - **Links and buttons:** actions that navigate are links; actions that do something in place (copy, message) are buttons with a toast.
 - **What belongs here:** "How do I…?" and other help go to Support, not here.
 
+## 5d · Home: the trend panel ("How sales are moving")
+
+Kept as it is. It is the page's one chart panel, not a second hero. It sits inside the navy Home band, under the snapshot.
+
+**Structure**
+- **Eyebrow and title:** "Snap analytics · today" and a plain-language title ("How sales are moving").
+- **Headline figure** with its own label: "Confirmed order value · last 30 days".
+- **Up to three supporting facts** on the right: Per day, Busiest day, Days with sales.
+- **The chart:** 30 daily bars, flat Signal Blue on the identity-3 inner panel, with one dashed peak line labelled with its value, and three axis labels (start, middle, "Today").
+- **Interaction:** hover or tap a day for its total. The hint reads "Tap a day to see its total" on touch screens and "Point at a day…" with a mouse.
+
+**Haki** may sit in the panel header, top right, at 64px at most, using an approved pose (waving, thinking or presenting; never celebrating on a down trend). Haki never sits inside the chart or on a figure.
+
+**Fixes to the current panel**
+- "KSh 329,933" becomes formatMoney: **KES 329,933**.
+- "13 Sept" becomes formatDate: **13 Sep**.
+- "· sample" becomes a "Sample data" StatusChip (draft tone) next to the label. It shows only on demo data, never on live data.
+- The bars stay flat, with no gradient. Days with no sales draw a 2px stub, not a gap.
+- On phone, show the headline and Per day only. The bars keep all 30 days at full width; the other facts move under the chart.
+
+**Not allowed:** a second chart panel on Home, gridlines, or more than one highlighted line.
+
 ## 5e · Home: Haki's focus note (replaces "Intelligence brief · Where to focus today")
 
-Approved 5c (10 Oct 2026). Reference render: `Hakiqa Focus Brief.dc.html` 5c.
+Approved 5c (10 Oct). Reference render: `Hakiqa Focus Brief.dc.html` 5c.
 
 **Job:** say the first step and why, in one line. It never repeats a Needs you count on its own; it gives the order or the reason.
 
@@ -181,10 +244,14 @@ Approved 5c (10 Oct 2026). Reference render: `Hakiqa Focus Brief.dc.html` 5c.
 - **Two levels only.** The rail icon picks the app; the top pill-nav picks the view. No tab bars inside pages and no extra rail icons for sub-screens. (Conformance)
 - **Six rail menus at most**, labelled, with the flyout on hover or keyboard focus and one open at a time. (CSS for the flyout; Conformance for the count.) Approved 9 Oct 2026.
 - **Seven tabs per pill-nav at most.** Settings is split into Business, Money and Data menus. (Conformance)
-- **One attention glow at a time,** on the most urgent rail item. (CSS keeps the first glow; the app should order rail items by urgency.)
+- **Attention indicator: the dot** (approved 9 Oct, render `Hakiqa Attention Indicator.dc.html` 2a). A flat 10px Action-orange dot at the icon's top right with a 2px edge in the rail colour. It ripples twice on arrival (900ms each), then holds still. No blur, no gradient, no endless pulse. Class: `.bp-attn`; `.hq-led-glow` is an alias.
+  - **One at a time,** on the most urgent rail item; CSS hides any second dot. Never on the active item: opening the menu clears it.
+  - **Real waits only:** a record waiting for this user. Never tips, features or setup nudges.
+  - **Said in words:** the accessible name becomes "Deliveries, 2 need you", and the flyout's first line says what is waiting.
+  - **Phone bottom bar:** the same dot on the 52 × 30px pill. With reduced motion, the dot appears without the ripple.
 - **Active state is always Signal Blue.** Identity navy never marks "you are here".
 - **Mobile:** a bottom bar with up to five `mobilePrimary` items and labels of at least 13px. The active item is a Signal Blue pill behind the icon, and the label below it is in Signal Blue text.
-- **Rail items:** 72px wide, at least 58px tall, a 22px lucide icon above a 13px label. The active item is a Signal Blue fill with a white icon and label. The attention glow sits on at most one item, never the active one. Utility items (Support, Settings) sit below a divider.
+- **Rail items:** 72px wide, at least 58px tall, a 22px lucide icon above a 13px label. The active item is a Signal Blue fill with a white icon and label. The attention dot sits on at most one item, never the active one. Utility items (Support, Settings) sit below a divider.
 
 ## 7 · Buttons
 
@@ -223,7 +290,7 @@ Use `<Button>`, `<ButtonLink>` or `<IconButton>` only. One recipe covers every v
 
 ## 8 · Forms
 
-- **Text inputs:** `hq-input` (`Input` component to follow), 44px tall, 15px.
+- **Text inputs:** `<Field>` + `<Input>` / `<Textarea>` / `<MoneyInput>` (§17.2–17.3), 44px tall, 16px text.
 - **Choices:** `<Select>`, not a native select.
 - **Dates:** `<DatePicker>`, not `type="date"`.
 - **Labels:** above the field, 15px, sentence case. Optional fields say "(optional)"; required ones are not starred.
@@ -245,7 +312,7 @@ Use `<Button>`, `<ButtonLink>` or `<IconButton>` only. One recipe covers every v
 
 ## 10 · Status
 
-- **One table:** `STATUS_TONE_MAP` in `StatusChip.tsx`. A new state is a new row there, never a local colour map. (Check `local-status-map`)
+- **One table:** `STATUS_TONE_MAP` in `StatusChip.tsx`, five tones (pos, warn, crit, info, draft) plus `live` for work happening now (§17.12). A new state is a new row there, never a local colour map. (Check `local-status-map`)
 - **One chip per record.** The chip label matches the sentence in the headline.
 
 ## 11 · Feedback and overlays
@@ -256,6 +323,8 @@ Use `<Button>`, `<ButtonLink>` or `<IconButton>` only. One recipe covers every v
 | Saved, sent, failed | `useToast()`: one at a time, bottom right, with the next step | coloured banners stacked on the page |
 | View or edit a record without leaving | `SlideOver` | hand-built `fixed inset-0` layers |
 | Tip | `HakiTip` | modal tips |
+| Still true (offline, failed sync, plan renews) | `Banner` (§17.14) | a toast for a lasting state |
+| Delete or close for good | destructive ladder (§17.6): Undo → ConfirmDialog → TypeToConfirmDialog / HoldToConfirm | red on reversible actions |
 
 **Stacking order:** `--z-raised` 10, `--z-sticky` 30, `--z-rail` 40, `--z-flyout` 50, `--z-overlay` 60, `--z-panel` 61, `--z-toast` 70, `--z-tooltip` 80. No raw `z-[n]`.
 
@@ -264,13 +333,13 @@ Use `<Button>`, `<ButtonLink>` or `<IconButton>` only. One recipe covers every v
 - **Money:** `formatMoney(92000)` gives "KES 92,000". Decimals appear only when there are cents. Never type "Ksh" or "KSh" by hand, and never use `.toFixed(2)` on money.
 - **Dates:** `formatDate()` gives "4 Sep 2026" and `formatDateTime()` gives "9 Oct 2026, 09:48". Never "Sept", never ISO dates in the UI.
 - **Date-only values** ("2026-06-07") are local dates, so never pass them to a time formatter. Doing so shows 03:00 in Nairobi, which matches the inspection time seen in the Properties screens.
-- **Big numbers:** `fmtKM` (12K, 1.20M) only in charts and small tiles; full amounts everywhere else.
+- **Big numbers:** `fmtKM` (12K, 1.20M) only in chart labels and small tiles; full amounts everywhere else, including the trend panel headline.
 
 ## 13 · Icons and imagery
 
 - **Icons:** the app uses `lucide-react` through `APP_ICONS` for the rail, and lucide directly elsewhere. Icons are 18–20px and `currentColor`, with no emoji in place of icons.
   - **Decided 9 Oct:** lucide stays for apps. The "no icon library" rule in the Hakiqa Brand Guidelines applies to marketing only.
-- **Haki:** use the repo PNGs only. Empty states and tips are fine. No celebrating Haki on errors, no sad Haki on routine empty states, and no Haki inside data cards.
+- **Haki:** use the repo PNGs only (200 px copies in apps). The pose follows the situation through `HAKI_STATE` (§17.14): empty tray for first run, searching for no match, offline plug, waiting hourglass, thinking for page not found; pointing, presenting and peeking-side for HakiTips. No Haki on server errors or failed payments, no celebrating Haki on errors, no sad Haki on routine empty states, and no Haki inside data cards.
 - **No decorative stock objects** (pots, whisks) in hero or data cards.
 
 ## 14 · Accessibility and function
@@ -307,3 +376,12 @@ Use `<Button>`, `<ButtonLink>` or `<IconButton>` only. One recipe covers every v
 - **Member portal:** moves onto `useTheme` (key `hakiqa_theme`, Light, Warm and Dark) and the shared tokens and components. The `gp-*` classes are retired as screens move.
 - **`--fs-label`:** becomes 15 px in Vivid Core (`src/index.css`), with `--fs-micro` at 13 px.
 - **Labels and type:** 15 px, sentence case and Urbanist everywhere in apps, as set out in section 4.
+
+## 17 · Components (proposed 10 Oct 2026)
+
+The full rules for the 23 shared components live in **`docs/HAKIQA_COMPONENTS.md`**: select, inputs, money, dates, choices, dialogs and the destructive ladder, side panel with activity, tables (navy money tables, bulk, sort, column filters), filter bar and quick views, charts, KPI comparison, status chips, toasts, banners and states, steps, help, board, calendar, upload, avatar, segmented, signature, actions menu.
+
+- **Code:** `@blackpaw/ui` exports every one of them (`src/index.ts`, "Components §17"); styles in `tokens/components.v17.css`, imported after guardrails.
+- **Phone:** below 640 px every picker, menu and dialog is a bottom sheet (`useIsPhone`).
+- **Retired:** `ViewToggle` (use `Segmented`), the old `EmptyState` icon API, HakiTip tones advice/warning/alert, chip tone names success/warning/danger/accent/neutral (mapped automatically, then flagged).
+- **Checks added:** `view-toggle`, `legacy-chip-tone`, `native-time`, `haki-tip-tone`, `chart-orange`, `empty-icon`, `select-actions`.

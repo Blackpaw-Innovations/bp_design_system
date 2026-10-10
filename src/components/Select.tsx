@@ -1,202 +1,174 @@
-import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { Check, ChevronDown } from 'lucide-react'
+import { Check, ChevronDown, Search, X } from 'lucide-react'
+import { Sheet, useIsPhone, useOutside, usePopover } from './Overlay'
+import { Button } from './Guarded'
 
-export interface SelectOption {
-  value: string
-  label: string
-}
+/**
+ * Select and MultiSelect (standards §17.1). Replaces the 45 hand-built and 21 native selects.
+ *   - Search appears by itself at 8+ options, as the first row: "Search 12 suppliers". Matches anywhere.
+ *   - Required: no empty row, starts on the placeholder "Choose a …". Optional: first row "None".
+ *   - Phone: always a bottom sheet with the field's label as title; searchable sheets open full height.
+ *   - Keyboard: arrows, Enter, Escape, type-to-jump. 6 rows visible (44 px), then scroll.
+ *   - Not for actions (use <Menu>), not for 2–3 visible choices (use <Segmented> or <RadioGroup>).
+ * Backwards compatible with the old props: `searchable` still forces search on.
+ */
 
-export interface SelectProps {
-  value: string
-  onChange: (value: string) => void
+export interface SelectOption { value: string; label: string; disabled?: boolean }
+
+interface Base {
   options: SelectOption[]
-  className?: string
-  buttonClassName?: string
+  /** The field label. Also the sheet title on phone and the noun in "Search 12 suppliers". */
+  label?: string
+  /** Plural noun for the search placeholder, e.g. "suppliers". Defaults to "options". */
+  noun?: string
   placeholder?: string
   disabled?: boolean
-  label?: string
+  invalid?: boolean
   searchable?: boolean
+  className?: string
+  buttonClassName?: string
+  id?: string
+  'aria-describedby'?: string
 }
 
-export function Select({
-  value,
-  onChange,
-  options,
-  className = '',
-  buttonClassName = '',
-  placeholder,
-  disabled = false,
-  label,
-  searchable = false,
-}: SelectProps) {
-  const [open, setOpen] = useState(false)
-  const [highlight, setHighlight] = useState(0)
-  const [query, setQuery] = useState('')
-  const [placement, setPlacement] = useState<'below' | 'above'>('below')
-  const [menuStyle, setMenuStyle] = useState<CSSProperties>({})
-  const rootRef = useRef<HTMLDivElement>(null)
-  const buttonRef = useRef<HTMLButtonElement>(null)
-  const listRef = useRef<HTMLUListElement>(null)
-  const searchRef = useRef<HTMLInputElement>(null)
-  const listboxId = useId()
-  const current = options.find((option) => option.value === value)
-  const filteredOptions = useMemo(() => {
-    const normalizedQuery = query.trim().toLowerCase()
-    return searchable && normalizedQuery
-      ? options.filter((option) => option.label.toLowerCase().includes(normalizedQuery))
-      : options
-  }, [options, query, searchable])
+export interface SelectProps extends Base {
+  value: string
+  onChange: (value: string) => void
+  /** Adds a first "None" row that sets ''. Use with Field optional. */
+  optional?: boolean
+}
 
-  function close() {
-    setOpen(false)
-    setQuery('')
-    requestAnimationFrame(() => buttonRef.current?.focus())
-  }
+export interface MultiSelectProps extends Base {
+  value: string[]
+  onChange: (value: string[]) => void
+  /** Shown over 20 options only, and only when picking all is a real job. */
+  selectAll?: boolean
+}
 
-  function positionMenu() {
-    const button = buttonRef.current
-    if (!button) return
-    const rect = button.getBoundingClientRect()
-    const gap = 6
-    const availableBelow = window.innerHeight - rect.bottom - gap
-    const availableAbove = rect.top - gap
-    const openAbove = availableBelow < Math.min(280, availableAbove) && availableAbove > availableBelow
-    const maxHeight = Math.max(120, Math.min(280, openAbove ? availableAbove : availableBelow))
-    setPlacement(openAbove ? 'above' : 'below')
-    setMenuStyle({
-      position: 'fixed',
-      left: rect.left,
-      width: rect.width,
-      ...(openAbove ? { bottom: window.innerHeight - rect.top + gap } : { top: rect.bottom + gap }),
-      maxHeight,
-    })
-  }
+const SEARCH_AT = 8
 
-  useEffect(() => {
-    if (!open) return
-    function onDocumentPointer(event: PointerEvent) {
-      const target = event.target as Node
-      if (rootRef.current?.contains(target) || listRef.current?.contains(target)) return
-      close()
-    }
-    document.addEventListener('pointerdown', onDocumentPointer)
-    return () => document.removeEventListener('pointerdown', onDocumentPointer)
-  }, [open])
+function useList(options: SelectOption[], query: string) {
+  return useMemo(() => {
+    const q = query.trim().toLowerCase()
+    return q ? options.filter((o) => o.label.toLowerCase().includes(q)) : options
+  }, [options, query])
+}
 
-  useLayoutEffect(() => {
-    if (!open) return
-    positionMenu()
-    const onViewportChange = () => positionMenu()
-    window.addEventListener('resize', onViewportChange)
-    window.addEventListener('scroll', onViewportChange, true)
-    return () => {
-      window.removeEventListener('resize', onViewportChange)
-      window.removeEventListener('scroll', onViewportChange, true)
-    }
-  }, [open])
-
-  useEffect(() => {
-    if (!open) return
-    const selectedIndex = filteredOptions.findIndex((option) => option.value === value)
-    setHighlight(selectedIndex >= 0 ? selectedIndex : 0)
-    requestAnimationFrame(() => (searchable ? searchRef.current : listRef.current)?.focus())
-  }, [open, filteredOptions, searchable, value])
-
-  useEffect(() => {
-    if (!open) return
-    listRef.current?.querySelector<HTMLElement>(`[data-option-index="${highlight}"]`)?.scrollIntoView({ block: 'nearest' })
-  }, [highlight, open])
-
-  function openFromButton() {
-    setOpen(true)
-  }
-
-  function onButtonKeyDown(event: React.KeyboardEvent) {
-    if (event.key === 'Enter' || event.key === ' ' || event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-      event.preventDefault()
-      openFromButton()
-    }
-  }
-
-  function onListKeyDown(event: React.KeyboardEvent) {
-    if (event.key === 'Escape') {
-      event.preventDefault()
-      close()
-      return
-    }
-    if (event.key === 'ArrowDown') {
-      event.preventDefault()
-      setHighlight((currentHighlight) => Math.min(filteredOptions.length - 1, currentHighlight + 1))
-      return
-    }
-    if (event.key === 'ArrowUp') {
-      event.preventDefault()
-      setHighlight((currentHighlight) => Math.max(0, currentHighlight - 1))
-      return
-    }
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault()
-      const option = filteredOptions[highlight]
-      if (option) {
-        onChange(option.value)
-        close()
-      }
-      return
-    }
-    if (event.key === 'Tab') close()
-  }
-
-  const menu = open ? createPortal(
-    <ul
-      ref={listRef}
-      id={listboxId}
-      role="listbox"
-      aria-label={label}
-      tabIndex={-1}
-      onKeyDown={onListKeyDown}
-      style={menuStyle}
-      className={`z-[100] overflow-y-auto rounded-hq-md border border-hq-border bg-white p-1.5 shadow-hq-modal outline-none ${placement === 'above' ? 'origin-bottom' : 'origin-top'}`}
-    >
-      {searchable && <li className="p-1.5"><input ref={searchRef} aria-label={`Search ${label ?? 'options'}`} value={query} onChange={(event) => { setQuery(event.target.value); setHighlight(0) }} onKeyDown={onListKeyDown} placeholder="Search options…" className="hq-input min-h-11 w-full" /></li>}
-      {filteredOptions.length === 0 && <li className="px-3 py-3 text-sm text-hq-muted">No matching options.</li>}
-      {filteredOptions.map((option, index) => (
-        <li
-          key={option.value}
-          role="option"
-          data-option-index={index}
-          aria-selected={option.value === value}
-          onMouseEnter={() => setHighlight(index)}
-          onPointerDown={(event) => event.preventDefault()}
-          onClick={() => { onChange(option.value); close() }}
-          className={`flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-lg px-3 py-2 text-sm text-hq-navy transition-colors ${index === highlight ? 'bg-hq-bg' : ''} ${option.value === value ? 'bg-[#edf9f7] font-800' : 'font-600'}`}
-        >
-          <span>{option.label}</span>
-          {option.value === value && <Check size={17} className="flex-none text-hq-teal" aria-hidden="true" />}
-        </li>
-      ))}
-    </ul>,
-    document.body,
-  ) : null
-
+function Trigger({ open, onClick, label, text, empty, disabled, invalid, id, describedBy, btnRef, className }: { open: boolean; onClick: () => void; label?: string; text: React.ReactNode; empty: boolean; disabled?: boolean; invalid?: boolean; id?: string; describedBy?: string; btnRef: React.RefObject<HTMLButtonElement | null>; className?: string }) {
   return (
-    <div ref={rootRef} className={`relative ${className}`}>
-      <button
-        ref={buttonRef}
-        type="button"
-        disabled={disabled}
-        onClick={() => (open ? close() : openFromButton())}
-        onKeyDown={onButtonKeyDown}
-        aria-haspopup="listbox"
-        aria-expanded={open}
-        aria-controls={listboxId}
-        aria-label={label}
-        className={`flex min-h-11 w-full items-center justify-between gap-2 rounded-hq-md border border-hq-border bg-hq-surface px-3.5 py-2.5 text-left text-[13.5px] font-600 text-hq-text transition-colors hover:border-hq-navy focus:outline-none focus:border-hq-navy focus:shadow-[0_0_0_3px_rgba(0,165,184,0.12)] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-hq-border ${buttonClassName}`}
-      >
-        <span className="truncate">{current ? current.label : placeholder ?? 'Select...'}</span>
-        <ChevronDown size={14} className={`flex-none text-hq-muted transition-transform duration-150 ${open ? 'rotate-180' : ''}`} />
-      </button>
-      {menu}
+    <button
+      ref={btnRef} id={id} type="button" disabled={disabled} onClick={onClick}
+      aria-haspopup="listbox" aria-expanded={open} aria-label={id ? undefined : label} aria-describedby={describedBy} aria-invalid={invalid || undefined}
+      className={`bp-control ${className ?? ''}`} data-invalid={invalid || undefined} data-disabled={disabled || undefined}
+      style={{ width: '100%', alignItems: 'center', gap: 10, padding: '0 14px', cursor: 'pointer', textAlign: 'left', font: '600 16px Urbanist, sans-serif', ...(open ? { borderColor: 'var(--c-signal)', boxShadow: '0 0 0 2px var(--c-ring)' } : {}) }}
+    >
+      <span style={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', color: empty ? 'var(--c-muted)' : undefined }}>{text}</span>
+      <ChevronDown size={18} aria-hidden="true" style={{ color: 'var(--c-muted)', transform: open ? 'rotate(180deg)' : undefined }} />
+    </button>
+  )
+}
+
+function ListBody({ rows, isOn, onPick, query, setQuery, showSearch, searchPh, active, setActive, onKey, multi, listId, label }: { rows: SelectOption[]; isOn: (v: string) => boolean; onPick: (v: string) => void; query: string; setQuery: (q: string) => void; showSearch: boolean; searchPh: string; active: number; setActive: (n: number) => void; onKey: (e: React.KeyboardEvent) => void; multi?: boolean; listId: string; label?: string }) {
+  const search = useRef<HTMLInputElement>(null)
+  const list = useRef<HTMLUListElement>(null)
+  useEffect(() => { requestAnimationFrame(() => (showSearch ? search.current : list.current)?.focus()) }, [showSearch])
+  return (
+    <>
+      {showSearch && (
+        <div className="bp-pop-search"><div><Search size={18} aria-hidden="true" style={{ color: 'var(--c-muted)' }} /><input ref={search} value={query} onChange={(e) => { setQuery(e.target.value); setActive(0) }} onKeyDown={onKey} placeholder={searchPh} aria-label={searchPh} aria-controls={listId} /></div></div>
+      )}
+      <ul ref={list} id={listId} role="listbox" aria-label={label} aria-multiselectable={multi || undefined} tabIndex={-1} onKeyDown={onKey} style={{ listStyle: 'none', margin: 0, padding: '4px 0', maxHeight: 264, overflow: 'auto', outline: 'none' }}>
+        {rows.length === 0 && <li className="bp-help" style={{ padding: '12px 14px' }}>Nothing matches "{query}"</li>}
+        {rows.map((o, i) => {
+          const on = isOn(o.value)
+          return (
+            <li key={o.value || '__none'} role="option" aria-selected={on} aria-disabled={o.disabled || undefined} className="bp-opt" data-active={i === active || undefined}
+              onMouseEnter={() => setActive(i)} onPointerDown={(e) => e.preventDefault()} onClick={() => !o.disabled && onPick(o.value)}>
+              {multi && <span className="bp-box" aria-hidden="true" style={on ? { background: 'var(--c-signal)', borderColor: 'var(--c-signal)', color: '#fff' } : undefined}>{on && <Check size={15} strokeWidth={3} />}</span>}
+              <span style={{ flex: 1 }}>{o.label}</span>
+              {!multi && on && <Check size={18} aria-hidden="true" style={{ color: 'var(--c-signal-text)' }} />}
+            </li>
+          )
+        })}
+      </ul>
+    </>
+  )
+}
+
+function useSelectCore(options: SelectOption[], forceSearch: boolean | undefined, label: string | undefined, noun: string | undefined) {
+  const [open, setOpen] = useState(false)
+  const [query, setQuery] = useState('')
+  const [active, setActive] = useState(0)
+  const btn = useRef<HTMLButtonElement>(null)
+  const pop = useRef<HTMLDivElement>(null)
+  const phone = useIsPhone()
+  const style = usePopover(btn, open && !phone, { width: 'anchor', maxHeight: 340 })
+  const rows = useList(options, query)
+  const showSearch = forceSearch ?? options.length >= SEARCH_AT
+  const close = useCallback(() => { setOpen(false); setQuery(''); requestAnimationFrame(() => btn.current?.focus()) }, [])
+  useOutside([btn, pop], open && !phone, close)
+  const searchPh = `Search ${options.length} ${noun ?? (label ? label.toLowerCase() + 's' : 'options')}`
+  const typed = useRef({ s: '', t: 0 })
+  const keys = (pick: (v: string) => void) => (e: React.KeyboardEvent) => {
+    if (e.key === 'Escape') { e.preventDefault(); close(); return }
+    if (e.key === 'ArrowDown') { e.preventDefault(); setActive((a) => Math.min(rows.length - 1, a + 1)); return }
+    if (e.key === 'ArrowUp') { e.preventDefault(); setActive((a) => Math.max(0, a - 1)); return }
+    if (e.key === 'Enter') { e.preventDefault(); const o = rows[active]; if (o && !o.disabled) pick(o.value); return }
+    if (e.key === 'Tab') { close(); return }
+    if (!showSearch && e.key.length === 1) {
+      const now = Date.now(); typed.current = { s: (now - typed.current.t < 600 ? typed.current.s : '') + e.key.toLowerCase(), t: now }
+      const i = rows.findIndex((o) => o.label.toLowerCase().startsWith(typed.current.s)); if (i >= 0) setActive(i)
+    }
+  }
+  return { open, setOpen, query, setQuery, active, setActive, btn, pop, phone, style, rows, showSearch, close, searchPh, keys }
+}
+
+export function Select({ value, onChange, options, label, noun, placeholder, disabled, invalid, searchable, optional, className, buttonClassName, id, 'aria-describedby': describedBy }: SelectProps) {
+  const opts = useMemo(() => (optional ? [{ value: '', label: 'None' }, ...options] : options), [optional, options])
+  const c = useSelectCore(opts, searchable, label, noun)
+  const listId = useId()
+  const current = opts.find((o) => o.value === value && (o.value !== '' || optional))
+  const pick = (v: string) => { onChange(v); c.close() }
+  useEffect(() => { if (c.open) c.setActive(Math.max(0, c.rows.findIndex((o) => o.value === value))) }, [c.open]) // eslint-disable-line react-hooks/exhaustive-deps
+  const body = <ListBody rows={c.rows} isOn={(v) => v === value} onPick={pick} query={c.query} setQuery={c.setQuery} showSearch={c.showSearch} searchPh={c.searchPh} active={c.active} setActive={c.setActive} onKey={c.keys(pick)} listId={listId} label={label} />
+  return (
+    <div className={className} style={{ position: 'relative' }}>
+      <Trigger btnRef={c.btn} open={c.open} onClick={() => (c.open ? c.close() : c.setOpen(true))} label={label} text={current ? current.label : placeholder ?? `Choose ${label ? 'a ' + label.toLowerCase() : 'one'}`} empty={!current} disabled={disabled} invalid={invalid} id={id} describedBy={describedBy} className={buttonClassName} />
+      {c.open && !c.phone && createPortal(<div ref={c.pop} className="bp-pop" style={c.style}>{body}</div>, document.body)}
+      {c.phone && <Sheet open={c.open} title={label ?? 'Choose'} onClose={c.close} full={c.showSearch}>{body}</Sheet>}
+    </div>
+  )
+}
+
+export function MultiSelect({ value, onChange, options, label, noun, placeholder, disabled, invalid, searchable, selectAll, className, buttonClassName, id, 'aria-describedby': describedBy }: MultiSelectProps) {
+  const c = useSelectCore(options, searchable, label, noun)
+  const listId = useId()
+  const [draft, setDraft] = useState<string[]>(value)
+  useEffect(() => { if (c.open) setDraft(value) }, [c.open]) // eslint-disable-line react-hooks/exhaustive-deps
+  const toggle = (v: string) => setDraft((d) => (d.includes(v) ? d.filter((x) => x !== v) : [...d, v]))
+  const done = () => { onChange(draft); c.close() }
+  const chosen = options.filter((o) => value.includes(o.value))
+  const text = chosen.length === 0
+    ? placeholder ?? `Choose ${noun ?? 'options'}`
+    : <span style={{ display: 'inline-flex', gap: 6, alignItems: 'center' }}>{chosen.slice(0, 2).map((o) => (
+        <span key={o.value} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, height: 30, padding: '0 6px 0 12px', borderRadius: 999, background: 'var(--c-selected)', fontSize: 15, fontWeight: 700 }}>
+          {o.label}<span role="button" tabIndex={0} aria-label={`Remove ${o.label}`} onClick={(e) => { e.stopPropagation(); onChange(value.filter((x) => x !== o.value)) }} style={{ display: 'inline-flex' }}><X size={15} /></span>
+        </span>
+      ))}{chosen.length > 2 && <span style={{ fontSize: 15, fontWeight: 700, color: 'var(--c-muted)' }}>+{chosen.length - 2}</span>}</span>
+  const foot = (
+    <div style={{ display: 'flex', gap: 10, alignItems: 'center', padding: '10px 12px', borderTop: '1px solid var(--c-border)' }}>
+      {selectAll && options.length > 20 && <Button variant="tertiary" onClick={() => setDraft(draft.length === options.length ? [] : options.map((o) => o.value))}>{draft.length === options.length ? 'Clear all' : 'Select all'}</Button>}
+      <span className="bp-help" style={{ flex: 1 }}>{draft.length} chosen</span>
+      <Button variant="secondary" onClick={done}>Done</Button>
+    </div>
+  )
+  const body = <ListBody multi rows={c.rows} isOn={(v) => draft.includes(v)} onPick={toggle} query={c.query} setQuery={c.setQuery} showSearch={c.showSearch} searchPh={c.searchPh} active={c.active} setActive={c.setActive} onKey={c.keys(toggle)} listId={listId} label={label} />
+  return (
+    <div className={className} style={{ position: 'relative' }}>
+      <Trigger btnRef={c.btn} open={c.open} onClick={() => (c.open ? done() : c.setOpen(true))} label={label} text={text} empty={chosen.length === 0} disabled={disabled} invalid={invalid} id={id} describedBy={describedBy} className={buttonClassName} />
+      {c.open && !c.phone && createPortal(<div ref={c.pop} className="bp-pop" style={c.style}>{body}{foot}</div>, document.body)}
+      {c.phone && <Sheet open={c.open} title={label ?? 'Choose'} onClose={done} full={c.showSearch} footer={<Button variant="primary" size="lg" fullWidth onClick={done}>Done</Button>}>{body}</Sheet>}
     </div>
   )
 }

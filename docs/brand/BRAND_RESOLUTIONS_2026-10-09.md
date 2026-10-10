@@ -38,3 +38,9 @@ Resolves the contradictions in the guidelines audit. Status: **Decided** = Marvi
 - Decided: Hakiqa Brand Guidelines PDF (Oct 2026) is the reference; one app design system with the full palette.
 - Approved: web primary button navy + 0 6px 0 orange shadow; app primary teal-ink #005468; cyan never a button or text.
 - Proposed tokens (see brand-tokens-additions.css).
+
+## Hakiqa app colour (reconciled 9 Oct)
+- Decided: app UI follows Vivid Core (hakiqa-connect src/index.css, ruled 15–16 Sep 2026): identity navy #032053, Signal Blue #2a6fda (where you are), Action orange #fd8a03 with ink #071b3c (what to do). Light, Warm and Dark themes.
+- Decided: status colours (incl. green #16865a) are app-only; the marketing palette stays navy, orange, teal, red, cyan.
+- Decided: the orange "needs attention" glow is the one allowed glow; no other gradients or glows in app UI.
+- Brand book: Hakiqa pages 28–30 updated.
