@@ -128,7 +128,8 @@ export function Select({ value, onChange, options, label, noun, placeholder, dis
   const opts = useMemo(() => (optional ? [{ value: '', label: 'None' }, ...options] : options), [optional, options])
   const c = useSelectCore(opts, searchable, label, noun)
   const listId = useId()
-  const current = opts.find((o) => o.value === value && (o.value !== '' || optional))
+  // An explicit '' option ("Any product") is a real choice; with none, '' shows the placeholder.
+  const current = opts.find((o) => o.value === value)
   const pick = (v: string) => { onChange(v); c.close() }
   useEffect(() => { if (c.open) c.setActive(Math.max(0, c.rows.findIndex((o) => o.value === value))) }, [c.open]) // eslint-disable-line react-hooks/exhaustive-deps
   const body = <ListBody rows={c.rows} isOn={(v) => v === value} onPick={pick} query={c.query} setQuery={c.setQuery} showSearch={c.showSearch} searchPh={c.searchPh} active={c.active} setActive={c.setActive} onKey={c.keys(pick)} listId={listId} label={label} />
