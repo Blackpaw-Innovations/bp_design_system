@@ -13,7 +13,8 @@ import { cn, type IconComponent } from '../lib/utils'
  * Old tone names still work: success → pos, warning → warn, danger → crit, accent → info, neutral → draft.
  * Counts never go on a status chip (use <CountBadge> on filters, pill-nav and flyouts).
  */
-export type ChipTone = 'pos' | 'warn' | 'crit' | 'info' | 'draft' | 'live'
+/** pos | warn | crit | info | draft | live. The legacy names (success, warning, danger, accent, neutral) still work and map across; check-brand-rules flags them (legacy-chip-tone). */
+export type ChipTone = 'pos' | 'warn' | 'crit' | 'info' | 'draft' | 'live' | LegacyTone
 type LegacyTone = 'success' | 'warning' | 'danger' | 'accent' | 'neutral'
 const LEGACY: Record<LegacyTone, ChipTone> = { success: 'pos', warning: 'warn', danger: 'crit', accent: 'info', neutral: 'draft' }
 const norm = (t: ChipTone | LegacyTone): ChipTone => (t in LEGACY ? LEGACY[t as LegacyTone] : (t as ChipTone))

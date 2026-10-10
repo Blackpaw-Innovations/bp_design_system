@@ -72,7 +72,7 @@ export function Sheet({ open, title, onClose, children, full, footer }: SheetPro
   )
 }
 
-export function usePopover(anchor: RefObject<HTMLElement>, open: boolean, opts: { width?: number | 'anchor'; maxHeight?: number; align?: 'start' | 'end' } = {}) {
+export function usePopover(anchor: RefObject<HTMLElement | null>, open: boolean, opts: { width?: number | 'anchor'; maxHeight?: number; align?: 'start' | 'end' } = {}) {
   const [style, setStyle] = useState<CSSProperties>({})
   const place = useCallback(() => {
     const el = anchor.current
@@ -97,7 +97,7 @@ export function usePopover(anchor: RefObject<HTMLElement>, open: boolean, opts: 
   return style
 }
 
-export function useOutside(refs: RefObject<HTMLElement>[], open: boolean, onOutside: () => void) {
+export function useOutside(refs: RefObject<HTMLElement | null>[], open: boolean, onOutside: () => void) {
   useEffect(() => {
     if (!open) return
     const h = (e: PointerEvent) => { if (!refs.some((r) => r.current?.contains(e.target as Node))) onOutside() }
@@ -173,13 +173,18 @@ export interface SlideOverProps {
   /** Pinned: the one next step for this stage first, Cancel as text, "Open full page" on the right. */
   footer?: ReactNode
   /** 480 default; 720 when the panel holds a table or line items; 960 for all-day records with a side activity column. */
-  width?: 480 | 560 | 720 | 960
+  /** 480 / 560 / 720 / 960. A legacy CSS width ("440px") snaps up to the next allowed width. */
+  width?: 480 | 560 | 720 | 960 | string
+  /** @deprecated Use recordId. */
+  subtitle?: ReactNode
   dirty?: boolean
   /** Shows a back arrow instead of replacing the panel when a related record opened inside it. */
   onBack?: () => void
 }
 
-export function SlideOver({ open, title, recordId, facts, quickActions, menu, onClose, children, footer, width = 480, dirty, onBack }: SlideOverProps) {
+export function SlideOver({ open, title, recordId: recordIdProp, subtitle, facts, quickActions, menu, onClose, children, footer, width: widthProp = 480, dirty, onBack }: SlideOverProps) {
+  const recordId = recordIdProp ?? subtitle
+  const width = typeof widthProp === 'number' ? widthProp : ([480, 560, 720, 960].find((w) => w >= (parseInt(widthProp, 10) || 480)) ?? 960)
   const [asking, setAsking] = useState(false)
   const tryClose = useCallback(() => (dirty ? setAsking(true) : onClose()), [dirty, onClose])
   useEscape(open && !asking, tryClose)

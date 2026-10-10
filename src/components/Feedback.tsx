@@ -69,10 +69,23 @@ export interface EmptyStateProps {
   /** page = 120 px Haki, card = 88 px, row = 64 px beside the text (phone lists, tables). */
   size?: 'page' | 'card' | 'row'
   className?: string
+  /** @deprecated Routine empties have no icon (empty-icon check). Ignored. */
+  icon?: unknown
 }
 
 export function EmptyState({ state, mascotSrc, title, description, action, secondary, size = 'page', className }: EmptyStateProps) {
-  if (!state) return <p className={cn('bp-help', className)} style={{ fontSize: 16, fontWeight: 700, color: 'var(--c-ink)', padding: 20, margin: 0 }}>{title}</p>
+  if (!state) {
+    const line = <p className={cn('bp-help', !description && !action && className)} style={{ fontSize: 16, fontWeight: 700, color: 'var(--c-ink)', padding: description || action ? 0 : 20, margin: 0 }}>{title}</p>
+    if (!description && !action) return line
+    // Older callers pass a description and an action; keep them rather than drop a working button.
+    return (
+      <div className={className} style={{ padding: 20, display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-start' }}>
+        {line}
+        {description && <p className="bp-help" style={{ margin: 0 }}>{description}</p>}
+        {action && <button type="button" className="bp-btn" data-variant="secondary" onClick={action.onClick}>{action.label}</button>}
+      </div>
+    )
+  }
   return (
     <div className={cn('bp-state', className)} data-size={size}>
       {mascotSrc && <img src={mascotSrc} alt="" />}
@@ -149,7 +162,7 @@ export function ErrorSummary({ errors }: { errors: { fieldId: string; label: str
 export function Tooltip({ label, children, align = 'end' }: { label: string; children: ReactNode; align?: 'start' | 'end' }) {
   const [show, setShow] = useState(false)
   const id = useId()
-  const timer = useRef<ReturnType<typeof setTimeout>>()
+  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
   if (label.split(/\s+/).length > 3 && typeof console !== 'undefined') console.warn(`[@blackpaw/ui] Tooltip "${label}" is long. Tooltips name icon buttons; explain terms with visible help text.`)
   return (
     <span style={{ position: 'relative', display: 'inline-flex' }} aria-describedby={show ? id : undefined}
@@ -173,6 +186,8 @@ export interface HakiTipProps {
   /** Required: tips are shown once per user and dismissed with "Got it". */
   onDismiss: () => void
   className?: string
+  /** @deprecated Tips have one look per placement (haki-tip-tone check). Ignored. */
+  tone?: string
 }
 
 export function HakiTip({ mascotSrc, placement = 'inline', title, children, action, onDismiss, className }: HakiTipProps) {

@@ -91,7 +91,7 @@ function Month({ month, setMonth, isStart, isEnd, inRange, onPick, min, max, lim
   )
 }
 
-function FieldButton({ btnRef, text, empty, open, onClick, id, invalid, describedBy, onType }: { btnRef: React.RefObject<HTMLDivElement>; text: string; empty: boolean; open: boolean; onClick: () => void; id?: string; invalid?: boolean; describedBy?: string; onType?: (t: string) => void }) {
+function FieldButton({ btnRef, text, empty, open, onClick, id, invalid, describedBy, onType }: { btnRef: React.RefObject<HTMLDivElement | null>; text: string; empty: boolean; open: boolean; onClick: () => void; id?: string; invalid?: boolean; describedBy?: string; onType?: (t: string) => void }) {
   const [typing, setTyping] = useState<string | null>(null)
   return (
     <div ref={btnRef} className="bp-control" data-invalid={invalid || undefined} style={{ alignItems: 'center', paddingLeft: 14, ...(open ? { borderColor: 'var(--c-signal)', boxShadow: '0 0 0 2px var(--c-ring)' } : {}) }}>

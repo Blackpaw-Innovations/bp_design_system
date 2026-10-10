@@ -55,7 +55,7 @@ function useList(options: SelectOption[], query: string) {
   }, [options, query])
 }
 
-function Trigger({ open, onClick, label, text, empty, disabled, invalid, id, describedBy, btnRef, className }: { open: boolean; onClick: () => void; label?: string; text: React.ReactNode; empty: boolean; disabled?: boolean; invalid?: boolean; id?: string; describedBy?: string; btnRef: React.RefObject<HTMLButtonElement>; className?: string }) {
+function Trigger({ open, onClick, label, text, empty, disabled, invalid, id, describedBy, btnRef, className }: { open: boolean; onClick: () => void; label?: string; text: React.ReactNode; empty: boolean; disabled?: boolean; invalid?: boolean; id?: string; describedBy?: string; btnRef: React.RefObject<HTMLButtonElement | null>; className?: string }) {
   return (
     <button
       ref={btnRef} id={id} type="button" disabled={disabled} onClick={onClick}

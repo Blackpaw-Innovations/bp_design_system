@@ -25,7 +25,7 @@ export function DangerZone({ title, children, action, tone = 'outline' }: { titl
 /** Press and hold (1.5 s) to confirm. Keyboard: hold Enter or Space. Reduced motion: no fill animation, same timing. */
 export function HoldToConfirm({ label, holdingLabel = 'Keep holding…', doneLabel, onConfirm, ms = 1500 }: { label: string; holdingLabel?: string; doneLabel: string; onConfirm: () => void; ms?: number }) {
   const [state, setState] = useState<'idle' | 'holding' | 'done'>('idle')
-  const t = useRef<ReturnType<typeof setTimeout>>()
+  const t = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
   useEffect(() => () => clearTimeout(t.current), [])
   const start = () => { if (state === 'done') return; setState('holding'); t.current = setTimeout(() => { setState('done'); onConfirm() }, ms) }
   const stop = () => { if (state === 'holding') { clearTimeout(t.current); setState('idle') } }
