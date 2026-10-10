@@ -137,8 +137,27 @@ html .rail { z-index: var(--z-rail); }
 html .rail-flyout { z-index: var(--z-flyout); }
 html .rail:hover .rail-item:not(:hover) .rail-flyout { display: none; }
 html .rail-item:not(:hover):focus-within:not(:has(:focus-visible)) .rail-flyout { display: none; }
-html .rail > :has(.hq-led-glow) ~ * .hq-led-glow::before,
-html .rail > .hq-led-glow ~ .hq-led-glow::before { display: none; }
+/* Attention indicator = dot (approved 9 Oct 2026, render 2a). Replaces the
+   blurred, endlessly pulsing .hq-led-glow. .hq-led-glow is an alias so
+   existing call sites switch with no code change. */
+html :is(.bp-attn, .rail-icon.hq-led-glow, .hq-led-glow) { position: relative; isolation: isolate; }
+html .hq-led-glow::before { content: none; animation: none; }
+html :is(.bp-attn, .hq-led-glow)::after {
+  content: ""; position: absolute; top: 6px; right: 6px; z-index: 2;
+  width: 10px; height: 10px; border-radius: 999px; pointer-events: none;
+  background: var(--g-action);
+  box-shadow: 0 0 0 2px var(--rail-bg, var(--g-surface));
+  animation: bp-attn-ripple 900ms ease-out 2;
+}
+@keyframes bp-attn-ripple {
+  0%   { box-shadow: 0 0 0 2px var(--rail-bg, var(--g-surface)), 0 0 0 2px rgba(253,138,3,.6); }
+  100% { box-shadow: 0 0 0 2px var(--rail-bg, var(--g-surface)), 0 0 0 12px rgba(253,138,3,0); }
+}
+@media (prefers-reduced-motion: reduce) { html :is(.bp-attn, .hq-led-glow)::after { animation: none; } }
+/* One at a time, never on the active item. */
+html .rail > :has(:is(.bp-attn, .hq-led-glow)) ~ * :is(.bp-attn, .hq-led-glow)::after,
+html .rail > :is(.bp-attn, .hq-led-glow) ~ :is(.bp-attn, .hq-led-glow)::after,
+html :is(.rail-icon.active, [aria-current="page"]):is(.bp-attn, .hq-led-glow)::after { display: none; }
 /* Rail avatar and top-bar avatar open the same menu (Layout.tsx); keep one. */
 @media (min-width: 769px) {
   html body:has(.app-top .avatar-chip) .rail .avatar { display: none; }

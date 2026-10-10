@@ -2,92 +2,76 @@ import type { ReactNode } from 'react'
 import { cn, type IconComponent } from '../lib/utils'
 
 /**
- * Wraps the existing `.chip` CSS (tokens/components.css) rather than
- * introducing a second markup/class system — see Reconciliation Codex C1.
- * `.chip`'s five tones (accent/success/warning/danger/info/neutral) already
- * carry per-identity dark-mode corrections (e.g. BICC's warning contrast fix).
+ * StatusChip v2 (standards §17.12, round 2 R1). Five tones; the dot stays (from the code today).
+ *   pos   done, paid, working as it should
+ *   warn  needs action soon, waiting on someone
+ *   crit  late, failed or blocked
+ *   info  moving along, nothing to do
+ *   draft not started, inactive or closed
+ * `live` is not a tone: it is the one state where work is happening now (a job in the bay). Navy chip,
+ * pulsing dot, at most one kind per screen.
+ * Old tone names still work: success → pos, warning → warn, danger → crit, accent → info, neutral → draft.
+ * Counts never go on a status chip (use <CountBadge> on filters, pill-nav and flyouts).
  */
-export type ChipTone = 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'neutral'
+export type ChipTone = 'pos' | 'warn' | 'crit' | 'info' | 'draft' | 'live'
+type LegacyTone = 'success' | 'warning' | 'danger' | 'accent' | 'neutral'
+const LEGACY: Record<LegacyTone, ChipTone> = { success: 'pos', warning: 'warn', danger: 'crit', accent: 'info', neutral: 'draft' }
+const norm = (t: ChipTone | LegacyTone): ChipTone => (t in LEGACY ? LEGACY[t as LegacyTone] : (t as ChipTone))
 
-/**
- * The one status->tone table. A new status is a data row here, never a new
- * component or a locally re-invented color map at the call site.
- */
+/** The one status → tone table. A new state is a row here, never a local map (check local-status-map). */
 export const STATUS_TONE_MAP: Record<string, { tone: ChipTone; label: string }> = {
-  // lifecycle / subscription
-  active: { tone: 'success', label: 'Active' },
-  live: { tone: 'accent', label: 'Live' },
-  trial: { tone: 'info', label: 'Trial' },
-  grace: { tone: 'warning', label: 'Grace' },
-  pending: { tone: 'warning', label: 'Pending' },
-  suspended: { tone: 'danger', label: 'Suspended' },
-  overdue: { tone: 'danger', label: 'Overdue' },
-  urgent: { tone: 'danger', label: 'Urgent' },
-  cancelled: { tone: 'neutral', label: 'Cancelled' },
-  draft: { tone: 'neutral', label: 'Draft' },
-  // payments / invoices
-  paid: { tone: 'success', label: 'Paid' },
-  due: { tone: 'warning', label: 'Due' },
-  partial: { tone: 'warning', label: 'Partial' },
-  // visits / work items (formerly components/StatusBadge.tsx's vocabulary)
-  checked_in: { tone: 'accent', label: 'In Progress' },
-  in_progress: { tone: 'accent', label: 'In Progress' },
-  completed: { tone: 'success', label: 'Completed' },
-  done: { tone: 'success', label: 'Completed' },
-  resolved: { tone: 'success', label: 'Resolved' },
-  waiting: { tone: 'warning', label: 'Waiting' },
-  closed: { tone: 'neutral', label: 'Closed' },
-  new: { tone: 'info', label: 'New' },
-  ack: { tone: 'info', label: 'Acknowledged' },
-  // dairy consignment/run states (illustrative reference only, see src/pages/dairy/)
-  planned: { tone: 'neutral', label: 'Planned' },
-  collected: { tone: 'accent', label: 'Collected' },
-  delivered: { tone: 'success', label: 'Delivered' },
-  reversed: { tone: 'danger', label: 'Reversed' },
-  // onboarding pipeline
-  Draft: { tone: 'neutral', label: 'Draft' },
-  Submitted: { tone: 'info', label: 'Submitted' },
-  Provisioning: { tone: 'warning', label: 'Provisioning' },
-  Complete: { tone: 'success', label: 'Complete' },
-  Failed: { tone: 'danger', label: 'Failed' },
-  // people availability
-  available: { tone: 'success', label: 'Available' },
-  busy: { tone: 'danger', label: 'With client' },
-  // generic priority
-  critical: { tone: 'danger', label: 'Critical' },
-  high: { tone: 'warning', label: 'High' },
-  medium: { tone: 'info', label: 'Medium' },
-  low: { tone: 'neutral', label: 'Low' },
-  // task/expense categories
-  sales: { tone: 'accent', label: 'Sales & Clients' },
-  ops: { tone: 'info', label: 'Operations' },
-  finance: { tone: 'warning', label: 'Finance' },
-  personal: { tone: 'neutral', label: 'Personal' },
+  // pos
+  paid: { tone: 'pos', label: 'Paid' }, completed: { tone: 'pos', label: 'Completed' }, done: { tone: 'pos', label: 'Completed' },
+  approved: { tone: 'pos', label: 'Approved' }, active: { tone: 'pos', label: 'Active' }, delivered: { tone: 'pos', label: 'Delivered' },
+  in_stock: { tone: 'pos', label: 'In stock' }, resolved: { tone: 'pos', label: 'Resolved' }, ready: { tone: 'pos', label: 'Ready' },
+  available: { tone: 'pos', label: 'Available' }, Complete: { tone: 'pos', label: 'Complete' }, signed: { tone: 'pos', label: 'Signed' },
+  // warn
+  due: { tone: 'warn', label: 'Due soon' }, due_soon: { tone: 'warn', label: 'Due soon' }, awaiting_approval: { tone: 'warn', label: 'Awaiting approval' },
+  partial: { tone: 'warn', label: 'Part paid' }, running_low: { tone: 'warn', label: 'Running low' }, pending: { tone: 'warn', label: 'Pending' },
+  waiting: { tone: 'warn', label: 'Waiting' }, waiting_parts: { tone: 'warn', label: 'Waiting for parts' }, grace: { tone: 'warn', label: 'Grace period' },
+  Provisioning: { tone: 'warn', label: 'Provisioning' }, high: { tone: 'warn', label: 'High' }, unassigned: { tone: 'warn', label: 'Not assigned' },
+  // crit
+  overdue: { tone: 'crit', label: 'Overdue' }, failed: { tone: 'crit', label: 'Failed' }, Failed: { tone: 'crit', label: 'Failed' },
+  declined: { tone: 'crit', label: 'Declined' }, out_of_stock: { tone: 'crit', label: 'Out of stock' }, urgent: { tone: 'crit', label: 'Urgent' },
+  expired: { tone: 'crit', label: 'Expired' }, suspended: { tone: 'crit', label: 'Suspended' }, reversed: { tone: 'crit', label: 'Reversed' },
+  critical: { tone: 'crit', label: 'Critical' }, busy: { tone: 'crit', label: 'With client' },
+  // info
+  sent: { tone: 'info', label: 'Sent' }, in_progress: { tone: 'info', label: 'In progress' }, checked_in: { tone: 'info', label: 'In progress' },
+  scheduled: { tone: 'info', label: 'Scheduled' }, booked: { tone: 'info', label: 'Booked' }, in_transit: { tone: 'info', label: 'In transit' },
+  new: { tone: 'info', label: 'New' }, ack: { tone: 'info', label: 'Acknowledged' }, trial: { tone: 'info', label: 'Trial' },
+  Submitted: { tone: 'info', label: 'Submitted' }, collected: { tone: 'info', label: 'Collected' }, diagnosis: { tone: 'info', label: 'Diagnosis' },
+  medium: { tone: 'info', label: 'Medium' }, live: { tone: 'info', label: 'Live' },
+  // draft
+  draft: { tone: 'draft', label: 'Draft' }, Draft: { tone: 'draft', label: 'Draft' }, not_started: { tone: 'draft', label: 'Not started' },
+  cancelled: { tone: 'draft', label: 'Cancelled' }, archived: { tone: 'draft', label: 'Archived' }, inactive: { tone: 'draft', label: 'Inactive' },
+  closed: { tone: 'draft', label: 'Closed' }, planned: { tone: 'draft', label: 'Planned' }, low: { tone: 'draft', label: 'Low' },
+  // live: work happening now
+  in_bay: { tone: 'live', label: 'In the bay' },
 }
 
 export interface StatusChipProps {
-  /** A key into STATUS_TONE_MAP. Unknown keys fall back to `neutral` with the raw string as the label, never to a blank/uncolored chip. */
   status: string
-  /** Overrides the table's label for this instance (status text stays the source of truth for tone). */
   label?: ReactNode
-  /** Escape hatch for a status not yet in the table — still one component, not a new one. */
-  tone?: ChipTone
-  /** Pulses the dot -- reserve for a genuinely live/real-time state, not decoration. */
+  /** Escape hatch for a status not yet in the table. Add the row instead when it is reused. */
+  tone?: ChipTone | LegacyTone
+  /** Only for live work (a job in the bay, a member checked in now). */
   pulse?: boolean
-  /** Replaces the dot with an icon (e.g. a spinner for an in-progress state). The dot alone is enough for most statuses -- reach for this only when the icon carries information the tone doesn't (motion, a specific glyph). */
   icon?: IconComponent
   className?: string
 }
 
 export function StatusChip({ status, label, tone, pulse, icon: Icon, className }: StatusChipProps) {
   const entry = STATUS_TONE_MAP[status]
-  const resolvedTone = tone ?? entry?.tone ?? 'neutral'
-  const resolvedLabel = label ?? entry?.label ?? status
-
+  const t = norm(tone ?? entry?.tone ?? 'draft')
   return (
-    <span className={cn('chip', resolvedTone, className)}>
-      {Icon ? <Icon size={12} /> : <span className={cn('cdot', pulse && 'pulse')} />}
-      {resolvedLabel}
+    <span className={cn('chip', t, className)}>
+      {Icon ? <Icon size={14} /> : <span className={cn('cdot', (pulse || t === 'live') && 'pulse')} aria-hidden="true" />}
+      {label ?? entry?.label ?? status}
     </span>
   )
+}
+
+/** Neutral count on a filter chip, quick view, pill-nav item or flyout. Never on a record's status. */
+export function CountBadge({ n, label }: { n: number; label?: string }) {
+  return <span className="bp-count" aria-label={label ? `${n} ${label}` : undefined}>{n > 99 ? '99+' : n}</span>
 }

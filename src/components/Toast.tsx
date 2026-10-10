@@ -1,147 +1,91 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from 'react'
-import { Check, AlertTriangle, X, MessageCircle } from 'lucide-react'
+import { AlertTriangle, Check, Info, Loader2, MessageCircle, X } from 'lucide-react'
 import { cn } from '../lib/utils'
 import { BLACKPAW_SUPPORT_PHONE, buildWhatsAppUrl } from '../lib/whatsapp'
 
 /**
- * One notifier, one visual spec (Reconciliation Codex C4; premium set
- * 2026-10-08). A small dark capsule, bottom right, ONE at a time: a new
- * notice replaces the current one, so confirmations never pile up over the
- * page header. It offers the next step (`action`) instead of just shouting.
- * The timer pauses while hovered or focused. role="status" for success and
- * warning, role="alert" for errors, 44px close target.
- * Consumers with a bottom nav set `--toast-offset-bottom` on :root.
+ * Toast v2 (standards §17.13, round 2 R3). Same API as before plus `info`, `reference` and `progress`.
+ * A dark capsule, bottom right (full width above the bottom bar on phone), ONE at a time.
+ *   success  "Payment recorded"                       5 s
+ *   warning  done, but…: "Sale saved, receipt not sent" 5 s   (a warning that needs a decision is a dialog)
+ *   error    "Couldn't send the quote" + what to do   8 s; with supportEscalation it stays until closed
+ *   info     something changed: "Peter moved WO-2291 to Ready"
+ * With an action the timer is 8 s. Hover and focus pause it. Undo replaces confirm for reversible removals.
+ * Copy: past tense with the object. Errors: "Couldn't [verb] [object]" + what to do.
+ * Routine saves never get a banner; lasting states (offline, failed sync) use <Banner>.
  */
-export type ToastIntent = 'success' | 'warning' | 'error'
+export type ToastIntent = 'success' | 'warning' | 'error' | 'info'
 
-export interface ToastSupportEscalation {
-  /** Where the error happened, e.g. "Support — creating a ticket". Read by
-   * the person on the other end of WhatsApp, not shown as UI copy. */
-  context: string
-  /** Overrides Blackpaw's own support line for this one toast. */
-  phone?: string
-}
-
-export interface ToastAction {
-  label: string
-  onClick: () => void
-}
+export interface ToastSupportEscalation { context: string; phone?: string }
+export interface ToastAction { label: string; onClick: () => void }
 
 export interface ToastOptions {
-  /** The headline: what happened, in a few words ("Hold placed on Shop G13"). */
   message: string
-  /** Optional second line: the consequence or what happens next. */
   detail?: string
   intent?: ToastIntent
-  /** The next step (Undo, View, Try again). Clicking it also closes the notice. */
+  /** One action only: Undo, View, Try again, Fix number. */
   action?: ToastAction
-  /** ms before auto-dismiss. 0 disables auto-dismiss (user must close it). */
   duration?: number
-  /**
-   * Only for a real system/backend/network failure a human could actually
-   * do something about -- never for client-side validation ("subject is
-   * required"), which no amount of support escalation fixes. Adds a wa.me
-   * link pre-filled with `context` and `message`. Implies duration: 0 unless
-   * a duration is explicitly given.
-   */
+  /** Real system failures only, never validation. Adds the WhatsApp link and keeps the toast open. */
   supportEscalation?: ToastSupportEscalation
+  /** Shown as "Reference ERR-7F3A" and sent with the WhatsApp message. */
+  reference?: string
+  /** Long actions: "12 of 24 sent". Call showToast again with the same `id` to update, then with intent success. */
+  progress?: string
+  id?: string
 }
 
-interface ActiveToast {
-  id: number
-  message: string
-  detail?: string
-  intent: ToastIntent
-  action?: ToastAction
-  duration: number
-  supportEscalation?: ToastSupportEscalation
-}
+interface Active extends Required<Pick<ToastOptions, 'message' | 'intent'>> { key: number; id?: string; detail?: string; action?: ToastAction; duration: number; supportEscalation?: ToastSupportEscalation; reference?: string; progress?: string }
 
-interface ToastContextValue {
-  showToast: (options: ToastOptions) => void
-}
-
-const ToastContext = createContext<ToastContextValue | null>(null)
+const Ctx = createContext<{ showToast: (o: ToastOptions) => void; dismissToast: () => void } | null>(null)
 
 export function useToast() {
-  const ctx = useContext(ToastContext)
-  if (!ctx) throw new Error('useToast must be used inside <ToastProvider>')
-  return ctx
+  const c = useContext(Ctx)
+  if (!c) throw new Error('useToast must be used inside <ToastProvider>')
+  return c
 }
 
-function ToastView({ toast, onClose }: { toast: ActiveToast; onClose: () => void }) {
+function View({ t, onClose }: { t: Active; onClose: () => void }) {
   const [paused, setPaused] = useState(false)
-  const remaining = useRef(toast.duration)
-
+  const left = useRef(t.duration)
   useEffect(() => {
-    if (paused || toast.duration <= 0) return
-    const started = Date.now()
-    const timer = setTimeout(onClose, remaining.current)
-    return () => {
-      clearTimeout(timer)
-      remaining.current -= Date.now() - started
-    }
-  }, [paused, toast.duration, onClose])
-
-  const Icon = toast.intent === 'success' ? Check : AlertTriangle
+    if (paused || t.duration <= 0) return
+    const s = Date.now()
+    const id = setTimeout(onClose, left.current)
+    return () => { clearTimeout(id); left.current -= Date.now() - s }
+  }, [paused, t.duration, onClose])
+  const Icon = t.progress ? Loader2 : t.intent === 'success' ? Check : t.intent === 'info' ? Info : AlertTriangle
+  const wa = t.supportEscalation && buildWhatsAppUrl(t.supportEscalation.phone ?? BLACKPAW_SUPPORT_PHONE,
+    `Hi Blackpaw, I ran into an issue.\n\n*Where:* ${t.supportEscalation.context}\n*Error:* ${t.message}${t.reference ? `\n*Reference:* ${t.reference}` : ''}\n\nCan you help?`)
   return (
-    <div
-      role={toast.intent === 'error' ? 'alert' : 'status'}
-      className={cn('toast', toast.intent)}
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocus={() => setPaused(true)}
-      onBlur={() => setPaused(false)}
-    >
-      <span className="toast-icon" aria-hidden="true"><Icon size={16} strokeWidth={2.5} /></span>
+    <div role={t.intent === 'error' ? 'alert' : 'status'} className={cn('toast', t.intent)}
+      onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)} onFocus={() => setPaused(true)} onBlur={() => setPaused(false)}>
+      <span className="toast-icon" aria-hidden="true"><Icon size={16} strokeWidth={2.6} className={t.progress ? 'animate-spin' : undefined} /></span>
       <div className="toast-body">
-        <p className="toast-title">{toast.message}</p>
-        {toast.detail && <p className="toast-detail">{toast.detail}</p>}
-        {toast.supportEscalation && (
-          <a
-            href={buildWhatsAppUrl(
-              toast.supportEscalation.phone ?? BLACKPAW_SUPPORT_PHONE,
-              `Hi Blackpaw, I ran into an issue.\n\n*Where:* ${toast.supportEscalation.context}\n*Error:* ${toast.message}\n\nCan you help?`
-            )}
-            target="_blank"
-            rel="noreferrer"
-            className="toast-link inline-flex min-h-11 items-center gap-1.5 text-sm font-700 underline underline-offset-2"
-          >
-            <MessageCircle size={15} className="shrink-0" />
-            Message us on WhatsApp
-          </a>
-        )}
+        <p className="toast-title">{t.message}</p>
+        {(t.detail || t.progress) && <p className="toast-detail">{t.progress ?? t.detail}</p>}
+        {t.reference && <p className="toast-ref">Reference {t.reference}</p>}
+        {wa && <a href={wa} target="_blank" rel="noopener noreferrer" className="toast-link inline-flex min-h-11 items-center gap-1.5 font-700 underline underline-offset-2"><MessageCircle size={15} />Message us on WhatsApp</a>}
       </div>
-      {toast.action && (
-        <button type="button" className="toast-action" onClick={() => { toast.action?.onClick(); onClose() }}>
-          {toast.action.label}
-        </button>
-      )}
-      <button type="button" className="toast-close" onClick={onClose} aria-label="Dismiss">
-        <X size={16} />
-      </button>
+      {t.action && <button type="button" className="toast-action" onClick={() => { t.action?.onClick(); onClose() }}>{t.action.label}</button>}
+      <button type="button" className="toast-close" onClick={onClose} aria-label="Dismiss"><X size={16} /></button>
     </div>
   )
 }
 
-/** Mount once, near the root of the app (alongside the shell), not per-page. */
 export function ToastProvider({ children }: { children: ReactNode }) {
-  const [toast, setToast] = useState<ActiveToast | null>(null)
-  const nextId = useRef(0)
-
-  const close = useCallback(() => setToast(null), [])
-
-  const showToast = useCallback(({ message, detail, intent = 'success', action, duration, supportEscalation }: ToastOptions) => {
-    const resolved = duration ?? (supportEscalation ? 0 : intent === 'error' ? 8000 : 5000)
-    setToast({ id: nextId.current++, message, detail, intent, action, duration: resolved, supportEscalation })
+  const [t, setT] = useState<Active | null>(null)
+  const n = useRef(0)
+  const close = useCallback(() => setT(null), [])
+  const showToast = useCallback((o: ToastOptions) => {
+    const intent = o.intent ?? 'success'
+    const duration = o.duration ?? (o.progress ? 0 : o.supportEscalation ? 0 : intent === 'error' || o.action ? 8000 : 5000)
+    setT((prev) => ({ key: o.id && prev?.id === o.id ? prev.key : n.current++, id: o.id, message: o.message, detail: o.detail, intent, action: o.action, duration, supportEscalation: o.supportEscalation, reference: o.reference, progress: o.progress }))
   }, [])
-
   return (
-    <ToastContext.Provider value={{ showToast }}>
+    <Ctx.Provider value={{ showToast, dismissToast: close }}>
       {children}
-      <div className="toast-region" aria-live="polite">
-        {toast && <ToastView key={toast.id} toast={toast} onClose={close} />}
-      </div>
-    </ToastContext.Provider>
+      <div className="toast-region" aria-live="polite">{t && <View key={`${t.key}-${t.progress ?? ''}-${t.intent}`} t={t} onClose={close} />}</div>
+    </Ctx.Provider>
   )
 }

@@ -95,28 +95,7 @@
 .spark span { flex: 1; border-radius: 2px 2px 0 0; background: hsl(var(--color-accent) / .35); }
 .spark span:last-child { background: hsl(var(--color-accent)); }
 
-/* ── StatusChip ─────────────────────────────────────────────── */
-.chip {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 5px 11px; border-radius: 999px;
-  font-family: var(--bp-font-label);
-  font-size: 10px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase;
-}
-.chip .cdot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-.chip .cdot.pulse { animation: chip-pulse 1.6s var(--bp-ease-out) infinite; }
-@keyframes chip-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 currentColor; opacity: 1; }
-  50%       { box-shadow: 0 0 0 4px transparent; opacity: .5; }
-}
-.chip.accent  { background: hsl(var(--color-accent) / .14);   color: hsl(var(--color-accent)); }
-.chip.success { background: hsl(var(--bp-success) / .15);      color: hsl(var(--bp-success)); }
-.chip.warning { background: hsl(var(--bp-warning) / .16);      color: hsl(38 93% 38%); }
-.chip.danger  { background: hsl(var(--bp-danger) / .14);       color: hsl(var(--bp-danger)); }
-.chip.info    { background: hsl(var(--bp-info) / .14);         color: hsl(var(--bp-info)); }
-.chip.neutral { background: hsl(var(--color-muted) / .16);     color: hsl(var(--color-muted)); }
-/* Dark identity correction — warning text needs to be lighter */
-[data-identity="bicc"]   .chip.warning,
-[data-identity="flamex"] .chip.warning { color: hsl(38 93% 62%); }
+/* ── StatusChip: the .chip recipe lives in components.v17.css (§17). */
 
 /* ── Generic card + list surfaces ───────────────────────────── */
 .p-card {
