@@ -251,7 +251,7 @@ Approved 5c (10 Oct). Reference render: `Hakiqa Focus Brief.dc.html` 5c.
   - **Phone bottom bar:** the same dot on the 52 × 30px pill. With reduced motion, the dot appears without the ripple.
 - **Active state is always Signal Blue.** Identity navy never marks "you are here".
 - **Mobile:** a bottom bar with up to five `mobilePrimary` items and labels of at least 13px. The active item is a Signal Blue pill behind the icon, and the label below it is in Signal Blue text.
-- **Rail items:** 72px wide, at least 58px tall, a 22px lucide icon above a 13px label. The active item is a Signal Blue fill with a white icon and label. The attention glow sits on at most one item, never the active one. Utility items (Support, Settings) sit below a divider.
+- **Rail items:** 72px wide, at least 58px tall, a 22px lucide icon above a 13px label. The active item is a Signal Blue fill with a white icon and label. The attention dot sits on at most one item, never the active one. Utility items (Support, Settings) sit below a divider.
 
 ## 7 · Buttons
 
