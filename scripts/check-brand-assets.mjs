@@ -27,7 +27,11 @@ function walk(dir) {
   return readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
     e.isDirectory() ? (SKIP_DIRS.has(e.name) ? [] : walk(join(dir, e.name))) : [join(dir, e.name)]);
 }
-const sha = (file) => createHash('sha256').update(readFileSync(file)).digest('hex');
+// SVGs are text: a Windows checkout (core.autocrlf) rewrites their line endings, so hash them as LF.
+const sha = (file) => {
+  const bytes = readFileSync(file);
+  return createHash('sha256').update(file.toLowerCase().endsWith('.svg') ? bytes.toString('utf8').replaceAll('\r\n', '\n') : bytes).digest('hex');
+};
 const stem = (name) => basename(name, extname(name)).toLowerCase();
 
 // Design-system brand files, keyed by content hash and by file stem.
