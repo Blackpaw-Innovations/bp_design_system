@@ -237,6 +237,11 @@ html :is(.rail-icon.active, [aria-current="page"]):is(.bp-attn, .hq-led-glow)::a
 :root .bp-table :is(th, td):is([data-kind="money"], [data-kind="number"]) { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
 :root .bp-table td:is([data-kind="id"], [data-kind="date"]) { white-space: nowrap; }
 :root .bp-table-empty { padding: 28px 16px; text-align: center; color: var(--g-muted); }
+:root .bp-table-link { color: var(--g-ink); font-weight: 800; text-decoration: none; white-space: nowrap; }
+:root .bp-table-link:hover { text-decoration: underline; }
+:root .bp-table-link:focus-visible { outline: 2px solid var(--g-ink); outline-offset: 2px; border-radius: 4px; }
+@media (max-width: 767px) { :root .bp-table [data-hide] { display: none; } }
+@media (max-width: 1023px) { :root .bp-table [data-hide="lg"] { display: none; } }
 
 :root .bp-id, :root .bp-money { white-space: nowrap; font-variant-numeric: tabular-nums; }
 :root .bp-money small { font-size: 1em; font-weight: 500; color: var(--g-muted); margin-left: 4px; }
@@ -270,7 +275,9 @@ html :is(.rail-icon.active, [aria-current="page"]):is(.bp-attn, .hq-led-glow)::a
 :root .bp-snap-card .value { display: flex; align-items: baseline; gap: 6px; font-size: 42px; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
 :root .bp-snap-card .value small { font-size: 17px; font-weight: 700; }
 :root .bp-snap-card .note { display: flex; gap: 8px; align-items: flex-start; font-size: var(--g-fs-label); line-height: 1.35; }
-:root .bp-snap-card .chart { margin-top: 8px; }
+:root .bp-snap-card .chart { margin-top: auto; padding-top: 8px; }
+/* Every page shares the tallest page's height (one grid row); pin the foot so short pages read as stat tiles, not gaps. */
+:root .bp-snap-card .note:last-child { margin-top: auto; }
 :root .bp-snap-dot { width: 9px; height: 9px; border-radius: 999px; flex: none; margin-top: 6px; }
 
 /* Tones on navy: fill only. */

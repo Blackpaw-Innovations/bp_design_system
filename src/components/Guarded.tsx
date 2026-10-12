@@ -242,15 +242,23 @@ export interface Column<T> {
   value?: (row: T) => unknown
   render?: (row: T) => ReactNode
   sub?: (row: T) => ReactNode
+  /** The cell that carries the row's link (with rowHref). Keyboard and screen-reader users follow this link, not the whole row. */
+  primary?: boolean
+  /** Hide below this breakpoint (md 768 px, lg 1024 px); keep the fact on the detail screen. */
+  hideBelow?: 'md' | 'lg'
 }
 
 export interface DataTableProps<T> {
   columns: Column<T>[]
   rows: T[]
-  rowKey: (row: T) => string
+  rowKey: (row: T) => string | number
   empty?: string
   label?: string
   className?: string
+  /** Where the row's primary cell links to. */
+  rowHref?: (row: T) => string
+  /** Router link renderer (e.g. react-router Link); a plain <a> otherwise. */
+  renderLink?: (props: { href: string; className?: string; children: ReactNode }) => ReactNode
 }
 
 function cell<T>(col: Column<T>, row: T): ReactNode {
@@ -262,12 +270,14 @@ function cell<T>(col: Column<T>, row: T): ReactNode {
   return v == null || v === '' ? '—' : String(v)
 }
 
-export function DataTable<T>({ columns, rows, rowKey, empty = 'Nothing here yet.', label, className }: DataTableProps<T>) {
+export function DataTable<T>({ columns, rows, rowKey, empty = 'Nothing here yet.', label, className, rowHref, renderLink }: DataTableProps<T>) {
+  const link = (href: string, children: ReactNode) =>
+    renderLink ? renderLink({ href, className: 'bp-table-link', children }) : <a href={href} className="bp-table-link">{children}</a>
   return (
     <div className={cn('bp-table-wrap', className)}>
       <table className="bp-table" aria-label={label}>
         <thead>
-          <tr>{columns.map((c) => <th key={c.key} scope="col" data-kind={c.kind ?? 'text'}>{c.header}</th>)}</tr>
+          <tr>{columns.map((c) => <th key={c.key} scope="col" data-kind={c.kind ?? 'text'} data-hide={c.hideBelow}>{c.header}</th>)}</tr>
         </thead>
         <tbody>
           {rows.length === 0
@@ -275,7 +285,10 @@ export function DataTable<T>({ columns, rows, rowKey, empty = 'Nothing here yet.
             : rows.map((r) => (
               <tr key={rowKey(r)}>
                 {columns.map((c) => (
-                  <td key={c.key} data-kind={c.kind ?? 'text'}>{cell(c, r)}{c.sub && <span className="sub">{c.sub(r)}</span>}</td>
+                  <td key={c.key} data-kind={c.kind ?? 'text'} data-hide={c.hideBelow}>
+                    {c.primary && rowHref ? link(rowHref(r), cell(c, r)) : cell(c, r)}
+                    {c.sub && <span className="sub">{c.sub(r)}</span>}
+                  </td>
                 ))}
               </tr>
             ))}
