@@ -24,6 +24,8 @@ The name carries one accent per family; **Hakiqa** stays navy on light fields an
 
 Orange on white is 2.4:1: use orange-family light versions at logo sizes only (name ≥ 24 px tall), never as small UI text.
 
+**App header exception (Marvin, 12 Oct 2026):** the app header shows the vertical wordmark at 34 px tall for every family, including orange; the name is then about 15 px. The navy Hakiqa part carries legibility, and the header is a logo placement, not UI text. The 24 px rule still applies everywhere else (web, documents, marketing).
+
 ## Files (per vertical)
 
 `hakiqa-wordmark-{id}`, `-white`, `-stacked`, `-stacked-white`, each as SVG and transparent PNG.
