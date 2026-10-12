@@ -78,6 +78,8 @@ Rules that apply to all of them: 44 px minimum targets, 16 px input text, labels
 - **Header and footer (R4):** sunken head and foot by default (R4a). **Money tables use the navy head and a navy totals footer (R4b):** `data-head="navy"` on the table, `data-navy` on the wrap, `<TableFoot tone="navy" sum="KES 41,450">`. Never on a navy band, and at most one navy table per view.
 - **Column filters (W5):** wide tables only (stock, price lists, reports). A 36 px funnel in filterable headers: checkboxes with counts for status, bands plus min–max for numbers, the date range picker for dates. Active filters also show as chips above the table and share state with the FilterBar.
 - Row actions: a 44 px ⋯ at the row end opens the same `<Menu>`; the row itself opens the panel.
+- Row link (v1.20): `rowHref` plus `primary` on one column makes that cell the row's link (`renderLink` for the app's router). Keyboard and screen-reader users follow it; never make the whole row the only link.
+- Narrow screens (v1.20): `hideBelow: 'md' | 'lg'` hides secondary columns below 768 or 1024 px; the fact stays on the detail screen.
 - Phone: cards (name and money; id, date and chip). Sideways scroll only for reports with 5+ figure columns, first column pinned.
 
 ### 17.9 Search and filters · `<FilterBar>`, `<QuickViews>`, `<FilterChips>`
