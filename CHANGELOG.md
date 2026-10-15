@@ -12,5 +12,7 @@ earlier history lives in those tag messages and their pull requests.
   panel (`--z-panel` 61). It now uses the new `--z-popover` token (65): above
   panels and dialogs, still under toasts (70) and tooltips (80). Found in the
   13 Oct Hakiqa Gym UAT (Sell a plan member picker looked dead).
+  `.toast-region` was hard-coded to 60 (under SlideOvers too); it now uses
+  `--z-toast` (70), so toasts stay above popovers and open panels.
   Consumers can drop local overrides such as
   `:root .bp-pop { z-index: calc(var(--z-panel) + 1); }`.
