@@ -28,7 +28,7 @@
   --z-flyout: 50;
   --z-overlay: 60;   /* .overlay */
   --z-panel: 61;     /* .slide-over, .bp-confirm */
-  --z-popover: 65;   /* .bp-pop: Select, DatePicker, Menu (portalled; must clear panels) */
+  --z-popover: 62;   /* .bp-pop: Select/DatePicker/menus open above the panel they sit in */
   --z-toast: 70;
   --z-tooltip: 80;
 

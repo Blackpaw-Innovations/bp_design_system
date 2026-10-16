@@ -411,9 +411,11 @@
 .bp-dock-section { padding: 20px 0; border-top: 1px solid hsl(var(--color-hairline) / .1); display: flex; flex-direction: column; gap: 10px; }
 .bp-dock-section:last-child { border-bottom: 1px solid hsl(var(--color-hairline) / .1); }
 .bp-dock-section > h2, .bp-dock-section > h3 { margin: 0; font-size: 15px; font-weight: 700; color: hsl(var(--color-ink)); }
-.bp-dock-section .facts { margin: 0; display: grid; grid-template-columns: minmax(96px, auto) minmax(0, 1fr); gap: 10px 16px; font-size: 14px; }
-.bp-dock-section .facts dt { color: hsl(var(--color-muted)); }
-.bp-dock-section .facts dd { margin: 0; font-weight: 700; color: hsl(var(--color-ink)); overflow-wrap: anywhere; }
+/* <Facts> anywhere (side panels, cards, profiles); the dock section keeps its tighter 14 px. */
+.facts { margin: 0; display: grid; grid-template-columns: minmax(96px, auto) minmax(0, 1fr); gap: 10px 16px; font-size: 15px; }
+.facts dt { color: hsl(var(--color-muted)); }
+.facts dd { margin: 0; font-weight: 700; color: hsl(var(--color-ink)); overflow-wrap: anywhere; }
+.bp-dock-section .facts { font-size: 14px; }
 
 /* Attention, used sparingly (2026-10-08, after review: "some text can be highlighted").
    .bp-accent   brand accent text for the one phrase that matters in a sentence.

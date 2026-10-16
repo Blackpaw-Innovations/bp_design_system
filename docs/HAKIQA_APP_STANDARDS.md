@@ -326,7 +326,7 @@ Use `<Button>`, `<ButtonLink>` or `<IconButton>` only. One recipe covers every v
 | Still true (offline, failed sync, plan renews) | `Banner` (§17.14) | a toast for a lasting state |
 | Delete or close for good | destructive ladder (§17.6): Undo → ConfirmDialog → TypeToConfirmDialog / HoldToConfirm | red on reversible actions |
 
-**Stacking order:** `--z-raised` 10, `--z-sticky` 30, `--z-rail` 40, `--z-flyout` 50, `--z-overlay` 60, `--z-panel` 61, `--z-popover` 65, `--z-toast` 70, `--z-tooltip` 80. No raw `z-[n]`.
+**Stacking order:** `--z-raised` 10, `--z-sticky` 30, `--z-rail` 40, `--z-flyout` 50, `--z-overlay` 60, `--z-panel` 61, `--z-popover` 62, `--z-toast` 70, `--z-tooltip` 80. No raw `z-[n]`.
 
 ## 12 · Money, dates, numbers
 
