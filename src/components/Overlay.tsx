@@ -26,12 +26,17 @@ export function useIsPhone() {
   return phone
 }
 
+/** Open layers, newest last: Escape closes only the top one (a Select's sheet before the SlideOver it sits in). */
+const escapeStack: symbol[] = []
+
 function useEscape(open: boolean, onClose: () => void) {
   useEffect(() => {
     if (!open) return
-    const k = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
+    const id = Symbol('layer')
+    escapeStack.push(id)
+    const k = (e: KeyboardEvent) => { if (e.key === 'Escape' && escapeStack[escapeStack.length - 1] === id) onClose() }
     window.addEventListener('keydown', k)
-    return () => window.removeEventListener('keydown', k)
+    return () => { window.removeEventListener('keydown', k); escapeStack.splice(escapeStack.indexOf(id), 1) }
   }, [open, onClose])
 }
 
@@ -42,6 +47,33 @@ function useReturnFocus(open: boolean) {
     if (open) prev.current = document.activeElement as HTMLElement
     else prev.current?.focus?.()
   }, [open])
+}
+
+const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+
+/** Keeps keyboard focus inside an open dialog layer (§14, WCAG 2.4.3): on open, focus moves to the layer's heading so
+ * screen readers announce it and keyboard users start inside; Tab and Shift+Tab wrap within the layer. Focus that has
+ * moved to a layer opened from inside (a Select's popover, a ConfirmDialog, both portalled to <body>) is left alone. */
+function useFocusTrap(ref: RefObject<HTMLElement | null>, open: boolean) {
+  useEffect(() => {
+    const layer = ref.current
+    if (!open || !layer) return
+    const start = layer.querySelector<HTMLElement>('[data-autofocus]') ?? layer
+    // After the opening transition starts, so the browser does not scroll the off-screen panel into view.
+    const timer = window.setTimeout(() => { if (!layer.contains(document.activeElement)) start.focus({ preventScroll: true }) }, 0)
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab' || !layer.contains(document.activeElement)) return
+      const items = Array.from(layer.querySelectorAll<HTMLElement>(FOCUSABLE)).filter((el) => el.offsetParent !== null || el === document.activeElement)
+      if (!items.length) { e.preventDefault(); return }
+      const first = items[0], last = items[items.length - 1]
+      const active = document.activeElement as HTMLElement
+      // Focus on something that is not a tab stop (the layer, its heading, a listbox) moves to the first or last stop.
+      if (e.shiftKey && (active === first || !items.includes(active))) { e.preventDefault(); last.focus() }
+      else if (!e.shiftKey && (active === last || !items.includes(active))) { e.preventDefault(); first.focus() }
+    }
+    document.addEventListener('keydown', onKey)
+    return () => { window.clearTimeout(timer); document.removeEventListener('keydown', onKey) }
+  }, [ref, open])
 }
 
 export interface SheetProps {
@@ -57,13 +89,15 @@ export interface SheetProps {
 export function Sheet({ open, title, onClose, children, full, footer }: SheetProps) {
   useEscape(open, onClose)
   useReturnFocus(open)
+  const sheet = useRef<HTMLElement>(null)
+  useFocusTrap(sheet, open)
   if (!open) return null
   return createPortal(
     <>
       <div className="bp-scrim" onClick={onClose} aria-hidden="true" />
-      <section className="bp-sheet" data-full={full || undefined} role="dialog" aria-modal="true" aria-label={title}>
+      <section ref={sheet} tabIndex={-1} className="bp-sheet" data-full={full || undefined} role="dialog" aria-modal="true" aria-label={title}>
         <div className="bp-sheet-grip" aria-hidden="true" />
-        <div className="bp-sheet-head"><span style={{ flex: 1 }}>{title}</span><button type="button" className="bp-icon-btn" aria-label="Close" onClick={onClose}><X size={20} /></button></div>
+        <div className="bp-sheet-head"><span data-autofocus tabIndex={-1} style={{ flex: 1, outline: 'none' }}>{title}</span><button type="button" className="bp-icon-btn" aria-label="Close" onClick={onClose}><X size={20} /></button></div>
         <div style={{ flex: 1, overflow: 'auto' }}>{children}</div>
         {footer && <div style={{ padding: '12px 16px 16px' }}>{footer}</div>}
       </section>
@@ -189,16 +223,19 @@ export function SlideOver({ open, title, recordId: recordIdProp, subtitle, facts
   const tryClose = useCallback(() => (dirty ? setAsking(true) : onClose()), [dirty, onClose])
   useEscape(open && !asking, tryClose)
   useReturnFocus(open)
+  const panel = useRef<HTMLElement>(null)
+  useFocusTrap(panel, open)
+  const titleId = useId()
   return (
     <>
       <div className={`overlay${open ? ' open' : ''}`} onClick={() => { if (!dirty) onClose() }} aria-hidden={!open} {...(!open ? { inert: true } : {})} />
-      <aside className={`slide-over${open ? ' open' : ''}`} style={{ width, maxWidth: '100vw' }} role="dialog" aria-modal={open || undefined} aria-hidden={!open} {...(!open ? { inert: true } : {})}>
+      <aside ref={panel} tabIndex={-1} aria-labelledby={titleId} className={`slide-over${open ? ' open' : ''}`} style={{ width, maxWidth: '100vw' }} role="dialog" aria-modal={open || undefined} aria-hidden={!open} {...(!open ? { inert: true } : {})}>
         <div className="dh" style={{ flexDirection: 'column', alignItems: 'stretch', gap: 10 }}>
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 6 }}>
             {onBack && <button type="button" className="bp-icon-btn" aria-label="Back" onClick={onBack}>←</button>}
             <div style={{ flex: 1, minWidth: 0 }}>
               {recordId && <p className="bp-panel-id" style={{ margin: 0 }}>{recordId}</p>}
-              <h2 className="t-h2" style={{ margin: 0 }}>{title}</h2>
+              <h2 id={titleId} data-autofocus tabIndex={-1} className="t-h2" style={{ margin: 0, outline: 'none' }}>{title}</h2>
             </div>
             {menu && <Menu label="More actions" groups={menu} align="end" trigger="icon" />}
             <button type="button" onClick={tryClose} aria-label="Close" className="dh-close"><X size={18} /></button>
