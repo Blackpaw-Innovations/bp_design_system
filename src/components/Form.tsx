@@ -1,4 +1,4 @@
-import { Children, cloneElement, isValidElement, useId, useRef, useState, type InputHTMLAttributes, type ReactElement, type ReactNode, type TextareaHTMLAttributes } from 'react'
+import { cloneElement, isValidElement, useId, useRef, useState, type InputHTMLAttributes, type ReactElement, type ReactNode, type TextareaHTMLAttributes } from 'react'
 import { AlertCircle, Check, Minus, Plus } from 'lucide-react'
 import { cn, type IconComponent } from '../lib/utils'
 
@@ -215,11 +215,11 @@ export function Segmented<V extends string>({ label, value, onChange, options, h
       const n = (i + d + options.length) % options.length
       onChange(options[n].value); refs.current[n]?.focus()
     }}>
-      {Children.toArray(options.map((o, i) => (
-        <button ref={(el) => { refs.current[i] = el }} type="button" role="radio" aria-checked={value === o.value} tabIndex={value === o.value ? 0 : -1} onClick={() => onChange(o.value)}>
+      {options.map((o, i) => (
+        <button key={o.value} ref={(el) => { refs.current[i] = el }} type="button" role="radio" aria-checked={value === o.value} tabIndex={value === o.value ? 0 : -1} onClick={() => onChange(o.value)}>
           {allIcons && o.icon && <o.icon size={18} className={hideIconsOnPhone ? 'max-sm:hidden' : undefined} />}{o.label}
         </button>
-      )))}
+      ))}
     </div>
   )
 }
