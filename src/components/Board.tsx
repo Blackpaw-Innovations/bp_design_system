@@ -118,3 +118,76 @@ export function MoveToSheet({ open, onClose, stages, current, onPick }: { open: 
     </Sheet>
   )
 }
+
+/* ── Lane board (v1.21) ────────────────────────────────────── */
+/**
+ * A record list shown as lanes, switched from the table with `<Segmented>` ("List | Board"). Unlike `<Board>`
+ * (a workflow where cards move stage to stage), lanes only group records by what they need: the page's
+ * status → lane map lives in the app manifest, and `laneFor` applies it.
+ *   - 3–5 lanes. Lane head tones: attention (the blue band), waiting, ready, plain.
+ *   - Card: title + amount, one summary line, a "why it is here" pill, at most one secondary action.
+ *   - Phone: lane chips with counts, one lane of cards.
+ */
+export type LaneTone = 'attention' | 'waiting' | 'ready' | 'plain'
+export interface Lane { key: string; label: string; tone?: LaneTone; /** Statuses that land in this lane (from the manifest). */ states?: string[] }
+export interface LaneCard {
+  id: string
+  lane: string
+  title: string
+  amount?: string
+  line?: string
+  why?: string
+  whyTone?: 'warn' | 'info' | 'pos' | 'draft'
+  /** At most one, always secondary. */
+  action?: { label: string; onClick: () => void }
+  href?: string
+}
+
+/** The lane a status belongs to, from the manifest's lanes; the last lane catches anything unmapped. */
+export function laneFor(status: string, lanes: Lane[]): string {
+  return (lanes.find((l) => l.states?.includes(status)) ?? lanes[lanes.length - 1])?.key ?? ''
+}
+
+export function LaneBoard({ lanes, cards, onOpen, renderLink, emptyText = 'Nothing here' }: {
+  lanes: Lane[]; cards: LaneCard[]; onOpen?: (id: string) => void
+  renderLink?: (props: { href: string; className?: string; children: ReactNode }) => ReactNode
+  emptyText?: string
+}) {
+  const phone = useIsPhone()
+  const [phoneLane, setPhoneLane] = useState(lanes[0]?.key)
+  if (lanes.length < 3 || lanes.length > 5) console.warn('[@blackpaw/ui] LaneBoard: 3–5 lanes.')
+  const title = (c: LaneCard) => c.href
+    ? (renderLink ? renderLink({ href: c.href, className: 'bp-lane-card-title', children: c.title }) : <a href={c.href} className="bp-lane-card-title">{c.title}</a>)
+    : onOpen ? <button type="button" className="bp-lane-card-title" onClick={() => onOpen(c.id)}>{c.title}</button>
+    : <span className="bp-lane-card-title" style={{ cursor: 'default' }}>{c.title}</span>
+  const lane = (l: Lane) => {
+    const list = cards.filter((c) => c.lane === l.key)
+    return (
+      <section key={l.key} className="bp-lane" aria-label={`${l.label}, ${list.length}`}>
+        <div className="bp-lane-head" data-tone={l.tone ?? 'plain'}><span>{l.label}</span><CountBadge n={list.length} /></div>
+        {list.length
+          ? list.map((c) => (
+            <article key={c.id} className="bp-lane-card">
+              <div className="bp-lane-card-top">{title(c)}{c.amount && <span className="bp-lane-card-amount">{c.amount}</span>}</div>
+              {c.line && <span className="bp-lane-card-line">{c.line}</span>}
+              {c.why && <span className="bp-why" data-tone={c.whyTone ?? 'draft'}>{c.why}</span>}
+              {c.action && <Button variant="secondary" fullWidth onClick={c.action.onClick}>{c.action.label}</Button>}
+            </article>
+          ))
+          : <div style={{ border: '1.5px dashed var(--c-border)', borderRadius: 14, padding: 16, fontSize: 14, color: 'var(--c-muted)', textAlign: 'center' }}>{emptyText}</div>}
+      </section>
+    )
+  }
+  if (phone) {
+    const l = lanes.find((x) => x.key === phoneLane) ?? lanes[0]
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        <div className="bp-quickviews" role="group" aria-label="Lane">
+          {lanes.map((x) => <button key={x.key} type="button" className="bp-qv" aria-pressed={x.key === l.key} onClick={() => setPhoneLane(x.key)}>{x.label}<CountBadge n={cards.filter((c) => c.lane === x.key).length} /></button>)}
+        </div>
+        {l && lane(l)}
+      </div>
+    )
+  }
+  return <div className="bp-lanes" style={{ gridTemplateColumns: `repeat(${lanes.length}, minmax(240px, 1fr))` }}>{lanes.map(lane)}</div>
+}

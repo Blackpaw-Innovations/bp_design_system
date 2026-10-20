@@ -235,13 +235,17 @@ export type ColumnKind = 'text' | 'id' | 'money' | 'number' | 'date' | 'status'
 
 export interface Column<T> {
   key: string
-  /** Sentence case. 15 px on the sunken surface with ink text, in every theme. */
+  /** Sentence case. White 14 px/800 on the table head band (--table-head), in every theme (v1.21). */
   header: string
   kind?: ColumnKind
   currency?: (row: T) => string | undefined
   value?: (row: T) => unknown
   render?: (row: T) => ReactNode
   sub?: (row: T) => ReactNode
+  /** Colour of the sub-line: a money cell's payment state ("Paid" pos, "Not paid yet" warn, "Overdue" crit). Muted otherwise. */
+  subTone?: (row: T) => 'pos' | 'warn' | 'crit' | undefined
+  /** Primary cell only: the name its initials disc is drawn from (v1.21). */
+  initialsOf?: (row: T) => string
   /** The cell that carries the row's link (with rowHref). Keyboard and screen-reader users follow this link, not the whole row. */
   primary?: boolean
   /** Hide below this breakpoint (md 768 px, lg 1024 px); keep the fact on the detail screen. */
@@ -259,6 +263,13 @@ export interface DataTableProps<T> {
   rowHref?: (row: T) => string
   /** Router link renderer (e.g. react-router Link); a plain <a> otherwise. */
   renderLink?: (props: { href: string; className?: string; children: ReactNode }) => ReactNode
+  /** The one row that needs action gets a faint warm tint (v1.21). Use for at most a few rows. */
+  rowAttention?: (row: T) => boolean
+}
+
+function initialsFrom(name: string) {
+  const w = name.trim().split(/\s+/).filter(Boolean)
+  return ((w[0]?.[0] ?? '') + (w.length > 1 ? w[w.length - 1][0] : '')).toUpperCase() || '?'
 }
 
 function cell<T>(col: Column<T>, row: T): ReactNode {
@@ -270,7 +281,7 @@ function cell<T>(col: Column<T>, row: T): ReactNode {
   return v == null || v === '' ? '—' : String(v)
 }
 
-export function DataTable<T>({ columns, rows, rowKey, empty = 'Nothing here yet.', label, className, rowHref, renderLink }: DataTableProps<T>) {
+export function DataTable<T>({ columns, rows, rowKey, empty = 'Nothing here yet.', label, className, rowHref, renderLink, rowAttention }: DataTableProps<T>) {
   const link = (href: string, children: ReactNode) =>
     renderLink ? renderLink({ href, className: 'bp-table-link', children }) : <a href={href} className="bp-table-link">{children}</a>
   return (
@@ -283,13 +294,18 @@ export function DataTable<T>({ columns, rows, rowKey, empty = 'Nothing here yet.
           {rows.length === 0
             ? <tr><td className="bp-table-empty" colSpan={columns.length}>{empty}</td></tr>
             : rows.map((r) => (
-              <tr key={rowKey(r)}>
-                {columns.map((c) => (
-                  <td key={c.key} data-kind={c.kind ?? 'text'} data-hide={c.hideBelow}>
-                    {c.primary && rowHref ? link(rowHref(r), cell(c, r)) : cell(c, r)}
-                    {c.sub && <span className="sub">{c.sub(r)}</span>}
-                  </td>
-                ))}
+              <tr key={rowKey(r)} data-attention={rowAttention?.(r) || undefined}>
+                {columns.map((c) => {
+                  const main = c.primary && rowHref ? link(rowHref(r), cell(c, r)) : cell(c, r)
+                  const sub = c.sub && <span className="sub" data-tone={c.subTone?.(r)}>{c.sub(r)}</span>
+                  return (
+                    <td key={c.key} data-kind={c.kind ?? 'text'} data-hide={c.hideBelow} data-primary={c.primary || undefined}>
+                      {c.initialsOf
+                        ? <span className="bp-cell-who"><span className="bp-initials" aria-hidden="true">{initialsFrom(c.initialsOf(r))}</span><span className="bp-cell-text">{main}{sub}</span></span>
+                        : <>{main}{sub}</>}
+                    </td>
+                  )
+                })}
               </tr>
             ))}
         </tbody>

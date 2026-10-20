@@ -46,6 +46,11 @@ export const STATUS_TONE_MAP: Record<string, { tone: ChipTone; label: string }> 
   draft: { tone: 'draft', label: 'Draft' }, Draft: { tone: 'draft', label: 'Draft' }, not_started: { tone: 'draft', label: 'Not started' },
   cancelled: { tone: 'draft', label: 'Cancelled' }, archived: { tone: 'draft', label: 'Archived' }, inactive: { tone: 'draft', label: 'Inactive' },
   closed: { tone: 'draft', label: 'Closed' }, planned: { tone: 'draft', label: 'Planned' }, low: { tone: 'draft', label: 'Low' },
+  // Shared movement statuses (v1.21: Imports deliveries, Stay pickups and tour legs). Apps pass their own words as `label`.
+  picked_up: { tone: 'info', label: 'Picked up' }, out_for_delivery: { tone: 'info', label: 'Out for delivery' },
+  ready_for_pickup: { tone: 'info', label: 'Ready for pickup' }, on_hold: { tone: 'warn', label: 'On hold' },
+  delivery_delayed: { tone: 'warn', label: 'Delayed' }, delivery_failed: { tone: 'crit', label: 'Delivery failed' },
+  return_to_sender: { tone: 'crit', label: 'Returned to sender' }, unknown: { tone: 'draft', label: 'Not known' },
   // live: work happening now
   in_bay: { tone: 'live', label: 'In the bay' },
 }
