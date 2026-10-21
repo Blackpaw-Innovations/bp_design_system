@@ -76,6 +76,8 @@ export type { PageHeaderProps, MetricItem, MetricNoteTone, ProportionSegment, Pr
 
 // Guarded set (2026-10-09): the rules live in the props
 export { Button, ButtonLink, IconButton, ConfirmDialog, PageTitle, DecisionPanel, StatGroup, DataTable, Money, RecordId } from './components/Guarded'
+export { Journey, RecordPanel, RecordGroup, RecordRow } from './components/Record'
+export type { JourneyStep, RecordSection, RecordPanelProps } from './components/Record'
 export type { ButtonProps, ButtonLinkProps, ButtonVariant, ButtonSize, IconButtonProps, ConfirmDialogProps, PageTitleProps, DecisionPanelProps, PanelAction, StatGroupProps, StatItem, StatTone, DataTableProps, Column, ColumnKind } from './components/Guarded'
 
 // Home snapshot (2026-10-09, standards §5a)

@@ -372,3 +372,50 @@
   :root .bp-settings-groups > .bp-settings-group { border-right: 0 !important; }
   :root .bp-settings-head, :root .bp-settings-group { padding-left: 18px; padding-right: 18px; }
 }
+
+/* ── Record panel (v1.22) ───────────────────────────────────── */
+/* One anatomy for every vertical's record: head, next step (.bp-decision), journey, compact figures, pill sections,
+   flat rows. Nothing inside is a card: groups are separated by space and hairlines only. */
+:root .bp-record { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+:root .bp-record-head { display: flex; align-items: flex-start; gap: 12px; }
+:root .bp-record-head .min { flex: 1; min-width: 0; }
+:root .bp-record-head .eyebrow { margin: 0; font-size: 13px; font-weight: 800; color: var(--c-muted); }
+:root .bp-record-head h2 { margin: 4px 0 0; font-size: 24px; font-weight: 900; line-height: 1.15; letter-spacing: -.02em; color: var(--c-ink); text-wrap: balance; }
+:root .bp-record-head .chips { display: flex; flex-wrap: wrap; gap: 6px; flex: none; }
+:root .bp-record .bp-decision { padding: 16px 18px; gap: 6px; border-radius: 16px; }
+:root .bp-record .bp-decision h2 { font-size: 18px; }
+:root .bp-record .bp-decision p { font-size: 15px; }
+
+:root .bp-journey { position: relative; display: flex; margin: 0; padding: 0; list-style: none; }
+:root .bp-journey li { position: relative; z-index: 1; flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+:root .bp-journey li + li::before { content: ""; position: absolute; top: 10px; right: 50%; width: 100%; height: 2px; background: var(--c-border); z-index: -1; }
+:root .bp-journey li[data-state="done"] + li::before { background: var(--v-pos, #16865a); }
+:root .bp-journey .dot { width: 22px; height: 22px; box-sizing: border-box; border-radius: 999px; display: grid; place-items: center; background: var(--c-surface); border: 2px solid var(--c-border); color: #fff; }
+:root .bp-journey li[data-state="done"] .dot { background: var(--v-pos, #16865a); border-color: var(--v-pos, #16865a); }
+:root .bp-journey li[data-state="now"] .dot { border: 3px solid var(--c-action, #fd8a03); }
+:root .bp-journey .name { font-size: 12px; font-weight: 700; line-height: 1.15; text-align: center; color: var(--c-muted); overflow-wrap: anywhere; }
+:root .bp-journey li:is([data-state="done"], [data-state="now"]) .name { color: var(--c-ink); }
+:root .bp-journey li[data-state="now"] .name { font-weight: 900; }
+
+:root .bp-record-figures.bp-stats { gap: 0; padding: 0; border-radius: 14px; }
+:root .bp-record-figures .bp-stat { padding: 12px 14px; gap: 2px; }
+:root .bp-record-figures .bp-stat + .bp-stat { border-left: 1px solid var(--c-border); }
+:root .bp-record-figures .bp-stat .value { font-size: 20px; }
+:root .bp-record-figures .bp-stat :is(.label, .note) { font-size: 13px; }
+
+:root .bp-record-tabs { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+:root .bp-record-tabs .bp-qv { padding: 0 14px; flex: none; }
+:root .bp-record-body { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+:root .bp-record-group-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 2px; }
+:root .bp-record-group h3 { margin: 0; font-size: 16px; font-weight: 900; color: var(--c-ink); }
+:root .bp-record-row { display: flex; align-items: center; gap: 12px; padding: 11px 0; border-top: 1px solid var(--c-border); }
+:root .bp-record-row .min { flex: 1; min-width: 0; }
+:root .bp-record-row .title { margin: 0; font-size: 15px; font-weight: 800; color: var(--c-ink); overflow-wrap: anywhere; }
+:root .bp-record-row .sub { margin: 2px 0 0; font-size: 14px; font-weight: 600; color: var(--c-muted); }
+:root .bp-record-row .figure { font-size: 15px; font-weight: 900; font-variant-numeric: tabular-nums; color: var(--c-ink); text-align: right; }
+:root .bp-record-row .action { flex: none; display: flex; gap: 6px; }
+@media (max-width: 520px) {
+  :root .bp-journey .name { font-size: 11px; }
+  :root .bp-journey li:not([data-state="now"]) .name { visibility: hidden; }
+  :root .bp-record-row { flex-wrap: wrap; }
+}

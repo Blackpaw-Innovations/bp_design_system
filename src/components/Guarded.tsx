@@ -164,9 +164,11 @@ export interface PanelAction { label: string; onClick?: () => void; href?: strin
 
 export interface DecisionPanelProps {
   title: string
-  body?: string
-  /** Exactly one primary action (orange, navy ink). */
-  action: PanelAction
+  body?: ReactNode
+  /** Exactly one primary action (orange, navy ink). Omit it when the step only says what is being waited for. */
+  action?: PanelAction
+  /** Free-form actions instead of `action` (a form submit, a link). Still one primary. */
+  actions?: ReactNode
   /** Optional white-outline secondary. No more than one. */
   secondary?: PanelAction
   eyebrow?: string
@@ -179,16 +181,19 @@ function PanelButton({ a, variant }: { a: PanelAction; variant: ButtonVariant })
     : <Button variant={variant} size="lg" onClick={a.onClick} disabled={a.disabled} loading={a.loading}>{a.label}</Button>
 }
 
-export function DecisionPanel({ title, body, action, secondary, eyebrow = 'Next step', className }: DecisionPanelProps) {
+export function DecisionPanel({ title, body, action, actions, secondary, eyebrow = 'Next step', className }: DecisionPanelProps) {
   return (
     <section className={cn('bp-decision', className)} aria-label={title}>
       <p className="eyebrow">{eyebrow}</p>
       <h2>{title}</h2>
       {body && <p>{body}</p>}
-      <div className="actions">
-        <PanelButton a={action} variant="primary" />
-        {secondary && <PanelButton a={secondary} variant="on-dark" />}
-      </div>
+      {(action || actions || secondary) && (
+        <div className="actions">
+          {action && <PanelButton a={action} variant="primary" />}
+          {actions}
+          {secondary && <PanelButton a={secondary} variant="on-dark" />}
+        </div>
+      )}
     </section>
   )
 }
