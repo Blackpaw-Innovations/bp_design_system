@@ -386,10 +386,9 @@
 :root .bp-record .bp-decision h2 { font-size: 18px; }
 :root .bp-record .bp-decision p { font-size: 15px; }
 
-:root .bp-journey { position: relative; display: flex; margin: 0; padding: 0; list-style: none; }
-:root .bp-journey li { position: relative; z-index: 1; flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; }
-:root .bp-journey li + li::before { content: ""; position: absolute; top: 10px; right: 50%; width: 100%; height: 2px; background: var(--c-border); z-index: -1; }
-:root .bp-journey li[data-state="done"] + li::before { background: var(--v-pos, #16865a); }
+:root .bp-journey { display: flex; margin: 0; padding: 0; list-style: none; }
+/* No connector lines: steps can finish out of order (done list), so a line between them would claim an order that is not true. */
+:root .bp-journey li { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; }
 :root .bp-journey .dot { width: 22px; height: 22px; box-sizing: border-box; border-radius: 999px; display: grid; place-items: center; background: var(--c-surface); border: 2px solid var(--c-border); color: #fff; }
 :root .bp-journey li[data-state="done"] .dot { background: var(--v-pos, #16865a); border-color: var(--v-pos, #16865a); }
 :root .bp-journey li[data-state="now"] .dot { border: 3px solid var(--c-action, #fd8a03); }
