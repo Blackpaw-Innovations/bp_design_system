@@ -17,14 +17,18 @@ import { StatGroup, type StatItem } from './Guarded'
 
 export interface JourneyStep { key: string; label: string }
 
-/** Where a record is on its way. Steps before `current` are done, `current` is now; `current={null}` = all done. */
-export function Journey({ steps, current, label = 'Progress', className }: { steps: JourneyStep[]; current: string | null; label?: string; className?: string }) {
+/**
+ * Where a record is on its way. Steps before `current` are done, `current` is now; `current={null}` = all done.
+ * Pass `done` when steps can finish out of order (goods received before the customer has paid): each listed step shows
+ * done on its own, and `current` is still the one to act on.
+ */
+export function Journey({ steps, current, done, label = 'Progress', className }: { steps: JourneyStep[]; current: string | null; done?: string[]; label?: string; className?: string }) {
   const at = current === null ? steps.length : Math.max(0, steps.findIndex((s) => s.key === current))
   const said = at >= steps.length ? `All ${steps.length} steps done` : `Step ${at + 1} of ${steps.length}: ${steps[at]?.label ?? ''}`
   return (
     <ol className={cn('bp-journey', className)} aria-label={`${label}. ${said}`}>
       {steps.map((step, i) => {
-        const state = i < at ? 'done' : i === at ? 'now' : 'todo'
+        const state = i === at ? 'now' : (done ? done.includes(step.key) : i < at) ? 'done' : 'todo'
         return (
           <li key={step.key} data-state={state} aria-current={state === 'now' ? 'step' : undefined}>
             <span className="dot" aria-hidden="true">{state === 'done' && <Check size={12} strokeWidth={3.4} />}</span>
