@@ -222,13 +222,15 @@
   width: 480px; max-width: 92vw;
   background: hsl(var(--color-surface));
   border-left: 1px solid hsl(var(--color-border));
-  transform: translateX(100%);
-  transition: transform var(--bp-dur-enter) var(--bp-ease-out);
+  /* v1.21: clear the panel AND its shadow when closed, then hide it, so no edge shows at the viewport's right. */
+  transform: translateX(calc(100% + 48px));
+  visibility: hidden;
+  transition: transform var(--bp-dur-enter) var(--bp-ease-out), visibility 0s linear var(--bp-dur-enter);
   display: flex; flex-direction: column;
   box-shadow: var(--bp-shadow-modal);
   z-index: 61;
 }
-.slide-over.open { transform: translateX(0); }
+.slide-over.open { transform: translateX(0); visibility: visible; transition: transform var(--bp-dur-enter) var(--bp-ease-out), visibility 0s; }
 .overlay {
   position: fixed; inset: 0;
   background: hsl(var(--bp-navy) / .35);

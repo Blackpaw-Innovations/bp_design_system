@@ -75,7 +75,9 @@ Rules that apply to all of them: 44 px minimum targets, 16 px input text, labels
 - Sortable headers are buttons; only the sorted column shows an arrow; every table states its default sort.
 - Selection only when bulk actions exist. The header box selects the page and shows a dash when some are ticked.
 - BulkBar replaces the header: "3 selected", up to 3 secondary actions, Clear, no primary. Destructive bulk goes through ConfirmDialog with the count.
-- **Header and footer (R4):** sunken head and foot by default (R4a). **Money tables use the navy head and a navy totals footer (R4b):** `data-head="navy"` on the table, `data-navy` on the wrap, `<TableFoot tone="navy" sum="KES 41,450">`. Never on a navy band, and at most one navy table per view.
+- **Header (v1.21, approved by Marvin 20 Oct 2026, concept A):** every table has the blue head band `--table-head` (#1a4fa8) with white 14 px/800 labels; white on it is 7.7:1 (AAA). Signal Blue stays for links, chips and highlights, never the head. Rows have 16 px vertical padding and a `--table-line` hairline.
+- **Cells (v1.21):** the primary cell can carry an initials disc (`initialsOf`) with the name at 17/800 and a muted meta line (`sub`). Other cells are value plus a muted sub-line. Money is right-aligned in tabular figures with a coloured sub-status (`subTone`: pos "Paid", warn "Not paid yet", crit "Overdue"). The one row that needs action may take the warm tint (`rowAttention`). Apps never show record codes in cells.
+- **Footer (R4):** sunken foot by default. **Money tables may use the navy head and a navy totals footer (R4b):** `data-head="navy"` on the table, `data-navy` on the wrap, `<TableFoot tone="navy" sum="KES 41,450">`. Never on a navy band, and at most one navy table per view.
 - **Column filters (W5):** wide tables only (stock, price lists, reports). A 36 px funnel in filterable headers: checkboxes with counts for status, bands plus min–max for numbers, the date range picker for dates. Active filters also show as chips above the table and share state with the FilterBar.
 - Row actions: a 44 px ⋯ at the row end opens the same `<Menu>`; the row itself opens the panel.
 - Row link (v1.20): `rowHref` plus `primary` on one column makes that cell the row's link (`renderLink` for the app's router). Keyboard and screen-reader users follow it; never make the whole row the only link.
@@ -84,7 +86,14 @@ Rules that apply to all of them: 44 px minimum targets, 16 px input text, labels
 
 ### 17.9 Search and filters · `<FilterBar>`, `<QuickViews>`, `<FilterChips>`
 - Directly under PageTitle, above the table, the same width.
-- **Quick views (W2):** the 3–5 slices people use (All, Open, Overdue, Ready for pickup, Not assigned) as chips with counts; one is always on. They replace a Status dropdown. They scroll sideways on phone, edge to edge, so the cut-off shows there is more.
+- **Quick views (W2):** the 3–5 slices people use (All, Open, Overdue, Ready for pickup, Not assigned) as chips with counts; one is always on, shown in navy (v1.21). They replace a Status dropdown. Scope filters ("Everything I can see", "Mine") are not statuses and stay a select. They scroll sideways on phone, edge to edge, so the cut-off shows there is more.
+- **List | Board (v1.21):** a record list that people also work by state gets a `<Segmented>` "List | Board" in the page header (never the deprecated ViewToggle). Board = `<LaneBoard>`: 3–5 lanes declared per page in the app manifest (`{ key, label, tone, states }`), `laneFor(status, lanes)` places each record, the last lane catches the rest. Card: title and amount, one summary line, a "why it is here" pill, at most one secondary action. Not a workflow: for cards that move stage to stage use `<Board>`.
+
+### 17.9a Settings card · `<SettingsCard>`, `<SettingsGroup>`, `<SettingRow>`, `<StatePill>`, `<NumberedPills>` (v1.21)
+- Head band in `--table-head` with the white title, a one-line description and the normal secondary "Change" button. Editing stays in the SlideOver that button opens.
+- Grouped sections (`columns={2}` on wide screens, one column on phone) with a sentence-case heading in the band blue, e.g. "Before check-in", "When a guest leaves", "Privacy". No all-caps text.
+- Each row: a sentence label (17/800), a hint line, and a state pill with a dot: Required = blue tint, On = green tint, Off / Not required = grey. Always a word, never a bare colour.
+- Short ordered lists (a check-out checklist) are `<NumberedPills>`.
 - Search on the left, filling the row; the placeholder names what it matches ("Search plate, customer or WO number").
 - Up to 3 more filters inline as buttons that state their value ("Technician: Peter"). 4+, and always on phone: one "Filters · n" button that opens a sheet whose primary states the result ("Show 7 work orders").
 - Active filters as removable chips; "Clear all" from 2.
