@@ -408,14 +408,14 @@
 :root .bp-record-body { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
 :root .bp-record-group-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 2px; }
 :root .bp-record-group h3 { margin: 0; font-size: 16px; font-weight: 900; color: var(--c-ink); }
-:root .bp-record-row { display: flex; align-items: center; gap: 12px; padding: 11px 0; border-top: 1px solid var(--c-border); }
-:root .bp-record-row .min { flex: 1; min-width: 0; }
+:root .bp-record-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 11px 0; border-top: 1px solid var(--c-border); }
+/* The text keeps at least 200 px; when the figure and actions do not fit beside it they wrap under it, never squeeze it. */
+:root .bp-record-row .min { flex: 1 1 200px; min-width: 0; }
 :root .bp-record-row .title { margin: 0; font-size: 15px; font-weight: 800; color: var(--c-ink); overflow-wrap: anywhere; }
 :root .bp-record-row .sub { margin: 2px 0 0; font-size: 14px; font-weight: 600; color: var(--c-muted); }
 :root .bp-record-row .figure { font-size: 15px; font-weight: 900; font-variant-numeric: tabular-nums; color: var(--c-ink); text-align: right; }
-:root .bp-record-row .action { flex: none; display: flex; gap: 6px; }
+:root .bp-record-row .action { flex: none; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
 @media (max-width: 520px) {
   :root .bp-journey .name { font-size: 11px; }
   :root .bp-journey li:not([data-state="now"]) .name { visibility: hidden; }
-  :root .bp-record-row { flex-wrap: wrap; }
 }
