@@ -111,7 +111,8 @@ function useSelectCore(options: SelectOption[], forceSearch: boolean | undefined
   const searchPh = `Search ${options.length} ${noun ?? (label ? label.toLowerCase() + 's' : 'options')}`
   const typed = useRef({ s: '', t: 0 })
   const keys = (pick: (v: string) => void) => (e: React.KeyboardEvent) => {
-    if (e.key === 'Escape') { e.preventDefault(); close(); return }
+    // Escape closes this list only, not the SlideOver or dialog it sits in.
+    if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); close(); return }
     if (e.key === 'ArrowDown') { e.preventDefault(); setActive((a) => Math.min(rows.length - 1, a + 1)); return }
     if (e.key === 'ArrowUp') { e.preventDefault(); setActive((a) => Math.max(0, a - 1)); return }
     if (e.key === 'Enter') { e.preventDefault(); const o = rows[active]; if (o && !o.disabled) pick(o.value); return }
