@@ -14,6 +14,7 @@ import { formatDate, formatDateTime } from '../lib/format'
  *   - Signed state is a receipt: signature, pos "Signed" chip, name, time, method, device; "Sign again"
  *     replaces the old one only when the new one is confirmed.
  *   - Phone: before the pad, a screen says "Hand the phone to {name}" with the total.
+ *   - Narrow cards and phones: every row with a control wraps, so nothing is cut off (scripts/check-component-layout.mjs).
  */
 export interface SignatureValue { method: 'drawn' | 'typed'; image?: string; typedName?: string; signer: string; signedAt: string; device?: string }
 
@@ -91,7 +92,7 @@ export function SignaturePad({ signer, recordLabel, subject, total, confirms, st
       </ul>
       <div style={{ padding: '16px 22px 20px', display: 'flex', flexDirection: 'column', gap: 10 }}>
         {value ? (
-          <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) 260px', gap: 18, alignItems: 'center' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))', gap: 18, alignItems: 'center' }}>
             <div style={{ height: 150, borderRadius: 16, background: '#fff', boxShadow: 'inset 0 0 0 1.5px var(--c-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
               {value.image ? <img src={value.image} alt={`Signature of ${value.signer}`} style={{ maxWidth: '100%', maxHeight: '100%' }} /> : <span style={{ fontFamily: 'Caveat, cursive', fontSize: 52, color: '#032053' }}>{value.typedName}</span>}
             </div>
@@ -104,8 +105,8 @@ export function SignaturePad({ signer, recordLabel, subject, total, confirms, st
           </div>
         ) : (
           <>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <span style={{ flex: 1, fontSize: 17, fontWeight: 800 }}>{signer}, please sign</span>
+            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 12 }}>
+              <span style={{ flex: '1 1 12em', fontSize: 17, fontWeight: 800 }}>{signer}, please sign</span>
               <Segmented label="How to sign" value={mode} onChange={setMode} options={[{ value: 'drawn', label: 'Draw' }, { value: 'typed', label: 'Type instead' }]} />
             </div>
             {mode === 'drawn' ? (
@@ -122,7 +123,7 @@ export function SignaturePad({ signer, recordLabel, subject, total, confirms, st
               </div>
             )}
             <p className="bp-help" style={{ margin: 0 }}>{statement}</p>
-            <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
               <Button variant="tertiary" icon={Undo2} disabled={mode !== 'drawn' || count === 0} onClick={() => { strokes.current.pop(); redraw(); setCount(strokes.current.length) }}>Undo</Button>
               <Button variant="tertiary" disabled={mode !== 'drawn' || count === 0} onClick={() => { strokes.current = []; redraw(); setCount(0) }}>Clear</Button>
               <span style={{ flex: 1 }} />

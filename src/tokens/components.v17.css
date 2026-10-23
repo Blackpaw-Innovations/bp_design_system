@@ -313,7 +313,7 @@
 @media (prefers-reduced-motion: reduce) { :root .bp-hold[data-holding] > .bp-hold-fill { transition: none; } }
 
 /* ── Signature ─────────────────────────────────────────────────── */
-:root .bp-sign-summary { background: var(--c-navy); color: #fff; padding: 18px 22px; display: flex; align-items: flex-end; gap: 20px; }
+:root .bp-sign-summary { background: var(--c-navy); color: #fff; padding: 18px 22px; display: flex; flex-wrap: wrap; align-items: flex-end; gap: 20px; }
 :root .bp-sign-pad { position: relative; height: 220px; border-radius: 16px; background: #ffffff; box-shadow: inset 0 0 0 1.5px var(--c-border); overflow: hidden; }
 :root .bp-sign-pad[data-inked] { box-shadow: inset 0 0 0 1.5px var(--c-signal); }
 :root .bp-sign-pad canvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; cursor: crosshair; }
