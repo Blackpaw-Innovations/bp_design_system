@@ -460,6 +460,10 @@
 :root :is(.bp-quickviews, .bp-record-tabs) > * { scroll-snap-align: start; }
 
 @media (max-width: 767px) {
+  /* v1.23.1: count pills and the segmented switch are full 44 px targets, and the page title is the phone title step. */
+  :root .bp-qv, :root .bp-seg > button { min-height: 44px; }
+  :root .bp-page-header .bp-title { font-size: var(--fs-title); }
+  :root .bp-page-header .bp-title-context { font-size: var(--fs-body); }
   /* Nothing is ever wider than the screen: the page cannot slide sideways under the thumb. */
   html, body { overflow-x: clip; }
   :root :is(.bp-quickviews, .bp-record-tabs) { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent); padding-right: 28px; }
