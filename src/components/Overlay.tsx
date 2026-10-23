@@ -76,6 +76,17 @@ function useFocusTrap(ref: RefObject<HTMLElement | null>, open: boolean) {
   }, [ref, open])
 }
 
+/** v1.23: while a sheet or panel is open the page behind it does not scroll (it moved under the thumb on phones). */
+function useScrollLock(open: boolean) {
+  useEffect(() => {
+    if (!open) return
+    const root = document.documentElement
+    const before = root.style.overflow
+    root.style.overflow = 'hidden'
+    return () => { root.style.overflow = before }
+  }, [open])
+}
+
 export interface SheetProps {
   open: boolean
   title: string
@@ -91,6 +102,7 @@ export function Sheet({ open, title, onClose, children, full, footer }: SheetPro
   useReturnFocus(open)
   const sheet = useRef<HTMLElement>(null)
   useFocusTrap(sheet, open)
+  useScrollLock(open)
   if (!open) return null
   return createPortal(
     <>
@@ -226,6 +238,7 @@ export function SlideOver({ open, title, recordId: recordIdProp, subtitle, facts
   const panel = useRef<HTMLElement>(null)
   useFocusTrap(panel, open)
   const titleId = useId()
+  useScrollLock(open)
   return (
     <>
       <div className={`overlay${open ? ' open' : ''}`} onClick={() => { if (!dirty) onClose() }} aria-hidden={!open} {...(!open ? { inert: true } : {})} />
@@ -234,8 +247,9 @@ export function SlideOver({ open, title, recordId: recordIdProp, subtitle, facts
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 6 }}>
             {onBack && <button type="button" className="bp-icon-btn" aria-label="Back" onClick={onBack}>←</button>}
             <div style={{ flex: 1, minWidth: 0 }}>
-              {recordId && <p className="bp-panel-id" style={{ margin: 0 }}>{recordId}</p>}
               <h2 id={titleId} data-autofocus tabIndex={-1} className="t-h2" style={{ margin: 0, outline: 'none' }}>{title}</h2>
+              {/* v1.23: the record id sits under the title, small, so the title leads (on a phone it was a grey sentence above a wrapped title). */}
+              {recordId && <p className="bp-panel-id" style={{ margin: 0 }}>{recordId}</p>}
             </div>
             {menu && <Menu label="More actions" groups={menu} align="end" trigger="icon" />}
             <button type="button" onClick={tryClose} aria-label="Close" className="dh-close"><X size={18} /></button>

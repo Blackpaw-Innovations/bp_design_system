@@ -1,4 +1,4 @@
-import { useEffect, useRef, type AnchorHTMLAttributes, type ButtonHTMLAttributes, type ReactNode } from 'react'
+import { useEffect, useId, useRef, useState, type AnchorHTMLAttributes, type ButtonHTMLAttributes, type ReactNode } from 'react'
 import { cn, type IconComponent } from '../lib/utils'
 import { formatDate, formatMoney } from '../lib/format'
 
@@ -34,12 +34,42 @@ interface ButtonOwnProps {
   fullWidth?: boolean
   /** Sentence case, verb first, three words or fewer: "Save reading", "Review the offer". */
   children: string
+  /**
+   * v1.23: why the action cannot run yet ("Add a phone number first"). With it, a disabled button keeps its normal
+   * look and says this on press, instead of a faded button that reads as broken on a phone.
+   */
+  disabledReason?: string
 }
 
 export type ButtonProps = ButtonOwnProps & Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children' | 'className' | 'style'> & { className?: string }
 
-export function Button({ variant = 'secondary', size = 'md', icon: Icon, loading, fullWidth, children, type = 'button', disabled, className, ...rest }: ButtonProps) {
+export function Button({ variant = 'secondary', size = 'md', icon: Icon, loading, fullWidth, children, type = 'button', disabled, disabledReason, className, ...rest }: ButtonProps) {
   if (children.split(/\s+/).length > 4) warn(`Button "${children}" is long; keep labels to three words, verb first.`)
+  const [explaining, setExplaining] = useState(false)
+  const reasonId = useId()
+  useEffect(() => { if (!explaining) return; const t = window.setTimeout(() => setExplaining(false), 4000); return () => window.clearTimeout(t) }, [explaining])
+  if (disabled && disabledReason && !loading) {
+    return (
+      <span className="bp-btn-explain" data-full={fullWidth || undefined}>
+        <button
+          {...rest}
+          type="button"
+          className={cn('bp-btn', className)}
+          data-variant={variant}
+          data-size={size}
+          data-full={fullWidth || undefined}
+          data-explains=""
+          aria-disabled="true"
+          aria-describedby={explaining ? reasonId : undefined}
+          onClick={() => setExplaining(true)}
+        >
+          {Icon && <Icon size={18} aria-hidden="true" />}
+          {children}
+        </button>
+        {explaining && <span id={reasonId} role="status" className="bp-btn-reason">{disabledReason}</span>}
+      </span>
+    )
+  }
   return (
     <button
       {...rest}

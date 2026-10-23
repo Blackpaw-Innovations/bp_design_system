@@ -113,26 +113,43 @@ export interface ErrorStateProps {
   /** After a repeat failure: shows "Message us on WhatsApp" with this context. */
   supportContext?: string
   reference?: string
-  /** card = inside one card; the rest of the page stays. */
-  size?: 'page' | 'card'
+  /** card = inside one card; the rest of the page stays. inline = one line inside a form or sheet (v1.23), above Save. */
+  size?: 'page' | 'card' | 'inline'
 }
 
 export function ErrorState({ title, description, onRetry, supportContext, reference, size = 'page' }: ErrorStateProps) {
+  const support = supportContext && (
+    <a className="bp-btn" data-variant="tertiary" data-size="md" target="_blank" rel="noopener noreferrer"
+      href={buildWhatsAppUrl(BLACKPAW_SUPPORT_PHONE, `Hi Blackpaw, I ran into an issue.
+
+*Where:* ${supportContext}
+*Error:* ${title}${reference ? `
+*Reference:* ${reference}` : ''}`)}>
+      <MessageCircle size={16} aria-hidden="true" />Message us on WhatsApp
+    </a>
+  )
+  // v1.23: the reference is a short support code in small type, never a raw id at body weight.
+  const code = reference && <p className="bp-state-code">Support code <span>{reference.replace(/-/g, '').slice(0, 8).toUpperCase()}</span></p>
+  if (size === 'inline') {
+    return (
+      <div className="bp-state-inline" role="alert">
+        <AlertCircle size={18} aria-hidden="true" />
+        <p><strong>{title}.</strong>{description ? ` ${description}` : ''}</p>
+        {onRetry && <Button variant="tertiary" onClick={onRetry}>Try again</Button>}
+        {code}
+      </div>
+    )
+  }
   return (
     <div className="bp-state" data-size={size === 'card' ? 'card' : undefined} role="alert" style={{ alignItems: 'flex-start', textAlign: 'left' }}>
-      <span className="bp-state-alert" aria-hidden="true"><AlertCircle size={24} /></span>
+      <span className="bp-state-alert" aria-hidden="true"><AlertCircle size={size === 'card' ? 20 : 24} /></span>
       <h3>{title}</h3>
       {description && <p>{description}</p>}
       <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
         {onRetry && <Button variant="secondary" onClick={onRetry}>Try again</Button>}
-        {supportContext && (
-          <a className="bp-btn" data-variant="tertiary" data-size="md" target="_blank" rel="noopener noreferrer"
-            href={buildWhatsAppUrl(BLACKPAW_SUPPORT_PHONE, `Hi Blackpaw, I ran into an issue.\n\n*Where:* ${supportContext}\n*Error:* ${title}${reference ? `\n*Reference:* ${reference}` : ''}`)}>
-            <MessageCircle size={16} aria-hidden="true" />Message us on WhatsApp
-          </a>
-        )}
+        {support}
       </div>
-      {reference && <p className="bp-help" style={{ margin: 0 }}>Reference {reference}</p>}
+      {code}
     </div>
   )
 }

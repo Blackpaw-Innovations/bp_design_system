@@ -418,3 +418,62 @@
   :root .bp-journey .name { font-size: 11px; }
   :root .bp-journey li:not([data-state="now"]) .name { visibility: hidden; }
 }
+
+/* ── Phone foundation (v1.23) ───────────────────────────────── */
+/* Measured on a 390 px phone: the page was 396 px wide and slid sideways, the header scrolled away, eight type sizes,
+   taps with no answer, sheets that were side drawers. These rules give every vertical a frame that holds still.
+   Sources: Apple HIG, Material 3, Spotify's published Encore writing; nothing decompiled. */
+:root {
+  /* Phone type scale: five steps, each clearly bigger (screen title, section, strong body, body, meta). */
+  --fs-title: 28px; --fs-section: 20px; --fs-strong: 17px; --fs-body: 15px; --fs-meta: 13px;
+  /* One spacing rhythm: gutter, between sections, inside a row. */
+  --sp-gutter: 16px; --sp-section: 24px; --sp-row: 12px;
+  /* Motion: answer a tap at once, settle quickly, sheets slightly slower. */
+  --dur-press: 90ms; --dur-quick: 150ms; --dur-settle: 250ms; --dur-sheet: 300ms;
+}
+
+/* Taps answer on touch-down, with no 300 ms delay and no grey flash. */
+:where(button, a, [role="button"], [role="tab"], summary, label) { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+:root :is(.bp-qv, .bp-icon-btn, .bp-chip, .bp-opt):active { transform: scale(.96); transition: transform var(--dur-press) ease-out; }
+:root :is(.hq-btn-primary, .btn-primary, .hq-btn-navy, .hq-btn-secondary):active:not(:disabled) { transform: scale(.98); }
+@media (prefers-reduced-motion: reduce) { :root :is(.bp-btn, .bp-qv, .bp-icon-btn, .bp-chip, .bp-opt, .hq-btn-primary, .btn-primary):active { transform: none; } }
+
+/* A button that explains instead of looking broken (Button disabledReason). */
+:root .bp-btn-explain { position: relative; display: inline-flex; flex-direction: column; align-items: stretch; }
+:root .bp-btn-explain[data-full] { display: flex; width: 100%; }
+:root :is(.bp-btn)[data-explains][aria-disabled="true"] { opacity: 1; cursor: pointer; }
+:root .bp-btn[data-explains][data-variant="primary"][aria-disabled="true"] { background: var(--c-action, #fd8a03); color: var(--g-on-action, #071b3c); }
+:root .bp-btn[data-explains][data-variant="secondary"][aria-disabled="true"] { background: transparent; color: var(--g-signal-text); border-color: var(--g-signal); }
+:root .bp-btn-reason { margin-top: 6px; font-size: var(--fs-meta); font-weight: 700; line-height: 1.35; color: var(--c-ink); }
+
+/* Errors: a card error has no big tinted blob and its text wraps; inside a form it is one line. */
+:root .bp-state[data-size="card"] .bp-state-alert { width: auto; height: auto; background: none; }
+:root .bp-state p { max-width: 100%; overflow-wrap: anywhere; }
+:root .bp-state-code { margin: 0; font-size: var(--fs-meta); font-weight: 600; color: var(--c-muted); }
+:root .bp-state-code span { font-family: ui-monospace, "JetBrains Mono", monospace; font-weight: 700; letter-spacing: .04em; color: var(--c-ink); }
+:root .bp-state-inline { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; padding: 12px 14px; border-radius: 12px; background: var(--v-crit-tint, #fbe4e6); color: var(--c-ink); }
+:root .bp-state-inline > svg { flex: none; color: var(--v-crit, #c53b43); }
+:root .bp-state-inline p { flex: 1 1 200px; min-width: 0; margin: 0; font-size: var(--fs-body); line-height: 1.4; overflow-wrap: anywhere; }
+
+/* Pill rows: snap, and fade at the edge so a clipped pill reads as "more this way", not cut off. */
+:root :is(.bp-quickviews, .bp-record-tabs) { scroll-snap-type: x proximity; }
+:root :is(.bp-quickviews, .bp-record-tabs) > * { scroll-snap-align: start; }
+
+@media (max-width: 767px) {
+  /* Nothing is ever wider than the screen: the page cannot slide sideways under the thumb. */
+  html, body { overflow-x: clip; }
+  :root :is(.bp-quickviews, .bp-record-tabs) { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent); padding-right: 28px; }
+  :root .bp-record-tabs { flex-wrap: nowrap; }
+}
+
+@media (max-width: 639px) {
+  /* SlideOver is a bottom sheet on a phone: grab handle, one-line title, the id under it, pinned footer above the home bar. */
+  .slide-over { top: auto; left: 0; right: 0; bottom: 0; width: 100% !important; max-width: 100vw; height: 92dvh; border-left: 0; border-radius: 20px 20px 0 0; transform: translateY(calc(100% + 48px)); }
+  .slide-over.open { transform: translateY(0); transition: transform var(--dur-sheet) var(--bp-ease-out, cubic-bezier(.2,.8,.2,1)), visibility 0s; }
+  .slide-over .dh { padding: 8px 16px 12px; border-radius: 20px 20px 0 0; }
+  .slide-over .dh::before { content: ""; align-self: center; width: 40px; height: 5px; border-radius: 999px; background: var(--c-border); margin-bottom: 4px; }
+  .slide-over .dh .t-h2 { font-size: var(--fs-section); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .slide-over .bp-panel-id { font-size: var(--fs-meta); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .slide-over .db { padding: 16px; }
+  .slide-over .df { padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px)); }
+}
