@@ -186,12 +186,12 @@ export function FormDialog({ open, title, context, size = 'md', submitLabel, onS
           {asking ? (
             <>
               <span style={{ flex: 1, fontWeight: 700 }}>Discard your changes?</span>
-              <Button variant="tertiary" onClick={() => setAsking(false)}>Keep editing</Button>
+              <Button variant="quiet" onClick={() => setAsking(false)}>Keep editing</Button>
               <Button variant="destructive" onClick={() => { setAsking(false); onClose() }}>Discard</Button>
             </>
           ) : (
             <>
-              <Button variant="tertiary" onClick={tryClose}>Cancel</Button>
+              <Button variant="quiet" onClick={tryClose}>Cancel</Button>
               <Button variant="primary" type="submit" loading={busy}>{submitLabel}</Button>
             </>
           )}
@@ -263,7 +263,7 @@ export function SlideOver({ open, title, recordId: recordIdProp, subtitle, facts
             {asking ? (
               <>
                 <span style={{ flex: 1, fontWeight: 700 }}>Discard your changes?</span>
-                <Button variant="tertiary" onClick={() => setAsking(false)}>Keep editing</Button>
+                <Button variant="quiet" onClick={() => setAsking(false)}>Keep editing</Button>
                 <Button variant="destructive" onClick={() => { setAsking(false); onClose() }}>Discard</Button>
               </>
             ) : footer}

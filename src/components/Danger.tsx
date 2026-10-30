@@ -55,7 +55,7 @@ export function TypeToConfirmDialog({ open, title, body, word, confirmLabel, can
         <label style={{ fontSize: 15, fontWeight: 700 }}>Type <b>{word}</b> to confirm</label>
         <div className="bp-control"><input autoFocus value={typed} onChange={(e) => setTyped(e.target.value)} placeholder={word} aria-label={`Type ${word} to confirm`} /></div>
         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, paddingTop: 8 }}>
-          <Button variant="tertiary" onClick={onCancel}>{cancelLabel}</Button>
+          <Button variant="quiet" onClick={onCancel}>{cancelLabel}</Button>
           <button type="button" className="bp-btn" data-variant="destructive-solid" data-size="md" disabled={!ok} onClick={onConfirm}>{confirmLabel}</button>
         </div>
       </section>

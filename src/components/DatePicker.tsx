@@ -187,7 +187,7 @@ export function DateRangePicker({ value, onChange, presets = DEFAULT_PRESETS, mi
             {cal}
             <div style={{ display: 'flex', gap: 10, alignItems: 'center', borderTop: '1px solid var(--c-border)', paddingTop: 10 }}>
               <span className="bp-help" style={{ flex: 1 }}>{result}</span>
-              <Button variant="tertiary" onClick={close}>Cancel</Button>
+              <Button variant="quiet" onClick={close}>Cancel</Button>
               <Button variant="secondary" disabled={!a} onClick={apply}>Apply</Button>
             </div>
           </div>
