@@ -202,7 +202,7 @@ html :is(.rail-icon.active, [aria-current="page"]):is(.bp-attn, .hq-led-glow)::a
 }
 
 /* ── 7 · Guarded components (src/components/Guarded.tsx) ───── */
-:root .bp-page-header .bp-title { margin: 0; font-family: var(--g-font); font-weight: 900; font-size: clamp(26px, 3vw, 34px); line-height: 1.1; letter-spacing: -.01em; color: var(--g-ink); text-wrap: balance; max-width: 26ch; }
+:root .bp-page-header .bp-title { margin: 0; font-family: var(--g-font); font-weight: 900; font-size: clamp(28px, 3vw, 34px); line-height: 1.1; letter-spacing: -.01em; color: var(--g-ink); text-wrap: balance; max-width: 26ch; }
 :root .bp-page-header .bp-title-context { margin: 6px 0 0; font-size: 16px; color: var(--g-muted); max-width: 64ch; }
 :root .bp-page-header .bp-title-crumbs { margin: 0 0 8px; display: flex; flex-wrap: wrap; gap: 6px; font-size: var(--g-fs-label); font-weight: 600; color: var(--g-muted); text-transform: none; letter-spacing: 0; }
 :root .bp-page-header .bp-title-crumbs a { color: inherit; }

@@ -334,7 +334,7 @@ export function DataTable<T>({ columns, rows, rowKey, empty = 'Nothing here yet.
                   const main = c.primary && rowHref ? link(rowHref(r), cell(c, r)) : cell(c, r)
                   const sub = c.sub && <span className="sub" data-tone={c.subTone?.(r)}>{c.sub(r)}</span>
                   return (
-                    <td key={c.key} data-kind={c.kind ?? 'text'} data-hide={c.hideBelow} data-primary={c.primary || undefined}>
+                    <td key={c.key} data-kind={c.kind ?? 'text'} data-hide={c.hideBelow} data-primary={c.primary || undefined} data-label={c.header || undefined}>
                       {c.initialsOf
                         ? <span className="bp-cell-who"><span className="bp-initials" aria-hidden="true">{initialsFrom(c.initialsOf(r))}</span><span className="bp-cell-text">{main}{sub}</span></span>
                         : <>{main}{sub}</>}

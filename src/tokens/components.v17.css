@@ -464,6 +464,21 @@
   :root .bp-qv, :root .bp-seg > button { min-height: 44px; }
   :root .bp-page-header .bp-title { font-size: var(--fs-title); }
   :root .bp-page-header .bp-title-context { font-size: var(--fs-body); }
+  /* v1.23.2: a table is a list on a phone (rule R10). Each row: its first column as the title, the other columns as
+     labelled facts two to a line, the action cell (no header) full width under them; hide-below columns go. A
+     sideways-scrolling table on a phone hides most of each row and every action at the far edge. */
+  :root .bp-table-wrap { overflow-x: visible; }
+  :root .bp-table, :root .bp-table tbody { display: block; width: 100%; }
+  :root .bp-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  :root .bp-table tr { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px 16px; padding: 14px 16px; border-top: 1px solid var(--table-line, var(--g-line)); }
+  :root .bp-table tbody tr:first-child { border-top: 0; }
+  :root .bp-table td { display: block; min-width: 0; padding: 0; border: 0; font-size: var(--fs-body); }
+  :root .bp-table td:first-child, :root .bp-table td[data-primary], :root .bp-table td:not([data-label]), :root .bp-table td.bp-table-empty { grid-column: 1 / -1; }
+  :root .bp-table td:first-child { font-size: var(--fs-strong, 17px); font-weight: 800; }
+  :root .bp-table td[data-label]:not(:first-child)::before { content: attr(data-label); display: block; font-size: var(--fs-meta); font-weight: 700; color: var(--c-muted); }
+  :root .bp-table td:not([data-label]) :is(button, a) { min-height: 44px; }
+  :root .bp-table td[data-hide] { display: none; }
+  :root .bp-table td[data-kind="money"], :root .bp-table td[data-kind="number"] { text-align: left; }
   /* Nothing is ever wider than the screen: the page cannot slide sideways under the thumb. */
   html, body { overflow-x: clip; }
   :root :is(.bp-quickviews, .bp-record-tabs) { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent); padding-right: 28px; }
