@@ -274,7 +274,7 @@
 :root .bp-card-blocked { border-radius: 10px; padding: 8px 10px; background: var(--v-warn-tint); font-size: 14px; line-height: 1.35; }
 :root .bp-card[data-live] .bp-card-blocked { background: rgba(255,255,255,.14); }
 :root .bp-card [data-variant="secondary"] { min-height: 40px; }
-:root .bp-card[data-live] [data-variant="secondary"] { border-color: #fff; color: #fff; }
+:root .bp-card[data-live] [data-variant="secondary"] { background: transparent; border-color: #fff; color: #fff; }
 :root .bp-attn-dot { width: 10px; height: 10px; border-radius: 999px; background: var(--c-action); box-shadow: 0 0 0 3px color-mix(in srgb, var(--c-action) 25%, transparent); }
 
 /* ── Calendar ──────────────────────────────────────────────────── */
@@ -456,7 +456,9 @@
 :root .bp-state-inline p { flex: 1 1 200px; min-width: 0; margin: 0; font-size: var(--fs-body); line-height: 1.4; overflow-wrap: anywhere; }
 
 /* Pill rows: snap, and fade at the edge so a clipped pill reads as "more this way", not cut off. */
-:root :is(.bp-quickviews, .bp-record-tabs) { scroll-snap-type: x proximity; }
+/* v1.24.0: scroll-padding keeps the snapped first pill on the 16 px gutter; without it the row loaded scrolled 16 px and
+   the first pill sat flush on the screen edge. */
+:root :is(.bp-quickviews, .bp-record-tabs, .bp-chips) { scroll-snap-type: x proximity; scroll-padding-inline: 16px; }
 :root :is(.bp-quickviews, .bp-record-tabs) > * { scroll-snap-align: start; }
 
 @media (max-width: 767px) {

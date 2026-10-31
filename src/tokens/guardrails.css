@@ -176,12 +176,16 @@ html :is(.rail-icon.active, [aria-current="page"]):is(.bp-attn, .hq-led-glow)::a
 :root .bp-btn:active:not(:disabled) { transform: scale(.98); }
 :root .bp-btn:focus-visible { outline: 2px solid var(--g-focus); outline-offset: 2px; }
 :root .bp-btn[data-variant="primary"]     { background: var(--g-action); color: var(--g-on-action); }
-:root .bp-btn[data-variant="secondary"]   { background: transparent; color: var(--g-signal-text); border-color: var(--g-signal); }
+:root .bp-btn[data-variant="secondary"]   { background: var(--g-signal); color: #fff; border-color: var(--g-signal); font-weight: 800; }
+/* v1.24.0: quiet = the full-size outline button. Every Cancel, "Keep editing" and second action in a group; tertiary stays
+   text-only for actions inside a sentence or a banner. A Cancel drawn as bare text read as a link, not a way out. */
+:root .bp-btn[data-variant="quiet"]       { background: transparent; color: var(--g-signal-text); border-color: var(--g-signal); }
 :root .bp-btn[data-variant="tertiary"]    { background: transparent; color: var(--g-signal-text); padding: 0 8px; }
 :root .bp-btn[data-variant="tertiary"]:hover { text-decoration: underline; }
 :root .bp-btn[data-variant="destructive"] { background: transparent; color: var(--g-crit); border-color: var(--g-crit); }
 :root .bp-btn[data-variant="on-dark"]     { background: transparent; color: #fff; border-color: #fff; }
-:root .bp-btn[data-variant="secondary"]:hover:not(:disabled) { background: var(--v-selected, #e7f0ff); }
+:root .bp-btn[data-variant="secondary"]:hover:not(:disabled) { background: color-mix(in srgb, var(--g-signal) 82%, #000); border-color: color-mix(in srgb, var(--g-signal) 82%, #000); }
+:root .bp-btn[data-variant="quiet"]:hover:not(:disabled) { background: var(--v-selected, #e7f0ff); }
 :root .bp-btn[data-variant="destructive"]:hover:not(:disabled) { background: var(--v-crit-tint, rgba(197,59,67,.12)); }
 :root .bp-btn[aria-busy="true"] { cursor: progress; }
 :root .bp-btn .bp-spin { width: 16px; height: 16px; border-radius: 999px; border: 2px solid currentColor; border-right-color: transparent; animation: bp-spin .8s linear infinite; }

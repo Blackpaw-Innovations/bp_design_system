@@ -20,11 +20,11 @@ const dev = (import.meta as { env?: { DEV?: boolean } }).env?.DEV === true
 const warn = (msg: string) => { if (dev) console.warn(`[@blackpaw/ui] ${msg}`) }
 
 /* ── Buttons ───────────────────────────────────────────────── */
-export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'destructive' | 'on-dark'
+export type ButtonVariant = 'primary' | 'secondary' | 'quiet' | 'tertiary' | 'destructive' | 'on-dark'
 export type ButtonSize = 'md' | 'lg'
 
 interface ButtonOwnProps {
-  /** primary = the one thing to do on this view (orange). secondary = Signal Blue outline. tertiary = text. destructive = red outline, always behind a ConfirmDialog. on-dark = white outline inside navy. */
+  /** primary = the one thing to do on this view (orange). secondary = solid Signal Blue (at most one per card or footer). quiet = Signal Blue outline: Cancel and extra actions. tertiary = text, only inside a sentence or banner. destructive = red outline, always behind a ConfirmDialog. on-dark = white outline inside navy. */
   variant?: ButtonVariant
   /** md = 44 px (default), lg = 52 px for the main action on phone layouts. There is no smaller size. */
   size?: ButtonSize
@@ -144,7 +144,7 @@ export function ConfirmDialog({ open, title, body, confirmLabel, cancelLabel = '
         <h2 id="bp-confirm-title">{title}</h2>
         {body && <p>{body}</p>}
         <div className="actions">
-          <button ref={cancelRef} type="button" className="bp-btn" data-variant="tertiary" onClick={onCancel}>{cancelLabel}</button>
+          <button ref={cancelRef} type="button" className="bp-btn" data-variant="quiet" onClick={onCancel}>{cancelLabel}</button>
           <Button variant={destructive ? 'destructive' : 'primary'} loading={loading} onClick={onConfirm}>{confirmLabel}</Button>
         </div>
       </section>
