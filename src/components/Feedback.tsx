@@ -96,7 +96,7 @@ export function EmptyState({ state, mascotSrc, title, description, action, secon
       {(action || secondary) && (
         <div style={{ display: 'flex', gap: 10, marginTop: size === 'row' ? 0 : 6 }}>
           {action && <Button variant="primary" onClick={action.onClick}>{action.label}</Button>}
-          {secondary && <Button variant="secondary" onClick={secondary.onClick}>{secondary.label}</Button>}
+          {secondary && <Button variant="quiet" onClick={secondary.onClick}>{secondary.label}</Button>}
         </div>
       )}
     </div>
@@ -119,7 +119,7 @@ export interface ErrorStateProps {
 
 export function ErrorState({ title, description, onRetry, supportContext, reference, size = 'page' }: ErrorStateProps) {
   const support = supportContext && (
-    <a className="bp-btn" data-variant="tertiary" data-size="md" target="_blank" rel="noopener noreferrer"
+    <a className="bp-btn" data-variant="quiet" data-size="md" target="_blank" rel="noopener noreferrer"
       href={buildWhatsAppUrl(BLACKPAW_SUPPORT_PHONE, `Hi Blackpaw, I ran into an issue.
 
 *Where:* ${supportContext}
