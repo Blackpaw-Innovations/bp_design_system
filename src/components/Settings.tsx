@@ -4,7 +4,7 @@ import type { ReactNode } from 'react'
  * Settings card (v1.21, 20 Oct 2026). Every settings page reads the same way: a blue head band with the
  * title, a one-line description and the normal secondary "Change" button; grouped sections; one sentence
  * per row with a hint and a state pill. Editing stays in the SlideOver the Change button opens.
- *   <SettingsCard title="Arrivals and check-out" description="…" action={<Button variant="secondary">Change</Button>} columns={2}>
+ *   <SettingsCard title="Arrivals and check-out" description="…" action={<Button variant="quiet">Change</Button>} columns={2}>
  *     <SettingsGroup title="Before check-in">
  *       <SettingRow label="Stay paid" hint="The guest cannot check in until the stay is paid." state={{ value: 'Required', tone: 'required' }} />
  *     </SettingsGroup>

@@ -100,7 +100,7 @@ export function SignaturePad({ signer, recordLabel, subject, total, confirms, st
               <span className="chip pos" style={{ width: 'max-content' }}><span className="cdot" />Signed</span>
               <div style={{ fontSize: 15, lineHeight: 1.5 }}><b>{value.signer}</b><br />{formatDateTime(value.signedAt)}<br />{value.method === 'typed' ? 'Typed name' : 'Drawn'} · {value.device}</div>
               {receiptNote && <div className="bp-help">{receiptNote}</div>}
-              {onSignAgain && <Button variant="tertiary" onClick={onSignAgain}>Sign again</Button>}
+              {onSignAgain && <Button variant="quiet" onClick={onSignAgain}>Sign again</Button>}
             </div>
           </div>
         ) : (
@@ -124,8 +124,8 @@ export function SignaturePad({ signer, recordLabel, subject, total, confirms, st
             )}
             <p className="bp-help" style={{ margin: 0 }}>{statement}</p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
-              <Button variant="tertiary" icon={Undo2} disabled={mode !== 'drawn' || count === 0} onClick={() => { strokes.current.pop(); redraw(); setCount(strokes.current.length) }}>Undo</Button>
-              <Button variant="tertiary" disabled={mode !== 'drawn' || count === 0} onClick={() => { strokes.current = []; redraw(); setCount(0) }}>Clear</Button>
+              <Button variant="quiet" icon={Undo2} disabled={mode !== 'drawn' || count === 0} onClick={() => { strokes.current.pop(); redraw(); setCount(strokes.current.length) }}>Undo</Button>
+              <Button variant="quiet" disabled={mode !== 'drawn' || count === 0} onClick={() => { strokes.current = []; redraw(); setCount(0) }}>Clear</Button>
               <span style={{ flex: 1 }} />
               <Button variant="primary" size="lg" loading={busy} disabled={!has} onClick={() => void confirm()}>{confirmLabel}</Button>
             </div>

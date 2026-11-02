@@ -62,7 +62,7 @@ export function FileUpload({ label, accept, typesText, maxMB = 10, maxFiles = 5,
       {phone ? (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
           <Button variant="secondary" size="lg" fullWidth icon={Camera} onClick={() => cam.current?.click()}>{kind === 'documents' ? 'Scan document' : 'Take photo'}</Button>
-          <Button variant="tertiary" fullWidth onClick={() => pick.current?.click()}>{kind === 'documents' ? 'Choose a file' : 'Choose from gallery'}</Button>
+          <Button variant="quiet" fullWidth onClick={() => pick.current?.click()}>{kind === 'documents' ? 'Choose a file' : 'Choose from gallery'}</Button>
         </div>
       ) : (
         <button type="button" className="bp-drop" data-over={over || undefined} onClick={() => pick.current?.click()}
@@ -83,7 +83,7 @@ export function FileUpload({ label, accept, typesText, maxMB = 10, maxFiles = 5,
                 {it.state === 'done' && <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--v-pos)' }}>Uploaded</span>}
                 {it.state === 'error' && <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--v-crit)' }}>{it.error}</span>}
               </span>
-              <Button variant="tertiary" onClick={() => onRemove(it.id)}>{it.state === 'uploading' ? 'Cancel' : 'Remove'}</Button>
+              <Button variant="quiet" onClick={() => onRemove(it.id)}>{it.state === 'uploading' ? 'Cancel' : 'Remove'}</Button>
             </li>
           ))}
         </ul>

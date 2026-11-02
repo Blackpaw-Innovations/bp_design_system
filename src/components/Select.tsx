@@ -160,7 +160,7 @@ export function MultiSelect({ value, onChange, options, label, noun, placeholder
       ))}{chosen.length > 2 && <span style={{ fontSize: 15, fontWeight: 700, color: 'var(--c-muted)' }}>+{chosen.length - 2}</span>}</span>
   const foot = (
     <div style={{ display: 'flex', gap: 10, alignItems: 'center', padding: '10px 12px', borderTop: '1px solid var(--c-border)' }}>
-      {selectAll && options.length > 20 && <Button variant="tertiary" onClick={() => setDraft(draft.length === options.length ? [] : options.map((o) => o.value))}>{draft.length === options.length ? 'Clear all' : 'Select all'}</Button>}
+      {selectAll && options.length > 20 && <Button variant="quiet" onClick={() => setDraft(draft.length === options.length ? [] : options.map((o) => o.value))}>{draft.length === options.length ? 'Clear all' : 'Select all'}</Button>}
       <span className="bp-help" style={{ flex: 1 }}>{draft.length} chosen</span>
       <Button variant="secondary" onClick={done}>Done</Button>
     </div>

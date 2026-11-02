@@ -43,8 +43,8 @@ export function BulkBar({ count, noun, actions, onClear }: { count: number; noun
   return (
     <div className="bp-bulkbar" role="region" aria-label={`${count} ${noun} selected`}>
       <span style={{ flex: 1 }}>{count} selected</span>
-      {actions.slice(0, 3).map((a) => <Button key={a.label} variant="secondary" onClick={a.onClick}>{a.label}</Button>)}
-      <Button variant="tertiary" onClick={onClear}>Clear</Button>
+      {actions.slice(0, 3).map((a, i) => <Button key={a.label} variant={i === 0 ? 'secondary' : 'quiet'} onClick={a.onClick}>{a.label}</Button>)}
+      <Button variant="quiet" onClick={onClear}>Clear</Button>
     </div>
   )
 }
@@ -96,7 +96,7 @@ export function ColumnFilter({ label, options, value, onChange, range, onRange }
           </div>
         </div>
       )}
-      {active && <Button variant="tertiary" onClick={() => { onChange([]); onRange?.([null, null]) }}>Clear</Button>}
+      {active && <Button variant="quiet" onClick={() => { onChange([]); onRange?.([null, null]) }}>Clear</Button>}
     </div>
   )
   return (
@@ -125,7 +125,7 @@ export function FilterChips({ filters, onClearAll }: { filters: ActiveFilter[]; 
   return (
     <div className="bp-chips">
       {filters.map((f) => <button key={f.key} type="button" className="bp-chip-x" aria-label={`Remove ${f.label}`} onClick={f.onRemove}>{f.label}<X size={16} aria-hidden="true" /></button>)}
-      {filters.length >= 2 && <Button variant="tertiary" onClick={onClearAll}>Clear all</Button>}
+      {filters.length >= 2 && <Button variant="quiet" onClick={onClearAll}>Clear all</Button>}
     </div>
   )
 }
@@ -283,7 +283,7 @@ export function PersonRow({ name, id, src, sub, action }: { name: string; id?: s
     <div className="bp-person">
       <Avatar name={name} id={id} src={src} size={40} />
       <span style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}><span style={{ fontSize: 16, fontWeight: 800 }}>{name}</span>{sub && <span className="bp-help" style={{ fontSize: 15 }}>{sub}</span>}</span>
-      {action && <Button variant="tertiary" onClick={action.onClick}>{action.label}</Button>}
+      {action && <Button variant="quiet" onClick={action.onClick}>{action.label}</Button>}
     </div>
   )
 }

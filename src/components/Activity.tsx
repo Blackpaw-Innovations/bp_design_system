@@ -98,7 +98,7 @@ export function ContactActions({ phone, waText, extra }: { phone: string; waText
   return (
     <>
       <a className="bp-btn" data-size="md" href={`https://wa.me/${digits}${waText ? `?text=${encodeURIComponent(waText)}` : ''}`} target="_blank" rel="noopener noreferrer" style={{ flex: 1, background: 'var(--c-whatsapp)', borderColor: 'var(--c-whatsapp)', color: '#fff' }}><MessageCircle size={17} aria-hidden="true" />WhatsApp</a>
-      <a className="bp-btn" data-variant="secondary" data-size="md" href={`tel:+${digits}`} style={{ flex: 1 }}><Phone size={17} aria-hidden="true" />Call</a>
+      <a className="bp-btn" data-variant="quiet" data-size="md" href={`tel:+${digits}`} style={{ flex: 1 }}><Phone size={17} aria-hidden="true" />Call</a>
       {extra}
     </>
   )

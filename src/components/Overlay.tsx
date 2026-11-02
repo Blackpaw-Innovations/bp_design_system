@@ -322,7 +322,7 @@ export function Menu({ label, groups, trigger = 'button', align = 'end' }: MenuP
     <>
       {trigger === 'icon'
         ? <button ref={btn} type="button" className="bp-icon-btn" aria-label={label} aria-haspopup="menu" aria-expanded={open} onClick={() => setOpen(!open)}>⋯</button>
-        : <button ref={btn} type="button" className="bp-btn" data-variant="secondary" data-size="md" aria-haspopup="menu" aria-expanded={open} onClick={() => setOpen(!open)}>{label}<ChevronDown size={16} aria-hidden="true" /></button>}
+        : <button ref={btn} type="button" className="bp-btn" data-variant="quiet" data-size="md" aria-haspopup="menu" aria-expanded={open} onClick={() => setOpen(!open)}>{label}<ChevronDown size={16} aria-hidden="true" /></button>}
       {open && !phone && createPortal(<div ref={pop} className={cn('bp-pop', 'bp-menu')} role="menu" aria-label={label} style={style}>{items}</div>, document.body)}
       {phone && <Sheet open={open} title={label} onClose={close}><div className="bp-menu" style={{ padding: '0 10px 10px' }}>{items}</div></Sheet>}
     </>
