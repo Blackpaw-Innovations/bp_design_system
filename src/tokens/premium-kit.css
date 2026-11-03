@@ -1,5 +1,5 @@
 /*
- * @blackpaw/ui — premium patterns (v1.25.0, 3 Nov 2026; v1.25.1 text hierarchy; v1.25.2 SelectableRow; v1.25.3 HubCard + LED glow). Components: src/components/PremiumKit.tsx.
+ * @blackpaw/ui — premium patterns (v1.25.0, 3 Nov 2026; v1.25.1 text hierarchy; v1.25.2 SelectableRow; v1.25.3 HubCard + LED glow; v1.25.4 FilterFold). Components: src/components/PremiumKit.tsx.
  * Spec: docs/PREMIUM_PATTERNS.md. Imported last by tokens/index.css; every rule carries :root (see guardrails.css).
  * Colour comes from the tokens below only. Each one reads the app's own variable first (hakiqa-connect's --pos,
  * --neg, --warn, --hero-identity, --v-*), so an app that defines them keeps its exact look; the fallbacks are the
@@ -308,3 +308,8 @@
   :root .bp-pk-hub { transition: none; }
   :root .bp-pk-hub:hover { transform: none; }
 }
+
+/* FilterFold (v1.25.4): a register's filters behind one quiet button on phones; always shown from md up. */
+:root .bp-pk-fold > .toggle { margin-bottom: 16px; }
+@media (max-width: 767.98px) { :root .bp-pk-fold:not([data-open]) > .body { display: none; } }
+@media (min-width: 768px) { :root .bp-pk-fold > .toggle { display: none; } }

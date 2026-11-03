@@ -1,6 +1,6 @@
 # Premium patterns
 
-**Status:** v1.25.3, 3 Nov 2026 (v1.25.1: text hierarchy, NeedsYouCard slots; v1.25.2: SelectableRow, MoneyHero `title`, one money format; v1.25.3: HubCard + LED glow, TapRow `chips`, RowGroup `empty`, CodeChip `data-hit-44`). The phone look every Hakiqa vertical builds its screens from. Change it here once;
+**Status:** v1.25.4, 3 Nov 2026 (v1.25.1: text hierarchy, NeedsYouCard slots; v1.25.2: SelectableRow, MoneyHero `title`, one money format; v1.25.3: HubCard + LED glow, TapRow `chips`, RowGroup `empty`, CodeChip `data-hit-44`; v1.25.4: FilterFold). The phone look every Hakiqa vertical builds its screens from. Change it here once;
 every app picks it up with its `@blackpaw/ui` pin bump.
 **Code:** `src/components/PremiumKit.tsx` (one implementation per pattern, exported from `@blackpaw/ui`), styles
 `src/tokens/premium-kit.css` (`.bp-pk-*`, imported last by `tokens/index.css`). Examples:
@@ -383,6 +383,21 @@ Do: SelectableRow when a screen has a bulk action. Don't: a checkbox inside a Ta
   another identity depth), white text, a 16 % ghost icon; the chip turns white 15 %.
 - `.bp-pk-led` is generic (it replaces hakiqa-connect `.hq-led-tile-glow`): any tile with a real background may carry
   it. Colours via `--bp-led-c1/c2/c3` (an app's `--hq-led-c1..3` still apply).
+
+### 27. FilterFold (a register's filters on a phone)
+
+`<FilterFold active? label? hideLabel?>filters</FilterFold>`
+
+- On a phone a register shows its hero and its list first. The filters (selects, date fields) sit behind one quiet
+  outline `Button` (44 px, SlidersHorizontal icon) that reads "Filters", and "Hide filters" while open. Never bare
+  blue text: it is a button and looks like one.
+- `active`: any filter is set. The fold then stays open, so a person always sees why the list is short; "Clear
+  filters" stays the screen's own quiet button.
+- From md (768 px) up the button is not drawn and the filters always show, in the screen's own grid.
+- Search is not a filter: the search box stays outside the fold, always visible.
+
+Do: one FilterFold per register, wrapping the whole filter grid. Don't: fold a single select (show it), or put the
+screen's orange action inside.
 
 ### Money (one format, every vertical)
 
