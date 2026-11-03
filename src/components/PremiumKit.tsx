@@ -9,7 +9,7 @@ import { Select } from './Select'
 import { timeSlots } from './DatePicker'
 
 /**
- * Premium patterns (v1.25.0, 3 Nov 2026): the phone look every Hakiqa vertical builds its screens from.
+ * Premium patterns (v1.25.0, 3 Nov 2026; v1.25.1 text hierarchy): the phone look every Hakiqa vertical builds its screens from.
  * Spec: docs/PREMIUM_PATTERNS.md. Styles: tokens/premium-kit.css (`.bp-pk-*`). First built for Stay in hakiqa-connect.
  * One navy hero per screen, receipts as proof rows inside one quiet card per day, one "needs you" card that owns the
  * screen's orange action, a day-close card that shares to WhatsApp. Nothing here knows a domain: it is given names,
@@ -252,15 +252,51 @@ export function InitialsTile({ name, filled }: { name: string; filled: number | 
   )
 }
 
-/** One "needs you" card: a glowing dot, what needs a person and why, and the screen's single orange action. */
-export function NeedsYouCard({ title, children, action }: { title: string; children?: ReactNode; action?: ReactNode }) {
+export interface NeedsYouAlso { count: number; label: string; href?: string; onClick?: () => void }
+
+/**
+ * One "needs you" card: a glowing dot, what needs a person, and the screen's single orange action. Text in three
+ * levels (v1.25.1), never one grey paragraph:
+ * - `title` heavy (17/800): the one thing to act on, "1 booking to confirm".
+ * - `meta` medium (15/600 ink): the facts, one per line ("Suite 1 · 3 nights", "9 Nov 2026"). Labels, no full stop.
+ * - `explanation` light (15/500 muted): one full sentence of why, ending in a full stop.
+ * - `also`: other kinds of waiting as tappable count rows under "Also waiting" (bold count, label, chevron), not prose.
+ * `children` still renders as the light line for v1.25.0 callers; new code uses the slots.
+ */
+export function NeedsYouCard({ title, meta, explanation, also, alsoTitle = 'Also waiting', action, renderLink, children }: {
+  title: string; meta?: string[]; explanation?: ReactNode; also?: NeedsYouAlso[]; alsoTitle?: string; action?: ReactNode; renderLink?: RenderLink
+  /** @deprecated v1.25.1: use `meta` (facts) and `explanation` (one sentence). Kept so v1.25.0 callers still render. */
+  children?: ReactNode
+}) {
   return (
     <section className="bp-pk-card bp-pk-lead" aria-label={title}>
       <div className="row">
         <span aria-hidden="true" className="bp-pk-dot" />
-        <div className="text"><h2>{title}</h2>{children && <div className="why">{children}</div>}</div>
+        <div className="text">
+          <h2>{title}</h2>
+          {meta && meta.length > 0 && <ul className="meta">{meta.map((line, i) => <li key={i}>{line}</li>)}</ul>}
+          {explanation && <div className="why">{explanation}</div>}
+          {children && <div className="why">{children}</div>}
+        </div>
       </div>
       {action && <div className="action">{action}</div>}
+      {also && also.length > 0 && (
+        <div className="bp-pk-also">
+          <p className="head">{alsoTitle}</p>
+          <ul aria-label={alsoTitle}>
+            {also.map((item) => {
+              const body = <><span className="n">{item.count}</span><span className="l">{item.label}</span>{(item.href || item.onClick) && <ChevronRight size={18} aria-hidden="true" className="chev" />}</>
+              return (
+                <li key={item.label}>
+                  {item.href ? <LinkOrA href={item.href} renderLink={renderLink} className="bp-pk-also-row">{body}</LinkOrA>
+                    : item.onClick ? <button type="button" onClick={item.onClick} className="bp-pk-also-row">{body}</button>
+                    : <div className="bp-pk-also-row">{body}</div>}
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+      )}
     </section>
   )
 }
@@ -323,7 +359,9 @@ export function CodeChip({ label, value }: { label?: string; value: string }) {
  * `as` / `rowProps` let an app swap the <li> for an animated one (e.g. motion's `m.li` with layout and exit).
  */
 export function ReceiptRow({ name, avatarKey, amount, currency, meta, code, codeLabel, status, fresh, freshLabel = 'Just paid', as: Row = 'li', rowProps }: {
-  name: string; avatarKey?: string; amount: number | null | undefined; currency?: string | null; meta: string; code?: string | null; codeLabel?: string; status?: ReactNode
+  name: string; avatarKey?: string; amount: number | null | undefined; currency?: string | null
+  /** Line 2. One short label line ("14:23 · SO2600134"), or one fact per line as an array (medium, 15/600 ink). */
+  meta: string | string[]; code?: string | null; codeLabel?: string; status?: ReactNode
   /** Just arrived while the screen is open (useArrivals): slides in, a soft green wash and a tick on the avatar for 2 s. */
   fresh?: boolean; freshLabel?: string
   as?: ElementType; rowProps?: Record<string, unknown>
@@ -336,7 +374,9 @@ export function ReceiptRow({ name, avatarKey, amount, currency, meta, code, code
       </span>
       <div className="body">
         <div className="line1"><p className="name">{name}</p><span className="amt"><MoneyFigure amount={amount} currency={currency} /></span></div>
-        <div className="line2"><p className="meta">{meta}</p>{status}</div>
+        <div className="line2">{Array.isArray(meta)
+          ? <ul className="facts">{meta.map((line, i) => <li key={i}>{line}</li>)}</ul>
+          : <p className="meta">{meta}</p>}{status}</div>
         {code && <div className="code"><CodeChip label={codeLabel} value={code} /></div>}
         {fresh && <span className="bp-pk-sr" role="status">{freshLabel}</span>}
       </div>
@@ -344,11 +384,22 @@ export function ReceiptRow({ name, avatarKey, amount, currency, meta, code, code
   )
 }
 
-/** The inside of a row that opens something: leading (avatar), title and sub, a figure, the chevron (only if it opens). */
-function TapBody({ title, sub, figure, leading, opens = true }: { title: ReactNode; sub?: ReactNode; figure?: ReactNode; leading?: ReactNode; opens?: boolean }) {
+/** A row's words: title heavy, `meta` facts one per line (medium), `sub` light. */
+function RowText({ title, sub, meta }: { title: ReactNode; sub?: ReactNode; meta?: string[] }) {
+  return (
+    <span className="text">
+      <span className="t">{title}</span>
+      {meta?.map((line, i) => <span key={i} className="m">{line}</span>)}
+      {sub && <span className="s">{sub}</span>}
+    </span>
+  )
+}
+
+/** The inside of a row that opens something: leading (avatar), title, meta and sub, a figure, the chevron (only if it opens). */
+function TapBody({ title, sub, meta, figure, leading, opens = true }: { title: ReactNode; sub?: ReactNode; meta?: string[]; figure?: ReactNode; leading?: ReactNode; opens?: boolean }) {
   return (<>
     {leading}
-    <span className="text"><span className="t">{title}</span>{sub && <span className="s">{sub}</span>}</span>
+    <RowText title={title} sub={sub} meta={meta} />
     {figure && <span className="fig">{figure}</span>}
     {opens && <ChevronRight size={18} aria-hidden="true" className="chev" />}
   </>)
@@ -359,12 +410,13 @@ function TapBody({ title, sub, figure, leading, opens = true }: { title: ReactNo
  * (through `renderLink` for an app router); `onClick` opens a sheet and keeps the scroll. `after` is the row's one quick
  * action, under the row and outside its target. With neither it is the same row without the chevron or press state.
  * `id` lets a screen scroll to it; `glow` lights it for 2 s after it was just made or changed.
+ * `meta`: facts one per line (15/600 ink) under the title; `sub` stays the light line.
  */
-export function TapRow({ href, onClick, renderLink, title, sub, figure, leading, label, after, tour, id, glow }: {
-  href?: string; onClick?: () => void; renderLink?: RenderLink; title: ReactNode; sub?: ReactNode; figure?: ReactNode; leading?: ReactNode; label?: string; after?: ReactNode; tour?: string
+export function TapRow({ href, onClick, renderLink, title, sub, meta, figure, leading, label, after, tour, id, glow }: {
+  href?: string; onClick?: () => void; renderLink?: RenderLink; title: ReactNode; sub?: ReactNode; meta?: string[]; figure?: ReactNode; leading?: ReactNode; label?: string; after?: ReactNode; tour?: string
   id?: string; glow?: boolean
 }) {
-  const body = <TapBody title={title} sub={sub} figure={figure} leading={leading} opens={Boolean(href || onClick)} />
+  const body = <TapBody title={title} sub={sub} meta={meta} figure={figure} leading={leading} opens={Boolean(href || onClick)} />
   return (
     <li id={id} className={cn('bp-pk-row', glow && 'bp-pk-glow')}>
       {href ? <LinkOrA href={href} renderLink={renderLink} aria-label={label} data-tour={tour} className="bp-pk-tap">{body}</LinkOrA>
@@ -380,14 +432,14 @@ export function TapRow({ href, onClick, renderLink, title, sub, figure, leading,
  * name, line 2, money at strength, chevron); under it only what is not ready yet (warn TintChips) and the one action
  * for this person. `title` and `leading` let a record lead with something else (a pickup leads with its time).
  */
-export function PersonCard({ name, avatarKey, title, leading, sub, figure, chips, action, onOpen, tour, as: Row = 'li', rowProps }: {
-  name: string; avatarKey?: string; title?: ReactNode; leading?: ReactNode; sub: ReactNode; figure?: ReactNode; chips?: ReactNode; action?: ReactNode; onOpen: () => void; tour?: string
+export function PersonCard({ name, avatarKey, title, leading, sub, meta, figure, chips, action, onOpen, tour, as: Row = 'li', rowProps }: {
+  name: string; avatarKey?: string; title?: ReactNode; leading?: ReactNode; sub?: ReactNode; meta?: string[]; figure?: ReactNode; chips?: ReactNode; action?: ReactNode; onOpen: () => void; tour?: string
   as?: ElementType; rowProps?: Record<string, unknown>
 }) {
   return (
     <Row {...rowProps} className="bp-pk-row">
       <button type="button" data-tour={tour} onClick={onOpen} className="bp-pk-tap">
-        <TapBody leading={leading ?? <Avatar calm name={name} id={avatarKey} size={40} />} title={title ?? name} sub={sub} figure={figure} />
+        <TapBody leading={leading ?? <Avatar calm name={name} id={avatarKey} size={40} />} title={title ?? name} sub={sub} meta={meta} figure={figure} />
       </button>
       {(chips || action) && (
         <div className="bp-pk-person-foot">
@@ -415,10 +467,10 @@ export function CheckBurst() {
 }
 
 /** A line of a breakdown that opens nothing (an item's share, a channel's total): what, a muted line, the figure. */
-export function FigureRow({ title, sub, figure }: { title: ReactNode; sub?: ReactNode; figure?: ReactNode }) {
+export function FigureRow({ title, sub, meta, figure }: { title: ReactNode; sub?: ReactNode; meta?: string[]; figure?: ReactNode }) {
   return (
     <li className="bp-pk-row">
-      <div className="bp-pk-tap" data-static=""><span className="text"><span className="t">{title}</span>{sub && <span className="s">{sub}</span>}</span>{figure}</div>
+      <div className="bp-pk-tap" data-static=""><RowText title={title} sub={sub} meta={meta} />{figure}</div>
     </li>
   )
 }
@@ -559,7 +611,7 @@ export function Greeting({ name, image, children }: { name?: string | null; imag
 export function ProfileHero({ name, detail, role }: { name: string; detail?: string | null; role: string }) {
   return (
     <header className="hero-card bp-pk-hero" data-profile="">
-      <Avatar name={name} size={64} className="ring" />
+      <Avatar calm name={name} size={64} className="ring" />
       <div className="who">
         <h2>{name}</h2>
         {detail && <p className="detail">{detail}</p>}

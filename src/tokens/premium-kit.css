@@ -1,5 +1,5 @@
 /*
- * @blackpaw/ui — premium patterns (v1.25.0, 3 Nov 2026). Components: src/components/PremiumKit.tsx.
+ * @blackpaw/ui — premium patterns (v1.25.0, 3 Nov 2026; v1.25.1 text hierarchy). Components: src/components/PremiumKit.tsx.
  * Spec: docs/PREMIUM_PATTERNS.md. Imported last by tokens/index.css; every rule carries :root (see guardrails.css).
  * Colour comes from the tokens below only. Each one reads the app's own variable first (hakiqa-connect's --pos,
  * --neg, --warn, --hero-identity, --v-*), so an app that defines them keeps its exact look; the fallbacks are the
@@ -39,7 +39,9 @@
 
 :root .bp-pk-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 :root .bp-pk-muted { color: var(--c-muted); }
-:root :is(.bp-pk-tap, .bp-pk-strip-item, .bp-pk-switch, .bp-pk-danger > button, .bp-pk-code) { font: inherit; color: inherit; background: transparent; border: 0; text-decoration: none; text-align: left; cursor: pointer; }
+/* The reset is (0,2,1) because :is() takes its heaviest argument (.bp-pk-danger > button). A rule here that sets font,
+   colour or background on one of these elements itself must be at least as specific (see CodeChip). */
+:root :is(.bp-pk-tap, .bp-pk-strip-item, .bp-pk-switch, .bp-pk-danger > button, .bp-pk-also-row) { font: inherit; color: inherit; background: transparent; border: 0; text-decoration: none; text-align: left; cursor: pointer; }
 
 /* ── Money at strength ─────────────────────────────────────────── */
 :root .bp-pk-figure { display: inline-flex; align-items: baseline; gap: 4px; white-space: nowrap; }
@@ -94,10 +96,25 @@
 :root .bp-pk-lead > .row { display: flex; align-items: flex-start; gap: 12px; }
 :root .bp-pk-lead .text { min-width: 0; flex: 1; }
 :root .bp-pk-lead h2 { margin: 0; font-size: 17px; font-weight: 800; color: var(--c-ink); }
-:root .bp-pk-lead .why { margin-top: 4px; font-size: 15px; color: var(--c-muted); }
+:root .bp-pk-lead .meta { margin: 4px 0 0; padding: 0; list-style: none; }
+:root .bp-pk-lead .meta > li { font-size: 15px; font-weight: 600; line-height: 1.4; color: var(--c-ink); overflow-wrap: anywhere; }
+:root .bp-pk-lead .why { margin-top: 4px; font-size: 15px; font-weight: 500; line-height: 1.4; color: var(--c-muted); }
+:root .bp-pk-lead .meta + .why { margin-top: 8px; }
 :root .bp-pk-lead > .action { margin-top: 16px; }
 :root .bp-pk-lead > .action > * { width: 100%; }
 @media (min-width: 640px) { :root .bp-pk-lead > .action > * { width: auto; } }
+
+/* "Also waiting": other kinds of waiting as tappable count rows, not a sentence. */
+:root .bp-pk-also { margin-top: 16px; }
+:root .bp-pk-also > .head { margin: 0 0 4px; font-size: 13px; font-weight: 700; color: var(--c-muted); }
+:root .bp-pk-also > ul { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--c-border); }
+:root .bp-pk-also-row { display: flex; width: 100%; min-height: 44px; align-items: center; gap: 8px; padding: 0 4px; transition: background-color .15s; }
+:root li + li > .bp-pk-also-row { border-top: 1px solid var(--c-border); }
+:root :is(a, button).bp-pk-also-row:is(:hover, :active) { background: var(--c-selected); }
+:root :is(a, button).bp-pk-also-row:focus-visible { outline: 2px solid var(--c-signal); outline-offset: -2px; }
+:root .bp-pk-also-row > .n { flex: none; min-width: 20px; font-size: 15px; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--c-ink); }
+:root .bp-pk-also-row > .l { min-width: 0; flex: 1; font-size: 15px; font-weight: 500; color: var(--c-ink); overflow-wrap: anywhere; }
+:root .bp-pk-also-row > .chev { flex: none; color: var(--c-muted); }
 
 /* The needs-you dot: the action orange with a soft breathing glow (was hakiqa-connect .hq-led-glow). */
 :root .bp-pk-dot { position: relative; isolation: isolate; flex: none; margin-top: 8px; width: 10px; height: 10px; border-radius: 999px; background: var(--c-action); }
@@ -130,11 +147,14 @@
 :root .bp-pk-list { margin: 0; padding: 0; list-style: none; overflow: hidden; border-radius: 20px; border: 1px solid var(--c-border); background: var(--c-surface); }
 
 /* ── CodeChip: 28 px to the eye, 44 px to the finger ──────────── */
-:root .bp-pk-code { position: relative; display: inline-flex; align-items: center; gap: 6px; min-height: 28px; padding: 0 10px; border-radius: 8px; background: var(--c-sunken); color: var(--c-muted); font-size: 13px; transition: background-color .15s ease; }
+/* v1.25.0 listed the chip in the reset above, whose (0,2,1) outranked `:root .bp-pk-code` (0,2,0): consumers got no
+   sunken fill, no 13 px and an ink label. The chip now carries its own reset at `:root button.bp-pk-code` (0,2,1),
+   above any app button reset short of that weight (`button`, `.app button`, `:root button`). */
+:root button.bp-pk-code { font: inherit; border: 0; text-decoration: none; text-align: left; cursor: pointer; position: relative; display: inline-flex; align-items: center; gap: 6px; min-height: 28px; padding: 0 10px; border-radius: 8px; background: var(--c-sunken); color: var(--c-muted); font-size: 13px; transition: background-color .15s ease; }
 :root .bp-pk-code::before { content: ""; position: absolute; inset: -8px -4px; }
 :root .bp-pk-code:is(:hover, :active) { background: var(--c-selected); }
 :root .bp-pk-code:focus-visible { outline: 2px solid var(--c-signal); outline-offset: 2px; }
-:root .bp-pk-code > .label { font-weight: 700; }
+:root .bp-pk-code > .label { font-weight: 700; color: var(--c-muted); }
 :root .bp-pk-code > .value { font-family: var(--pk-mono); font-weight: 600; letter-spacing: .02em; color: var(--c-ink); }
 
 /* ── ReceiptRow ────────────────────────────────────────────────── */
@@ -150,6 +170,8 @@
 :root .bp-pk-receipt .amt { flex: none; padding-top: 1px; }
 :root .bp-pk-receipt .line2 { margin-top: 2px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 :root .bp-pk-receipt .meta { margin: 0; min-width: 0; font-size: 15px; color: var(--c-muted); }
+:root .bp-pk-receipt .facts { margin: 0; padding: 0; min-width: 0; list-style: none; font-size: 15px; font-weight: 600; color: var(--c-ink); }
+:root .bp-pk-receipt .line2:has(> .facts) { align-items: flex-start; }
 :root .bp-pk-receipt .code { margin-top: 8px; }
 
 /* ── TapRow, PersonCard, FigureRow ─────────────────────────────── */
@@ -159,6 +181,7 @@
 :root li + li > .bp-pk-tap { border-top: 1px solid var(--c-border); }
 :root .bp-pk-tap > .text { min-width: 0; flex: 1; }
 :root .bp-pk-tap .t { display: block; font-size: 17px; font-weight: 800; color: var(--c-ink); overflow-wrap: anywhere; }
+:root .bp-pk-tap .m { display: block; font-size: 15px; font-weight: 600; color: var(--c-ink); overflow-wrap: anywhere; }
 :root .bp-pk-tap .s { display: block; font-size: 15px; color: var(--c-muted); }
 :root .bp-pk-tap > .fig { flex: none; }
 :root .bp-pk-tap > .chev { flex: none; color: var(--c-muted); }

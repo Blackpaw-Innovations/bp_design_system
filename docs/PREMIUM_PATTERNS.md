@@ -1,6 +1,6 @@
 # Premium patterns
 
-**Status:** v1.25.0, 3 Nov 2026. The phone look every Hakiqa vertical builds its screens from. Change it here once;
+**Status:** v1.25.1, 3 Nov 2026 (v1.25.1: text hierarchy, NeedsYouCard slots). The phone look every Hakiqa vertical builds its screens from. Change it here once;
 every app picks it up with its `@blackpaw/ui` pin bump.
 **Code:** `src/components/PremiumKit.tsx` (one implementation per pattern, exported from `@blackpaw/ui`), styles
 `src/tokens/premium-kit.css` (`.bp-pk-*`, imported last by `tokens/index.css`). Examples:
@@ -15,6 +15,50 @@ with what it is measured against. Below it, the screen's single orange action (i
 evidence: quiet white cards of rows grouped by day, each row reading like a receipt. The day ends with a card you can
 send. Everything else stays out of the way. Think Apple Wallet's pass, Revolut's balance, a host's Today tab, in our
 own clothes: Urbanist, navy, Signal Blue, one orange.
+
+## Text hierarchy (every card and row)
+
+Every card and row reads in three levels. A reader sees what matters first without parsing a paragraph.
+
+| Level | What it holds | Size / weight | Colour |
+|---|---|---|---|
+| Heavy | The one thing to act on or the record's name: "1 booking to confirm" | 17/800 | `--c-ink` |
+| Medium | Supporting facts, one per line: "Suite 1 · 3 nights", "9 Nov 2026" | 15/600 | `--c-ink` |
+| Light | Explanation, one full sentence: "Nothing is billed until you confirm." | 15/500 (13/500 in dense rows) | `--c-muted` |
+
+- One fact per line. A component takes facts as `meta: string[]` and renders each on its own line.
+- " · " only joins short labels on one line ("Suite 1 · 3 nights", "14:23 · SO2600134"). Never join different facts
+  into a sentence with it.
+- Secondary items ("also waiting") are tappable count rows (bold count, plain label, chevron, 44 px), not prose.
+- Sentences end with a full stop. Labels, titles and facts do not.
+- The slots enforce it: NeedsYouCard `title` / `meta` / `explanation` / `also`; TapRow, PersonCard and FigureRow
+  `title` / `meta` / `sub`; ReceiptRow `meta` as one label line or an array of facts.
+
+**Don't** (one grey paragraph, everything the same weight):
+
+```tsx
+<NeedsYouCard title="1 booking to confirm" action={<Button variant="primary">Confirm</Button>}>
+  Suite 1 · 9 Nov 2026. Nothing is billed until you confirm. Also: 2 guests have not arrived yet · 4 calendar links
+  are not reading · 2 guests leave today
+</NeedsYouCard>
+```
+
+**Do** (heavy title, medium facts, light sentence, also as rows):
+
+```tsx
+<NeedsYouCard
+  title="1 booking to confirm"
+  meta={['Suite 1 · 3 nights', '9 Nov 2026']}
+  explanation="Nothing is billed until you confirm."
+  action={<Button variant="primary">Confirm</Button>}
+  also={[
+    { count: 2, label: 'guests have not arrived yet', href: '/today?arrivals' },
+    { count: 4, label: 'calendar links are not reading', href: '/settings/calendars' },
+    { count: 2, label: 'guests leave today', href: '/today?departures' },
+  ]}
+  renderLink={link}
+/>
+```
 
 ## House rules (every pattern)
 
@@ -60,6 +104,7 @@ comparison green or red (direction is the arrow); buttons inside the hero (the a
 ### 2. ReceiptRow (proof row)
 
 `<ReceiptRow name avatarKey? amount currency meta code? codeLabel? status? fresh? freshLabel? as? rowProps? />` inside a DayGroup.
+`meta` is one short label line (string) or facts one per line (`string[]`, medium 15/600 ink).
 
 - Left: `<Avatar calm>` (initials, colour pair from the name). Never a silhouette.
 - `fresh` (from `useArrivals(ids, ready)`): a receipt that lands while the screen is open slides in from 8 px above
@@ -83,13 +128,20 @@ comparison green or red (direction is the arrow); buttons inside the hero (the a
 
 ### 4. NeedsYouCard
 
-`<NeedsYouCard title action>why</NeedsYouCard>`
+`<NeedsYouCard title meta? explanation? also? alsoTitle? action renderLink? />` with
+`NeedsYouAlso { count, label, href?, onClick? }`
 
 - White card, radius 20. A 10 px orange dot with a soft breathing glow (still under reduced motion) before the title.
-- Title 17/800 says the count and the thing: "1 payment needs a person". One line of why, 15 muted.
+- `title` (heavy, 17/800) says the count and the thing: "1 payment needs a person". No full stop.
+- `meta` (medium, 15/600 ink): the facts, one per line ("Suite 1 · 3 nights", "9 Nov 2026"). No full stops.
+- `explanation` (light, 15/500 muted): one full sentence of why, ending in a full stop.
 - The action is the screen's orange `<Button variant="primary">`, full width on a phone, verb first, at most three words.
+- `also`: the other kinds of waiting, under a small "Also waiting" label (13/700 muted; `alsoTitle` renames it), as
+  44 px rows with hairlines: bold count (15/800), plain label (15/500), chevron when the row has `href` or `onClick`.
+  Below the action, so the card's main job stays first. Never a sentence of "Also: …".
 - Only when something is waiting. Directly under the hero. Never more than one per screen; several kinds of waiting
-  become one card, most urgent first.
+  become one card, the most urgent as the title and the rest in `also`.
+- `children` still renders as the light line for v1.25.0 callers. New code uses the slots.
 
 ### 5. DayCloseCard
 
@@ -121,7 +173,9 @@ comparison green or red (direction is the arrow); buttons inside the hero (the a
 
 ### 8. TapRow (list-to-detail affordance)
 
-`<TapRow href?|onClick? renderLink? title sub? figure? leading? label? after? tour? id? glow? />` inside a DayGroup or RowGroup.
+`<TapRow href?|onClick? renderLink? title meta? sub? figure? leading? label? after? tour? id? glow? />` inside a DayGroup or RowGroup.
+
+- Words in three levels: `title` heavy (17/800), `meta` facts one per line (15/600 ink), `sub` light (15 muted). PersonCard and FigureRow take the same `meta`.
 
 - The whole row is the target (min 56 px), chevron right (18, muted), press state `--c-selected`, focus ring Signal
   Blue inside the row.
@@ -191,14 +245,14 @@ comparison green or red (direction is the arrow); buttons inside the hero (the a
 
 ### 15. FigureRow (a breakdown line)
 
-`<FigureRow title sub? figure? />` inside a DayGroup or RowGroup.
+`<FigureRow title meta? sub? figure? />` inside a DayGroup or RowGroup.
 
 - A line that opens nothing and is not a receipt: an item's share, a channel's total. Title 17/800, one muted line,
   the figure on the right (`<MoneyFigure size={17}>`). Min 56 px, hairlines, no chevron, no avatar.
 
 ### 16. PersonCard (a person with one job)
 
-`<PersonCard name avatarKey? sub figure? chips? action? onOpen title? leading? tour? as? rowProps? />` inside a DayGroup.
+`<PersonCard name avatarKey? sub? meta? figure? chips? action? onOpen title? leading? tour? as? rowProps? />` inside a DayGroup.
 
 - The top is one button that opens the person (calm avatar 40, name 17/800, line 2 in desk words, money at strength
   or a green "Paid", chevron).
@@ -271,7 +325,7 @@ comparison green or red (direction is the arrow); buttons inside the hero (the a
 
 `<ProfileHero name detail? role />`
 
-- The account page's one navy moment, as a pass: the DS Avatar at 64 px with a white 30 % ring, the name 28/800, how
+- The account page's one navy moment, as a pass: the DS `Avatar calm` at 64 px (no orange or red pair) with a white 30 % ring, the name 28/800, how
   they are reached (15, white), what they may do as a white 15 % chip ("Manager, Owner"). Replaces the page title.
 
 ### 25. The small parts
@@ -315,6 +369,8 @@ The screen must read the same with all motion off. Layout and exit motion for li
 | One navy hero with the one number, big | A title that repeats the hero |
 | "KES 36,000 more than yesterday by 14:30", when proven | "+12% vs last week" from a partial list |
 | The amount at 20/800 with a 13 px muted currency | All text the same 15 px weight |
+| Title heavy, facts one per line, one light sentence | Facts strung into a grey paragraph with " · " |
+| "Also waiting" as count rows you can tap | "Also: 2 guests … · 4 links …" as prose |
 | The code in a quiet mono chip that copies | The code as a third grey text line nobody can use |
 | One white card per day, hairlines between rows | A card per row; shadows; gradients |
 | One orange button, in the NeedsYouCard | Orange anywhere else; orange text |
