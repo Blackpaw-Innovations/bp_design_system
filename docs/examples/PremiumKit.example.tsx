@@ -3,12 +3,12 @@
  * (docs/PREMIUM_PATTERNS.md). Figures are sample values; real screens compute every number from loaded data.
  */
 import {
-  Button, CaredEmpty, CodeChip, CountHero, DangerAction, DayCloseCard, DayGroup, DoneNote, Greeting, MoneyFigure, MoneyHero,
+  Button, CaredEmpty, HubCard, CodeChip, CountHero, DangerAction, DayCloseCard, DayGroup, DoneNote, Greeting, MoneyFigure, MoneyHero,
   NeedsYouCard, PersonCard, ProfileHero, ReceiptCard, ReceiptRow, RowGroup, SelectableRow, SettingsItem, SettingsList, SwitchRow, TapRow,
   TimeRow, TintChip, InitialsTile, formatMoney, useArrivals, whatsAppLink, ButtonLink,
 } from '@blackpaw/ui'
 import { Link } from 'react-router-dom'
-import { Trash2 } from 'lucide-react'
+import { Trash2, Wallet, ClipboardList } from 'lucide-react'
 import { useState } from 'react'
 import hakiWaving from '@blackpaw/ui/assets/brand/hakiqa/mascot/haki-waving.png'
 
@@ -79,6 +79,25 @@ export function OrdersExample({ onSend }: { onSend: (ids: number[]) => void }) {
         ))}
       </RowGroup>
       {picked.length > 0 && <Button variant="primary" onClick={() => onSend(picked)}>Send {picked.length} to the supplier</Button>}
+    </>
+  )
+}
+
+/** A hub page: one HubCard per screen; a card with work waiting glows and says "2 need you". Lists use chips and empty. */
+export function HubExample({ requests }: { requests: { id: number; customer: string; part: string; urgent: boolean }[] }) {
+  return (
+    <>
+      <div style={{ display: 'grid', gap: 16 }}>
+        <HubCard href="/payments" renderLink={link} icon={Wallet} title="Payments" line="Money in, money owed" figure="KES 16,500 to collect" />
+        <HubCard href="/requests" renderLink={link} icon={ClipboardList} title="Part requests" line="Website and walk-in requests" waiting={requests.length} />
+      </div>
+      <RowGroup title="Open requests" aside={requests.length}
+        empty={<CaredEmpty image={hakiWaving} title="Website requests land here">A request shows the moment a customer sends it.</CaredEmpty>}>
+        {requests.map((r) => (
+          <TapRow key={r.id} href={`/requests/${r.id}`} renderLink={link} title={r.customer} meta={[r.part]}
+            chips={r.urgent ? [<TintChip key="u">Urgent</TintChip>] : undefined} />
+        ))}
+      </RowGroup>
     </>
   )
 }

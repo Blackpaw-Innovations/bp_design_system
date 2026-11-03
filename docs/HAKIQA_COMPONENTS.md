@@ -3,7 +3,7 @@
 **Status:** proposed 10 Oct 2026 (round 2, after Marvin's feedback on Tiers 1–3). Applies to every Hakiqa vertical.
 **Lives at:** `bp_design_system/docs/HAKIQA_COMPONENTS.md`. `HAKIQA_APP_STANDARDS.md` §17 points here.
 **Code:** `@blackpaw/ui` (`src/components/*`, styles `src/tokens/components.v17.css`, imported last by `tokens/index.css`).
-**Phone screens:** the premium patterns (MoneyHero, ReceiptRow, NeedsYouCard, DayCloseCard, TapRow, SettingsList …) are specified in [`PREMIUM_PATTERNS.md`](PREMIUM_PATTERNS.md) (v1.25.2).
+**Phone screens:** the premium patterns (MoneyHero, ReceiptRow, NeedsYouCard, DayCloseCard, TapRow, SettingsList …) are specified in [`PREMIUM_PATTERNS.md`](PREMIUM_PATTERNS.md) (v1.25.3).
 **Reference renders:** `Hakiqa Components Tier 1/2/3.dc.html`, `Hakiqa Components Round 2 Feedback.dc.html` (R1–R7), `Hakiqa Components Round 2 Workflows.dc.html` (W1–W6). Every render has Light, Warm and Dark.
 
 Rules that apply to all of them: 44 px minimum targets, 16 px input text, labels 15 px weight 700, sentence case, tokens only (no hex in pages), one primary per view, a 2 px Signal Blue focus ring, Escape closes layers and focus returns. **Below 640 px every picker, menu and dialog is a bottom sheet** (`useIsPhone`).

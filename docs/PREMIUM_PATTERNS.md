@@ -1,6 +1,6 @@
 # Premium patterns
 
-**Status:** v1.25.2, 3 Nov 2026 (v1.25.1: text hierarchy, NeedsYouCard slots; v1.25.2: SelectableRow, MoneyHero `title`, one money format). The phone look every Hakiqa vertical builds its screens from. Change it here once;
+**Status:** v1.25.3, 3 Nov 2026 (v1.25.1: text hierarchy, NeedsYouCard slots; v1.25.2: SelectableRow, MoneyHero `title`, one money format; v1.25.3: HubCard + LED glow, TapRow `chips`, RowGroup `empty`, CodeChip `data-hit-44`). The phone look every Hakiqa vertical builds its screens from. Change it here once;
 every app picks it up with its `@blackpaw/ui` pin bump.
 **Code:** `src/components/PremiumKit.tsx` (one implementation per pattern, exported from `@blackpaw/ui`), styles
 `src/tokens/premium-kit.css` (`.bp-pk-*`, imported last by `tokens/index.css`). Examples:
@@ -171,12 +171,17 @@ comparison green or red (direction is the arrow); buttons inside the hero (the a
 `<CodeChip label? value />`
 
 - 28 px tall, radius 8, `--c-sunken`, label 13/700 muted ("M-Pesa"), value in mono 13/600 ink, copy icon.
-- Tap copies; the icon turns to a check for 1.6 s and a polite live region says "Copied". 44 px hit area via `::before`.
+- Tap copies; the icon turns to a check for 1.6 s and a polite live region says "Copied".
+- 44 px hit area: a padded absolute `::after` (`inset: -8px -4px`, so 28 + 16 = 44 px tall), and the button carries
+  `data-hit-44`. A phone checker that measures tap targets should accept either: hakiqa-connect's
+  `scripts/lib/phoneFacts.mjs` already adds a padded absolute `::after` to the box; a checker that does not can skip
+  `[data-hit-44]` (`e.matches('[data-hit-44]')`). Any app control drawn small with its own 44 px pad may use the same
+  attribute, only when the pad is really there.
 - For every machine code a person may read out or paste: M-Pesa codes, bank refs, record refs. Never decoration.
 
 ### 8. TapRow (list-to-detail affordance)
 
-`<TapRow href?|onClick? renderLink? title meta? sub? figure? leading? label? after? tour? id? glow? />` inside a DayGroup or RowGroup.
+`<TapRow href?|onClick? renderLink? title meta? chips? sub? figure? leading? label? after? tour? id? glow? />` inside a DayGroup or RowGroup.
 
 - Words in three levels: `title` heavy (17/800), `meta` facts one per line (15/600 ink), `sub` light (15 muted). PersonCard and FigureRow take the same `meta`.
 
@@ -187,6 +192,8 @@ comparison green or red (direction is the arrow); buttons inside the hero (the a
 - `after`: at most one quick action (quiet, never orange) under the row and outside its target.
 - With neither `href` nor `onClick` it renders as a plain row: no chevron, no press state (a reader without rights).
 - Only rows that open something get a chevron.
+- `chips`: status TintChips ("Urgent", "Overdue") in one wrapping line under the meta lines. Never in the title,
+  never in `figure` (the figure keeps the money). SelectableRow takes the same `chips`.
 - `id` and `glow`: a row just made or confirmed is scrolled to and lit (see "Moments after a change").
 
 ### 8a. SelectableRow (pick some, open one)
@@ -250,6 +257,8 @@ Do: SelectableRow when a screen has a bulk action. Don't: a checkbox inside a Ta
 
 - RowGroup is DayGroup for lists that do not grow while you look. CardSection is the same heading over one white
   card of free content (a history, a note).
+- `empty`: what shows under the title when there are no rows (no children, or an empty array), usually a
+  `<CaredEmpty>` saying what will land here. Without `empty`, an empty RowGroup renders nothing.
 
 ### 13. DoneCard (the small celebration)
 
@@ -360,6 +369,21 @@ Do: SelectableRow when a screen has a bulk action. Don't: a checkbox inside a Ta
 - MoneyFigure: currency 13/700 muted, figure 20/800 (17 in dense lists) `tabular-nums`; a dash with no amount.
 - TintChip: one short state, 13/700 on a tint: `warn` what still needs doing, `pos` good news, `plain` a neutral fact.
 
+### 26. HubCard (hub and Home app tiles)
+
+`<HubCard href renderLink? icon title line figure? waiting? signal? variant? label? tour? />`
+
+- One tile per hub screen or app: icon (44 px badge), title 17/800, one plain line 15 muted, an optional `figure`
+  ("KES 16,500 to collect", "2 due") at 15/700 ink. The whole tile is one link, min 150 px tall.
+- `waiting` > 0: a warn TintChip "2 need you" at the foot and the LED glow, a thin ring of action orange and signal
+  blue running round the tile (`.bp-pk-led`, 3.2 s spin; stands still, still visible, under reduced motion).
+  Only from a real count of work waiting on that screen.
+- `signal="dot"`: the breathing needs-you dot instead of the ring (Gym standards §6).
+- `variant="tile"`: the Home app tile, identity fill (`--bp-hub-fill`, default the hero navy; set it on a parent for
+  another identity depth), white text, a 16 % ghost icon; the chip turns white 15 %.
+- `.bp-pk-led` is generic (it replaces hakiqa-connect `.hq-led-tile-glow`): any tile with a real background may carry
+  it. Colours via `--bp-led-c1/c2/c3` (an app's `--hq-led-c1..3` still apply).
+
 ### Money (one format, every vertical)
 
 Every amount on every vertical is written the same way: **`KES 15,000`**. ISO code, a space, comma thousands, decimals
@@ -399,8 +423,9 @@ DoneNote.
 | CheckBurst | ring 0.7 to 1 and fades in; the tick draws | 600 ms; tick 450 ms from 150 ms |
 | Presses | background colour only | 150 ms |
 | A row just made or confirmed | info tint held then faded | 2 s ease-out; still tint under reduced motion |
+| HubCard with work waiting (`.bp-pk-led`) | a thin ring runs round the tile | 3.2 s linear loop; still ring under reduced motion |
 
-Nothing else moves: no entrance on first paint, no bouncing, no parallax, no spinning. Under
+Nothing else moves: no entrance on first paint, no bouncing, no parallax, no spinning (the hub LED ring is the one kept exception, Marvin 19 Oct). Under
 `prefers-reduced-motion: reduce` the figure shows its final value at once and every animation above stands still.
 The screen must read the same with all motion off. Layout and exit motion for list rows is the app's choice
 (`as` / `rowProps`); the DS itself ships CSS only.

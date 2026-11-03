@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState, type ElementType, type ReactNode } from 'react'
+import { Children, useEffect, useId, useRef, useState, type ElementType, type ReactNode } from 'react'
 import { ArrowDownRight, ArrowUpRight, Check, ChevronRight, Copy, Equal, MessageCircle, Sparkles } from 'lucide-react'
 import { cn, type IconComponent } from '../lib/utils'
 import { whatsAppLink } from '../lib/whatsapp'
@@ -9,7 +9,7 @@ import { Select } from './Select'
 import { timeSlots } from './DatePicker'
 
 /**
- * Premium patterns (v1.25.0, 3 Nov 2026; v1.25.1 text hierarchy; v1.25.2 SelectableRow, MoneyHero title, one money format): the phone look every Hakiqa vertical builds its screens from.
+ * Premium patterns (v1.25.0, 3 Nov 2026; v1.25.1 text hierarchy; v1.25.2 SelectableRow, MoneyHero title, one money format; v1.25.3 HubCard, TapRow chips, RowGroup empty, CodeChip hit area): the phone look every Hakiqa vertical builds its screens from.
  * Spec: docs/PREMIUM_PATTERNS.md. Styles: tokens/premium-kit.css (`.bp-pk-*`). First built for Stay in hakiqa-connect.
  * One navy hero per screen, receipts as proof rows inside one quiet card per day, one "needs you" card that owns the
  * screen's orange action, a day-close card that shares to WhatsApp. Nothing here knows a domain: it is given names,
@@ -314,12 +314,17 @@ export function DayGroup({ title, aside, children }: { title: string; aside?: Re
   )
 }
 
-/** A titled group of TapRows in one quiet card, for lists that do not grow while you look. */
-export function RowGroup({ title, aside, children }: { title?: string; aside?: ReactNode; children: ReactNode }) {
+/**
+ * A titled group of TapRows in one quiet card, for lists that do not grow while you look. With no rows (nothing, or an
+ * empty array) it shows `empty` instead of the card, usually a CaredEmpty; without `empty` an empty group renders nothing.
+ */
+export function RowGroup({ title, aside, empty, children }: { title?: string; aside?: ReactNode; empty?: ReactNode; children?: ReactNode }) {
+  const none = Children.toArray(children).length === 0
+  if (none && !empty) return null
   return (
     <section className="bp-pk-group" aria-label={title}>
       {title && <GroupHead title={title} aside={aside} />}
-      <ul className="bp-pk-list">{children}</ul>
+      {none ? empty : <ul className="bp-pk-list">{children}</ul>}
     </section>
   )
 }
@@ -334,12 +339,15 @@ export function CardSection({ title, aside, children }: { title: string; aside?:
   )
 }
 
-/** A reference code (M-Pesa, bank, order) as a quiet mono chip; tapping copies it and says so. 44 px hit area, 28 px chip. */
+/**
+ * A reference code (M-Pesa, bank, order) as a quiet mono chip; tapping copies it and says so. 28 px chip, 44 px hit area
+ * drawn by a padded absolute `::after`; `data-hit-44` marks it for phone checkers (docs/PREMIUM_PATTERNS.md §7).
+ */
 export function CodeChip({ label, value }: { label?: string; value: string }) {
   const [copied, setCopied] = useState(false)
   useEffect(() => { if (!copied) return; const t = window.setTimeout(() => setCopied(false), 1600); return () => window.clearTimeout(t) }, [copied])
   return (
-    <button type="button" className="bp-pk-code" aria-label={`Copy ${label ? `${label} code ` : ''}${value}`}
+    <button type="button" className="bp-pk-code" data-hit-44="" aria-label={`Copy ${label ? `${label} code ` : ''}${value}`}
       onClick={() => { void navigator.clipboard?.writeText(value).then(() => setCopied(true)).catch(() => undefined) }}>
       {label && <span className="label">{label}</span>}
       <span className="value">{value}</span>
@@ -381,21 +389,22 @@ export function ReceiptRow({ name, avatarKey, amount, currency, meta, code, code
 }
 
 /** A row's words: title heavy, `meta` facts one per line (medium), `sub` light. */
-function RowText({ title, sub, meta, titleId }: { title: ReactNode; sub?: ReactNode; meta?: string[]; titleId?: string }) {
+function RowText({ title, sub, meta, chips, titleId }: { title: ReactNode; sub?: ReactNode; meta?: string[]; chips?: ReactNode[]; titleId?: string }) {
   return (
     <span className="text">
       <span className="t" id={titleId}>{title}</span>
       {meta?.map((line, i) => <span key={i} className="m">{line}</span>)}
+      {chips && chips.length > 0 && <span className="chips">{chips.map((chip, i) => <span key={i}>{chip}</span>)}</span>}
       {sub && <span className="s">{sub}</span>}
     </span>
   )
 }
 
 /** The inside of a row that opens something: leading (avatar), title, meta and sub, a figure, the chevron (only if it opens). */
-function TapBody({ title, sub, meta, figure, leading, opens = true, titleId }: { title: ReactNode; sub?: ReactNode; meta?: string[]; figure?: ReactNode; leading?: ReactNode; opens?: boolean; titleId?: string }) {
+function TapBody({ title, sub, meta, chips, figure, leading, opens = true, titleId }: { title: ReactNode; sub?: ReactNode; meta?: string[]; chips?: ReactNode[]; figure?: ReactNode; leading?: ReactNode; opens?: boolean; titleId?: string }) {
   return (<>
     {leading}
-    <RowText title={title} sub={sub} meta={meta} titleId={titleId} />
+    <RowText title={title} sub={sub} meta={meta} chips={chips} titleId={titleId} />
     {figure && <span className="fig">{figure}</span>}
     {opens && <ChevronRight size={18} aria-hidden="true" className="chev" />}
   </>)
@@ -406,13 +415,14 @@ function TapBody({ title, sub, meta, figure, leading, opens = true, titleId }: {
  * (through `renderLink` for an app router); `onClick` opens a sheet and keeps the scroll. `after` is the row's one quick
  * action, under the row and outside its target. With neither it is the same row without the chevron or press state.
  * `id` lets a screen scroll to it; `glow` lights it for 2 s after it was just made or changed.
- * `meta`: facts one per line (15/600 ink) under the title; `sub` stays the light line.
+ * `meta`: facts one per line (15/600 ink) under the title; `sub` stays the light line. `chips`: status TintChips in a
+ * wrapping line under the meta lines (never in the title, never in `figure`, which keeps the money).
  */
-export function TapRow({ href, onClick, renderLink, title, sub, meta, figure, leading, label, after, tour, id, glow }: {
-  href?: string; onClick?: () => void; renderLink?: RenderLink; title: ReactNode; sub?: ReactNode; meta?: string[]; figure?: ReactNode; leading?: ReactNode; label?: string; after?: ReactNode; tour?: string
+export function TapRow({ href, onClick, renderLink, title, sub, meta, chips, figure, leading, label, after, tour, id, glow }: {
+  href?: string; onClick?: () => void; renderLink?: RenderLink; title: ReactNode; sub?: ReactNode; meta?: string[]; chips?: ReactNode[]; figure?: ReactNode; leading?: ReactNode; label?: string; after?: ReactNode; tour?: string
   id?: string; glow?: boolean
 }) {
-  const body = <TapBody title={title} sub={sub} meta={meta} figure={figure} leading={leading} opens={Boolean(href || onClick)} />
+  const body = <TapBody title={title} sub={sub} meta={meta} chips={chips} figure={figure} leading={leading} opens={Boolean(href || onClick)} />
   return (
     <li id={id} className={cn('bp-pk-row', glow && 'bp-pk-glow')}>
       {href ? <LinkOrA href={href} renderLink={renderLink} aria-label={label} data-tour={tour} className="bp-pk-tap">{body}</LinkOrA>
@@ -430,16 +440,16 @@ export function TapRow({ href, onClick, renderLink, title, sub, meta, figure, le
  * The checkbox is a native input named by the row's title (`aria-labelledby`), or by `selectLabel` when the title alone
  * is ambiguous ("Pick SO2600134"). A picked row sits on the info tint. `disabled` holds the checkbox only.
  */
-export function SelectableRow({ selected, onSelectedChange, selectLabel, disabled, href, onClick, renderLink, title, sub, meta, figure, leading, label, tour, id, glow }: {
+export function SelectableRow({ selected, onSelectedChange, selectLabel, disabled, href, onClick, renderLink, title, sub, meta, chips, figure, leading, label, tour, id, glow }: {
   selected: boolean; onSelectedChange: (next: boolean) => void; selectLabel?: string; disabled?: boolean
-  href?: string; onClick?: () => void; renderLink?: RenderLink; title: ReactNode; sub?: ReactNode; meta?: string[]; figure?: ReactNode; leading?: ReactNode; label?: string; tour?: string
+  href?: string; onClick?: () => void; renderLink?: RenderLink; title: ReactNode; sub?: ReactNode; meta?: string[]; chips?: ReactNode[]; figure?: ReactNode; leading?: ReactNode; label?: string; tour?: string
   id?: string; glow?: boolean
 }) {
   const uid = useId()
   const inputId = `${uid}-pick`
   const titleId = `${uid}-title`
   const opens = Boolean(href || onClick)
-  const body = <TapBody title={title} sub={sub} meta={meta} figure={figure} leading={leading} opens={opens} titleId={titleId} />
+  const body = <TapBody title={title} sub={sub} meta={meta} chips={chips} figure={figure} leading={leading} opens={opens} titleId={titleId} />
   return (
     <li id={id} className={cn('bp-pk-row bp-pk-select', glow && 'bp-pk-glow')} data-selected={selected || undefined}>
       <label className="pick" htmlFor={inputId}>
@@ -481,6 +491,34 @@ export function PersonCard({ name, avatarKey, title, leading, sub, meta, figure,
 /** A small state chip: `warn` what still needs doing, `pos` good news, `plain` a neutral fact. */
 export function TintChip({ tone = 'warn', children }: { tone?: 'warn' | 'pos' | 'plain'; children: ReactNode }) {
   return <span className="bp-pk-chip" data-tone={tone}>{children}</span>
+}
+
+/**
+ * A hub or app tile (vertical Home, domain hub pages): icon, title (17/800), one plain line, an optional figure
+ * ("KES 16,500 to collect") and, when `waiting` > 0, a "2 need you" chip and the LED glow (a spinning ring, still under
+ * reduced motion). `signal="dot"` swaps the glow for the breathing needs-you dot (Gym standards §6).
+ * `variant="tile"`: the Home app tile, identity fill (`--bp-hub-fill`, default the hero navy) with a ghost icon.
+ * The whole tile is one link (`href`, through `renderLink` for an app router).
+ */
+export function HubCard({ href, renderLink, icon: Icon, title, line, figure, waiting = 0, signal = 'glow', variant = 'card', label, tour }: {
+  href: string; renderLink?: RenderLink; icon: IconComponent; title: string; line: ReactNode; figure?: ReactNode
+  waiting?: number; signal?: 'glow' | 'dot'; variant?: 'card' | 'tile'; label?: string; tour?: string
+}) {
+  const lit = waiting > 0
+  return (
+    <LinkOrA href={href} renderLink={renderLink} aria-label={label} data-tour={tour}
+      className={cn('bp-pk-hub', variant === 'tile' && 'bp-pk-hub-tile', lit && signal === 'glow' && 'bp-pk-led')}>
+      {variant === 'tile' && <span className="ghost" aria-hidden="true"><Icon size={144} /></span>}
+      <span className="top">
+        <span className="icon" aria-hidden="true"><Icon size={20} /></span>
+        {lit && signal === 'dot' && <span className="bp-pk-dot" aria-hidden="true" />}
+      </span>
+      <span className="t">{title}</span>
+      <span className="s">{line}</span>
+      {figure && <span className="fig">{figure}</span>}
+      {lit && <span className="foot"><span className="bp-pk-chip" data-tone="warn">{waiting} need{waiting === 1 ? 's' : ''} you</span></span>}
+    </LinkOrA>
+  )
 }
 
 /** A real arrival or departure: a check that draws itself in a soft ring, 600 ms, once. Reduced motion: finished at once. */
