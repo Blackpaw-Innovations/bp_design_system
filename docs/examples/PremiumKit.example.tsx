@@ -27,9 +27,10 @@ export function MoneyInExample({ onReview }: { onReview: () => void }) {
       <MoneyHero amount={16500} currency="KES" caption="in today from 2 payments"
         compare={{ direction: 'up', text: 'KES 3,500 more than yesterday by 14:30' }} renderLink={link}
         stats={[{ key: 'n', label: 'Payments today', value: 2 }, { key: 'c', label: 'To confirm', value: 1, href: '/money?state=matched' }]} />
-      <NeedsYouCard title="1 payment needs a person" action={<Button variant="primary" onClick={onReview}>Look at it</Button>}>
-        We could not match it to one order safely, so nothing was guessed.
-      </NeedsYouCard>
+      <NeedsYouCard title="1 payment needs a person" meta={['KES 4,500 from Brian Otieno', 'Today 11:02']}
+        explanation="We could not match it to one order safely, so nothing was guessed."
+        action={<Button variant="primary" onClick={onReview}>Look at it</Button>} renderLink={link}
+        also={[{ count: 2, label: 'orders to collect today', href: '/orders?today' }, { count: 1, label: 'refund to approve', href: '/refunds' }]} />
       <DayGroup title="Today" aside="KES 16,500">
         {receipts.map((r) => (
           <ReceiptRow key={r.id} name={r.name} amount={r.amount} currency="KES" meta={r.meta} code={r.code} codeLabel="M-Pesa"
@@ -47,7 +48,7 @@ export function ListExample({ onOpen }: { onOpen: (id: string) => void }) {
     <>
       <CountHero count={5} caption="of 17 bays free today" chip="Next: Grace at 15:00" progress={{ done: 3, total: 7, label: '3 of 7 done' }} />
       <RowGroup title="Branches">
-        <TapRow href="/branches/1" renderLink={link} leading={<InitialsTile name="Westlands" filled={0.6} />} title="Westlands" sub="12 of 20 booked" figure={<MoneyFigure amount={84000} currency="KES" size={17} />} />
+        <TapRow href="/branches/1" renderLink={link} leading={<InitialsTile name="Westlands" filled={0.6} />} title="Westlands" meta={['12 of 20 booked', 'Open until 21:00']} figure={<MoneyFigure amount={84000} currency="KES" size={17} />} />
         <TapRow onClick={() => onOpen('2')} title="Karen" sub="Nothing booked yet" glow />
       </RowGroup>
       <DayGroup title="Collecting today">

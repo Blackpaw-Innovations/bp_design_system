@@ -84,10 +84,10 @@ export type { ButtonProps, ButtonLinkProps, ButtonVariant, ButtonSize, IconButto
 export { SnapshotCarousel } from './components/SnapshotCarousel'
 export type { SnapshotCarouselProps, SnapshotPage, SnapshotCard, SnapshotChart, SnapshotTone } from './components/SnapshotCarousel'
 
-// Premium patterns (v1.25.0, 3 Nov 2026): the phone look for every vertical. docs/PREMIUM_PATTERNS.md, tokens/premium-kit.css
+// Premium patterns (v1.25.0, 3 Nov 2026; v1.25.1 text hierarchy): the phone look for every vertical. docs/PREMIUM_PATTERNS.md, tokens/premium-kit.css
 export {
   useCountUp, useArrivals, moneyParts, MoneyFigure, StatStrip, MoneyHero, CountHero, DoneCard, DoneNote, DangerAction, InitialsTile,
   NeedsYouCard, DayGroup, RowGroup, CardSection, CodeChip, ReceiptRow, TapRow, PersonCard, TintChip, CheckBurst, FigureRow,
   DayCloseCard, ReceiptCard, CaredEmpty, SettingsList, SettingsItem, SwitchRow, TimeRow, greetingFor, Greeting, ProfileHero,
 } from './components/PremiumKit'
-export type { RenderLink, StatStripItem, HeroComparison, SlipLine } from './components/PremiumKit'
+export type { RenderLink, StatStripItem, HeroComparison, SlipLine, NeedsYouAlso } from './components/PremiumKit'
