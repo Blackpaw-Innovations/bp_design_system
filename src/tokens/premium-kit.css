@@ -1,5 +1,5 @@
 /*
- * @blackpaw/ui — premium patterns (v1.25.0, 3 Nov 2026; v1.25.1 text hierarchy; v1.25.2 SelectableRow). Components: src/components/PremiumKit.tsx.
+ * @blackpaw/ui — premium patterns (v1.25.0, 3 Nov 2026; v1.25.1 text hierarchy; v1.25.2 SelectableRow; v1.25.3 HubCard + LED glow). Components: src/components/PremiumKit.tsx.
  * Spec: docs/PREMIUM_PATTERNS.md. Imported last by tokens/index.css; every rule carries :root (see guardrails.css).
  * Colour comes from the tokens below only. Each one reads the app's own variable first (hakiqa-connect's --pos,
  * --neg, --warn, --hero-identity, --v-*), so an app that defines them keeps its exact look; the fallbacks are the
@@ -151,7 +151,9 @@
    sunken fill, no 13 px and an ink label. The chip now carries its own reset at `:root button.bp-pk-code` (0,2,1),
    above any app button reset short of that weight (`button`, `.app button`, `:root button`). */
 :root button.bp-pk-code { font: inherit; border: 0; text-decoration: none; text-align: left; cursor: pointer; position: relative; display: inline-flex; align-items: center; gap: 6px; min-height: 28px; padding: 0 10px; border-radius: 8px; background: var(--c-sunken); color: var(--c-muted); font-size: 13px; transition: background-color .15s ease; }
-:root .bp-pk-code::before { content: ""; position: absolute; inset: -8px -4px; }
+/* The hit area is a padded absolute ::after (8 px over and under the 28 px chip = 44 px), the shape hakiqa-connect's
+   phone check (scripts/lib/phoneFacts.mjs) already measures; `data-hit-44` on the button says so for any other checker. */
+:root .bp-pk-code::after { content: ""; position: absolute; inset: -8px -4px; }
 :root .bp-pk-code:is(:hover, :active) { background: var(--c-selected); }
 :root .bp-pk-code:focus-visible { outline: 2px solid var(--c-signal); outline-offset: 2px; }
 :root .bp-pk-code > .label { font-weight: 700; color: var(--c-muted); }
@@ -183,6 +185,7 @@
 :root .bp-pk-tap .t { display: block; font-size: 17px; font-weight: 800; color: var(--c-ink); overflow-wrap: anywhere; }
 :root .bp-pk-tap .m { display: block; font-size: 15px; font-weight: 600; color: var(--c-ink); overflow-wrap: anywhere; }
 :root .bp-pk-tap .s { display: block; font-size: 15px; color: var(--c-muted); }
+:root .bp-pk-tap .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
 :root .bp-pk-tap > .fig { flex: none; }
 :root .bp-pk-tap > .chev { flex: none; color: var(--c-muted); }
 :root .bp-pk-row > .after { margin-top: -4px; display: flex; flex-wrap: wrap; gap: 8px; padding: 0 16px 12px; }
@@ -269,9 +272,39 @@
 :root .bp-pk-greeting .t { display: block; font-size: 17px; font-weight: 800; color: var(--c-ink); }
 :root .bp-pk-greeting .s { display: block; font-size: 15px; color: var(--c-muted); }
 
+/* ── HubCard: the hub / Home app tile ──────────────────────────── */
+:root .bp-pk-hub { position: relative; display: flex; flex-direction: column; gap: 4px; min-height: 150px; padding: 20px; border-radius: 20px; border: 1px solid var(--c-border); background: var(--c-surface); color: var(--c-ink); text-decoration: none; transition: transform .2s var(--pk-ease), background-color .15s; }
+:root .bp-pk-hub:hover { transform: translateY(-2px); }
+:root .bp-pk-hub:active { background: var(--c-selected); }
+:root .bp-pk-hub:focus-visible { outline: 2px solid var(--c-signal); outline-offset: 2px; }
+:root .bp-pk-hub > .top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+:root .bp-pk-hub .icon { display: grid; place-items: center; flex: none; width: 44px; height: 44px; border-radius: 14px; background: var(--pk-hero); color: var(--pk-on-hero); }
+:root .bp-pk-hub > .t { font-size: 17px; font-weight: 800; line-height: 1.3; overflow-wrap: anywhere; }
+:root .bp-pk-hub > .s { font-size: 15px; line-height: 1.4; color: var(--c-muted); overflow-wrap: anywhere; }
+:root .bp-pk-hub > .fig { font-size: 15px; font-weight: 700; color: var(--c-ink); font-variant-numeric: tabular-nums; }
+:root .bp-pk-hub > .foot { margin-top: auto; padding-top: 8px; }
+:root .bp-pk-hub-tile { overflow: hidden; border: 0; background: var(--bp-hub-fill, var(--pk-hero)); color: var(--pk-on-hero); }
+:root .bp-pk-hub-tile:active { background: var(--bp-hub-fill, var(--pk-hero)); }
+:root .bp-pk-hub-tile > .ghost { position: absolute; right: -24px; top: -32px; opacity: .16; transform: rotate(-10deg); pointer-events: none; }
+:root .bp-pk-hub-tile .icon { background: var(--pk-on-hero-fill); }
+:root .bp-pk-hub-tile > :is(.s, .fig) { color: var(--pk-on-hero); }
+:root .bp-pk-hub-tile .bp-pk-chip { background: var(--pk-on-hero-fill); color: var(--pk-on-hero); }
+
+/* LED glow (was hakiqa-connect .hq-led-tile-glow): a thin spinning ring for a tile that owns work waiting on you.
+   ::before is a large rotating conic square behind the tile, ::after a fill of the tile's own background inset by the
+   ring width, so only a 3 px sliver shows and an overflow:hidden host (ghost icon) cannot clip it away. The host needs a
+   real background (::after inherits it). Colours: --bp-led-c1/c2/c3 (an app's --hq-led-c1..3 still apply), default
+   action orange, signal blue, action orange. Generic: any tile may carry `bp-pk-led`. */
+:root .bp-pk-led { position: relative; isolation: isolate; overflow: hidden; }
+:root .bp-pk-led::before { content: ""; position: absolute; inset: -120%; z-index: -2; pointer-events: none; background: conic-gradient(from 0deg, var(--bp-led-c1, var(--hq-led-c1, var(--c-action))), var(--bp-led-c2, var(--hq-led-c2, var(--c-signal))), var(--bp-led-c3, var(--hq-led-c3, var(--c-action))), var(--bp-led-c1, var(--hq-led-c1, var(--c-action)))); animation: bp-pk-spin 3.2s linear infinite; }
+:root .bp-pk-led::after { content: ""; position: absolute; inset: 3px; z-index: -1; border-radius: inherit; pointer-events: none; background: inherit; }
+@keyframes bp-pk-spin { to { transform: rotate(360deg); } }
+
 /* Reduced motion: the figure lands at once (useCountUp), and nothing here moves. */
 @media (prefers-reduced-motion: reduce) {
-  :root .bp-pk-dot::before, :root :is(.bp-pk-pop, .bp-pk-burst, .bp-pk-burst > path, .bp-pk-receipt[data-fresh]) { animation: none; }
+  :root :is(.bp-pk-dot, .bp-pk-led)::before, :root :is(.bp-pk-pop, .bp-pk-burst, .bp-pk-burst > path, .bp-pk-receipt[data-fresh]) { animation: none; }
   :root .bp-pk-glow { animation: none; background-color: var(--pk-info-tint); }
   :root .bp-pk-progress > .track > div { transition: none; }
+  :root .bp-pk-hub { transition: none; }
+  :root .bp-pk-hub:hover { transform: none; }
 }
