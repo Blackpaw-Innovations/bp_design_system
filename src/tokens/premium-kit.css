@@ -1,5 +1,5 @@
 /*
- * @blackpaw/ui — premium patterns (v1.25.0, 3 Nov 2026; v1.25.1 text hierarchy). Components: src/components/PremiumKit.tsx.
+ * @blackpaw/ui — premium patterns (v1.25.0, 3 Nov 2026; v1.25.1 text hierarchy; v1.25.2 SelectableRow). Components: src/components/PremiumKit.tsx.
  * Spec: docs/PREMIUM_PATTERNS.md. Imported last by tokens/index.css; every rule carries :root (see guardrails.css).
  * Colour comes from the tokens below only. Each one reads the app's own variable first (hakiqa-connect's --pos,
  * --neg, --warn, --hero-identity, --v-*), so an app that defines them keeps its exact look; the fallbacks are the
@@ -189,6 +189,21 @@
 :root .bp-pk-person-foot { margin: -4px 0 0 4px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 0 16px 12px 64px; }
 :root .bp-pk-person-foot > .chips { display: flex; flex-wrap: wrap; flex-basis: 100%; min-width: 0; gap: 6px; }
 :root .bp-pk-person-foot > .act { margin-left: auto; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+
+/* ── SelectableRow: a 44 px checkbox beside the row's own target ── */
+:root .bp-pk-select { display: flex; align-items: stretch; transition: background-color .15s; }
+:root li + li.bp-pk-select { border-top: 1px solid var(--c-border); }
+:root li + li.bp-pk-select > .bp-pk-tap { border-top: 0; }
+:root .bp-pk-select[data-selected] { background: var(--pk-info-tint); }
+:root .bp-pk-select > .pick { position: relative; flex: none; display: flex; align-items: center; justify-content: center; width: 44px; min-height: 44px; margin-left: 8px; cursor: pointer; }
+:root .bp-pk-select > .pick > input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+:root .bp-pk-select > .pick > input:checked + .bp-box { background: var(--c-signal); border-color: var(--c-signal); color: var(--pk-on-hero); }
+:root .bp-pk-select > .pick > input:focus-visible + .bp-box { outline: 2px solid var(--c-signal); outline-offset: 2px; }
+:root .bp-pk-select > .pick > input:disabled { cursor: not-allowed; }
+:root .bp-pk-select > .pick > input:disabled + .bp-box { opacity: .45; }
+:root .bp-pk-select > .bp-pk-tap { flex: 1; min-width: 0; padding-left: 8px; }
+:root label.bp-pk-tap[data-picks] { cursor: pointer; }
+:root label.bp-pk-tap[data-picks]:is(:hover, :active) { background: var(--c-selected); }
 
 /* A row just made or confirmed: the info tint held, then faded over 2 s. */
 :root .bp-pk-glow { animation: bp-pk-glow 2s ease-out both; }

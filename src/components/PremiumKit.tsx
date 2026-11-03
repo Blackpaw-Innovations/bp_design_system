@@ -1,15 +1,15 @@
-import { useEffect, useRef, useState, type ElementType, type ReactNode } from 'react'
+import { useEffect, useId, useRef, useState, type ElementType, type ReactNode } from 'react'
 import { ArrowDownRight, ArrowUpRight, Check, ChevronRight, Copy, Equal, MessageCircle, Sparkles } from 'lucide-react'
 import { cn, type IconComponent } from '../lib/utils'
 import { whatsAppLink } from '../lib/whatsapp'
-import { formatMoney } from '../lib/format'
+import { formatMoney, moneyParts } from '../lib/format'
 import { Avatar, initials } from './Data'
 import { ButtonLink } from './Guarded'
 import { Select } from './Select'
 import { timeSlots } from './DatePicker'
 
 /**
- * Premium patterns (v1.25.0, 3 Nov 2026; v1.25.1 text hierarchy): the phone look every Hakiqa vertical builds its screens from.
+ * Premium patterns (v1.25.0, 3 Nov 2026; v1.25.1 text hierarchy; v1.25.2 SelectableRow, MoneyHero title, one money format): the phone look every Hakiqa vertical builds its screens from.
  * Spec: docs/PREMIUM_PATTERNS.md. Styles: tokens/premium-kit.css (`.bp-pk-*`). First built for Stay in hakiqa-connect.
  * One navy hero per screen, receipts as proof rows inside one quiet card per day, one "needs you" card that owns the
  * screen's orange action, a day-close card that shares to WhatsApp. Nothing here knows a domain: it is given names,
@@ -81,20 +81,13 @@ export function useArrivals<T extends string | number>(ids: T[], ready: boolean)
   return fresh
 }
 
-/** Currency code and figure apart, for an amount that gets its own emphasis. Whole amounts drop the ".00". */
-export function moneyParts(amount: number | null | undefined, currency?: string | null): { currency: string | null; figure: string } | null {
-  if (amount == null || Number.isNaN(amount)) return null
-  const whole = Number.isInteger(amount)
-  return { currency: currency ?? null, figure: new Intl.NumberFormat('en-KE', { minimumFractionDigits: whole ? 0 : 2, maximumFractionDigits: 2 }).format(amount) }
-}
-
 /** Money at strength: currency 13/700 muted, figure 20/800 (17 in dense lists) tabular. A dash when there is no amount. */
 export function MoneyFigure({ amount, currency, size = 20 }: { amount: number | null | undefined; currency?: string | null; size?: 17 | 20 }) {
   const parts = moneyParts(amount, currency)
   if (!parts) return <span className="bp-pk-muted">—</span>
   return (
     <span className="bp-pk-figure" data-size={size}>
-      <span className="cur">{parts.currency}</span>
+      <span className="cur">{parts.sign}{parts.currency}</span>
       <span className="num">{parts.figure}</span>
     </span>
   )
@@ -128,17 +121,20 @@ export interface HeroComparison { direction: 'up' | 'down' | 'same' | 'new'; tex
 
 /**
  * The screen's one big number in money, on the navy hero card. The figure counts up on first show and on every
- * change; `floor` says "At least" when the total is a lower bound. `compare` says what it is measured against (only
+ * change; `floor` says "At least" when the total is a lower bound. `title` names the record on a detail screen (as on
+ * CountHero); a list screen leaves it out. `compare` says what it is measured against (only
  * when that is known for sure). `stats` is a StatStrip on navy along the bottom.
  */
-export function MoneyHero({ amount, currency, caption, floor, compare, stats, renderLink, children }: {
-  amount: number; currency?: string | null; caption: string; floor?: boolean; compare?: HeroComparison | null; stats?: StatStripItem[]; renderLink?: RenderLink; children?: ReactNode
+export function MoneyHero({ title, amount, currency, caption, floor, compare, stats, renderLink, children }: {
+  title?: string; amount: number; currency?: string | null; caption: string; floor?: boolean; compare?: HeroComparison | null; stats?: StatStripItem[]; renderLink?: RenderLink; children?: ReactNode
 }) {
   const shown = useCountUp(amount)
-  const parts = moneyParts(Number.isInteger(amount) ? Math.round(shown) : shown, currency)
+  // The counting figure keeps the final value's decimals, so it never gains or drops ".00" mid-count.
+  const decimals = moneyParts(amount, currency)?.figure.includes('.') ? 2 : 0
+  const parts = moneyParts(decimals ? shown : Math.round(shown), currency, { decimals })
   return (
-    <HeroCard spoken={`${floor ? 'At least ' : ''}${formatMoney(amount, currency)} ${caption}`} floor={floor} caption={caption} compare={compare} stats={stats} renderLink={renderLink}
-      figure={<><span className="cur">{parts?.currency}</span><span className="num">{parts?.figure}</span></>}>
+    <HeroCard title={title} spoken={`${floor ? 'At least ' : ''}${formatMoney(amount, currency)} ${caption}`} floor={floor} caption={caption} compare={compare} stats={stats} renderLink={renderLink}
+      figure={<><span className="cur">{parts?.sign}{parts?.currency}</span><span className="num">{parts?.figure}</span></>}>
       {children}
     </HeroCard>
   )
@@ -385,10 +381,10 @@ export function ReceiptRow({ name, avatarKey, amount, currency, meta, code, code
 }
 
 /** A row's words: title heavy, `meta` facts one per line (medium), `sub` light. */
-function RowText({ title, sub, meta }: { title: ReactNode; sub?: ReactNode; meta?: string[] }) {
+function RowText({ title, sub, meta, titleId }: { title: ReactNode; sub?: ReactNode; meta?: string[]; titleId?: string }) {
   return (
     <span className="text">
-      <span className="t">{title}</span>
+      <span className="t" id={titleId}>{title}</span>
       {meta?.map((line, i) => <span key={i} className="m">{line}</span>)}
       {sub && <span className="s">{sub}</span>}
     </span>
@@ -396,10 +392,10 @@ function RowText({ title, sub, meta }: { title: ReactNode; sub?: ReactNode; meta
 }
 
 /** The inside of a row that opens something: leading (avatar), title, meta and sub, a figure, the chevron (only if it opens). */
-function TapBody({ title, sub, meta, figure, leading, opens = true }: { title: ReactNode; sub?: ReactNode; meta?: string[]; figure?: ReactNode; leading?: ReactNode; opens?: boolean }) {
+function TapBody({ title, sub, meta, figure, leading, opens = true, titleId }: { title: ReactNode; sub?: ReactNode; meta?: string[]; figure?: ReactNode; leading?: ReactNode; opens?: boolean; titleId?: string }) {
   return (<>
     {leading}
-    <RowText title={title} sub={sub} meta={meta} />
+    <RowText title={title} sub={sub} meta={meta} titleId={titleId} />
     {figure && <span className="fig">{figure}</span>}
     {opens && <ChevronRight size={18} aria-hidden="true" className="chev" />}
   </>)
@@ -423,6 +419,37 @@ export function TapRow({ href, onClick, renderLink, title, sub, meta, figure, le
         : onClick ? <button type="button" aria-label={label} data-tour={tour} onClick={onClick} className="bp-pk-tap">{body}</button>
         : <div className="bp-pk-tap" data-static="">{body}</div>}
       {after && <div className="after">{after}</div>}
+    </li>
+  )
+}
+
+/**
+ * A TapRow you can also pick (bulk actions: send these orders, pay these bills). Two targets side by side: a 44 px
+ * checkbox on the left, OUTSIDE the row's target, picks; the rest of the row opens the record (`href` / `onClick`,
+ * chevron) exactly like TapRow. With neither, the whole row picks (a label for the checkbox, no chevron).
+ * The checkbox is a native input named by the row's title (`aria-labelledby`), or by `selectLabel` when the title alone
+ * is ambiguous ("Pick SO2600134"). A picked row sits on the info tint. `disabled` holds the checkbox only.
+ */
+export function SelectableRow({ selected, onSelectedChange, selectLabel, disabled, href, onClick, renderLink, title, sub, meta, figure, leading, label, tour, id, glow }: {
+  selected: boolean; onSelectedChange: (next: boolean) => void; selectLabel?: string; disabled?: boolean
+  href?: string; onClick?: () => void; renderLink?: RenderLink; title: ReactNode; sub?: ReactNode; meta?: string[]; figure?: ReactNode; leading?: ReactNode; label?: string; tour?: string
+  id?: string; glow?: boolean
+}) {
+  const uid = useId()
+  const inputId = `${uid}-pick`
+  const titleId = `${uid}-title`
+  const opens = Boolean(href || onClick)
+  const body = <TapBody title={title} sub={sub} meta={meta} figure={figure} leading={leading} opens={opens} titleId={titleId} />
+  return (
+    <li id={id} className={cn('bp-pk-row bp-pk-select', glow && 'bp-pk-glow')} data-selected={selected || undefined}>
+      <label className="pick" htmlFor={inputId}>
+        <input id={inputId} type="checkbox" checked={selected} disabled={disabled} onChange={(e) => onSelectedChange(e.target.checked)}
+          aria-label={selectLabel} aria-labelledby={selectLabel ? undefined : titleId} />
+        <span className="bp-box" aria-hidden="true">{selected && <Check size={16} strokeWidth={3} />}</span>
+      </label>
+      {href ? <LinkOrA href={href} renderLink={renderLink} aria-label={label} data-tour={tour} className="bp-pk-tap">{body}</LinkOrA>
+        : onClick ? <button type="button" aria-label={label} data-tour={tour} onClick={onClick} className="bp-pk-tap">{body}</button>
+        : <label htmlFor={inputId} data-tour={tour} className="bp-pk-tap" data-picks="">{body}</label>}
     </li>
   )
 }

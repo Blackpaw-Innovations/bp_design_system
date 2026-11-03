@@ -1,5 +1,5 @@
 /**
- * The only money and date formatters apps should use (ruled 9 Oct 2026).
+ * The only money and date formatters apps should use (ruled 9 Oct 2026; v1.25.2: moneyParts is the same format in parts).
  *   formatMoney(92000)        -> "KES 92,000"
  *   formatMoney(42.1)         -> "KES 42.10"
  *   formatMoney(-350)         -> "−KES 350"
@@ -23,12 +23,25 @@ export function normaliseCurrency(code?: string | null): string {
   return c === 'KSH' || c === 'KSHS' ? 'KES' : c
 }
 
-export function formatMoney(amount: number | null | undefined, currency?: string | null, opts: MoneyOptions = {}): string {
-  if (amount == null || Number.isNaN(amount)) return '—'
+/** An amount split for display: `sign` ("−" or ""), the ISO `currency` label and the unsigned `figure`. */
+export interface MoneyParts { sign: '' | '−'; currency: string; figure: string }
+
+/**
+ * The one money format, in parts, for a figure that gets its own emphasis (MoneyFigure, MoneyHero). formatMoney is
+ * these parts joined, so a hero, a row and a sentence always agree. Currency: ISO, "KSh"/"Ksh"/"KShs" become "KES",
+ * missing means KES. Null for no amount (show a dash).
+ */
+export function moneyParts(amount: number | null | undefined, currency?: string | null, opts: MoneyOptions = {}): MoneyParts | null {
+  if (amount == null || Number.isNaN(amount)) return null
   const cents = Math.round(Math.abs(amount) * 100) % 100
   const decimals = opts.decimals === undefined || opts.decimals === 'auto' ? (cents === 0 ? 0 : 2) : opts.decimals
-  const body = Math.abs(amount).toLocaleString('en-KE', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })
-  return `${amount < 0 ? '−' : ''}${normaliseCurrency(currency)} ${body}`
+  const figure = Math.abs(amount).toLocaleString('en-KE', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })
+  return { sign: amount < 0 && figure !== '0' ? '−' : '', currency: normaliseCurrency(currency), figure }
+}
+
+export function formatMoney(amount: number | null | undefined, currency?: string | null, opts: MoneyOptions = {}): string {
+  const p = moneyParts(amount, currency, opts)
+  return p ? `${p.sign}${p.currency} ${p.figure}` : '—'
 }
 
 export function isDateOnly(value: unknown): boolean {

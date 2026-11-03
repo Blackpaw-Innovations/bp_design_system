@@ -18,7 +18,8 @@
     "check:experience": "node scripts/check-experience-contract.mjs",
     "check:consumer": "node scripts/check-consumer-conformance.mjs",
     "check:layout": "node scripts/check-component-layout.mjs",
-    "check:brand-assets": "node scripts/check-brand-assets.mjs"
+    "check:brand-assets": "node scripts/check-brand-assets.mjs",
+    "check:money": "node scripts/check-money-format.mjs"
   },
   "files": [
     "src",
