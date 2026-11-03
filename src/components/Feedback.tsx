@@ -230,7 +230,8 @@ export function HakiTip({ mascotSrc, placement = 'inline', title, children, acti
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 4 }}>
         {title && <p style={{ margin: 0, fontSize: 17, fontWeight: 800, color: 'var(--c-ink)' }}>{title}</p>}
         <div className="bp-help" style={{ fontSize: 15 }}>{children}</div>
-        <div style={{ display: 'flex', gap: 4, marginLeft: -10 }}>{action && <Button variant="tertiary" onClick={action.onClick}>{action.label}</Button>}<Button variant="tertiary" onClick={onDismiss}>Got it</Button></div>
+        {/* Real quiet buttons, not text: a dismiss that looks like a link reads as no button at all (Marvin, 30 Oct). */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 8 }}>{action && <Button variant="quiet" onClick={action.onClick}>{action.label}</Button>}<Button variant="quiet" onClick={onDismiss}>Got it</Button></div>
       </div>
     </div>
   )

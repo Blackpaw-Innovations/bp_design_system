@@ -9,7 +9,7 @@ import { Select } from './Select'
 import { timeSlots } from './DatePicker'
 
 /**
- * Premium patterns (v1.25.0, 3 Nov 2026; v1.25.1 text hierarchy; v1.25.2 SelectableRow, MoneyHero title, one money format; v1.25.3 HubCard, TapRow chips, RowGroup empty, CodeChip hit area; v1.25.4 FilterFold): the phone look every Hakiqa vertical builds its screens from.
+ * Premium patterns (v1.25.0, 3 Nov 2026; v1.25.1 text hierarchy; v1.25.2 SelectableRow, MoneyHero title, one money format; v1.25.3 HubCard, TapRow chips, RowGroup empty, CodeChip hit area; v1.25.4 FilterFold; v1.25.5 CountHero tick, HakiTip quiet buttons): the phone look every Hakiqa vertical builds its screens from.
  * Spec: docs/PREMIUM_PATTERNS.md. Styles: tokens/premium-kit.css (`.bp-pk-*`). First built for Stay in hakiqa-connect.
  * One navy hero per screen, receipts as proof rows inside one quiet card per day, one "needs you" card that owns the
  * screen's orange action, a day-close card that shares to WhatsApp. Nothing here knows a domain: it is given names,
@@ -146,15 +146,15 @@ export function MoneyHero({ title, amount, currency, caption, floor, compare, st
  * caption, never coloured text. `headline` replaces the figure when the day's job is done ("Everyone is in.") with a
  * calm check; `progress` is a thin white bar (3 of 7 done).
  */
-export function CountHero({ title, count = 0, caption, floor, headline, chip, progress, stats, renderLink, children }: {
-  title?: string; count?: number; caption: string; floor?: boolean; headline?: string; chip?: ReactNode
+export function CountHero({ title, count = 0, caption, floor, headline, tick = true, chip, progress, stats, renderLink, children }: {
+  title?: string; count?: number; caption: string; floor?: boolean; headline?: string; tick?: boolean; chip?: ReactNode
   progress?: { done: number; total: number; label: string }; stats?: StatStripItem[]; renderLink?: RenderLink; children?: ReactNode
 }) {
   const shown = Math.round(useCountUp(count))
   const share = progress && progress.total > 0 ? Math.min(1, progress.done / progress.total) : 0
   const figure = headline ? (
     <span className="bp-pk-headline">
-      <span className="tick"><Check size={24} strokeWidth={2.5} /></span>
+      {tick && <span className="tick"><Check size={24} strokeWidth={2.5} /></span>}
       <span>{headline}</span>
     </span>
   ) : <span className="num">{shown.toLocaleString('en-KE')}</span>
