@@ -239,7 +239,7 @@ Do: SelectableRow when a screen has a bulk action. Don't: a checkbox inside a Ta
 
 ### 11. CountHero (a count instead of money)
 
-`<CountHero title? count caption floor? headline? chip? progress? stats? renderLink?>children</CountHero>`
+`<CountHero title? count caption floor? headline? tick? chip? progress? stats? renderLink?>children</CountHero>`
 
 - MoneyHero's card for a count: figure 44/800, no currency, counts up the same way; the caption (17/600) says what is
   counted and against what: "of 17 free tonight", "jobs for today", "to collect today, 2 late".
@@ -248,7 +248,8 @@ Do: SelectableRow when a screen has a bulk action. Don't: a checkbox inside a Ta
 - `progress` `{ done, total, label }`: a thin white bar on white 20 % with its words above ("3 of 7 done"). Only from
   loaded records.
 - `headline` replaces the figure when the day's job is done: a calm check in a white 15 % circle and the words at
-  28/800 ("Everyone is in."). Never confetti.
+  28/800 ("Everyone is in."). Never confetti. `tick={false}` (v1.25.5) drops the check, for a figure that is already
+  formatted and is not a done state ("KES 8.4M", vertical Home).
 - `children`: a small picture of the figure, white on navy only.
 
 ### 12. RowGroup and CardSection
