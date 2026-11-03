@@ -253,11 +253,16 @@ export function initials(name: string) {
   const w = name.trim().split(/\s+/).filter(Boolean)
   return ((w[0]?.[0] ?? '') + (w[1]?.[0] ?? '')).toUpperCase() || '?'
 }
-function pairFor(key: string) { let h = 0; for (const ch of key) h = (h * 31 + ch.charCodeAt(0)) % 997; return AVATAR_PAIRS[h % 6] }
+/** The calm pairs (blue, cyan, navy, green): no orange (the screen's one action) and no red (a warning). */
+const CALM_PAIRS = AVATAR_PAIRS.filter((_, i) => i !== 2 && i !== 3)
+function pairFor(key: string, calm?: boolean) { let h = 0; for (const ch of key) h = (h * 31 + ch.charCodeAt(0)) % 997; return calm ? CALM_PAIRS[h % CALM_PAIRS.length] : AVATAR_PAIRS[h % 6] }
 
-/** 24 tables and chips · 32 cards and groups · 40 rows and AppTop · 64 profile. Photo when uploaded, else initials. Never a silhouette. */
-export function Avatar({ name, id, src, size = 40, className }: { name: string; id?: string; src?: string; size?: AvatarSize; className?: string }) {
-  const [bg, ink] = pairFor(id ?? name)
+/**
+ * 24 tables and chips · 32 cards and groups · 40 rows and AppTop · 64 profile. Photo when uploaded, else initials. Never a silhouette.
+ * `calm` (v1.25, premium patterns): a person never wears the action orange or the warning red. Same name, same colour.
+ */
+export function Avatar({ name, id, src, size = 40, className, calm }: { name: string; id?: string; src?: string; size?: AvatarSize; className?: string; calm?: boolean }) {
+  const [bg, ink] = pairFor(id ?? name, calm)
   return (
     <span className={cn('bp-avatar', className)} style={{ width: size, height: size, background: src ? 'var(--c-sunken)' : bg, color: ink, fontSize: FONT[size] }} aria-hidden="true">
       {src ? <img src={src} alt="" /> : initials(name)}

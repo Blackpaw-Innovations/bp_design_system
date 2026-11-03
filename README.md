@@ -82,6 +82,7 @@ Laid out like the Brand Kit folder (`Documents\Brand Kit`). Same numbers, same o
 | Colours, spacing, motion tokens | `src/tokens/` |
 | One switch for a look across every app (role tokens: card, button, input, chip, hero, vertical family) | `src/tokens/roles.css` |
 | React components | `src/components/` |
+| Premium patterns: the phone look for every vertical (hero, receipts, needs-you card, day close, settings rows) | [`docs/PREMIUM_PATTERNS.md`](docs/PREMIUM_PATTERNS.md), `src/components/PremiumKit.tsx`, `src/tokens/premium-kit.css`, example `docs/examples/PremiumKit.example.tsx` |
 | Fonts | `font-library/` |
 | Checks (`npm run check:brand`, `check:experience`) | `scripts/`, `conformance/` |
 | Old handoffs and decision records | `docs/history/`, `docs/brand/history/` |

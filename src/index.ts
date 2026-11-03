@@ -66,7 +66,7 @@ export type { BadgeTier, BadgeCategory, TierMeta } from './badges/tokens'
 
 // Utilities
 export { cn } from './lib/utils'
-export { BLACKPAW_SUPPORT_PHONE, buildWhatsAppUrl } from './lib/whatsapp'
+export { BLACKPAW_SUPPORT_PHONE, buildWhatsAppUrl, whatsAppLink } from './lib/whatsapp'
 export { formatMoney, formatDate, formatDateTime, formatPeriod, normaliseCurrency, isDateOnly } from './lib/format'
 export type { MoneyOptions } from './lib/format'
 
@@ -83,3 +83,11 @@ export type { ButtonProps, ButtonLinkProps, ButtonVariant, ButtonSize, IconButto
 // Home snapshot (2026-10-09, standards §5a)
 export { SnapshotCarousel } from './components/SnapshotCarousel'
 export type { SnapshotCarouselProps, SnapshotPage, SnapshotCard, SnapshotChart, SnapshotTone } from './components/SnapshotCarousel'
+
+// Premium patterns (v1.25.0, 3 Nov 2026): the phone look for every vertical. docs/PREMIUM_PATTERNS.md, tokens/premium-kit.css
+export {
+  useCountUp, useArrivals, moneyParts, MoneyFigure, StatStrip, MoneyHero, CountHero, DoneCard, DoneNote, DangerAction, InitialsTile,
+  NeedsYouCard, DayGroup, RowGroup, CardSection, CodeChip, ReceiptRow, TapRow, PersonCard, TintChip, CheckBurst, FigureRow,
+  DayCloseCard, ReceiptCard, CaredEmpty, SettingsList, SettingsItem, SwitchRow, TimeRow, greetingFor, Greeting, ProfileHero,
+} from './components/PremiumKit'
+export type { RenderLink, StatStripItem, HeroComparison, SlipLine } from './components/PremiumKit'
