@@ -1,15 +1,15 @@
 import { Children, useEffect, useId, useRef, useState, type ElementType, type ReactNode } from 'react'
-import { ArrowDownRight, ArrowUpRight, Check, ChevronRight, Copy, Equal, MessageCircle, Sparkles } from 'lucide-react'
+import { ArrowDownRight, ArrowUpRight, Check, ChevronRight, Copy, Equal, MessageCircle, SlidersHorizontal, Sparkles } from 'lucide-react'
 import { cn, type IconComponent } from '../lib/utils'
 import { whatsAppLink } from '../lib/whatsapp'
 import { formatMoney, moneyParts } from '../lib/format'
 import { Avatar, initials } from './Data'
-import { ButtonLink } from './Guarded'
+import { Button, ButtonLink } from './Guarded'
 import { Select } from './Select'
 import { timeSlots } from './DatePicker'
 
 /**
- * Premium patterns (v1.25.0, 3 Nov 2026; v1.25.1 text hierarchy; v1.25.2 SelectableRow, MoneyHero title, one money format; v1.25.3 HubCard, TapRow chips, RowGroup empty, CodeChip hit area): the phone look every Hakiqa vertical builds its screens from.
+ * Premium patterns (v1.25.0, 3 Nov 2026; v1.25.1 text hierarchy; v1.25.2 SelectableRow, MoneyHero title, one money format; v1.25.3 HubCard, TapRow chips, RowGroup empty, CodeChip hit area; v1.25.4 FilterFold): the phone look every Hakiqa vertical builds its screens from.
  * Spec: docs/PREMIUM_PATTERNS.md. Styles: tokens/premium-kit.css (`.bp-pk-*`). First built for Stay in hakiqa-connect.
  * One navy hero per screen, receipts as proof rows inside one quiet card per day, one "needs you" card that owns the
  * screen's orange action, a day-close card that shares to WhatsApp. Nothing here knows a domain: it is given names,
@@ -683,5 +683,24 @@ export function ProfileHero({ name, detail, role }: { name: string; detail?: str
         <p className="bp-pk-pill">{role}</p>
       </div>
     </header>
+  )
+}
+
+/**
+ * A register's filters on a phone (v1.25.4): folded behind one quiet outline button (44 px, SlidersHorizontal icon,
+ * "Filters" / "Hide filters") so the list, not a stack of selects, is what the screen shows first. Stays open while
+ * any filter is set (`active`). From md (768 px) up the button is gone and the children always show.
+ */
+export function FilterFold({ active = false, label = 'Filters', hideLabel = 'Hide filters', children }: { active?: boolean; label?: string; hideLabel?: string; children: ReactNode }) {
+  const [open, setOpen] = useState(false)
+  const shown = open || active
+  const bodyId = useId()
+  return (
+    <div className="bp-pk-fold" data-open={shown || undefined}>
+      <div className="toggle">
+        <Button variant="quiet" icon={SlidersHorizontal} aria-expanded={shown} aria-controls={bodyId} onClick={() => setOpen(!shown)}>{shown ? hideLabel : label}</Button>
+      </div>
+      <div id={bodyId} className="body">{children}</div>
+    </div>
   )
 }
