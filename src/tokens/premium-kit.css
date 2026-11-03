@@ -1,0 +1,239 @@
+/*
+ * @blackpaw/ui — premium patterns (v1.25.0, 3 Nov 2026). Components: src/components/PremiumKit.tsx.
+ * Spec: docs/PREMIUM_PATTERNS.md. Imported last by tokens/index.css; every rule carries :root (see guardrails.css).
+ * Colour comes from the tokens below only. Each one reads the app's own variable first (hakiqa-connect's --pos,
+ * --neg, --warn, --hero-identity, --v-*), so an app that defines them keeps its exact look; the fallbacks are the
+ * Hakiqa values, light and dark.
+ */
+:root {
+  --pk-hero: var(--hero-identity, var(--identity, #032053));
+  --pk-hero-edge: var(--border-subtle, rgba(255, 255, 255, .18));
+  --pk-on-hero: #ffffff;
+  --pk-on-hero-fill: rgba(255, 255, 255, .15);
+  --pk-on-hero-hover: rgba(255, 255, 255, .10);
+  --pk-on-hero-line: rgba(255, 255, 255, .20);
+  --pk-on-hero-ring: rgba(255, 255, 255, .30);
+  --pk-pos: var(--pos, var(--v-pos, #16865a));
+  --pk-pos-bg: var(--pos-bg, var(--v-pos-tint, #d7f2e3));
+  --pk-pos-solid: var(--v-pos, #16865a);
+  --pk-pos-tint: var(--v-pos-tint, rgba(22, 134, 90, .12));
+  --pk-warn: var(--warn, var(--v-warn, #ad6200));
+  --pk-warn-bg: var(--warn-bg, var(--v-warn-tint, #fde8c8));
+  --pk-neg: var(--neg, var(--v-crit, #c53b43));
+  --pk-neg-bg: var(--neg-bg, var(--v-crit-tint, #fbdcdc));
+  --pk-info-tint: var(--v-info-tint, rgba(42, 111, 218, .12));
+  --pk-mono: ui-monospace, "JetBrains Mono", "SFMono-Regular", Menlo, monospace;
+  --pk-ease: cubic-bezier(.16, 1, .3, 1);
+}
+:root[data-theme="dark"] {
+  --pk-pos: var(--pos, var(--v-pos, #4fd18b));
+  --pk-pos-bg: var(--pos-bg, var(--v-pos-tint, rgba(79, 209, 139, .14)));
+  --pk-pos-solid: var(--v-pos, #4fd18b);
+  --pk-pos-tint: var(--v-pos-tint, rgba(79, 209, 139, .14));
+  --pk-warn: var(--warn, var(--v-warn, #f2b76a));
+  --pk-warn-bg: var(--warn-bg, var(--v-warn-tint, rgba(242, 183, 106, .14)));
+  --pk-neg: var(--neg, var(--v-crit, #f07f86));
+  --pk-neg-bg: var(--neg-bg, var(--v-crit-tint, rgba(240, 127, 134, .14)));
+  --pk-info-tint: var(--v-info-tint, rgba(91, 147, 240, .14));
+}
+
+:root .bp-pk-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+:root .bp-pk-muted { color: var(--c-muted); }
+:root :is(.bp-pk-tap, .bp-pk-strip-item, .bp-pk-switch, .bp-pk-danger > button, .bp-pk-code) { font: inherit; color: inherit; background: transparent; border: 0; text-decoration: none; text-align: left; cursor: pointer; }
+
+/* ── Money at strength ─────────────────────────────────────────── */
+:root .bp-pk-figure { display: inline-flex; align-items: baseline; gap: 4px; white-space: nowrap; }
+:root .bp-pk-figure > .cur { font-size: 13px; font-weight: 700; color: var(--c-muted); }
+:root .bp-pk-figure > .num { font-size: 20px; font-weight: 800; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; color: var(--c-ink); }
+:root .bp-pk-figure[data-size="17"] > .num { font-size: 17px; }
+
+/* ── Hero (MoneyHero, CountHero, ProfileHero) on the incumbent .hero-card ── */
+:root .bp-pk-hero { margin-bottom: 16px; border-radius: 28px; padding: 24px 20px 16px; background: var(--pk-hero); color: var(--pk-on-hero); }
+:root[data-theme="dark"] .bp-pk-hero { border: 1px solid var(--pk-hero-edge); }
+:root .bp-pk-hero > .title { margin: 0 0 12px; font-size: 20px; font-weight: 800; line-height: 1.25; overflow-wrap: anywhere; }
+:root .bp-pk-hero h1 { margin: 0; font-size: inherit; font-weight: inherit; }
+:root .bp-pk-hero .body { display: block; }
+:root .bp-pk-hero .floor { display: block; margin-bottom: 4px; font-size: 15px; font-weight: 700; }
+:root .bp-pk-hero .figure { display: flex; align-items: baseline; gap: 8px; }
+:root .bp-pk-hero .figure > .cur { font-size: 17px; font-weight: 800; }
+:root .bp-pk-hero .figure > .num { font-size: 44px; font-weight: 800; line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+:root .bp-pk-hero .caption { display: block; margin-top: 8px; font-size: 17px; font-weight: 600; }
+:root .bp-pk-hero > .stats { margin-top: 20px; }
+:root .bp-pk-pill { margin: 12px 0 0; display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 12px; border-radius: 999px; background: var(--pk-on-hero-fill); color: var(--pk-on-hero); font-size: 13px; font-weight: 700; }
+:root .bp-pk-pill[data-chip] { max-width: 100%; border-radius: 16px; padding: 6px 12px; line-height: 1.375; }
+:root .bp-pk-headline { display: flex; align-items: center; gap: 12px; font-size: 28px; font-weight: 800; line-height: 1.25; }
+:root .bp-pk-headline > .tick { display: grid; place-items: center; flex: none; width: 44px; height: 44px; border-radius: 999px; background: var(--pk-on-hero-fill); }
+:root .bp-pk-progress { margin-top: 16px; }
+:root .bp-pk-progress > p { margin: 0; font-size: 13px; font-weight: 700; }
+:root .bp-pk-progress > .track { margin-top: 6px; height: 6px; overflow: hidden; border-radius: 999px; background: var(--pk-on-hero-line); }
+:root .bp-pk-progress > .track > div { height: 100%; border-radius: 999px; background: var(--pk-on-hero); transition: width 700ms; }
+:root .bp-pk-hero[data-profile] { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; padding: 24px 20px; }
+:root .bp-pk-hero[data-profile] > .ring { flex: none; box-shadow: 0 0 0 2px var(--pk-on-hero-ring); }
+:root .bp-pk-hero[data-profile] > .who { min-width: 0; }
+:root .bp-pk-hero[data-profile] h2 { margin: 0; font-size: 28px; font-weight: 800; line-height: 1.25; letter-spacing: -0.02em; color: var(--pk-on-hero); overflow-wrap: anywhere; }
+:root .bp-pk-hero[data-profile] .detail { margin: 4px 0 0; font-size: 15px; color: var(--pk-on-hero); overflow-wrap: anywhere; }
+
+/* ── StatStrip ─────────────────────────────────────────────────── */
+:root .bp-pk-strip { display: grid; gap: 8px; margin: 0; padding-top: 12px; border-top: 1px solid var(--c-border); }
+:root .bp-pk-strip[data-navy] { border-top-color: var(--pk-on-hero-line); }
+:root .bp-pk-strip-item { display: flex; flex-direction: column; justify-content: center; min-width: 0; min-height: 44px; padding: 4px 0; }
+:root :is(a, button).bp-pk-strip-item { margin: 0 -4px; padding: 4px; border-radius: 12px; transition: background-color .15s; }
+:root :is(a, button).bp-pk-strip-item:is(:hover, :active) { background: var(--c-selected); }
+:root :is(a, button).bp-pk-strip-item:focus-visible { outline: 2px solid var(--c-signal); }
+:root .bp-pk-strip[data-navy] :is(a, button).bp-pk-strip-item:hover { background: var(--pk-on-hero-hover); }
+:root .bp-pk-strip[data-navy] :is(a, button).bp-pk-strip-item:active { background: var(--pk-on-hero-fill); }
+:root .bp-pk-strip[data-navy] :is(a, button).bp-pk-strip-item:focus-visible { outline-color: var(--pk-on-hero); }
+:root .bp-pk-strip dt { display: flex; align-items: center; gap: 2px; font-size: 13px; font-weight: 700; color: var(--c-muted); }
+:root .bp-pk-strip dd { margin: 4px 0 0; font-size: 20px; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; color: var(--c-ink); }
+:root .bp-pk-strip[data-navy] :is(dt, dd) { color: var(--pk-on-hero); }
+
+/* ── Cards: needs you, done, groups, slips, empty ─────────────── */
+:root .bp-pk-card { border-radius: 20px; border: 1px solid var(--c-border); background: var(--c-surface); }
+:root .bp-pk-card[data-flush] { padding: 16px; }
+:root .bp-pk-lead { margin-bottom: 16px; padding: 16px; }
+:root .bp-pk-lead > .row { display: flex; align-items: flex-start; gap: 12px; }
+:root .bp-pk-lead .text { min-width: 0; flex: 1; }
+:root .bp-pk-lead h2 { margin: 0; font-size: 17px; font-weight: 800; color: var(--c-ink); }
+:root .bp-pk-lead .why { margin-top: 4px; font-size: 15px; color: var(--c-muted); }
+:root .bp-pk-lead > .action { margin-top: 16px; }
+:root .bp-pk-lead > .action > * { width: 100%; }
+@media (min-width: 640px) { :root .bp-pk-lead > .action > * { width: auto; } }
+
+/* The needs-you dot: the action orange with a soft breathing glow (was hakiqa-connect .hq-led-glow). */
+:root .bp-pk-dot { position: relative; isolation: isolate; flex: none; margin-top: 8px; width: 10px; height: 10px; border-radius: 999px; background: var(--c-action); }
+:root .bp-pk-dot::before { content: ""; position: absolute; inset: -9px; z-index: -1; border-radius: 50%; pointer-events: none; background: radial-gradient(circle, var(--c-action) 0%, transparent 70%); filter: blur(2px); animation: bp-pk-breathe 2.6s ease-in-out infinite; }
+@keyframes bp-pk-breathe { 0%, 100% { opacity: .45; transform: scale(.82); } 50% { opacity: .9; transform: scale(1.08); } }
+
+:root .bp-pk-pop { display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: 999px; background: var(--pk-pos-bg); color: var(--pk-pos); animation: bp-pk-pop 420ms cubic-bezier(.34, 1.56, .64, 1) both; }
+@keyframes bp-pk-pop { from { transform: scale(.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+:root .bp-pk-note { width: 100%; border-radius: 16px; background: var(--pk-pos-tint); padding: 12px; }
+:root .bp-pk-note > .title { margin: 0; display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 800; color: var(--c-ink); }
+:root .bp-pk-note .tick { display: grid; place-items: center; flex: none; width: 24px; height: 24px; border-radius: 999px; background: var(--pk-pos-solid); color: var(--pk-on-hero); }
+:root .bp-pk-note > .why { margin: 4px 0 0; padding-left: 32px; font-size: 15px; color: var(--c-muted); }
+:root .bp-pk-note > .action { margin-top: 10px; }
+:root .bp-pk-note > .action > * { width: 100%; }
+
+:root .bp-pk-danger { border-top: 1px solid var(--c-border); padding-top: 12px; }
+:root .bp-pk-danger > button { margin: 0 -8px; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 8px; border-radius: 12px; font-size: 15px; font-weight: 700; color: var(--pk-neg); transition: background-color .15s; }
+:root .bp-pk-danger > button:is(:hover, :active) { background: var(--pk-neg-bg); }
+:root .bp-pk-danger > button:focus-visible { outline: 2px solid var(--pk-neg); }
+
+:root .bp-pk-tile { position: relative; display: grid; place-items: center; flex: none; width: 48px; height: 48px; border-radius: 16px; background: var(--pk-hero); color: var(--pk-on-hero); font-size: 15px; font-weight: 800; }
+:root .bp-pk-tile > svg { position: absolute; inset: 0; width: 48px; height: 48px; transform: rotate(-90deg); }
+
+:root .bp-pk-group { margin-bottom: 24px; }
+:root .bp-pk-group-head { margin-bottom: 8px; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 0 4px; }
+:root .bp-pk-group-head[data-tall] { min-height: 44px; align-items: center; }
+:root .bp-pk-group-head > h2 { margin: 0; font-size: 20px; font-weight: 800; color: var(--c-ink); }
+:root .bp-pk-group-head > .aside { font-size: 15px; font-weight: 600; color: var(--c-muted); font-variant-numeric: tabular-nums; }
+:root .bp-pk-list { margin: 0; padding: 0; list-style: none; overflow: hidden; border-radius: 20px; border: 1px solid var(--c-border); background: var(--c-surface); }
+
+/* ── CodeChip: 28 px to the eye, 44 px to the finger ──────────── */
+:root .bp-pk-code { position: relative; display: inline-flex; align-items: center; gap: 6px; min-height: 28px; padding: 0 10px; border-radius: 8px; background: var(--c-sunken); color: var(--c-muted); font-size: 13px; transition: background-color .15s ease; }
+:root .bp-pk-code::before { content: ""; position: absolute; inset: -8px -4px; }
+:root .bp-pk-code:is(:hover, :active) { background: var(--c-selected); }
+:root .bp-pk-code:focus-visible { outline: 2px solid var(--c-signal); outline-offset: 2px; }
+:root .bp-pk-code > .label { font-weight: 700; }
+:root .bp-pk-code > .value { font-family: var(--pk-mono); font-weight: 600; letter-spacing: .02em; color: var(--c-ink); }
+
+/* ── ReceiptRow ────────────────────────────────────────────────── */
+:root .bp-pk-receipt { display: flex; gap: 12px; padding-left: 16px; transition: background-color 500ms; }
+:root .bp-pk-receipt[data-fresh] { background: var(--pk-pos-bg); animation: bp-pk-enter 320ms var(--pk-ease) both; }
+@keyframes bp-pk-enter { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+:root .bp-pk-receipt > .lead { position: relative; flex: none; height: 40px; margin-top: 14px; }
+:root .bp-pk-receipt > .lead > .badge { position: absolute; right: -4px; bottom: -4px; display: grid; place-items: center; width: 20px; height: 20px; border-radius: 999px; background: var(--pk-pos); color: var(--pk-on-hero); }
+:root .bp-pk-receipt > .body { min-width: 0; flex: 1; border-top: 1px solid var(--c-border); padding: 14px 16px 14px 0; }
+:root li:first-child > .bp-pk-receipt > .body, :root .bp-pk-receipt:first-child > .body { border-top: 0; }
+:root .bp-pk-receipt .line1 { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+:root .bp-pk-receipt .name { margin: 0; min-width: 0; font-size: 17px; font-weight: 800; line-height: 1.375; color: var(--c-ink); overflow-wrap: anywhere; }
+:root .bp-pk-receipt .amt { flex: none; padding-top: 1px; }
+:root .bp-pk-receipt .line2 { margin-top: 2px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+:root .bp-pk-receipt .meta { margin: 0; min-width: 0; font-size: 15px; color: var(--c-muted); }
+:root .bp-pk-receipt .code { margin-top: 8px; }
+
+/* ── TapRow, PersonCard, FigureRow ─────────────────────────────── */
+:root .bp-pk-tap { display: flex; width: 100%; min-height: 56px; align-items: center; gap: 12px; padding: 12px 16px; transition: background-color .15s; }
+:root :is(a, button).bp-pk-tap:is(:hover, :active) { background: var(--c-selected); }
+:root :is(a, button).bp-pk-tap:focus-visible { outline: 2px solid var(--c-signal); outline-offset: -2px; }
+:root li + li > .bp-pk-tap { border-top: 1px solid var(--c-border); }
+:root .bp-pk-tap > .text { min-width: 0; flex: 1; }
+:root .bp-pk-tap .t { display: block; font-size: 17px; font-weight: 800; color: var(--c-ink); overflow-wrap: anywhere; }
+:root .bp-pk-tap .s { display: block; font-size: 15px; color: var(--c-muted); }
+:root .bp-pk-tap > .fig { flex: none; }
+:root .bp-pk-tap > .chev { flex: none; color: var(--c-muted); }
+:root .bp-pk-row > .after { margin-top: -4px; display: flex; flex-wrap: wrap; gap: 8px; padding: 0 16px 12px; }
+:root .bp-pk-person-foot { margin: -4px 0 0 4px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 0 16px 12px 64px; }
+:root .bp-pk-person-foot > .chips { display: flex; flex-wrap: wrap; flex-basis: 100%; min-width: 0; gap: 6px; }
+:root .bp-pk-person-foot > .act { margin-left: auto; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+
+/* A row just made or confirmed: the info tint held, then faded over 2 s. */
+:root .bp-pk-glow { animation: bp-pk-glow 2s ease-out both; }
+@keyframes bp-pk-glow { 0%, 45% { background-color: var(--pk-info-tint); } 100% { background-color: transparent; } }
+
+:root .bp-pk-chip { display: inline-flex; flex: none; align-items: center; min-height: 24px; padding: 0 10px; border-radius: 999px; white-space: nowrap; font-size: 13px; font-weight: 700; background: var(--pk-warn-bg); color: var(--pk-warn); }
+:root .bp-pk-chip[data-tone="pos"] { background: var(--pk-pos-bg); color: var(--pk-pos); }
+:root .bp-pk-chip[data-tone="plain"] { background: var(--c-sunken); color: var(--c-muted); }
+
+:root .bp-pk-burst { color: var(--pk-pos); animation: bp-pk-burst 600ms var(--pk-ease) both; }
+:root .bp-pk-burst > circle { fill: var(--pk-pos-bg); }
+:root .bp-pk-burst > path { fill: none; stroke: currentColor; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; animation: bp-pk-draw 450ms var(--pk-ease) 150ms both; }
+@keyframes bp-pk-burst { from { transform: scale(.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes bp-pk-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+
+/* ── Slips: DayCloseCard, ReceiptCard ──────────────────────────── */
+:root .bp-pk-slip { padding: 20px; }
+:root .bp-pk-slip[data-close] { margin-bottom: 20px; }
+:root .bp-pk-slip > .head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+:root .bp-pk-slip > .head > h2 { margin: 0; font-size: 20px; font-weight: 800; color: var(--c-ink); }
+:root .bp-pk-slip > .head > .aside { font-size: 15px; font-weight: 600; color: var(--c-muted); }
+:root .bp-pk-slip dl { margin: 0; }
+:root .bp-pk-slip > .lines { margin-top: 8px; }
+:root .bp-pk-slip[data-close] > .lines { margin-top: 12px; }
+:root .bp-pk-slip :is(.lines, .totals) > div { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px dashed var(--c-border); }
+:root .bp-pk-slip :is(.lines, .totals) > div:first-child, :root .bp-pk-slip .totals > div[data-strong] { border-top: 0; }
+:root .bp-pk-slip[data-close] .lines > div:first-child { border-top: 1px dashed var(--c-border); font-size: 15px; }
+:root .bp-pk-slip[data-close] .lines > div { font-size: 15px; }
+:root .bp-pk-slip[data-close] .lines dt { color: var(--c-muted); }
+:root .bp-pk-slip[data-close] .lines dd { font-weight: 800; color: var(--c-ink); }
+:root .bp-pk-slip dt { min-width: 0; overflow-wrap: anywhere; font-size: 15px; color: var(--c-ink); }
+:root .bp-pk-slip dt > .sub { display: block; font-size: 13px; color: var(--c-muted); }
+:root .bp-pk-slip dd { margin: 0; flex: none; font-variant-numeric: tabular-nums; }
+:root .bp-pk-slip > .totals { margin-top: 4px; padding-top: 4px; border-top: 1px solid var(--c-ink); }
+:root .bp-pk-slip .totals > div[data-strong] > dt { font-size: 17px; font-weight: 800; }
+:root .bp-pk-slip > .foot { margin-top: 12px; display: flex; flex-direction: column; gap: 12px; }
+:root .bp-pk-slip > .bp-pk-share { margin-top: 12px; }
+
+:root .bp-pk-empty { display: flex; flex-direction: column; align-items: center; padding: 20px 24px 28px; text-align: center; }
+:root .bp-pk-empty > img { width: 112px; height: 112px; object-fit: contain; }
+:root .bp-pk-empty > h2 { margin: 8px 0 0; font-size: 20px; font-weight: 800; color: var(--c-ink); text-wrap: balance; }
+:root .bp-pk-empty > p { margin: 6px 0 0; max-width: 34ch; font-size: 15px; color: var(--c-muted); }
+:root .bp-pk-empty > .action { margin-top: 16px; }
+
+/* ── Settings that read and save on a phone ────────────────────── */
+:root .bp-pk-setting { min-height: 56px; padding: 12px 16px; border-top: 1px solid var(--c-border); }
+:root .bp-pk-setting:first-child { border-top: 0; }
+:root .bp-pk-setting .t { display: block; font-size: 17px; font-weight: 700; color: var(--c-ink); overflow-wrap: anywhere; }
+:root .bp-pk-setting .s { display: block; margin-top: 2px; font-size: 15px; color: var(--c-muted); overflow-wrap: anywhere; }
+:root .bp-pk-setting[data-control] { padding: 0; }
+:root .bp-pk-setting[data-time] { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 16px; }
+:root .bp-pk-setting[data-time] > .pick { flex: none; width: 128px; }
+:root .bp-pk-switch { display: flex; width: 100%; min-height: 56px; align-items: center; gap: 12px; padding: 12px 16px; transition: background-color 150ms; }
+:root .bp-pk-switch > .text { min-width: 0; flex: 1; }
+:root .bp-pk-switch:active { background: var(--c-selected); }
+:root .bp-pk-switch:disabled { cursor: wait; }
+:root .bp-pk-switch:focus-visible { outline: 2px solid var(--c-signal); outline-offset: -2px; }
+:root .bp-pk-switch[aria-checked="true"] > .bp-switch { background: var(--pk-pos); }
+
+:root .bp-pk-greeting { margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+:root .bp-pk-greeting > img { flex: none; width: 48px; height: 48px; object-fit: contain; }
+:root .bp-pk-greeting > p { margin: 0; min-width: 0; }
+:root .bp-pk-greeting .t { display: block; font-size: 17px; font-weight: 800; color: var(--c-ink); }
+:root .bp-pk-greeting .s { display: block; font-size: 15px; color: var(--c-muted); }
+
+/* Reduced motion: the figure lands at once (useCountUp), and nothing here moves. */
+@media (prefers-reduced-motion: reduce) {
+  :root .bp-pk-dot::before, :root :is(.bp-pk-pop, .bp-pk-burst, .bp-pk-burst > path, .bp-pk-receipt[data-fresh]) { animation: none; }
+  :root .bp-pk-glow { animation: none; background-color: var(--pk-info-tint); }
+  :root .bp-pk-progress > .track > div { transition: none; }
+}
