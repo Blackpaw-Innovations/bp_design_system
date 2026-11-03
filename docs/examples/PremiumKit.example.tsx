@@ -4,8 +4,8 @@
  */
 import {
   Button, CaredEmpty, CodeChip, CountHero, DangerAction, DayCloseCard, DayGroup, DoneNote, Greeting, MoneyFigure, MoneyHero,
-  NeedsYouCard, PersonCard, ProfileHero, ReceiptCard, ReceiptRow, RowGroup, SettingsItem, SettingsList, SwitchRow, TapRow,
-  TimeRow, TintChip, InitialsTile, useArrivals, whatsAppLink, ButtonLink,
+  NeedsYouCard, PersonCard, ProfileHero, ReceiptCard, ReceiptRow, RowGroup, SelectableRow, SettingsItem, SettingsList, SwitchRow, TapRow,
+  TimeRow, TintChip, InitialsTile, formatMoney, useArrivals, whatsAppLink, ButtonLink,
 } from '@blackpaw/ui'
 import { Link } from 'react-router-dom'
 import { Trash2 } from 'lucide-react'
@@ -56,6 +56,29 @@ export function ListExample({ onOpen }: { onOpen: (id: string) => void }) {
           action={<Button variant="quiet">Hand over</Button>} onOpen={() => onOpen('lucy')} />
       </DayGroup>
       <CaredEmpty image={hakiWaving} title="Your first order lands here">Orders from the shop and the counter appear the moment they are paid.</CaredEmpty>
+    </>
+  )
+}
+
+/** A detail screen names its record in the hero; a list that can be picked uses SelectableRow (pick vs open). */
+export function OrdersExample({ onSend }: { onSend: (ids: number[]) => void }) {
+  const orders = [
+    { id: 18, customer: 'Lucy Njeri', name: 'SO2600134', items: '3 items', total: 15000, owed: 5000 },
+    { id: 19, customer: 'Peter Kamau', name: 'SO2600135', items: '1 item', total: 4200, owed: 0 },
+  ]
+  const [picked, setPicked] = useState<number[]>([])
+  const toggle = (id: number, on: boolean) => setPicked((p) => (on ? [...p, id] : p.filter((x) => x !== id)))
+  return (
+    <>
+      <MoneyHero title="Order SO2600134" amount={5000} currency="KES" caption="still to pay of KES 15,000" />
+      <RowGroup title={picked.length ? `${picked.length} of 2 orders picked` : '2 orders'}>
+        {orders.map((o) => (
+          <SelectableRow key={o.id} selected={picked.includes(o.id)} onSelectedChange={(on) => toggle(o.id, on)}
+            href={`/orders/${o.id}`} renderLink={link} title={o.customer} meta={[o.name, o.items]}
+            sub={o.owed ? `${formatMoney(o.owed)} owed` : 'Paid'} figure={<MoneyFigure amount={o.total} size={17} />} />
+        ))}
+      </RowGroup>
+      {picked.length > 0 && <Button variant="primary" onClick={() => onSend(picked)}>Send {picked.length} to the supplier</Button>}
     </>
   )
 }

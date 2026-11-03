@@ -67,8 +67,8 @@ export type { BadgeTier, BadgeCategory, TierMeta } from './badges/tokens'
 // Utilities
 export { cn } from './lib/utils'
 export { BLACKPAW_SUPPORT_PHONE, buildWhatsAppUrl, whatsAppLink } from './lib/whatsapp'
-export { formatMoney, formatDate, formatDateTime, formatPeriod, normaliseCurrency, isDateOnly } from './lib/format'
-export type { MoneyOptions } from './lib/format'
+export { formatMoney, moneyParts, formatDate, formatDateTime, formatPeriod, normaliseCurrency, isDateOnly } from './lib/format'
+export type { MoneyOptions, MoneyParts } from './lib/format'
 
 // Premium set (2026-10-08): page structure + ledgers + sealed surfaces
 export { PageHeader, MetricLedger, MetricProportion, SealedCard, Dock, DockSection, Facts } from './components/Premium'
@@ -84,10 +84,10 @@ export type { ButtonProps, ButtonLinkProps, ButtonVariant, ButtonSize, IconButto
 export { SnapshotCarousel } from './components/SnapshotCarousel'
 export type { SnapshotCarouselProps, SnapshotPage, SnapshotCard, SnapshotChart, SnapshotTone } from './components/SnapshotCarousel'
 
-// Premium patterns (v1.25.0, 3 Nov 2026; v1.25.1 text hierarchy): the phone look for every vertical. docs/PREMIUM_PATTERNS.md, tokens/premium-kit.css
+// Premium patterns (v1.25.0, 3 Nov 2026; v1.25.1 text hierarchy; v1.25.2 SelectableRow): the phone look for every vertical. docs/PREMIUM_PATTERNS.md, tokens/premium-kit.css
 export {
-  useCountUp, useArrivals, moneyParts, MoneyFigure, StatStrip, MoneyHero, CountHero, DoneCard, DoneNote, DangerAction, InitialsTile,
+  useCountUp, useArrivals, MoneyFigure, StatStrip, MoneyHero, CountHero, DoneCard, DoneNote, DangerAction, InitialsTile,
   NeedsYouCard, DayGroup, RowGroup, CardSection, CodeChip, ReceiptRow, TapRow, PersonCard, TintChip, CheckBurst, FigureRow,
-  DayCloseCard, ReceiptCard, CaredEmpty, SettingsList, SettingsItem, SwitchRow, TimeRow, greetingFor, Greeting, ProfileHero,
+  DayCloseCard, ReceiptCard, CaredEmpty, SettingsList, SettingsItem, SwitchRow, TimeRow, greetingFor, Greeting, ProfileHero, SelectableRow,
 } from './components/PremiumKit'
 export type { RenderLink, StatStripItem, HeroComparison, SlipLine, NeedsYouAlso } from './components/PremiumKit'

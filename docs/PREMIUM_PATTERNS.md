@@ -1,6 +1,6 @@
 # Premium patterns
 
-**Status:** v1.25.1, 3 Nov 2026 (v1.25.1: text hierarchy, NeedsYouCard slots). The phone look every Hakiqa vertical builds its screens from. Change it here once;
+**Status:** v1.25.2, 3 Nov 2026 (v1.25.1: text hierarchy, NeedsYouCard slots; v1.25.2: SelectableRow, MoneyHero `title`, one money format). The phone look every Hakiqa vertical builds its screens from. Change it here once;
 every app picks it up with its `@blackpaw/ui` pin bump.
 **Code:** `src/components/PremiumKit.tsx` (one implementation per pattern, exported from `@blackpaw/ui`), styles
 `src/tokens/premium-kit.css` (`.bp-pk-*`, imported last by `tokens/index.css`). Examples:
@@ -81,7 +81,10 @@ Every card and row reads in three levels. A reader sees what matters first witho
 
 ### 1. MoneyHero
 
-`<MoneyHero amount currency caption floor? compare? stats? renderLink? />`
+`<MoneyHero title? amount currency caption floor? compare? stats? renderLink? />`
+
+- `title` (20/800 white, above the figure) names the record on a detail screen ("Order SO2600134", "Suite 1"), as on
+  CountHero; a list screen leaves it out. It is not read into the figure's accessible text.
 
 - Navy `.hero-card`, radius 28, padding 24 top / 20 sides / 16 bottom. First thing on the screen (it replaces the
   page title; the app bar already names the screen).
@@ -185,6 +188,26 @@ comparison green or red (direction is the arrow); buttons inside the hero (the a
 - With neither `href` nor `onClick` it renders as a plain row: no chevron, no press state (a reader without rights).
 - Only rows that open something get a chevron.
 - `id` and `glow`: a row just made or confirmed is scrolled to and lit (see "Moments after a change").
+
+### 8a. SelectableRow (pick some, open one)
+
+`<SelectableRow selected onSelectedChange selectLabel? disabled? href?|onClick? renderLink? title meta? sub? figure? leading? label? tour? id? glow? />`
+inside a RowGroup or DayGroup.
+
+- A TapRow you can also pick, for bulk actions (send these orders to the supplier, pay these bills). Same words, same
+  three levels, same figure and chevron as TapRow.
+- Two targets, side by side, never nested: a 44 px checkbox on the left (22 px box, Signal Blue when picked) picks;
+  the rest of the row opens the record (`href` / `onClick`, chevron, press state). Picking never opens; opening never
+  picks.
+- With neither `href` nor `onClick` the whole row picks (a list you only choose from): no chevron, the row is the
+  checkbox's label.
+- A picked row sits on the info tint. `disabled` holds the checkbox only; the row still opens.
+- Screen readers: a native checkbox named by the row's title (`aria-labelledby`). When the title alone is ambiguous
+  (two orders for the same customer) pass `selectLabel` ("Pick SO2600134").
+- The group heading says what is picked ("2 of 14 orders picked"); the bulk action is the screen's one primary button,
+  shown only while something is picked. "Pick all" is a plain button above the group, not a row.
+
+Do: SelectableRow when a screen has a bulk action. Don't: a checkbox inside a TapRow's target, or long-press to select.
 
 ### 9. CaredEmpty
 
@@ -330,12 +353,32 @@ comparison green or red (direction is the arrow); buttons inside the hero (the a
 
 ### 25. The small parts
 
-`<Avatar calm name id? size? />` · `<MoneyFigure amount currency size? />` · `<TintChip tone?>text</TintChip>` · `moneyParts()`
+`<Avatar calm name id? size? />` · `<MoneyFigure amount currency? size? />` · `<TintChip tone?>text</TintChip>` · `moneyParts()` (see Money)
 
 - `Avatar calm`: initials on a calm tint from the name (or `id`): `AVATAR_PAIRS` without orange and red, so a person
   never wears the action or the warning colour. Same name, same colour, every screen.
 - MoneyFigure: currency 13/700 muted, figure 20/800 (17 in dense lists) `tabular-nums`; a dash with no amount.
 - TintChip: one short state, 13/700 on a tint: `warn` what still needs doing, `pos` good news, `plain` a neutral fact.
+
+### Money (one format, every vertical)
+
+Every amount on every vertical is written the same way: **`KES 15,000`**. ISO code, a space, comma thousands, decimals
+only when there are cents (`KES 42.10`), minus before the code (`−KES 350`), a dash for no amount. KES and not KSh: it
+matches the bank statement and the M-Pesa receipt, and it is the written rule in `HAKIQA_APP_STANDARDS.md` §12 ("Never
+type 'Ksh' or 'KSh' by hand") and `BRAND_GUIDELINES.md` ("Use KES … consistently").
+
+- `formatMoney(amount, currency?, { decimals? })` gives the string, for sentences, captions, chips and `aria-label`s.
+- `moneyParts(amount, currency?, { decimals? })` gives `{ sign, currency, figure }` for an amount with its own emphasis.
+  `formatMoney` is these parts joined, so a hero, a row and a sentence can never disagree.
+- `<MoneyFigure>`, `<MoneyHero>`, `<Money>` and DataTable money columns all go through them.
+- Currency: pass the record's ISO code. Missing means KES; "KSh", "Ksh" and "KShs" are read as KES. Another currency
+  (USD on an Imports supplier bill) keeps its own code; amounts in different currencies are never summed.
+- Big numbers in chart labels and small tiles only: `fmtKM` (KES 1.2M). Everywhere else the full amount.
+
+**App-local formatters delegate.** An app may keep a thin wrapper for its own data shape (a `{ amount, currency }`
+contract value, a "currency not set" note), but the wrapper calls `formatMoney` / `moneyParts` and never builds the
+string itself: no `` `KSh ${n.toLocaleString()}` ``, no `CUR = "KSh"`, no `Intl.NumberFormat` on money, no
+`.toFixed(2)`. Input labels say "Amount (KES)".
 
 ### Moments after a change
 
@@ -369,6 +412,8 @@ The screen must read the same with all motion off. Layout and exit motion for li
 | One navy hero with the one number, big | A title that repeats the hero |
 | "KES 36,000 more than yesterday by 14:30", when proven | "+12% vs last week" from a partial list |
 | The amount at 20/800 with a 13 px muted currency | All text the same 15 px weight |
+| "KES 15,000" from formatMoney / MoneyFigure | "KSh 15,000" or "Ksh15000" built by hand |
+| A checkbox beside the row, the row opens (SelectableRow) | A checkbox inside the row's tap target |
 | Title heavy, facts one per line, one light sentence | Facts strung into a grey paragraph with " · " |
 | "Also waiting" as count rows you can tap | "Also: 2 guests … · 4 links …" as prose |
 | The code in a quiet mono chip that copies | The code as a third grey text line nobody can use |
@@ -385,7 +430,8 @@ The screen must read the same with all motion off. Layout and exit motion for li
 
 1. What is this screen's one number? MoneyHero (money) or CountHero (a count). Prove its comparison or leave it out.
 2. What needs a person? One NeedsYouCard with the screen's only orange action. Nothing waiting: no card, no orange.
-3. The evidence: DayGroup + ReceiptRow (money in) or TapRow / PersonCard (records that open). Codes in CodeChips.
+3. The evidence: DayGroup + ReceiptRow (money in) or TapRow / PersonCard (records that open); SelectableRow when the
+   list has a bulk action. Codes in CodeChips. Every amount through formatMoney / MoneyFigure (KES).
 4. End-of-day screens: a DayCloseCard with Share on WhatsApp.
 5. Empty: CaredEmpty with the right pose. Loading and errors stay with the app's query boundary.
 6. Check at 375 px in light and dark: no sideways scroll, 44 px targets, white-only on navy, one orange.
