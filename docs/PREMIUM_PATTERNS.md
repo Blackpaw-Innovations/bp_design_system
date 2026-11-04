@@ -400,6 +400,25 @@ Do: SelectableRow when a screen has a bulk action. Don't: a checkbox inside a Ta
 Do: one FilterFold per register, wrapping the whole filter grid. Don't: fold a single select (show it), or put the
 screen's orange action inside.
 
+### 28. SetupRing and SetupBlocker (setup progress, and actions held back until setup is done)
+
+`<SetupRing score size? onHero?>` · `<SetupBlocker open title intro? steps onClose seeAll?>`
+
+- The vertical's server owns one list of setup items read from real records (Car Parts: `carparts_readiness()`); the
+  score, the ring and every held-back action read that same list, so they can never disagree.
+- **SetupRing** shows the score as a ring with the figure inside. On the navy hero (`onHero`) it is the hero's own
+  white, with steps left and a pill to the next fix beside it. In a list row's `leading` slot use `size={44}`: "Finish
+  setting up · Next: Business address". Hide the row at 100.
+- **SetupBlocker** is the one way a refused action explains itself. Title says what was held back ("Finish setup
+  before sending quotes"); one line says nothing was sent; each missing step is a row with one tap to its fix; then
+  "Not now" and, optionally, the whole setup list. Open it when the server answers `setup_required`, from one place in
+  the shell, so a new gated action needs no screen changes.
+- Only steps the owner can fix today may hold an action back. Steps that wait on the vendor show in the list as
+  "With us" and never block.
+
+Do: block on the server and explain on the client. Don't: grey out a button with no reason, or block on a step the
+owner cannot do.
+
 ### Money (one format, every vertical)
 
 Every amount on every vertical is written the same way: **`KES 15,000`**. ISO code, a space, comma thousands, decimals
