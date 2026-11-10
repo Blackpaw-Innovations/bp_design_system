@@ -30,7 +30,7 @@ export type { FieldProps, InputProps, TextareaProps, MoneyInputProps, CheckboxPr
 export { DatePicker, DateRangePicker, formatRange, parseTypedDate, presetRange, timeSlots, toISO, fromISO } from './components/DatePicker'
 export type { DatePickerProps, DateRangePickerProps, PresetKey, ISODate } from './components/DatePicker'
 export { Sheet, FormDialog, SlideOver, Menu, useIsPhone, usePopover } from './components/Overlay'
-export type { SheetProps, FormDialogProps, SlideOverProps, MenuProps, MenuItem, MenuGroup } from './components/Overlay'
+export type { SheetProps, FormDialogProps, SlideOverProps, SlideOverPager, MenuProps, MenuItem, MenuGroup } from './components/Overlay'
 export { Activity, ContactActions } from './components/Activity'
 export type { ActivityEntry, ActivityKind, ActivityProps } from './components/Activity'
 export { Banner, EmptyState, ErrorState, InlineError, ErrorSummary, Tooltip, HakiTip, HAKI_STATE } from './components/Feedback'

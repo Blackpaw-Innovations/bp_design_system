@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode, type RefObject } from 'react'
 import { createPortal } from 'react-dom'
-import { ChevronDown, X } from 'lucide-react'
+import { ChevronDown, ChevronLeft, ChevronRight, X } from 'lucide-react'
 import { cn, type IconComponent } from '../lib/utils'
 import { Button } from './Guarded'
 
@@ -10,7 +10,7 @@ import { Button } from './Guarded'
  *   Sheet             bottom sheet with grip, title, close; full height when it holds a search
  *   usePopover        fixed-position anchor that flips above when there is no room
  *   FormDialog        sm 400 / md 560; footer fixed; Enter submits; dirty close asks first
- *   SlideOver         right side, 480 / 720; record id, facts, header menu, pinned footer, dirty guard
+ *   SlideOver         right side, 480 / 720; record id, facts, header menu, pinned footer, dirty guard, optional pager
  *   Menu              Actions menu: verbs grouped, destructive last in red. Never a Select of actions.
  */
 
@@ -226,24 +226,102 @@ export interface SlideOverProps {
   dirty?: boolean
   /** Shows a back arrow instead of replacing the panel when a related record opened inside it. */
   onBack?: () => void
+  /** v1.26: Previous · "2 of 3" · Next through the list the panel was opened from, in the order shown. */
+  pager?: SlideOverPager
 }
 
-export function SlideOver({ open, title, recordId: recordIdProp, subtitle, facts, quickActions, menu, onClose, children, footer, width: widthProp = 480, dirty, onBack }: SlideOverProps) {
+export interface SlideOverPager {
+  /** 0-based position of the open record in the list as shown. */
+  index: number
+  total: number
+  onPrev: () => void
+  onNext: () => void
+  /** What one record is called, lower case: "order" reads "Previous order". Default "record". */
+  label?: string
+}
+
+/** Arrow keys belong to these while they have focus; the pager only takes them elsewhere in the panel. */
+const OWNS_ARROWS = 'input, textarea, select, [contenteditable]:not([contenteditable="false"]), [role="slider"], [role="spinbutton"], [role="listbox"], [role="option"], [role="tab"], [role="radio"], [role="menuitem"], [role="grid"] *'
+
+/** A touch that starts in something that scrolls sideways (a wide table) belongs to it, not to the pager. */
+function scrollsSideways(from: Element | null, stop: Element) {
+  for (let el = from; el && el !== stop; el = el.parentElement) {
+    if (el.scrollWidth > el.clientWidth + 1 && /auto|scroll/.test(getComputedStyle(el).overflowX)) return true
+  }
+  return false
+}
+
+export function SlideOver({ open, title, recordId: recordIdProp, subtitle, facts, quickActions, menu, onClose, children, footer, width: widthProp = 480, dirty, onBack, pager }: SlideOverProps) {
   const recordId = recordIdProp ?? subtitle
   const width = typeof widthProp === 'number' ? widthProp : ([480, 560, 720, 960].find((w) => w >= (parseInt(widthProp, 10) || 480)) ?? 960)
-  const [asking, setAsking] = useState(false)
-  const tryClose = useCallback(() => (dirty ? setAsking(true) : onClose()), [dirty, onClose])
+  // What runs after "Discard" when the panel is dirty: closing, or moving to the previous/next record.
+  const [asking, setAsking] = useState<(() => void) | null>(null)
+  const guard = useCallback((go: () => void) => (dirty ? setAsking(() => go) : go()), [dirty])
+  const tryClose = useCallback(() => guard(onClose), [guard, onClose])
   useEscape(open && !asking, tryClose)
   useReturnFocus(open)
   const panel = useRef<HTMLElement>(null)
+  const body = useRef<HTMLDivElement>(null)
   useFocusTrap(panel, open)
   const titleId = useId()
   useScrollLock(open)
+  const pagerLabel = pager?.label ?? 'record'
+  const hasPrev = !!pager && pager.index > 0
+  const hasNext = !!pager && pager.index >= 0 && pager.index < pager.total - 1
+  const move = (step: -1 | 1) => {
+    if (!pager) return
+    if (step < 0 && hasPrev) guard(pager.onPrev)
+    if (step > 0 && hasNext) guard(pager.onNext)
+  }
+  const moveRef = useRef(move)
+  moveRef.current = move
+  const usesPager = open && !!pager
+  // Native listeners: React events bubble out of portals (a Select's sheet); these see only the panel's own DOM.
+  useEffect(() => {
+    const el = panel.current
+    if (!usesPager || !el) return
+    let start: { x: number; y: number } | null = null
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') || e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return
+      if ((e.target as Element | null)?.closest?.(OWNS_ARROWS)) return
+      e.preventDefault()
+      moveRef.current(e.key === 'ArrowLeft' ? -1 : 1)
+    }
+    const onStart = (e: TouchEvent) => {
+      const t = e.target as Element | null
+      start = e.touches.length === 1 && !t?.closest?.(OWNS_ARROWS) && !scrollsSideways(t, el) ? { x: e.touches[0].clientX, y: e.touches[0].clientY } : null
+    }
+    const onEnd = (e: TouchEvent) => {
+      if (!start) return
+      const dx = e.changedTouches[0].clientX - start.x, dy = e.changedTouches[0].clientY - start.y
+      start = null
+      if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) moveRef.current(dx < 0 ? 1 : -1)
+    }
+    el.addEventListener('keydown', onKey)
+    el.addEventListener('touchstart', onStart, { passive: true })
+    el.addEventListener('touchend', onEnd)
+    return () => { el.removeEventListener('keydown', onKey); el.removeEventListener('touchstart', onStart); el.removeEventListener('touchend', onEnd) }
+  }, [usesPager])
+  // The next record starts at its top, not where the last one was scrolled to. At either end the pressed button
+  // turns disabled and the browser drops focus to <body>; put it back on the heading so the arrow keys keep working.
+  useEffect(() => {
+    body.current?.scrollTo?.({ top: 0 })
+    const el = panel.current
+    const active = document.activeElement as HTMLButtonElement | null
+    if (open && el && (!el.contains(active) || active?.disabled)) el.querySelector<HTMLElement>('[data-autofocus]')?.focus({ preventScroll: true })
+  }, [pager?.index]) // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <>
       <div className={`overlay${open ? ' open' : ''}`} onClick={() => { if (!dirty) onClose() }} aria-hidden={!open} {...(!open ? { inert: true } : {})} />
       <aside ref={panel} tabIndex={-1} aria-labelledby={titleId} className={`slide-over${open ? ' open' : ''}`} style={{ width, maxWidth: '100vw' }} role="dialog" aria-modal={open || undefined} aria-hidden={!open} {...(!open ? { inert: true } : {})}>
         <div className="dh" style={{ flexDirection: 'column', alignItems: 'stretch', gap: 10 }}>
+          {pager && pager.total > 1 && (
+            <nav className="bp-pager" aria-label="Move through the list">
+              <button type="button" className="bp-btn" data-variant="quiet" data-size="md" aria-label={`Previous ${pagerLabel}`} disabled={!hasPrev} onClick={() => move(-1)}><ChevronLeft size={18} aria-hidden="true" />Previous</button>
+              <span className="bp-pager-count" aria-live="polite">{pager.index + 1} of {pager.total}</span>
+              <button type="button" className="bp-btn" data-variant="quiet" data-size="md" aria-label={`Next ${pagerLabel}`} disabled={!hasNext} onClick={() => move(1)}>Next<ChevronRight size={18} aria-hidden="true" /></button>
+            </nav>
+          )}
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 6 }}>
             {onBack && <button type="button" className="bp-icon-btn" aria-label="Back" onClick={onBack}>←</button>}
             <div style={{ flex: 1, minWidth: 0 }}>
@@ -257,14 +335,14 @@ export function SlideOver({ open, title, recordId: recordIdProp, subtitle, facts
           {facts && <div className="bp-panel-facts">{facts}</div>}
           {quickActions && <div style={{ display: 'flex', gap: 8 }}>{quickActions}</div>}
         </div>
-        <div className="db">{children}</div>
+        <div ref={body} className="db">{children}</div>
         {(footer || asking) && (
           <div className="df bp-panel-foot">
             {asking ? (
               <>
                 <span style={{ flex: 1, fontWeight: 700 }}>Discard your changes?</span>
-                <Button variant="quiet" onClick={() => setAsking(false)}>Keep editing</Button>
-                <Button variant="destructive" onClick={() => { setAsking(false); onClose() }}>Discard</Button>
+                <Button variant="quiet" onClick={() => setAsking(null)}>Keep editing</Button>
+                <Button variant="destructive" onClick={() => { const go = asking; setAsking(null); go() }}>Discard</Button>
               </>
             ) : footer}
           </div>
