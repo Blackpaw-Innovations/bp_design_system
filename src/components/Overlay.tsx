@@ -11,6 +11,7 @@ import { Button } from './Guarded'
  *   usePopover        fixed-position anchor that flips above when there is no room
  *   FormDialog        sm 400 / md 560; footer fixed; Enter submits; dirty close asks first
  *   SlideOver         right side, 480 / 720; record id, facts, header menu, pinned footer, dirty guard, optional pager
+ *   RecordPager       the same Previous · "2 of 3" · Next on a full record page (keys and swipe on the page)
  *   Menu              Actions menu: verbs grouped, destructive last in red. Never a Select of actions.
  */
 
@@ -243,6 +244,75 @@ export interface SlideOverPager {
 /** Arrow keys belong to these while they have focus; the pager only takes them elsewhere in the panel. */
 const OWNS_ARROWS = 'input, textarea, select, [contenteditable]:not([contenteditable="false"]), [role="slider"], [role="spinbutton"], [role="listbox"], [role="option"], [role="tab"], [role="radio"], [role="menuitem"], [role="grid"] *'
 
+function PagerRow({ pager, move }: { pager: SlideOverPager; move: (step: -1 | 1) => void }) {
+  const label = pager.label ?? 'record'
+  return (
+    <nav className="bp-pager" aria-label="Move through the list">
+      <button type="button" className="bp-btn" data-variant="quiet" data-size="md" aria-label={`Previous ${label}`} disabled={pager.index <= 0} onClick={() => move(-1)}><ChevronLeft size={18} aria-hidden="true" />Previous</button>
+      <span className="bp-pager-count" aria-live="polite">{pager.index + 1} of {pager.total}</span>
+      <button type="button" className="bp-btn" data-variant="quiet" data-size="md" aria-label={`Next ${label}`} disabled={pager.index >= pager.total - 1} onClick={() => move(1)}>Next<ChevronRight size={18} aria-hidden="true" /></button>
+    </nav>
+  )
+}
+
+/** Wires arrow keys and a sideways swipe on `root` to `move`. `skip` says when another layer owns the input. */
+function usePagerInput(target: RefObject<HTMLElement | null> | Document | null, on: boolean, move: (step: -1 | 1) => void, skip: () => boolean = () => false) {
+  const moveRef = useRef(move)
+  moveRef.current = move
+  const skipRef = useRef(skip)
+  skipRef.current = skip
+  useEffect(() => {
+    const root = target && 'current' in target ? target.current : target
+    if (!on || !root) return
+    const stop = root instanceof Document ? root.documentElement : root
+    let start: { x: number; y: number } | null = null
+    const onKey = (e: Event) => {
+      const k = e as KeyboardEvent
+      if ((k.key !== 'ArrowLeft' && k.key !== 'ArrowRight') || k.defaultPrevented || k.altKey || k.ctrlKey || k.metaKey || k.shiftKey || skipRef.current()) return
+      if ((k.target as Element | null)?.closest?.(OWNS_ARROWS)) return
+      k.preventDefault()
+      moveRef.current(k.key === 'ArrowLeft' ? -1 : 1)
+    }
+    const onStart = (e: Event) => {
+      const t = (e as TouchEvent).touches, target = e.target as Element | null
+      start = t.length === 1 && !skipRef.current() && !target?.closest?.(OWNS_ARROWS) && !scrollsSideways(target, stop) ? { x: t[0].clientX, y: t[0].clientY } : null
+    }
+    const onEnd = (e: Event) => {
+      if (!start) return
+      const c = (e as TouchEvent).changedTouches[0]
+      const dx = c.clientX - start.x, dy = c.clientY - start.y
+      start = null
+      if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) moveRef.current(dx < 0 ? 1 : -1)
+    }
+    root.addEventListener('keydown', onKey)
+    root.addEventListener('touchstart', onStart, { passive: true })
+    root.addEventListener('touchend', onEnd)
+    return () => { root.removeEventListener('keydown', onKey); root.removeEventListener('touchstart', onStart); root.removeEventListener('touchend', onEnd) }
+  }, [target, on])
+}
+
+export interface RecordPagerProps {
+  /** Same shape as SlideOver's pager. Nothing renders without it or with one record. */
+  pager?: SlideOverPager
+  className?: string
+}
+
+/**
+ * v1.27: Previous · "2 of 3" · Next at the top of a full record page opened from a list. Arrow keys and a sideways
+ * swipe work anywhere on the page, except in fields and while a sheet, dialog or panel is open on top.
+ */
+export function RecordPager({ pager, className }: RecordPagerProps) {
+  const move = (step: -1 | 1) => {
+    if (!pager) return
+    if (step < 0 && pager.index > 0) pager.onPrev()
+    if (step > 0 && pager.index >= 0 && pager.index < pager.total - 1) pager.onNext()
+  }
+  const on = !!pager && pager.total > 1
+  usePagerInput(typeof document === 'undefined' ? null : document, on, move, () => escapeStack.length > 0 || !!document.querySelector('[aria-modal="true"]'))
+  if (!on) return null
+  return <div className={className}><PagerRow pager={pager} move={move} /></div>
+}
+
 /** A touch that starts in something that scrolls sideways (a wide table) belongs to it, not to the pager. */
 function scrollsSideways(from: Element | null, stop: Element) {
   for (let el = from; el && el !== stop; el = el.parentElement) {
@@ -265,7 +335,6 @@ export function SlideOver({ open, title, recordId: recordIdProp, subtitle, facts
   useFocusTrap(panel, open)
   const titleId = useId()
   useScrollLock(open)
-  const pagerLabel = pager?.label ?? 'record'
   const hasPrev = !!pager && pager.index > 0
   const hasNext = !!pager && pager.index >= 0 && pager.index < pager.total - 1
   const move = (step: -1 | 1) => {
@@ -273,35 +342,8 @@ export function SlideOver({ open, title, recordId: recordIdProp, subtitle, facts
     if (step < 0 && hasPrev) guard(pager.onPrev)
     if (step > 0 && hasNext) guard(pager.onNext)
   }
-  const moveRef = useRef(move)
-  moveRef.current = move
-  const usesPager = open && !!pager
-  // Native listeners: React events bubble out of portals (a Select's sheet); these see only the panel's own DOM.
-  useEffect(() => {
-    const el = panel.current
-    if (!usesPager || !el) return
-    let start: { x: number; y: number } | null = null
-    const onKey = (e: KeyboardEvent) => {
-      if ((e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') || e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return
-      if ((e.target as Element | null)?.closest?.(OWNS_ARROWS)) return
-      e.preventDefault()
-      moveRef.current(e.key === 'ArrowLeft' ? -1 : 1)
-    }
-    const onStart = (e: TouchEvent) => {
-      const t = e.target as Element | null
-      start = e.touches.length === 1 && !t?.closest?.(OWNS_ARROWS) && !scrollsSideways(t, el) ? { x: e.touches[0].clientX, y: e.touches[0].clientY } : null
-    }
-    const onEnd = (e: TouchEvent) => {
-      if (!start) return
-      const dx = e.changedTouches[0].clientX - start.x, dy = e.changedTouches[0].clientY - start.y
-      start = null
-      if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) moveRef.current(dx < 0 ? 1 : -1)
-    }
-    el.addEventListener('keydown', onKey)
-    el.addEventListener('touchstart', onStart, { passive: true })
-    el.addEventListener('touchend', onEnd)
-    return () => { el.removeEventListener('keydown', onKey); el.removeEventListener('touchstart', onStart); el.removeEventListener('touchend', onEnd) }
-  }, [usesPager])
+  // Native listeners on the panel: React events bubble out of portals (a Select's sheet); these see only its own DOM.
+  usePagerInput(panel, open && !!pager, move)
   // The next record starts at its top, not where the last one was scrolled to. At either end the pressed button
   // turns disabled and the browser drops focus to <body>; put it back on the heading so the arrow keys keep working.
   useEffect(() => {
@@ -315,13 +357,7 @@ export function SlideOver({ open, title, recordId: recordIdProp, subtitle, facts
       <div className={`overlay${open ? ' open' : ''}`} onClick={() => { if (!dirty) onClose() }} aria-hidden={!open} {...(!open ? { inert: true } : {})} />
       <aside ref={panel} tabIndex={-1} aria-labelledby={titleId} className={`slide-over${open ? ' open' : ''}`} style={{ width, maxWidth: '100vw' }} role="dialog" aria-modal={open || undefined} aria-hidden={!open} {...(!open ? { inert: true } : {})}>
         <div className="dh" style={{ flexDirection: 'column', alignItems: 'stretch', gap: 10 }}>
-          {pager && pager.total > 1 && (
-            <nav className="bp-pager" aria-label="Move through the list">
-              <button type="button" className="bp-btn" data-variant="quiet" data-size="md" aria-label={`Previous ${pagerLabel}`} disabled={!hasPrev} onClick={() => move(-1)}><ChevronLeft size={18} aria-hidden="true" />Previous</button>
-              <span className="bp-pager-count" aria-live="polite">{pager.index + 1} of {pager.total}</span>
-              <button type="button" className="bp-btn" data-variant="quiet" data-size="md" aria-label={`Next ${pagerLabel}`} disabled={!hasNext} onClick={() => move(1)}>Next<ChevronRight size={18} aria-hidden="true" /></button>
-            </nav>
-          )}
+          {pager && pager.total > 1 && <PagerRow pager={pager} move={move} />}
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 6 }}>
             {onBack && <button type="button" className="bp-icon-btn" aria-label="Back" onClick={onBack}>←</button>}
             <div style={{ flex: 1, minWidth: 0 }}>
