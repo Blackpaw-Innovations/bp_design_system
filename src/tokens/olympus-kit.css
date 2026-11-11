@@ -31,7 +31,7 @@
   --ol-ok-bg:    rgba(31,138,91,.1);   --ol-ok-ink:   #17724A;
   --ol-warn-bg:  rgba(245,165,36,.16); --ol-warn-ink: #7A4C00;
   --ol-bad-bg:   rgba(214,69,69,.1);   --ol-bad-ink:  #B23434;
-  --ol-info-bg:  rgba(50,40,207,.08);  --ol-info-ink: #3228CF;
+  --ol-info-bg:  rgba(50,40,207,.08);  --ol-info-ink: #3228CF;   /* = --ol-accent-text in light; white wherever the surface is dark */
 
   /* Bar */
   --ol-bar-track: rgba(14,12,36,.08);
@@ -48,6 +48,7 @@
   --ol-sel-label:  #9A97C0;
   --ol-sel-tint:   rgba(255,255,255,.12);
   --ol-sel-shadow: 0 16px 32px -18px rgba(14,12,36,.6);
+  --ol-sel-accent-text: #FFFFFF;   /* the inverted card is a night card on light pages */
 
   /* Profile circle */
   --ol-av-bg:   radial-gradient(130% 130% at 28% 18%, #4A4390 0%, #1E1A4A 55%, #0E0C24 100%);
@@ -106,6 +107,7 @@
   --ol-sel-label:  #6B6985;
   --ol-sel-tint:   rgba(14,12,36,.08);
   --ol-sel-shadow: 0 16px 32px -18px rgba(0,0,0,.7);
+  --ol-sel-accent-text: #3228CF;   /* and a light card on dark pages */
 
   --ol-av-ring: inset 0 0 0 1px rgba(241,240,251,.24), 0 6px 14px -8px rgba(0,0,0,.6);
 
@@ -228,6 +230,9 @@ button.ol-card, a.ol-card { text-align: left; text-decoration: none; cursor: poi
 .ol-sel .ol-key, .ol-sel .ol-lbl, .ol-sel .ol-kick { color: var(--ol-sel-label); }
 .ol-sel .ol-count { background: var(--ol-sel-tint); color: var(--ol-sel-ink); }
 .ol-sel .ol-lift:hover, .ol-sel.ol-lift:hover { border-color: transparent; }
+/* Accent as text on a dark surface is white (approved by Marvin 11 Nov). The inverted card and a photo band are dark in light mode too. */
+.ol-sel { --ol-accent-text: var(--ol-sel-accent-text); }
+.ol-mast-photo { --ol-accent-text: #FFFFFF; --ol-info-ink: #FFFFFF; --ol-info-bg: rgba(255,255,255,.16); }
 
 /* ── Profile circle ── */
 .ol-av { flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; overflow: hidden;
