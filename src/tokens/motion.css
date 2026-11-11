@@ -1,0 +1,117 @@
+/*
+ * @blackpaw/ui — Olympus motion (Wave 0c, proposed ADR-0008; rules in the Olympus plan doc)
+ *
+ * Calm and quick. Nothing slides sideways, nothing cascades card by card, no colour wash on hover,
+ * no confetti, no rolling counters, nothing moves while someone is typing.
+ * On the phone (≤ 639px, same breakpoint as useIsPhone) every duration is 0.8×.
+ * Under prefers-reduced-motion all movement is off and fades are 120 ms or less.
+ *
+ * The older --bp-dur-* / --bp-ease-* tokens in brand.css are untouched; other apps use them.
+ */
+
+/* The LED ring's angle has to be a registered property to animate (bp-spin below). */
+@property --bp-a { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+
+:root {
+  --ol-dur-press:    120ms;  /* press */
+  --ol-dur-quick:    180ms;  /* hover lift, closing, tab content cross-fade, tick */
+  --ol-dur-standard: 260ms;  /* select, tab glide, sheets, fold, drag */
+  --ol-dur-show:     600ms;  /* a figure or chart arriving */
+  --ol-dur-stage:    800ms;  /* the sky fading in when a page opens */
+  --ol-dur-ambient:  50s;    /* the stars drifting */
+  --ol-dur-glow:     5s;     /* one turn of the needs-you LED ring */
+
+  --ol-ease-enter:    cubic-bezier(.2,.8,.2,1);  /* things arriving */
+  --ol-ease-exit:     cubic-bezier(.4,0,1,1);    /* things leaving */
+  --ol-ease-standard: cubic-bezier(.4,0,.2,1);   /* things changing in place */
+}
+
+@media (max-width: 639px) {
+  :root {
+    --ol-dur-press:    96ms;
+    --ol-dur-quick:    144ms;
+    --ol-dur-standard: 208ms;
+    --ol-dur-show:     480ms;
+    --ol-dur-stage:    640ms;
+    --ol-dur-ambient:  40s;
+    --ol-dur-glow:     4s;
+  }
+}
+
+/* ── Keyframes ── */
+@keyframes stage-fade  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes stage-drift { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-6px, 4px); } }
+@keyframes ol-rise-12  { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@keyframes ol-rise-8   { from { opacity: 0; transform: translateY(8px); }  to { opacity: 1; transform: none; } }
+@keyframes ol-sink-12  { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(12px); } }
+/* bp-spin is defined once, in guardrails.css: it turns the button spinner (transform)
+   and the LED ring (--bp-a) with the same name the projects app already uses. */
+
+/* ── Projects-app names, kept ── */
+.stage-fade  { animation: stage-fade var(--ol-dur-stage) var(--ol-ease-enter) both; }
+.stage-drift { animation: stage-drift var(--ol-dur-ambient) ease-in-out infinite; }
+
+/* ── Hover lift: up 2 px, deeper shadow, darker hairline. Never a colour wash. ── */
+.ol-lift {
+  transition: transform var(--ol-dur-quick) var(--ol-ease-standard),
+              box-shadow var(--ol-dur-quick) var(--ol-ease-standard),
+              border-color var(--ol-dur-quick) var(--ol-ease-standard);
+}
+@media (hover: hover) {
+  .ol-lift:hover { transform: translateY(-2px); box-shadow: var(--ol-shadow-card-hover); border-color: var(--ol-line-strong); }
+}
+
+/* ── Press: shrink to 98%. ── */
+.ol-press { transition: transform var(--ol-dur-press) var(--ol-ease-standard); }
+.ol-press:active { transform: scale(.98); }
+@media (hover: hover) {
+  .ol-lift.ol-press:hover:active { transform: translateY(-2px) scale(.98); }
+}
+
+/* ── Select or lock: colours cross-fade into the inverted card. Nothing slides. ── */
+.ol-select {
+  transition: background-color var(--ol-dur-standard) var(--ol-ease-standard),
+              color var(--ol-dur-standard) var(--ol-ease-standard),
+              border-color var(--ol-dur-standard) var(--ol-ease-standard),
+              box-shadow var(--ol-dur-standard) var(--ol-ease-standard);
+}
+
+/* ── Tabs: the purple pill glides (move it with transform/width); the content below cross-fades. ── */
+.ol-glide { transition: transform var(--ol-dur-standard) var(--ol-ease-standard), width var(--ol-dur-standard) var(--ol-ease-standard); }
+.ol-crossfade { animation: stage-fade var(--ol-dur-quick) var(--ol-ease-standard) both; } /* re-key the element to replay; also for changing numbers */
+
+/* ── Sheets and Hermes: rise 12 px and fade in; close quicker. ── */
+.ol-sheet-rise  { animation: ol-rise-12 var(--ol-dur-standard) var(--ol-ease-enter) both; }
+.ol-sheet-leave { animation: ol-sink-12 var(--ol-dur-quick) var(--ol-ease-exit) both; }
+
+/* ── Toasts: rise 8 px. ── */
+.ol-toast-rise { animation: ol-rise-8 var(--ol-dur-standard) var(--ol-ease-enter) both; }
+
+/* ── Fold: finished sub-tasks fold into one "N done" line. One child; toggle data-folded. ── */
+.ol-fold { display: grid; grid-template-rows: 1fr; opacity: 1;
+  transition: grid-template-rows var(--ol-dur-standard) var(--ol-ease-standard), opacity var(--ol-dur-standard) var(--ol-ease-standard); }
+.ol-fold > * { min-height: 0; overflow: hidden; }
+.ol-fold[data-folded] { grid-template-rows: 0fr; opacity: 0; }
+
+/* ── Needs-you glow: the conic LED ring, one turn every 5 s. Only on things waiting for this person. ── */
+.ol-glow { position: relative; }
+.ol-glow::before {
+  content: ""; position: absolute; inset: var(--ol-glow-inset, 0); border-radius: inherit; padding: 1.5px; pointer-events: none;
+  background: conic-gradient(from var(--bp-a), var(--ol-led-1), var(--ol-led-2), var(--ol-led-3), var(--ol-led-1));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
+  animation: bp-spin var(--ol-dur-glow) linear infinite;
+  transform: none !important; /* bp-spin also rotates (for the spinner); the ring only turns its colours */
+}
+
+/* ── Reduced motion: no movement; fades stay, at 120 ms or less. The glow is a still ring, the stars stop. ── */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --ol-dur-press: 120ms; --ol-dur-quick: 120ms; --ol-dur-standard: 120ms;
+    --ol-dur-show: 120ms;  --ol-dur-stage: 120ms;
+  }
+  .stage-drift, .ol-glow::before { animation: none; }
+  .ol-lift:hover, .ol-press:active, .ol-lift.ol-press:hover:active { transform: none; }
+  .ol-glide, .ol-fold { transition: none; }
+  .ol-sheet-rise, .ol-toast-rise { animation-name: stage-fade; }
+  .ol-sheet-leave { animation-name: stage-fade; animation-direction: reverse; }
+}

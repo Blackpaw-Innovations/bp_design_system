@@ -202,3 +202,7 @@ import { Skeleton, EmptyState, MetricCard, ViewToggle } from '@blackpaw/ui'
 | `--signal-green` | 142 71% 45% | Success, active |
 | `--signal-amber` | 38 93% 51% | Warning |
 | `--signal-red` | 0 84% 60% | Error, critical |
+
+## Olympus night system (12 Nov 2026)
+
+The Olympus look is in `src/tokens/olympus.css` (colours, sky and rail, as `--ol-*`, with dark mode under `.dk`) and `src/tokens/motion.css` (durations, easings and motion classes). `stars()` draws the seeded sky. The full list, in plain English, is in [docs/OLYMPUS_NIGHT_SYSTEM.md](docs/OLYMPUS_NIGHT_SYSTEM.md).

@@ -189,7 +189,8 @@ html :is(.rail-icon.active, [aria-current="page"]):is(.bp-attn, .hq-led-glow)::a
 :root .bp-btn[data-variant="destructive"]:hover:not(:disabled) { background: var(--v-crit-tint, rgba(197,59,67,.12)); }
 :root .bp-btn[aria-busy="true"] { cursor: progress; }
 :root .bp-btn .bp-spin { width: 16px; height: 16px; border-radius: 999px; border: 2px solid currentColor; border-right-color: transparent; animation: bp-spin .8s linear infinite; }
-@keyframes bp-spin { to { transform: rotate(360deg); } }
+/* --bp-a turns the Olympus LED ring (.ol-glow, motion.css); same name as the projects app. */
+@keyframes bp-spin { to { transform: rotate(360deg); --bp-a: 360deg; } }
 @media (prefers-reduced-motion: reduce) { :root .bp-btn .bp-spin { animation: none; } }
 :root .bp-icon-btn { width: 44px; height: 44px; min-width: 44px; padding: 0; border-radius: 999px; background: var(--g-surface); border: 1px solid var(--g-line); color: var(--g-ink); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
 :root .bp-icon-btn:focus-visible { outline: 2px solid var(--g-focus); outline-offset: 2px; }

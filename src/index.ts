@@ -5,6 +5,10 @@ export {
   TopBar,
 } from './components/AppShell'
 
+// Olympus sky: seeded stars and constellations (night.py stars(), byte-identical)
+export { stars } from './lib/stars'
+export type { StarsOptions } from './lib/stars'
+
 // Command palette
 export { CommandPalette, useCommandPalette } from './components/CommandPalette'
 export type { CommandItem } from './components/CommandPalette'
