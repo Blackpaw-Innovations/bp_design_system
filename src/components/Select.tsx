@@ -57,11 +57,13 @@ function useList(options: SelectOption[], query: string) {
 
 function Trigger({ open, onClick, label, text, empty, disabled, invalid, id, describedBy, btnRef, className }: { open: boolean; onClick: () => void; label?: string; text: React.ReactNode; empty: boolean; disabled?: boolean; invalid?: boolean; id?: string; describedBy?: string; btnRef: React.RefObject<HTMLButtonElement | null>; className?: string }) {
   return (
+    // contain: inline-size -- the trigger sizes to its field, never to a long option, so the ellipsis works inside flex/grid
+    // layouts too (a long tour name pushed Stay's "Plan a departure" sheet 74 px sideways at 375 px).
     <button
       ref={btnRef} id={id} type="button" disabled={disabled} onClick={onClick}
       aria-haspopup="listbox" aria-expanded={open} aria-label={id ? undefined : label} aria-describedby={describedBy} aria-invalid={invalid || undefined}
       className={`bp-control ${className ?? ''}`} data-invalid={invalid || undefined} data-disabled={disabled || undefined}
-      style={{ width: '100%', alignItems: 'center', gap: 10, padding: '0 14px', cursor: 'pointer', textAlign: 'left', font: '600 16px Urbanist, sans-serif', ...(open ? { borderColor: 'var(--c-signal)', boxShadow: '0 0 0 2px var(--c-ring)' } : {}) }}
+      style={{ width: '100%', minWidth: 0, contain: 'inline-size', alignItems: 'center', gap: 10, padding: '0 14px', cursor: 'pointer', textAlign: 'left', font: '600 16px Urbanist, sans-serif', ...(open ? { borderColor: 'var(--c-signal)', boxShadow: '0 0 0 2px var(--c-ring)' } : {}) }}
     >
       <span style={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', color: empty ? 'var(--c-muted)' : undefined }}>{text}</span>
       <ChevronDown size={18} aria-hidden="true" style={{ color: 'var(--c-muted)', transform: open ? 'rotate(180deg)' : undefined }} />
