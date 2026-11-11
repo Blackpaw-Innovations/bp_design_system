@@ -79,6 +79,7 @@ export default {
         'ol-card-line': 'var(--ol-card-line)',
         'ol-accent': 'var(--ol-accent)',
         'ol-on-accent': 'var(--ol-on-accent)',
+        'ol-accent-text': 'var(--ol-accent-text)',
         'ol-selected': 'var(--ol-selected)',
         'ol-on-selected': 'var(--ol-on-selected)',
         'ol-success': 'var(--ol-success)',

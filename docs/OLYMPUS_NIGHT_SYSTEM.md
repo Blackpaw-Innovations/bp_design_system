@@ -34,6 +34,7 @@ Each token has a light value and a dark (`.dk`) value.
 These tokens have the same value in both modes:
 
 - **Action:** `--ol-accent` `#3228CF` (cobalt, the only action colour: buttons, links, progress and focus) and `--ol-on-accent`.
+- **Accent as text:** `--ol-accent-text` is cobalt in light mode and white on any dark surface: dark mode, the inverted card (`ol-sel`) on light pages, the hero and a photo band. Use it for links, kickers, active tab text and chip text. Cobalt is a fill only on dark surfaces, because cobalt text on navy can't be read (approved by Marvin, 11 Nov 2026).
 - **Selected:** `--ol-selected` `#451D6A` (the selected tab, filter pill and light-rail item) and `--ol-on-selected`.
 - **Signals:** `--ol-success` `#1F8A5B`, `--ol-danger` `#D64545`, `--ol-warning` `#F5A524` and `--ol-coral` `#FE635F`.
 - **Night:** `--ol-night` `#0E0C24`, `--ol-night-raised` `#17143A`, `--ol-on-night` `#F1F0FB`, `--ol-on-night-2` `#C9C6E4`, `--ol-label-night` `#9A97C0`, `--ol-hair-night` and `--ol-on-night-muted`.

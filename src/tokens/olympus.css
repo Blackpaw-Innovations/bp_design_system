@@ -36,6 +36,7 @@
   /* ── Action and selection ── */
   --ol-accent:       #3228CF;  /* cobalt: the ONLY action colour (buttons, links, progress, focus) */
   --ol-on-accent:    #FFFFFF;
+  --ol-accent-text:  #3228CF;  /* accent as TEXT (links, kickers, active tab text, chip text): cobalt on light, white on any dark surface */
   --ol-selected:     #451D6A;  /* selected tab / filter pill / light-rail active item */
   --ol-on-selected:  #FFFFFF;
 
@@ -96,6 +97,7 @@
 
 /* Dark mode: the .dk blocks of the reference CSS. */
 .dk {
+  --ol-accent-text:  #FFFFFF;  /* approved by Marvin 11 Nov: on dark, text is white; cobalt stays a fill */
   --ol-ink:          #F1F0FB;
   --ol-field:        #0E0C24;
   --ol-surface:      rgba(255,255,255,.08);
