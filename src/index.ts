@@ -9,6 +9,15 @@ export {
 export { stars } from './lib/stars'
 export type { StarsOptions } from './lib/stars'
 
+// Olympus component kit (Wave 0b, 12 Nov 2026): docs/OLYMPUS_KIT.md, tokens/olympus-kit.css
+export {
+  Mast, Hero, Card, CardTitle, Row, Pills, FilterPills, Chip, OlAvatar, HermesMark, NeedsYou, Ring, Bar, Callout, AppTile,
+} from './components/Olympus'
+export type {
+  Kpi, MastProps, HeroProps, HeroFigure, CardProps, RowProps, PillItem, PillsProps, FilterPillsProps, OlChipTone,
+  OlAvatarProps, HermesMarkProps, NeedsYouProps, RingProps, BarProps, CalloutProps, AppTileProps,
+} from './components/Olympus'
+
 // Command palette
 export { CommandPalette, useCommandPalette } from './components/CommandPalette'
 export type { CommandItem } from './components/CommandPalette'
