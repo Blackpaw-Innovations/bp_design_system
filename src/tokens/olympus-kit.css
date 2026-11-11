@@ -1,0 +1,298 @@
+/*
+ * @blackpaw/ui — Olympus component kit (Wave 0b, 12 Nov 2026). Components: src/components/Olympus.tsx.
+ *
+ * Every value is copied from the approved renders' stylesheet (olympus-renders/build/olympus-kit.reference.css),
+ * using the FINAL value where the file overrides itself. Built on the --ol-* tokens in olympus.css and the
+ * motion classes in motion.css. Light is the default; `dk` on the screen root is dark mode.
+ *
+ * Classes are prefixed `ol-` (the reference names .card, .chip, .row, .light … are too generic to ship globally).
+ * The colours the kit needs that olympus.css does not name live in the token block below, so rules use var() only.
+ */
+
+:root {
+  /* Header (mast) on the day sky: ink text */
+  --ol-mast-ink:    #0E0C24;
+  --ol-mast-ink-2:  #57546F;               /* subtitle, KPI label */
+  --ol-mast-dim:    #8582AE;               /* KPI <small> */
+  --ol-mast-up:     #1F8A5B;               /* KPI note */
+  --ol-mast-down:   #D64545;               /* KPI note that starts with "-" */
+  --ol-mast-line:   rgba(14,12,36,.12);    /* KPI divider */
+
+  /* Pills (tabs) and filter pills */
+  --ol-pills-bg:     #FFFFFF;
+  --ol-pills-line:   rgba(14,12,36,.08);
+  --ol-pills-shadow: 0 10px 24px -16px rgba(14,12,36,.45);
+  --ol-pills-ink:    #57546F;
+  --ol-fpill-bg:     #FFFFFF;
+
+  /* Chips */
+  --ol-chip-bg:  rgba(14,12,36,.06);
+  --ol-chip-ink: #3F3D58;
+  --ol-ok-bg:    rgba(31,138,91,.1);   --ol-ok-ink:   #17724A;
+  --ol-warn-bg:  rgba(245,165,36,.16); --ol-warn-ink: #7A4C00;
+  --ol-bad-bg:   rgba(214,69,69,.1);   --ol-bad-ink:  #B23434;
+  --ol-info-bg:  rgba(50,40,207,.08);  --ol-info-ink: #3228CF;
+
+  /* Bar */
+  --ol-bar-track: rgba(14,12,36,.08);
+  --ol-bar-fill:  #3228CF;
+
+  /* Callout (a decision the person owns) */
+  --ol-callout-line: rgba(50,40,207,.28);
+  --ol-callout-bg:   rgba(50,40,207,.05);
+
+  /* Selected / locked: the inverted card. Light page → night card. */
+  --ol-sel-bg:     #17143A;
+  --ol-sel-ink:    #F1F0FB;
+  --ol-sel-ink-2:  #C9C6E4;
+  --ol-sel-label:  #9A97C0;
+  --ol-sel-tint:   rgba(255,255,255,.12);
+  --ol-sel-shadow: 0 16px 32px -18px rgba(14,12,36,.6);
+
+  /* Profile circle */
+  --ol-av-bg:   radial-gradient(130% 130% at 28% 18%, #4A4390 0%, #1E1A4A 55%, #0E0C24 100%);
+  --ol-av-ink:  #F1F0FB;
+  --ol-av-ring: inset 0 0 0 1px rgba(255,255,255,.16), 0 6px 14px -8px rgba(14,12,36,.55);
+
+  /* Hermes button, on the day band */
+  --ol-hermes-bg:   rgba(255,255,255,.7);
+  --ol-hermes-ink:  #0E0C24;
+  --ol-hermes-line: rgba(14,12,36,.12);
+
+  /* Hero (night stage panel, both modes) */
+  --ol-hero-glow:   radial-gradient(circle at 92% 0%, rgba(132,65,177,.45), rgba(50,40,207,.14) 38%, transparent 62%);
+  --ol-hero-shadow: 0 40px 80px -40px rgba(50,40,207,.55);
+  --ol-white:       #FFFFFF;
+
+  /* App tile */
+  --ol-tile-shade:       linear-gradient(180deg, rgba(14,12,36,0) 50%, rgba(14,12,36,.75));
+  --ol-tile-shade-hover: linear-gradient(180deg, rgba(14,12,36,.05) 0%, rgba(14,12,36,.95) 92%);
+  --ol-tile-shadow:       0 18px 30px -22px rgba(14,12,36,.7);
+  --ol-tile-shadow-hover: 0 30px 50px -18px rgba(14,12,36,.85), 0 0 0 2px #fff;
+  --ol-tile-detail:       #E4E2F5;
+}
+
+.dk {
+  --ol-mast-ink:   #FFFFFF;
+  --ol-mast-ink-2: #C9C6E4;
+  --ol-mast-dim:   #9A97C0;
+  --ol-mast-up:    #7FE0AA;
+  --ol-mast-down:  #FF9D9A;
+  --ol-mast-line:  rgba(241,240,251,.16);
+
+  --ol-pills-bg:     #17143A;
+  --ol-pills-line:   rgba(241,240,251,.12);
+  --ol-pills-shadow: none;
+  --ol-pills-ink:    #C9C6E4;
+  --ol-fpill-bg:     transparent;
+
+  --ol-chip-bg:  rgba(255,255,255,.1);
+  --ol-chip-ink: #F1F0FB;
+  --ol-ok-bg:    rgba(31,138,91,.25);   --ol-ok-ink:   #9BE8C0;
+  --ol-warn-bg:  rgba(245,165,36,.22);  --ol-warn-ink: #FFD58A;
+  --ol-bad-bg:   rgba(214,69,69,.25);   --ol-bad-ink:  #FFB3AF;
+  --ol-info-bg:  rgba(143,135,255,.18); --ol-info-ink: #FFFFFF;
+
+  --ol-bar-track: rgba(255,255,255,.12);
+  --ol-bar-fill:  #FFFFFF;
+
+  --ol-callout-line: rgba(143,135,255,.4);
+  --ol-callout-bg:   rgba(143,135,255,.1);
+
+  /* Dark page → light card. */
+  --ol-sel-bg:     #F1F0FB;
+  --ol-sel-ink:    #0E0C24;
+  --ol-sel-ink-2:  #57546F;
+  --ol-sel-label:  #6B6985;
+  --ol-sel-tint:   rgba(14,12,36,.08);
+  --ol-sel-shadow: 0 16px 32px -18px rgba(0,0,0,.7);
+
+  --ol-av-ring: inset 0 0 0 1px rgba(241,240,251,.24), 0 6px 14px -8px rgba(0,0,0,.6);
+
+  --ol-hermes-bg:   rgba(255,255,255,.08);
+  --ol-hermes-ink:  #FFFFFF;
+  --ol-hermes-line: transparent;
+}
+
+/* ── Editorial type ── */
+.ol-title { margin: 0; font: 200 40px/1.05 var(--bp-font-ui); letter-spacing: -.03em; color: var(--ol-ink); }
+.ol-title span, .ol-h1 span { font-weight: 500; }
+.ol-h1 { margin: 0; font: 200 34px/1.12 var(--bp-font-ui); letter-spacing: -.03em; color: var(--ol-ink); }
+.ol-h2 { margin: 0; font: 700 18px/1.25 var(--bp-font-ui); letter-spacing: -.015em; color: var(--ol-ink); }
+.ol-heavy { font: 700 17px/1.3 var(--bp-font-ui); color: var(--ol-ink); }
+.ol-med { font: 500 15px/1.4 var(--bp-font-ui); color: var(--ol-ink); }
+.ol-light { font: 400 13.5px/1.5 var(--bp-font-ui); color: var(--ol-subtle); }
+.ol-kick { font: 700 11.5px var(--bp-font-ui); letter-spacing: .09em; text-transform: uppercase; color: var(--ol-label); }
+.ol-hl { margin: 0; font: 600 19px/1.28 var(--bp-font-ui); letter-spacing: -.015em; color: var(--ol-ink); }
+.ol-hl.ol-hl-s { font-size: 16px; line-height: 1.32; }
+.ol-stand { margin: 0; font: 400 15px/1.6 var(--bp-font-ui); color: var(--ol-body); }
+.ol-byl { font: 400 12.5px var(--bp-font-ui); color: var(--ol-subtle); }
+/* .key and .lbl are JetBrains Mono in the renders; the kit keeps Urbanist (one app font), same size and tracking. */
+.ol-key { font: 500 11px var(--bp-font-ui); letter-spacing: .1em; text-transform: uppercase; color: var(--ol-subtle); }
+.ol-lbl { font: 500 11px var(--bp-font-ui); letter-spacing: .12em; text-transform: uppercase; color: var(--ol-label); }
+
+/* ── Header with KPI strip ──
+   The band is drawn by the header itself and ends 30 px under the KPIs. It bleeds up behind the top bar and left
+   behind the rail by the shell's offsets; the page column must be a stacking context (the renders: .main z-index 2). */
+.ol-mast { position: relative; display: flex; flex-direction: column; gap: 20px; padding: 6px 0 30px; margin-bottom: 10px; font-family: var(--bp-font-ui); font-variant-numeric: tabular-nums; }
+.ol-mast-bg { position: absolute; top: calc(-1 * var(--ol-mast-bleed-top, 90px)); left: calc(-1 * var(--ol-mast-bleed-left, 130px));
+  right: calc(-1 * var(--ol-mast-bleed-right, 60px)); bottom: 0; z-index: -1; }
+.dk .ol-mast-bg.ol-sky-day { background: var(--ol-sky-night); border-bottom: 0; }
+.ol-mast-stars { position: absolute; inset: 0; }
+.ol-mast-stars > svg { display: block; width: 100%; height: 100%; }
+.ol-mast-stars-night, .dk .ol-mast-stars-day { display: none; }
+.dk .ol-mast-stars-night { display: block; }
+.ol-mast-bg > .ol-craft { position: absolute; right: 380px; bottom: 10px; height: min(116px, 58%); }
+.dk .ol-mast-bg > .ol-craft { filter: drop-shadow(var(--ol-shadow-craft-night)); }
+/* The craft sits 380 px from the right, clear of the text on the 1280 px screen; narrower, it would cover the KPIs. */
+@media (max-width: 1099px) { .ol-mast-bg > .ol-craft { display: none; } }
+/* A photo band is dark in both modes, so its text is night text. */
+.ol-mast-photo { --ol-mast-ink: #FFFFFF; --ol-mast-ink-2: #C9C6E4; --ol-mast-dim: #9A97C0; --ol-mast-up: #7FE0AA; --ol-mast-down: #FF9D9A; --ol-mast-line: rgba(241,240,251,.16); }
+.ol-mast-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+.ol-mast-head > .ol-mast-t { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.ol-mast .ol-title { color: var(--ol-mast-ink); }
+.ol-mast-sub { font: 400 15px var(--bp-font-ui); color: var(--ol-mast-ink-2); }
+.ol-mast-right { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.ol-kpis { display: flex; align-items: stretch; flex-wrap: wrap; row-gap: 16px; }
+.ol-kpi { display: flex; flex-direction: column; gap: 4px; padding: 0 30px; border-left: 1px solid var(--ol-mast-line); }
+.ol-kpi:first-child { padding-left: 0; border-left: 0; }
+.ol-kpi > b { font: 200 38px/1 var(--bp-font-ui); letter-spacing: -.035em; color: var(--ol-mast-ink); }
+.ol-kpi > b small { font: 400 16px var(--bp-font-ui); color: var(--ol-mast-dim); margin-left: 2px; letter-spacing: 0; }
+.ol-kpi > span { font: 500 12.5px var(--bp-font-ui); color: var(--ol-mast-ink-2); }
+.ol-kpi > em { font: 600 11.5px var(--bp-font-ui); font-style: normal; color: var(--ol-mast-up); }
+.ol-kpi > em.ol-down { color: var(--ol-mast-down); }
+
+/* ── Hero: the night stage panel. Night in both modes (the component also sets `dk` on it, so children
+   take their dark values). ── */
+.ol-hero { position: relative; overflow: hidden; border-radius: 32px; padding: 32px 38px; display: flex; align-items: flex-end;
+  justify-content: space-between; flex-wrap: wrap; row-gap: 26px; column-gap: 32px; font-family: var(--bp-font-ui);
+  color: var(--ol-on-night); border: 1px solid var(--ol-hair-night); box-shadow: var(--ol-hero-shadow);
+  background: var(--ol-hero-glow), var(--ol-hero-stars, none) right center / 900px 300px no-repeat, var(--ol-night-raised);
+  --ol-subtle: var(--ol-on-night-2); --ol-ink: var(--ol-white); }
+.ol-hero > .ol-hcraft { position: absolute; right: 30px; top: 16px; height: min(128px, 48%); filter: drop-shadow(0 24px 24px rgba(0,0,0,.5)); pointer-events: none; }
+.ol-hero > :not(.ol-hcraft) { position: relative; z-index: 1; }
+.ol-hero-lead { display: flex; flex-direction: column; gap: 12px; max-width: 700px; min-width: 0; }
+.ol-hero-lead > .ol-chip { align-self: flex-start; }
+.ol-hero .ol-lbl { color: var(--ol-label-night); }
+.ol-hero-sub { font: 400 13.5px/1.5 var(--bp-font-ui); color: var(--ol-on-night-2); }
+.ol-hero-acts { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.ol-figs { display: flex; gap: 36px; flex-wrap: wrap; }
+.ol-fig { display: flex; flex-direction: column; gap: 2px; }
+.ol-fig > b { font: 200 44px/1 var(--bp-font-ui); letter-spacing: -.03em; color: var(--ol-white); }
+.ol-fig > span { font: 500 13px var(--bp-font-ui); color: var(--ol-on-night-2); }
+
+/* ── Card ── */
+.ol-card { background: var(--ol-card); border: 1px solid var(--ol-card-line); border-radius: 24px; padding: 26px 28px;
+  display: flex; flex-direction: column; gap: 12px; min-width: 0; box-shadow: var(--ol-shadow-card); font-family: var(--bp-font-ui); color: var(--ol-ink); }
+.ol-card > .ol-h2 { margin-bottom: 2px; }
+button.ol-card, a.ol-card { text-align: left; text-decoration: none; cursor: pointer; font: inherit; }
+
+/* ── Row ── */
+.ol-row { display: flex; align-items: center; gap: 14px; min-height: 58px; border-bottom: 1px solid var(--ol-line); }
+.ol-row:last-child { border-bottom: 0; }
+.ol-row > .ol-row-tx { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.ol-row.ol-sel { border-radius: 12px; margin: 0 -12px; padding: 12px; }
+
+/* ── Pills (tabs): the selected pill glides (ol-glide) ── */
+.ol-pills { position: relative; display: inline-flex; align-self: flex-start; gap: 4px; padding: 4px; border-radius: 999px;
+  background: var(--ol-pills-bg); border: 1px solid var(--ol-pills-line); box-shadow: var(--ol-pills-shadow); }
+.ol-pills > .ol-pill { position: relative; z-index: 1; min-height: 40px; padding: 0 18px; border: 0; border-radius: 999px; background: transparent;
+  display: flex; align-items: center; font: 600 14px var(--bp-font-ui); color: var(--ol-pills-ink); text-decoration: none; white-space: nowrap; cursor: pointer;
+  transition: color var(--ol-dur-standard) var(--ol-ease-standard); }
+.ol-pills > .ol-pill[aria-current], .ol-pills > .ol-pill[aria-selected="true"] { color: var(--ol-on-selected); }
+.ol-pills > .ol-pill-glider { position: absolute; top: 4px; bottom: 4px; left: 0; border-radius: 999px; background: var(--ol-selected); pointer-events: none; }
+/* No glider measured yet (first paint, or no JS): the selected pill paints itself. */
+.ol-pills:not([data-glide]) > .ol-pill:is([aria-current], [aria-selected="true"]) { background: var(--ol-selected); }
+
+/* ── Filter pills ── */
+.ol-fpills { display: inline-flex; gap: 6px; flex-wrap: wrap; }
+.ol-fpills > .ol-fpill { height: 32px; padding: 0 13px; border-radius: 999px; display: inline-flex; align-items: center; font: 500 13px var(--bp-font-ui);
+  text-decoration: none; color: var(--ol-body); border: 1px solid var(--ol-line-strong); background: var(--ol-fpill-bg); cursor: pointer; }
+.ol-fpills > .ol-fpill[aria-pressed="true"], .ol-fpills > .ol-fpill[aria-current] { background: var(--ol-selected); color: var(--ol-on-selected); border-color: var(--ol-selected); }
+
+/* ── Chip ── */
+.ol-chip { display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 10px; border-radius: 999px; font: 600 12px var(--bp-font-ui);
+  background: var(--ol-chip-bg); color: var(--ol-chip-ink); white-space: nowrap; }
+.ol-chip.ol-ok   { background: var(--ol-ok-bg);   color: var(--ol-ok-ink); }
+.ol-chip.ol-warn { background: var(--ol-warn-bg); color: var(--ol-warn-ink); }
+.ol-chip.ol-bad  { background: var(--ol-bad-bg);  color: var(--ol-bad-ink); }
+.ol-chip.ol-info { background: var(--ol-info-bg); color: var(--ol-info-ink); }
+
+/* ── Selected / locked: the inverted card. Children invert because the text tokens are redefined here.
+   Use with ol-select (motion.css) so it cross-fades. Never an accent bar on one edge. ── */
+.ol-sel { background: var(--ol-sel-bg); color: var(--ol-sel-ink); border-color: transparent; box-shadow: var(--ol-sel-shadow);
+  --ol-ink: var(--ol-sel-ink); --ol-body: var(--ol-sel-ink); --ol-subtle: var(--ol-sel-ink-2); --ol-label: var(--ol-sel-label);
+  --ol-lilac: var(--ol-sel-tint); --ol-line: var(--ol-sel-tint); --ol-chip-ink: var(--ol-sel-ink); --ol-chip-bg: var(--ol-sel-tint); }
+/* Inside a selected card every chip is the neutral inverted chip (the renders' .sel .chip). */
+.ol-sel .ol-chip, .ol-chip.ol-sel { background: var(--ol-sel-tint); color: var(--ol-sel-ink); font-weight: 600; }
+.ol-sel .ol-key, .ol-sel .ol-lbl, .ol-sel .ol-kick { color: var(--ol-sel-label); }
+.ol-sel .ol-count { background: var(--ol-sel-tint); color: var(--ol-sel-ink); }
+.ol-sel .ol-lift:hover, .ol-sel.ol-lift:hover { border-color: transparent; }
+
+/* ── Profile circle ── */
+.ol-av { flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; overflow: hidden;
+  background: var(--ol-av-bg); color: var(--ol-av-ink); box-shadow: var(--ol-av-ring); font-family: var(--bp-font-ui); font-weight: 600; letter-spacing: .02em; line-height: 1; }
+.ol-av > img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ── LED ring: still (.ol-led) or turning (.ol-glow, motion.css). ── */
+.ol-led { position: relative; }
+.ol-led::before { content: ""; position: absolute; inset: var(--ol-glow-inset, 0); border-radius: var(--ol-glow-radius, inherit); padding: 1.5px; pointer-events: none;
+  background: conic-gradient(var(--ol-led-1), var(--ol-led-2), var(--ol-led-3), var(--ol-led-1));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+.ol-glow::before { border-radius: var(--ol-glow-radius, inherit); }
+.ol-needs { display: block; }
+
+/* ── Hermes mark: the sparkle inside the LED ring ── */
+.ol-hermes { flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; border-radius: 12px;
+  color: var(--ol-hermes-ink); background: var(--ol-hermes-bg); border: 1px solid var(--ol-hermes-line); }
+.ol-hermes-night { --ol-hermes-bg: rgba(255,255,255,.08); --ol-hermes-ink: #FFFFFF; --ol-hermes-line: transparent; }
+
+/* ── Ring and bar ── */
+.ol-ring { position: relative; display: inline-grid; place-items: center; flex: 0 0 auto; }
+.ol-ring > svg { grid-area: 1 / 1; transform: rotate(-90deg); }
+.ol-ring > .ol-ring-label { grid-area: 1 / 1; font: 600 12px var(--bp-font-ui); color: var(--ol-ink); }
+.ol-ring circle:last-child { transition: stroke-dasharray var(--ol-dur-show) var(--ol-ease-enter); }
+.ol-bar { display: block; height: 6px; border-radius: 99px; background: var(--ol-bar-track); overflow: hidden; }
+.ol-bar > i { display: block; height: 100%; border-radius: 99px; background: var(--ol-bar-fill); transition: width var(--ol-dur-show) var(--ol-ease-enter); }
+.ol-bar > i.ol-ok { background: var(--ol-success); }
+.ol-bar > i.ol-warn { background: var(--ol-warning); }
+.ol-bar > i.ol-bad { background: var(--ol-danger); }
+
+/* ── Callout: a decision the person owns ── */
+.ol-callout { border-radius: 20px; padding: 18px 20px; display: flex; gap: 14px; align-items: flex-start; border: 1px solid var(--ol-callout-line);
+  background: var(--ol-callout-bg); font-family: var(--bp-font-ui); }
+.ol-callout > .ol-callout-tx { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.ol-callout .ol-heavy { font-size: 16px; }
+.ol-count { flex: 0 0 36px; height: 36px; border-radius: 12px; background: var(--ol-info-bg); color: var(--ol-info-ink);
+  font: 700 17px var(--bp-font-ui); display: flex; align-items: center; justify-content: center; }
+
+/* ── App tile: 16:10 photo, name; on hover or focus the .atile.hov look with the details ── */
+.ol-atile { position: relative; border-radius: 18px; overflow: hidden; aspect-ratio: 16 / 10; display: block; box-shadow: var(--ol-tile-shadow);
+  color: var(--ol-white); text-decoration: none; font-family: var(--bp-font-ui);
+  transition: transform var(--ol-dur-quick) var(--ol-ease-standard), box-shadow var(--ol-dur-quick) var(--ol-ease-standard); }
+button.ol-atile { border: 0; padding: 0; width: 100%; cursor: pointer; }
+.ol-atile > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ol-atile::after { content: ""; position: absolute; inset: 0; background: var(--ol-tile-shade); transition: opacity var(--ol-dur-quick) var(--ol-ease-standard); }
+.ol-atile::before { content: ""; position: absolute; inset: 0; z-index: 1; background: var(--ol-tile-shade-hover); opacity: 0; transition: opacity var(--ol-dur-quick) var(--ol-ease-standard); }
+.ol-atile-nm { position: absolute; left: 14px; bottom: 11px; z-index: 2; font: 600 15px var(--bp-font-ui); color: var(--ol-white); letter-spacing: -.01em; }
+.ol-atile-badge { position: absolute; top: 10px; right: 10px; z-index: 2; min-width: 24px; height: 24px; padding: 0 7px; border-radius: 999px;
+  background: var(--ol-coral); color: var(--ol-white); font: 700 12px var(--bp-font-ui); display: flex; align-items: center; justify-content: center; }
+.ol-atile-det { position: absolute; left: 14px; right: 14px; bottom: 12px; z-index: 2; display: flex; flex-direction: column; gap: 3px; opacity: 0;
+  transition: opacity var(--ol-dur-quick) var(--ol-ease-standard); }
+.ol-atile-det > b { font: 600 17px var(--bp-font-ui); color: var(--ol-white); }
+.ol-atile-det > span { font: 400 12.5px/1.4 var(--bp-font-ui); color: var(--ol-tile-detail); }
+.ol-atile:focus-visible { outline: 2px solid var(--ol-accent); outline-offset: 3px; }
+.ol-atile.ol-hov { transform: scale(1.07); z-index: 2; box-shadow: var(--ol-tile-shadow-hover); }
+.ol-atile.ol-hov::before { opacity: 1; }
+.ol-atile.ol-hov > .ol-atile-det { opacity: 1; }
+.ol-atile.ol-hov > .ol-atile-nm { opacity: 0; }
+@media (hover: hover) {
+  .ol-atile:hover { transform: scale(1.07); z-index: 2; box-shadow: var(--ol-tile-shadow-hover); }
+  .ol-atile:hover::before, .ol-atile:hover > .ol-atile-det { opacity: 1; }
+  .ol-atile:hover > .ol-atile-nm { opacity: 0; }
+}
+.ol-atile:focus-visible::before, .ol-atile:focus-visible > .ol-atile-det { opacity: 1; }
+.ol-atile:focus-visible > .ol-atile-nm { opacity: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .ol-atile:hover, .ol-atile.ol-hov { transform: none; }
+}
