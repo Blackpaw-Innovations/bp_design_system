@@ -63,6 +63,45 @@ export default {
         'brand-focus':  'hsl(var(--color-accent-h) / <alpha-value>)',
         'brand-hero':   'hsl(var(--color-hero) / <alpha-value>)',
         'brand-ink':    'hsl(var(--color-ink) / <alpha-value>)',
+
+        /* Olympus night system (src/tokens/olympus.css). Full colour values: no /opacity modifier. */
+        'ol-ink': 'var(--ol-ink)',
+        'ol-field': 'var(--ol-field)',
+        'ol-surface': 'var(--ol-surface)',
+        'ol-body': 'var(--ol-body)',
+        'ol-subtle': 'var(--ol-subtle)',
+        'ol-label': 'var(--ol-label)',
+        'ol-line': 'var(--ol-line)',
+        'ol-line-strong': 'var(--ol-line-strong)',
+        'ol-lilac': 'var(--ol-lilac)',
+        'ol-bone': 'var(--ol-bone)',
+        'ol-card': 'var(--ol-card)',
+        'ol-card-line': 'var(--ol-card-line)',
+        'ol-accent': 'var(--ol-accent)',
+        'ol-on-accent': 'var(--ol-on-accent)',
+        'ol-selected': 'var(--ol-selected)',
+        'ol-on-selected': 'var(--ol-on-selected)',
+        'ol-success': 'var(--ol-success)',
+        'ol-danger': 'var(--ol-danger)',
+        'ol-warning': 'var(--ol-warning)',
+        'ol-coral': 'var(--ol-coral)',
+        'ol-night': 'var(--ol-night)',
+        'ol-night-raised': 'var(--ol-night-raised)',
+        'ol-on-night': 'var(--ol-on-night)',
+        'ol-on-night-2': 'var(--ol-on-night-2)',
+        'ol-label-night': 'var(--ol-label-night)',
+        'ol-hair-night': 'var(--ol-hair-night)',
+        'ol-on-night-muted': 'var(--ol-on-night-muted)',
+        'ol-led-1': 'var(--ol-led-1)',
+        'ol-led-2': 'var(--ol-led-2)',
+        'ol-led-3': 'var(--ol-led-3)',
+        'ol-rail-bg': 'var(--ol-rail-bg)',
+        'ol-rail-line': 'var(--ol-rail-line)',
+        'ol-rail-icon': 'var(--ol-rail-icon)',
+        'ol-rail-active-bg': 'var(--ol-rail-active-bg)',
+        'ol-rail-active-ink': 'var(--ol-rail-active-ink)',
+        'ol-rail-me-bg': 'var(--ol-rail-me-bg)',
+        'ol-rail-me-ink': 'var(--ol-rail-me-ink)',
       },
 
       borderRadius: {
@@ -78,11 +117,39 @@ export default {
         base:  'var(--duration-base)',
         enter: 'var(--duration-enter)',
         slow:  'var(--duration-slow)',
+        /* Olympus motion (src/tokens/motion.css): 0.8× on the phone, ≤120 ms under reduced motion */
+        'ol-press':    'var(--ol-dur-press)',
+        'ol-quick':    'var(--ol-dur-quick)',
+        'ol-standard': 'var(--ol-dur-standard)',
+        'ol-show':     'var(--ol-dur-show)',
+        'ol-stage':    'var(--ol-dur-stage)',
       },
 
       transitionTimingFunction: {
         spring: 'var(--ease-spring)',
         'ease-out-smooth': 'var(--ease-out)',
+        'ol-enter':    'var(--ol-ease-enter)',
+        'ol-exit':     'var(--ol-ease-exit)',
+        'ol-standard': 'var(--ol-ease-standard)',
+      },
+
+      backgroundImage: {
+        'ol-sky-night':  'var(--ol-sky-night)',
+        'ol-sky-day':    'var(--ol-sky-day)',
+        'ol-scrim':      'var(--ol-scrim)',
+        'ol-scrim-band': 'var(--ol-scrim-band)',
+        'ol-sky-fade':   'var(--ol-sky-fade)',
+      },
+
+      boxShadow: {
+        'ol-card':       'var(--ol-shadow-card)',
+        'ol-card-hover': 'var(--ol-shadow-card-hover)',
+        'ol-rail':       'var(--ol-rail-shadow)',
+      },
+
+      dropShadow: {
+        'ol-craft':       'var(--ol-shadow-craft)',
+        'ol-craft-night': 'var(--ol-shadow-craft-night)',
       },
 
       keyframes: {
