@@ -38,6 +38,8 @@ const sourceFiles = walk(join(root, 'src')).filter((file) => ['.css', '.ts', '.t
 for (const file of sourceFiles) {
   // guardrails.css names banned fonts only in selectors that re-set them to Urbanist.
   if (file.endsWith('guardrails.css')) continue;
+  // Printed documents use the corporate font (Google Sans, Manrope numerals), not the app font.
+  if (file.endsWith('printDocument.ts')) continue;
   if (bannedFonts.test(readFileSync(file, 'utf8'))) failures.push(`Non-Urbanist app font reference: ${relative(root, file)}`);
 }
 
