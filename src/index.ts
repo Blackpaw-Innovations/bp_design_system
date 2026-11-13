@@ -84,7 +84,7 @@ export { formatMoney, moneyParts, formatDate, formatDateTime, formatPeriod, norm
 export type { MoneyOptions, MoneyParts } from './lib/format'
 // Print/PDF documents (v1.29.0): one house layout for Receipt, Invoice, Quote, Delivery Note, Statement, GRN
 export { printDocument, renderDocument, buildDocumentHtml, documentTable, escapeDoc, darkenHex } from './lib/printDocument'
-export type { DocumentSpec, DocumentKind, DocumentBranding, DocumentParty, DocumentField, DocumentColumn, DocumentLine, DocumentSignature, DocumentStatusTone } from './lib/printDocument'
+export type { DocumentSpec, DocumentKind, DocumentBranding, DocumentParty, DocumentField, DocumentColumn, DocumentLine, DocumentSignature, DocumentStatusTone, DocumentPaper } from './lib/printDocument'
 
 // Premium set (2026-10-08): page structure + ledgers + sealed surfaces
 export { PageHeader, MetricLedger, MetricProportion, SealedCard, Dock, DockSection, Facts } from './components/Premium'

@@ -138,7 +138,47 @@ const PAGE_MARGIN = "14mm";
  * this styling for free. Extend it here, don't fork a per-document copy:
  * a table, a totals card, a party block should look identical no matter
  * which document it appears on. */
-function documentStyle(accent: string, base = '') {
+/** Paper the document is laid out for. Default A4 portrait. */
+export type DocumentPaper = "a4" | "a4-landscape" | "roll80";
+
+/** Overrides appended after the A4 rules, so A4 output is unchanged.
+ * roll80 = 80 mm thermal till roll: one column, no card chrome. */
+function paperStyle(paper: DocumentPaper = "a4") {
+  if (paper === "a4-landscape") return `
+  @page { size: A4 landscape; }
+  .page { max-width: 1120px; }`;
+  if (paper === "roll80") return `
+  @page { size: 80mm 297mm; margin: 3mm; } /* ponytail: Chrome ignores "auto" height; long receipts continue on a 2nd slip, the till driver trims the roll */
+  body { font-size: 11px; padding: 12px 8px; }
+  .page { max-width: 302px; padding: 4mm; border-radius: 4px; }
+  .doc-accent-stripe { display: none; }
+  .doc-header { flex-direction: column; gap: 6px; margin-bottom: 10px; text-align: center; align-items: center; }
+  .doc-brand-row { flex-direction: column; gap: 4px; }
+  .doc-logo { height: 32px; }
+  .doc-title, .doc-title-meta { text-align: center; font-size: 15px; }
+  .doc-title-meta { font-size: 10.5px; line-height: 1.5; margin-top: 4px; }
+  .doc-parties { grid-template-columns: 1fr; gap: 8px; padding: 8px 0; border-width: 1px 0; border-radius: 0; margin-bottom: 10px; }
+  .doc-meta { grid-template-columns: 1fr 1fr; gap: 6px 10px; margin-bottom: 10px; }
+  .doc-meta-item { border-top-width: 1px; padding-top: 3px; }
+  .doc-value { font-size: 11.5px; }
+  h2 { margin: 10px 0 4px; font-size: 10.5px; }
+  table { font-size: 10.5px; }
+  th { color: #111827; background: none; border-bottom: 1px solid #111827; padding: 4px 5px; } /* allow-raw-color: thermal printers are black only */
+  td { padding: 4px 5px; }
+  th:first-child, td:first-child { padding-left: 0; }
+  th:last-child, td:last-child { padding-right: 0; }
+  th:first-child, th:last-child { border-radius: 0; }
+  .doc-totals { max-width: none; background: none; color: #111827; border-top: 1px dashed #111827; border-radius: 0; padding: 6px 0; } /* allow-raw-color: thermal printers are black only */
+  .doc-totals-row, .doc-grand, .doc-totals-row span:last-child, .doc-grand .amount { color: #111827; } /* allow-raw-color: thermal printers are black only */
+  .doc-grand { border-top-color: #111827; font-size: 13px; } /* allow-raw-color: thermal printers are black only */
+  .doc-grand .amount { font-size: 15px; }
+  .doc-sign { grid-template-columns: 1fr; gap: 10px; margin-top: 14px; }
+  .doc-footer { margin-top: 14px; padding-top: 8px; }
+  @media print { .page { padding: 0 !important; } }`;
+  return "";
+}
+
+function documentStyle(accent: string, base = '', paper?: DocumentPaper) {
   const accentDark = darkenHex(accent);
   return `
   ${fontFaces(base)}
@@ -216,7 +256,7 @@ function documentStyle(accent: string, base = '') {
   .doc-sign-line { border-top: 1px solid #111827; margin-top: 6px; padding-top: 6px; font-size: 11.5px; font-weight: 700; } /* allow-raw-color: print output is theme-invariant by design */
   .doc-sign-sub { font-size: 10.5px; color: #6b7280; line-height: 1.6; } /* allow-raw-color: print output is theme-invariant by design */
   .doc-promo a { text-decoration: none; } /* allow-raw-color: inherits .doc-promo strong's colour, print output is theme-invariant by design */
-  `;
+  ${paperStyle(paper)}`;
 }
 
 export interface DocumentField { label: string; value: string }
@@ -240,6 +280,8 @@ export function buildDocumentHtml(opts: {
   generatedNote?: string;
   /** Prefix for the font and promo-icon URLs. Default '' (same origin root). */
   assetBase?: string;
+  /** Default A4 portrait. */
+  paper?: DocumentPaper;
 }) {
   const accent = opts.branding.accent || "#1E3A7A"; // allow-raw-color: print output is theme-invariant by design (see the doc comment on documentStyle() below) -- black-on-white regardless of the app's own theme
   const titleWords = opts.docType.trim().split(/\s+/);
@@ -282,7 +324,7 @@ export function buildDocumentHtml(opts: {
     opts.generatedNote ?? `Generated ${new Date().toLocaleString("en-KE")}`,
   ].filter(Boolean).map((line) => escapeDoc(line)).join("<br/>");
 
-  return `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${escapeDoc(opts.title)}</title><style>${documentStyle(accent, opts.assetBase ?? '')}</style></head><body><div class="page">
+  return `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${escapeDoc(opts.title)}</title><style>${documentStyle(accent, opts.assetBase ?? '', opts.paper)}</style></head><body><div class="page">
     <div class="doc-accent-stripe"></div>
     <div class="doc-header">
       <div>
@@ -382,6 +424,7 @@ export interface DocumentSpec {
   signatures?: DocumentSignature[];
   generatedNote?: string;
   assetBase?: string;
+  paper?: DocumentPaper;
 }
 
 const isBlank = (v: unknown) => v === null || v === undefined || String(v).trim() === "";
@@ -419,5 +462,6 @@ export function renderDocument(spec: DocumentSpec): string {
     bodyHtml: documentTable(spec.columns ?? [], spec.lines ?? [], spec.linesHeading) + totals + notes + signatures,
     generatedNote: spec.generatedNote,
     assetBase: spec.assetBase,
+    paper: spec.paper,
   });
 }
