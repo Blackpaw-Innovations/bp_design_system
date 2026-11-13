@@ -360,12 +360,12 @@
 :root .bp-setting-label { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 :root .bp-setting-label b { font-size: 17px; font-weight: 800; color: var(--c-ink); }
 :root .bp-setting-label span { font-size: 14px; font-weight: 600; color: var(--c-muted); }
-:root .bp-state { flex: none; display: inline-flex; align-items: center; gap: 8px; min-height: 32px; padding: 0 12px; border-radius: 999px; font-size: 14px; font-weight: 900; white-space: nowrap; background: var(--c-sunken); color: var(--c-muted); }
-:root .bp-state::before { content: ""; width: 8px; height: 8px; border-radius: 999px; background: currentColor; }
-:root .bp-state[data-tone="required"] { background: var(--c-selected); color: var(--c-navy); }
-:root .bp-state[data-tone="required"]::before { background: var(--c-signal); }
-:root .bp-state[data-tone="on"] { background: var(--v-pos-tint); color: var(--v-pos); }
-:root[data-theme="dark"] .bp-state[data-tone="required"] { color: #fff; }
+:root .bp-state-pill { flex: none; display: inline-flex; align-items: center; gap: 8px; min-height: 32px; padding: 0 12px; border-radius: 999px; font-size: 14px; font-weight: 900; white-space: nowrap; background: var(--c-sunken); color: var(--c-muted); }
+:root .bp-state-pill::before { content: ""; width: 8px; height: 8px; border-radius: 999px; background: currentColor; }
+:root .bp-state-pill[data-tone="required"] { background: var(--c-selected); color: var(--c-navy); }
+:root .bp-state-pill[data-tone="required"]::before { background: var(--c-signal); }
+:root .bp-state-pill[data-tone="on"] { background: var(--v-pos-tint); color: var(--v-pos); }
+:root[data-theme="dark"] .bp-state-pill[data-tone="required"] { color: #fff; }
 :root .bp-numbered { list-style: none; margin: 0; padding: 0; display: flex; gap: 10px; flex-wrap: wrap; }
 :root .bp-numbered li { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px 0 8px; border-radius: 999px; background: var(--c-selected); font-size: 15px; font-weight: 800; color: var(--c-navy); }
 :root .bp-numbered li > span { flex: none; width: 28px; height: 28px; border-radius: 999px; background: var(--c-navy); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 900; }
