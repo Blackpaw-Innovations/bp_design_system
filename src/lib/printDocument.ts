@@ -163,8 +163,10 @@ function paperStyle(paper: DocumentPaper = "a4") {
   .doc-value { font-size: 11.5px; }
   h2 { margin: 10px 0 4px; font-size: 10.5px; }
   table { font-size: 10.5px; }
-  th { color: #111827; background: none; border-bottom: 1px solid #111827; padding: 4px 2px; } /* allow-raw-color: thermal printers are black only */
-  td { padding: 4px 2px; }
+  th { color: #111827; background: none; border-bottom: 1px solid #111827; padding: 4px 5px; } /* allow-raw-color: thermal printers are black only */
+  td { padding: 4px 5px; }
+  th:first-child, td:first-child { padding-left: 0; }
+  th:last-child, td:last-child { padding-right: 0; }
   th:first-child, th:last-child { border-radius: 0; }
   .doc-totals { max-width: none; background: none; color: #111827; border-top: 1px dashed #111827; border-radius: 0; padding: 6px 0; } /* allow-raw-color: thermal printers are black only */
   .doc-totals-row, .doc-grand, .doc-totals-row span:last-child, .doc-grand .amount { color: #111827; } /* allow-raw-color: thermal printers are black only */
