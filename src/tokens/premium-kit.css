@@ -309,6 +309,22 @@
   :root .bp-pk-hub:hover { transform: none; }
 }
 
+/* SetupRing and SetupBlocker (v1.25.6): setup progress and the "finish setup first" sheet. */
+:root .bp-pk-ring { position: relative; display: inline-grid; flex: none; place-items: center; }
+:root .bp-pk-ring > svg { transform: rotate(-90deg); }
+:root .bp-pk-ring circle { fill: none; }
+:root .bp-pk-ring .track { stroke: var(--c-border); }
+:root .bp-pk-ring .fill { stroke: var(--c-action); stroke-linecap: round; transition: stroke-dashoffset 700ms var(--pk-ease); }
+:root .bp-pk-ring[data-on-hero] .track { stroke: var(--pk-on-hero-line); }
+:root .bp-pk-ring[data-on-hero] .fill { stroke: var(--pk-on-hero); }
+:root .bp-pk-ring > .num { position: absolute; font-weight: 800; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: var(--c-ink); }
+:root .bp-pk-ring[data-on-hero] > .num { color: var(--pk-on-hero); }
+:root .bp-pk-ring > .num > small { font-size: 0.5em; }
+:root .bp-pk-blocker { padding: 4px 16px 0; }
+:root .bp-pk-blocker > .lede { margin: 0 0 16px; font-size: 15px; line-height: 1.5; color: var(--c-muted); }
+:root .bp-pk-blocker-foot { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+@media (prefers-reduced-motion: reduce) { :root .bp-pk-ring .fill { transition: none; } }
+
 /* FilterFold (v1.25.4): a register's filters behind one quiet button on phones; always shown from md up. */
 :root .bp-pk-fold > .toggle { margin-bottom: 16px; }
 @media (max-width: 767.98px) { :root .bp-pk-fold:not([data-open]) > .body { display: none; } }
