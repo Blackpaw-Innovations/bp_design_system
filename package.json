@@ -20,7 +20,8 @@
     "check:layout": "node scripts/check-component-layout.mjs",
     "check:brand-assets": "node scripts/check-brand-assets.mjs",
     "check:money": "node scripts/check-money-format.mjs",
-    "check:stars": "node scripts/check-stars.mts"
+    "check:stars": "node scripts/check-stars.mts",
+    "check:documents": "node scripts/check-documents.mts"
   },
   "files": [
     "src",
