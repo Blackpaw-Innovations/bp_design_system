@@ -211,6 +211,7 @@ function documentStyle(accent: string, base = '') {
   .doc-promo span { font-size: 10.5px; color: #9ca3af; } /* allow-raw-color: print output is theme-invariant by design (isolated iframe stylesheet, no access to the app's CSS custom properties) */
   .doc-promo strong { color: #6b7280; } /* allow-raw-color: print output is theme-invariant by design (isolated iframe stylesheet, no access to the app's CSS custom properties) */
   .doc-sign { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 24px; margin-top: 28px; break-inside: avoid; }
+  .doc-sign-space { height: 48px; }
   .doc-sign-img { height: 48px; max-width: 200px; object-fit: contain; display: block; }
   .doc-sign-line { border-top: 1px solid #111827; margin-top: 6px; padding-top: 6px; font-size: 11.5px; font-weight: 700; } /* allow-raw-color: print output is theme-invariant by design */
   .doc-sign-sub { font-size: 10.5px; color: #6b7280; line-height: 1.6; } /* allow-raw-color: print output is theme-invariant by design */
@@ -400,7 +401,7 @@ export function renderDocument(spec: DocumentSpec): string {
         spec.grandTotal ? `<div class="doc-grand"><span>${escapeDoc(spec.grandTotal.label)}</span><span class="amount">${escapeDoc(spec.grandTotal.value)}</span></div>` : ""}</div>`
     : "";
   const signatures = spec.signatures?.length
-    ? `<div class="doc-sign">${spec.signatures.map((s) => `<div>${s.image ? `<img class="doc-sign-img" src="${escapeDoc(s.image)}" alt="" />` : ""}<div class="doc-sign-line">${escapeDoc(s.label)}${s.name ? ` · ${escapeDoc(s.name)}` : ""}</div>${(s.lines ?? []).filter(Boolean).map((l) => `<div class="doc-sign-sub">${escapeDoc(l)}</div>`).join("")}</div>`).join("")}</div>`
+    ? `<div class="doc-sign">${spec.signatures.map((s) => `<div><div class="doc-sign-space">${s.image ? `<img class="doc-sign-img" src="${escapeDoc(s.image)}" alt="" />` : ""}</div><div class="doc-sign-line">${escapeDoc(s.label)}${s.name ? ` · ${escapeDoc(s.name)}` : ""}</div>${(s.lines ?? []).filter(Boolean).map((l) => `<div class="doc-sign-sub">${escapeDoc(l)}</div>`).join("")}</div>`).join("")}</div>`
     : "";
   const notes = (spec.notes ?? []).filter(Boolean).map((n) => `<p class="doc-note">${escapeDoc(n)}</p>`).join("");
   return buildDocumentHtml({
