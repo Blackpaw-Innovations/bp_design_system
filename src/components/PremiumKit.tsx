@@ -6,6 +6,7 @@ import { formatMoney, moneyParts } from '../lib/format'
 import { Avatar, initials } from './Data'
 import { Button, ButtonLink } from './Guarded'
 import { Select } from './Select'
+import { Sheet } from './Overlay'
 import { timeSlots } from './DatePicker'
 
 /**
@@ -491,6 +492,58 @@ export function PersonCard({ name, avatarKey, title, leading, sub, meta, figure,
 /** A small state chip: `warn` what still needs doing, `pos` good news, `plain` a neutral fact. */
 export function TintChip({ tone = 'warn', children }: { tone?: 'warn' | 'pos' | 'plain'; children: ReactNode }) {
   return <span className="bp-pk-chip" data-tone={tone}>{children}</span>
+}
+
+/**
+ * Setup progress (v1.25.6): a ring that fills once to `score` (0-100), then rests; the figure sits inside, so the
+ * ring carries the number rather than decorating it. `onHero` draws it in the navy hero's own white (no accent on
+ * navy); elsewhere it fills in the action colour. 80px and up shows "64%", smaller shows the bare number (a list
+ * row's leading slot uses 44). Still under reduced motion.
+ */
+export function SetupRing({ score, size = 112, onHero = false }: { score: number; size?: number; onHero?: boolean }) {
+  const stroke = size >= 80 ? 10 : 5
+  const r = size / 2 - stroke / 2 - 1
+  const c = 2 * Math.PI * r
+  const share = Math.max(0, Math.min(100, score)) / 100
+  const [drawn, setDrawn] = useState(false)
+  useEffect(() => { const id = requestAnimationFrame(() => setDrawn(true)); return () => cancelAnimationFrame(id) }, [])
+  return (
+    <span role="img" aria-label={`${score}% of setup done`} className="bp-pk-ring" data-on-hero={onHero || undefined} style={{ width: size, height: size }}>
+      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-hidden="true">
+        <circle className="track" cx={size / 2} cy={size / 2} r={r} strokeWidth={stroke} />
+        <circle className="fill" cx={size / 2} cy={size / 2} r={r} strokeWidth={stroke} strokeDasharray={c} strokeDashoffset={drawn ? c * (1 - share) : c} />
+      </svg>
+      <span aria-hidden="true" className="num" style={{ fontSize: size >= 80 ? size * 0.26 : 13 }}>
+        {score}{size >= 80 && <small>%</small>}
+      </span>
+    </span>
+  )
+}
+
+export interface SetupStep { key: string; label: string; onFix?: () => void }
+
+/**
+ * The one way a refused action explains itself (v1.25.6): a sheet titled with what was held back ("Finish setup
+ * before sending quotes"), one plain line, each missing step as a row with one tap to its fix, then "Not now" and an
+ * optional way to the whole setup list. The app decides when to open it (typically when its server answers
+ * `setup_required`); this only draws it.
+ */
+export function SetupBlocker({ open, title, intro = 'Nothing was sent. Finish these steps, then try again.', steps, onClose, seeAll }: {
+  open: boolean; title: string; intro?: string; steps: SetupStep[]; onClose: () => void; seeAll?: { label: string; onClick: () => void }
+}) {
+  return (
+    <Sheet open={open} title={title} onClose={onClose}
+      footer={<div className="bp-pk-blocker-foot"><Button variant="quiet" onClick={onClose}>Not now</Button>{seeAll && <Button variant="secondary" onClick={seeAll.onClick}>{seeAll.label}</Button>}</div>}>
+      <div className="bp-pk-blocker">
+        <p className="lede">{intro}</p>
+        <RowGroup>
+          {steps.map((step) => (
+            <TapRow key={step.key} onClick={step.onFix} label={step.onFix ? `Fix: ${step.label}` : undefined} title={step.label} figure={<TintChip>Needed</TintChip>} />
+          ))}
+        </RowGroup>
+      </div>
+    </Sheet>
+  )
 }
 
 /**
