@@ -476,3 +476,12 @@ The screen must read the same with all motion off. Layout and exit motion for li
 4. End-of-day screens: a DayCloseCard with Share on WhatsApp.
 5. Empty: CaredEmpty with the right pose. Loading and errors stay with the app's query boundary.
 6. Check at 375 px in light and dark: no sideways scroll, 44 px targets, white-only on navy, one orange.
+
+## Spotlight (v1.32.0, 17 Nov 2026)
+
+`SpotlightCard` and `SpotlightCarousel` (src/components/Spotlight.tsx, tokens/spotlight.css): one waiting thing per coloured craft card. The colour is the kind of demand: **burgundy** urgent (someone is stuck or money is at risk), **navy** act today, **olive** coming up, **cream** good news (the one light card, used for "Nothing needs you right now"). Orange stays on the eyebrow only.
+
+- Title names the record when the app knows it ("Daniel Kiprop's glasses are ready"); the body keeps the count ("2 more waiting").
+- `art` is the craft object's base path in the app (`/assets/objects/gears`). The app ships `-160`, `-320` and `-640.webp`. Craft objects go on spotlight, snapshot and KPI cards, never on app tiles.
+- Home: one `SpotlightCarousel` under the hero, most urgent first (`byUrgency`), five at most, swipe or dots and arrows, no autoplay. A working page shows one `SpotlightCard` for its own top item.
+- Home order around it (every app): start (what's new, demo walkthrough, data warning), fixed (greeting, hero, spotlights, apps, quick actions, workflow, more figures), then dismissible cards (setup, first sale, getting started, welcome, notifications).
