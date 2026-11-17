@@ -43,7 +43,9 @@ export function useCountUp(target: number, duration = 700): number {
     let frame = 0
     const land = () => { cancelAnimationFrame(frame); from.current = target; setShown(target) }
     const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / duration)
+      // A frame's timestamp can be a little earlier than `start`: clamp, or the first value overshoots below `begin`
+      // (counting up from 0 painted "-0" on Gym Attendance, and stayed there in a tab that got no more frames).
+      const t = Math.min(1, Math.max(0, (now - start) / duration))
       const value = t === 1 ? target : begin + (target - begin) * (1 - 2 ** (-10 * t))
       from.current = value
       setShown(value)
@@ -150,7 +152,7 @@ export function CountHero({ title, count = 0, caption, floor, headline, tick = t
   title?: string; count?: number; caption: string; floor?: boolean; headline?: string; tick?: boolean; chip?: ReactNode
   progress?: { done: number; total: number; label: string }; stats?: StatStripItem[]; renderLink?: RenderLink; children?: ReactNode
 }) {
-  const shown = Math.round(useCountUp(count))
+  const shown = Math.round(useCountUp(count)) || 0 // never "-0"
   const share = progress && progress.total > 0 ? Math.min(1, progress.done / progress.total) : 0
   const figure = headline ? (
     <span className="bp-pk-headline">
