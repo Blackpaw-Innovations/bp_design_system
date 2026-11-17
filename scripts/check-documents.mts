@@ -23,3 +23,13 @@ assert.ok(!a4.includes('80mm') && !a4.includes('landscape'), 'default stays A4 p
 assert.ok(renderDocument({ kind: 'Receipt', title: 'R', branding: { name: 'x' }, paper: 'roll80' }).includes('@page { size: 80mm 297mm'))
 assert.ok(renderDocument({ kind: 'Statement', title: 'S', branding: { name: 'x' }, paper: 'a4-landscape' }).includes('size: A4 landscape'))
 console.log('paper: ok')
+// Readable brand colour: light colours get dark text on filled bars and a darker title; dark colours keep white. Ink saver drops fills.
+import { readableAccent } from '../src/lib/printDocument.ts'
+assert.equal(readableAccent('#F5C400').ink, '#111827', 'yellow bar gets dark text')
+assert.notEqual(readableAccent('#F5C400').text.toLowerCase(), '#f5c400', 'yellow title is darkened')
+assert.equal(readableAccent('#1E3A7A').ink, '#ffffff', 'navy keeps white text')
+assert.equal(readableAccent('#1E3A7A').text, '#1E3A7A', 'navy title unchanged')
+const saver = renderDocument({ kind: 'Receipt', title: 'R', branding: { name: 'x', accent: '#0a7f5a', inkSaver: true } })
+assert.ok(saver.includes('Ink saver'), 'ink saver style present')
+assert.ok(!renderDocument({ kind: 'Receipt', title: 'R', branding: { name: 'x' } }).includes('Ink saver'), 'off by default')
+console.log('accent: ok')
