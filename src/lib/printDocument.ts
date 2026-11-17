@@ -148,7 +148,7 @@ function paperStyle(paper: DocumentPaper = "a4") {
   @page { size: A4 landscape; }
   .page { max-width: 1120px; }`;
   if (paper === "roll80") return `
-  @page { size: 80mm 297mm; margin: 3mm; } /* ponytail: Chrome ignores "auto" height; long receipts continue on a 2nd slip, the till driver trims the roll */
+  @page { size: 80mm 297mm; margin: 0; } /* ponytail: Chrome ignores "auto" height; long receipts continue on a 2nd slip, the till driver trims the roll */
   body { font-size: 11px; padding: 12px 8px; }
   .page { max-width: 302px; padding: 4mm; border-radius: 4px; }
   .doc-accent-stripe { display: none; }
@@ -174,7 +174,7 @@ function paperStyle(paper: DocumentPaper = "a4") {
   .doc-grand .amount { font-size: 15px; }
   .doc-sign { grid-template-columns: 1fr; gap: 10px; margin-top: 14px; }
   .doc-footer { margin-top: 14px; padding-top: 8px; }
-  @media print { .page { padding: 0 !important; } }`;
+  @media print { .page { padding: 0 4mm !important; } .doc-frame-space { height: 3mm; } }`;
   return "";
 }
 
@@ -182,7 +182,10 @@ function documentStyle(accent: string, base = '', paper?: DocumentPaper) {
   const accentDark = darkenHex(accent);
   return `
   ${fontFaces(base)}
-  @page { size: A4; margin: ${PAGE_MARGIN}; }
+  /* Margin 0 on the paper; the document carries its own margin (.page side padding + .doc-frame-space rows that repeat on every
+     printed page), so the print dialog's Margins setting (Chrome remembers "None"), Safari and PDF printers can't push it to the edge.
+     Zero page margin also stops Chrome stamping date/URL headers into the margins. */
+  @page { size: A4; margin: 0; }
   * { box-sizing: border-box; }
   html, body { margin: 0; height: auto; overflow-y: auto; } /* the old hidden-iframe flow never needed to scroll on screen -- the visible popup window this now opens does */
   body { color: #111827; font-family: 'Google Sans', Arial, Helvetica, sans-serif; font-size: 12px; background: #eef0f2; padding: 24px 16px 48px; -webkit-print-color-adjust: exact; print-color-adjust: exact; } /* allow-raw-color: screen-only backdrop behind the white page card, matches blackpaw-admin's printWindow.ts reference; @media print below strips this back to a plain white page */
@@ -190,7 +193,8 @@ function documentStyle(accent: string, base = '', paper?: DocumentPaper) {
   .doc-accent-stripe { height: 6px; background: ${accent}; margin: -${PAGE_MARGIN} -${PAGE_MARGIN} 22px; border-radius: 12px 12px 0 0; }
   @media print {
     body { background: #fff !important; padding: 0 !important; }
-    .page { max-width: 100% !important; margin: 0 !important; padding: 0 !important; border-radius: 0 !important; box-shadow: none !important; }
+    .page { max-width: 100% !important; margin: 0 !important; padding: 0 ${PAGE_MARGIN} !important; border-radius: 0 !important; box-shadow: none !important; }
+    .doc-frame-space { height: ${PAGE_MARGIN}; }
     .doc-accent-stripe { margin: 0 0 22px !important; border-radius: 0 !important; }
   }
   .doc-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; margin-bottom: 20px; }
@@ -256,6 +260,9 @@ function documentStyle(accent: string, base = '', paper?: DocumentPaper) {
   .doc-sign-line { border-top: 1px solid #111827; margin-top: 6px; padding-top: 6px; font-size: 11.5px; font-weight: 700; } /* allow-raw-color: print output is theme-invariant by design */
   .doc-sign-sub { font-size: 10.5px; color: #6b7280; line-height: 1.6; } /* allow-raw-color: print output is theme-invariant by design */
   .doc-promo a { text-decoration: none; } /* allow-raw-color: inherits .doc-promo strong's colour, print output is theme-invariant by design */
+  .doc-frame { width: 100%; border-collapse: collapse; font-size: inherit; margin: 0; }
+  .doc-frame > thead > tr > td, .doc-frame > tfoot > tr > td, .doc-frame > tbody > tr > td { padding: 0; border: 0; background: none; border-radius: 0; }
+  @media screen { .doc-frame-space { height: 0; } }
   ${paperStyle(paper)}`;
 }
 
@@ -324,7 +331,7 @@ export function buildDocumentHtml(opts: {
     opts.generatedNote ?? `Generated ${new Date().toLocaleString("en-KE")}`,
   ].filter(Boolean).map((line) => escapeDoc(line)).join("<br/>");
 
-  return `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${escapeDoc(opts.title)}</title><style>${documentStyle(accent, opts.assetBase ?? '', opts.paper)}</style></head><body><div class="page">
+  return `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${escapeDoc(opts.title)}</title><style>${documentStyle(accent, opts.assetBase ?? '', opts.paper)}</style></head><body><table class="doc-frame"><thead><tr><td><div class="doc-frame-space"></div></td></tr></thead><tfoot><tr><td><div class="doc-frame-space"></div></td></tr></tfoot><tbody><tr><td><div class="page">
     <div class="doc-accent-stripe"></div>
     <div class="doc-header">
       <div>
@@ -353,7 +360,7 @@ export function buildDocumentHtml(opts: {
         <span>Generated with <a href="https://hakiqa.com/" target="_blank" rel="noopener noreferrer"><strong>Hakiqa</strong></a> · hakiqa.com</span>
       </div>`}
     </div>
-  </div></body></html>`;
+  </div></td></tr></tbody></table></body></html>`;
 }
 
 /** Waits for the print document's own fonts to finish loading (bounded to
