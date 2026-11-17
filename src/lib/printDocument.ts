@@ -69,6 +69,26 @@ export function darkenHex(hex: string, amount = 0.14): string {
   return `#${toHex(r2)}${toHex(g2)}${toHex(b2)}`;
 }
 
+/** WCAG relative luminance of a #rrggbb colour (null when it isn't one). */
+function luminance(hex: string): number | null {
+  const m = /^#?([0-9a-f]{6})$/i.exec(hex.trim());
+  if (!m) return null;
+  const n = parseInt(m[1], 16);
+  const lin = (c: number) => { const v = c / 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; };
+  return 0.2126 * lin((n >> 16) & 255) + 0.7152 * lin((n >> 8) & 255) + 0.0722 * lin(n & 255);
+}
+const onWhite = (hex: string) => { const l = luminance(hex); return l === null ? 21 : 1.05 / (l + 0.05); };
+
+/** Keeps any tenant colour readable: text on a filled accent bar turns dark when white would fall under 4.5:1, and the
+ * accent used as text on white paper is darkened until it reaches 3:1 (large title text). One colour in, never a second. */
+export function readableAccent(accent: string): { fill: string; ink: "#ffffff" | "#111827"; text: string } {
+  const l = luminance(accent);
+  const ink = l !== null && 1.05 / (l + 0.05) < 4.5 ? "#111827" : "#ffffff"; // allow-raw-color: print output is theme-invariant by design
+  let text = accent;
+  for (let i = 0; i < 12 && onWhite(text) < 3; i++) text = darkenHex(text, 0.06);
+  return { fill: accent, ink, text };
+}
+
 export function escapeDoc(value: unknown): string {
   return String(value ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c] as string));
 }
@@ -86,6 +106,8 @@ export interface DocumentBranding {
    * on by default (every tenant's document carries this as marketing),
    * removable only as a paid premium toggle. Undefined/true = shown. */
   showPromo?: boolean;
+  /** Ink saver: brand colour on lines and headings only, no filled bars. */
+  inkSaver?: boolean;
 }
 
 export interface DocumentParty { name: string; lines?: string[] }
@@ -178,8 +200,13 @@ function paperStyle(paper: DocumentPaper = "a4") {
   return "";
 }
 
-function documentStyle(accent: string, base = '', paper?: DocumentPaper) {
+function documentStyle(accent: string, base = '', paper?: DocumentPaper, inkSaver = false) {
   const accentDark = darkenHex(accent);
+  const { ink, text: accentText } = readableAccent(accent);
+  const dark = ink !== "#ffffff";
+  const inkSoft = dark ? "rgba(17,24,39,.72)" : "rgba(255,255,255,.75)"; // allow-raw-color: print output is theme-invariant by design
+  const inkStrong = dark ? "#111827" : "rgba(255,255,255,.9)"; // allow-raw-color: print output is theme-invariant by design
+  const inkLine = dark ? "rgba(17,24,39,.2)" : "rgba(255,255,255,.25)"; // allow-raw-color: print output is theme-invariant by design
   return `
   ${fontFaces(base)}
   /* Margin 0 on the paper; the document carries its own margin (.page side padding + .doc-frame-space rows that repeat on every
@@ -204,7 +231,7 @@ function documentStyle(accent: string, base = '', paper?: DocumentPaper) {
   .doc-brand-legal { font-size: 10px; font-weight: 400; color: #6b7280; margin-top: 1px; } /* allow-raw-color: print output is theme-invariant by design (isolated iframe stylesheet, no access to the app's CSS custom properties) */
   .doc-sub { font-size: 11px; color: #4b5563; margin-top: 6px; } /* allow-raw-color: print output is theme-invariant by design (isolated iframe stylesheet, no access to the app's CSS custom properties) */
   .doc-title { font-size: 26px; font-weight: 700; line-height: 1.1; text-align: right; }
-  .doc-title .accent { color: ${accent}; }
+  .doc-title .accent { color: ${accentText}; }
   .doc-title-meta { margin-top: 8px; font-size: 11.5px; color: #6b7280; text-align: right; line-height: 1.75; } /* allow-raw-color: print output is theme-invariant by design (isolated iframe stylesheet, no access to the app's CSS custom properties) */
   .doc-title-meta strong { color: #111827; font-family: 'Manrope', 'Google Sans', Arial, sans-serif; font-variant-numeric: tabular-nums; } /* allow-raw-color: print output is theme-invariant by design (isolated iframe stylesheet, no access to the app's CSS custom properties) */
   .doc-status { display: inline-block; margin-top: 8px; padding: 4px 12px; border-radius: 999px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
@@ -222,7 +249,7 @@ function documentStyle(accent: string, base = '', paper?: DocumentPaper) {
      border on the closing row so the table ends cleanly rather than
      trailing a line into whatever follows it. */
   table { width: 100%; border-collapse: collapse; border-spacing: 0; font-size: 11.5px; margin-bottom: 4px; }
-  th { text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: #fff; background: ${accent}; padding: 9px 10px; } /* allow-raw-color: print output is theme-invariant by design (isolated iframe stylesheet, no access to the app's CSS custom properties) */
+  th { text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: ${ink}; background: ${accent}; padding: 9px 10px; } /* allow-raw-color: print output is theme-invariant by design (isolated iframe stylesheet, no access to the app's CSS custom properties) */
   th.right, td.right { text-align: right; }
   td.right { font-family: 'Manrope', 'Google Sans', Arial, sans-serif; font-variant-numeric: tabular-nums; }
   th:first-child { border-radius: 6px 0 0 6px; }
@@ -233,17 +260,17 @@ function documentStyle(accent: string, base = '', paper?: DocumentPaper) {
   /* Accent-derived gradient card, same 135deg angle and ~14% darker
      second stop as blackpaw-admin's payment-details card -- one
      configured colour in, no second colour for the tenant to pick. */
-  .doc-totals { padding: 16px 18px; margin-top: 10px; max-width: 320px; margin-left: auto; background: linear-gradient(135deg, ${accent} 0%, ${accentDark} 100%); border-radius: 12px; color: #fff; }
-  .doc-totals-row { display: flex; justify-content: space-between; gap: 12px; padding: 4px 0; font-size: 12px; color: rgba(255,255,255,.75); }
-  .doc-totals-row .amount, .doc-totals-row span:last-child { color: #fff; font-family: 'Manrope', 'Google Sans', Arial, sans-serif; font-variant-numeric: tabular-nums; }
-  .doc-grand { display: flex; justify-content: space-between; gap: 12px; margin-top: 8px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,.25); font-size: 15px; font-weight: 700; color: rgba(255,255,255,.9); }
-  .doc-grand .amount { color: #fff; font-size: 19px; font-family: 'Manrope', 'Google Sans', Arial, sans-serif; font-variant-numeric: tabular-nums; font-weight: 800; }
+  .doc-totals { padding: 16px 18px; margin-top: 10px; max-width: 320px; margin-left: auto; background: linear-gradient(135deg, ${accent} 0%, ${accentDark} 100%); border-radius: 12px; color: ${ink}; }
+  .doc-totals-row { display: flex; justify-content: space-between; gap: 12px; padding: 4px 0; font-size: 12px; color: ${inkSoft}; }
+  .doc-totals-row .amount, .doc-totals-row span:last-child { color: ${ink}; font-family: 'Manrope', 'Google Sans', Arial, sans-serif; font-variant-numeric: tabular-nums; }
+  .doc-grand { display: flex; justify-content: space-between; gap: 12px; margin-top: 8px; padding-top: 10px; border-top: 1px solid ${inkLine}; font-size: 15px; font-weight: 700; color: ${inkStrong}; }
+  .doc-grand .amount { color: ${ink}; font-size: 19px; font-family: 'Manrope', 'Google Sans', Arial, sans-serif; font-variant-numeric: tabular-nums; font-weight: 800; }
   /* Same gradient-card treatment, reusable for STATIC payment-reference
      info (where to pay: a bank account, a paybill/till number a tenant
      has actually configured) -- deliberately NOT a payment-collection
      widget (P0.1 stays deferred). A caller only reaches for this once it
      has real static payment details to show; nothing calls it today. */
-  .doc-payment-card { padding: 16px 18px; margin-top: 14px; background: linear-gradient(135deg, ${accent} 0%, ${accentDark} 100%); border-radius: 12px; color: #fff; }
+  .doc-payment-card { padding: 16px 18px; margin-top: 14px; background: linear-gradient(135deg, ${accent} 0%, ${accentDark} 100%); border-radius: 12px; color: ${ink}; }
   .doc-payment-label { font-size: 10px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; opacity: .75; margin-bottom: 10px; }
   .doc-payment-row { display: flex; justify-content: space-between; gap: 12px; padding: 3px 0; font-size: 11px; }
   .doc-payment-row span:first-child { opacity: .8; }
@@ -263,6 +290,14 @@ function documentStyle(accent: string, base = '', paper?: DocumentPaper) {
   .doc-frame { width: 100%; border-collapse: collapse; font-size: inherit; margin: 0; }
   .doc-frame > thead > tr > td, .doc-frame > tfoot > tr > td, .doc-frame > tbody > tr > td { padding: 0; border: 0; background: none; border-radius: 0; }
   @media screen { .doc-frame-space { height: 0; } }
+  ${inkSaver ? `
+  /* Ink saver: the brand colour on lines and headings only, no filled bars (office printers, thermal rolls). */
+  th { background: none; color: ${accentText}; border-bottom: 2px solid ${accent}; padding-left: 4px; padding-right: 4px; }
+  th:first-child, th:last-child { border-radius: 0; }
+  .doc-totals, .doc-payment-card { background: none; color: #111827; border-top: 2px solid ${accent}; border-radius: 0; padding: 10px 0 0; } /* allow-raw-color: print output is theme-invariant by design */
+  .doc-totals-row { color: #4b5563; } /* allow-raw-color: print output is theme-invariant by design */
+  .doc-totals-row .amount, .doc-totals-row span:last-child, .doc-grand, .doc-grand .amount { color: #111827; } /* allow-raw-color: print output is theme-invariant by design */
+  .doc-grand { border-top-color: #e5e7eb; } /* allow-raw-color: print output is theme-invariant by design */` : ""}
   ${paperStyle(paper)}`;
 }
 
@@ -331,7 +366,7 @@ export function buildDocumentHtml(opts: {
     opts.generatedNote ?? `Generated ${new Date().toLocaleString("en-KE")}`,
   ].filter(Boolean).map((line) => escapeDoc(line)).join("<br/>");
 
-  return `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${escapeDoc(opts.title)}</title><style>${documentStyle(accent, opts.assetBase ?? '', opts.paper)}</style></head><body><table class="doc-frame"><thead><tr><td><div class="doc-frame-space"></div></td></tr></thead><tfoot><tr><td><div class="doc-frame-space"></div></td></tr></tfoot><tbody><tr><td><div class="page">
+  return `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${escapeDoc(opts.title)}</title><style>${documentStyle(accent, opts.assetBase ?? '', opts.paper, opts.branding.inkSaver)}</style></head><body><table class="doc-frame"><thead><tr><td><div class="doc-frame-space"></div></td></tr></thead><tfoot><tr><td><div class="doc-frame-space"></div></td></tr></tfoot><tbody><tr><td><div class="page">
     <div class="doc-accent-stripe"></div>
     <div class="doc-header">
       <div>
