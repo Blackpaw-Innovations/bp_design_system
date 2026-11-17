@@ -51,6 +51,9 @@
 :root .bp-spot-dots span { display: block; width: 8px; height: 8px; border-radius: 999px; background: var(--c-border, #dde3ea); transition: width .2s var(--pk-ease, ease); }
 :root .bp-spot-dots span[data-on] { width: 24px; background: var(--spot-navy); }
 :root .bp-spot-arrows { display: flex; gap: 8px; }
+/* Self-contained for apps that import only this file (@blackpaw/ui/spotlight.css) and not the full tokens. */
+:root .bp-spot-arrows .bp-icon-btn { display: inline-flex; width: 44px; height: 44px; align-items: center; justify-content: center; border-radius: 999px; border: 1px solid var(--c-border, #dde3ea); background: var(--c-surface, #ffffff); color: var(--c-ink, #071b3c); cursor: pointer; }
+:root[data-theme="dark"] .bp-spot-arrows .bp-icon-btn, :root.dark .bp-spot-arrows .bp-icon-btn { border-color: rgba(255, 255, 255, .16); background: rgba(255, 255, 255, .06); color: #ffffff; }
 @media (prefers-reduced-motion: reduce) {
   :root .bp-spot-track { scroll-behavior: auto; }
   :root .bp-spot-dots span { transition: none; }
