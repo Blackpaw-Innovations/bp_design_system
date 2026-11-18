@@ -294,6 +294,9 @@ Do: SelectableRow when a screen has a bulk action. Don't: a checkbox inside a Ta
 - Codes do not appear on the card; they live in the detail panel as a CodeChip. A record that leads with something
   else (a pickup) passes `title` and `leading`.
 - `as` / `rowProps` as for ReceiptRow (a card that leaves the list can fade out while the others close the gap).
+- `layout="inline"` (v1.36.0): the profile row for a check-in or arrivals desk. Initials, name, `sub` with number and
+  plan ("GYM000002 · Monthly Unlimited"), one status chip ("Will be refused", "Can enter", "Ends tomorrow") and one
+  fitting action. From 640 px up the chip and action sit on the person's line; on a phone they wrap under it.
 
 ### 17. CheckBurst
 
@@ -384,6 +387,15 @@ Do: SelectableRow when a screen has a bulk action. Don't: a checkbox inside a Ta
   another identity depth), white text, a 16 % ghost icon; the chip turns white 15 %.
 - `.bp-pk-led` is generic (it replaces hakiqa-connect `.hq-led-tile-glow`): any tile with a real background may carry
   it. Colours via `--bp-led-c1/c2/c3` (an app's `--hq-led-c1..3` still apply).
+- `pill` (v1.36.0, tile): one live figure in a fixed slot on every tile ("KES 28.5k in", "All working"), so tiles line
+  up whether or not they have one today. "N need you" takes the slot instead, as the one orange pill (navy text).
+  The tile line clamps at 3 lines. Tiles share the row width; scroll arrows only when the row overflows.
+- `chip` (v1.36.0, card): `{ label, tone?: 'warn' | 'pos' | 'plain', href?, ariaLabel? }`. The card gets a footer on a
+  hairline: `figure` on the left, chips on the right. With `href` it is the amber **gap chip** with a "›" that opens
+  the fix ("Add rent" → `/expenses?add=rent`). The card is then a `div` with a full-cover title link under the chip
+  link, never a link inside a link.
+- A hub page offers Cards / List (remembered per person): Cards are HubCards with `figure` + `chip`; List is a
+  RowGroup of TapRows with the same figure, chips and gap chip.
 
 ### 27. FilterFold (a register's filters on a phone)
 
@@ -425,6 +437,15 @@ string itself: no `` `KSh ${n.toLocaleString()}` ``, no `CUR = "KSh"`, no `Intl.
 When a record is made or confirmed and the list re-sorts, the screen scrolls the row into view and lights it
 (`<TapRow id glow>`, `.bp-pk-glow`: the info tint held, then faded, 2 s). A sheet opened from a board card opens on its
 DoneNote.
+
+### 28. HeroColumns (v1.36.0, daily trend on the navy hero)
+
+`<HeroColumns points={[{ date, value }]} height? label? />` inside `MoneyHero`, with `compare` for the line
+"Up from KES X the 30 days before".
+
+- One column per day, as given, never smoothed: two payment days look like two days. A day with nothing is a 3 px
+  stub at 25 %, never a gap, so the caller fills every day of the range. First and last date under it.
+- White on navy only. With no reliable previous period, show no comparison line rather than a guess.
 
 ## Motion rules
 
