@@ -295,6 +295,39 @@
 :root .bp-pk-hub-tile .icon { background: var(--pk-on-hero-fill); }
 :root .bp-pk-hub-tile > :is(.s, .fig) { color: var(--pk-on-hero); }
 :root .bp-pk-hub-tile .bp-pk-chip { background: var(--pk-on-hero-fill); color: var(--pk-on-hero); }
+:root .bp-pk-hub-tile > .s { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+:root .bp-pk-hub-tile > .foot[data-slot] { min-height: 32px; display: flex; align-items: flex-end; }
+:root .bp-pk-hub-tile .bp-pk-chip[data-tone="warn"] { background: var(--c-action); color: var(--pk-hero); }
+/* v1.36.0 card footer: live figure left, chip right, on a hairline. */
+:root .bp-pk-hub > .foot[data-ft] { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-top: auto; padding-top: 12px; border-top: 1px solid var(--c-border); }
+:root .bp-pk-hub > .foot[data-ft] > .fig { font-size: 15px; font-weight: 700; color: var(--c-ink); font-variant-numeric: tabular-nums; }
+:root .bp-pk-hub > .foot[data-ft] > .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-left: auto; }
+:root .bp-pk-hub-split:focus-within { outline: 2px solid var(--c-signal); outline-offset: 2px; }
+:root .bp-pk-hub-cover { position: absolute; inset: 0; z-index: 1; border-radius: inherit; }
+:root .bp-pk-hub-cover:focus-visible { outline: none; }
+:root .bp-pk-gap { position: relative; z-index: 2; text-decoration: none; min-height: 32px; }
+/* 44 px hit area over the 32 px chip, the CodeChip way (::after draws the arrow). */
+:root .bp-pk-gap::before { content: ""; position: absolute; inset: -6px -4px; }
+:root .bp-pk-gap::after { content: "\203A"; margin-left: 4px; }
+:root .bp-pk-gap:hover { filter: brightness(.96); }
+:root .bp-pk-gap:focus-visible { outline: 2px solid var(--c-signal); outline-offset: 2px; }
+
+/* HeroColumns (v1.36.0): daily columns on the navy hero. */
+:root .bp-pk-cols { margin: 16px 0 0; }
+:root .bp-pk-cols > .bars { display: flex; align-items: flex-end; gap: 2px; }
+:root .bp-pk-cols > .bars > span { flex: 1 1 0; min-width: 2px; border-radius: 3px 3px 1px 1px; background: var(--pk-on-hero); opacity: .9; }
+:root .bp-pk-cols > .bars > span[data-zero] { height: 3px; opacity: .25; }
+:root .bp-pk-cols > .axis { display: flex; justify-content: space-between; margin-top: 6px; font-size: 13px; font-weight: 600; opacity: .8; }
+
+/* PersonCard layout="inline" (v1.36.0): the profile row. */
+@media (min-width: 640px) {
+  :root .bp-pk-row[data-inline] { display: flex; align-items: center; }
+  :root .bp-pk-row[data-inline] > .bp-pk-tap { flex: 1 1 auto; min-width: 0; }
+  /* The chip and action end the line, so a chevron would float mid-row; the name still opens the person. */
+  :root .bp-pk-row[data-inline] > .bp-pk-tap > .chev { display: none; }
+  :root .bp-pk-row[data-inline] > .bp-pk-person-foot { flex: none; flex-wrap: nowrap; margin: 0; padding: 0 16px 0 0; }
+  :root .bp-pk-row[data-inline] > .bp-pk-person-foot > .chips { flex-basis: auto; }
+}
 
 /* LED glow (was hakiqa-connect .hq-led-tile-glow): a thin spinning ring for a tile that owns work waiting on you.
    ::before is a large rotating conic square behind the tile, ::after a fill of the tile's own background inset by the

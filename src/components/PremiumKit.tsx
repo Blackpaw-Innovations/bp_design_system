@@ -9,7 +9,7 @@ import { Select } from './Select'
 import { timeSlots } from './DatePicker'
 
 /**
- * Premium patterns (v1.25.0, 3 Nov 2026; v1.25.1 text hierarchy; v1.25.2 SelectableRow, MoneyHero title, one money format; v1.25.3 HubCard, TapRow chips, RowGroup empty, CodeChip hit area; v1.25.4 FilterFold; v1.25.5 CountHero tick, HakiTip quiet buttons): the phone look every Hakiqa vertical builds its screens from.
+ * Premium patterns (v1.25.0, 3 Nov 2026; v1.25.1 text hierarchy; v1.25.2 SelectableRow, MoneyHero title, one money format; v1.25.3 HubCard, TapRow chips, RowGroup empty, CodeChip hit area; v1.25.4 FilterFold; v1.25.5 CountHero tick, HakiTip quiet buttons; v1.36.0 HubCard pill + footer chip, HeroColumns, PersonCard layout="inline"): the phone look every Hakiqa vertical builds its screens from.
  * Spec: docs/PREMIUM_PATTERNS.md. Styles: tokens/premium-kit.css (`.bp-pk-*`). First built for Stay in hakiqa-connect.
  * One navy hero per screen, receipts as proof rows inside one quiet card per day, one "needs you" card that owns the
  * screen's orange action, a day-close card that shares to WhatsApp. Nothing here knows a domain: it is given names,
@@ -481,12 +481,14 @@ export function SelectableRow({ selected, onSelectedChange, selectLabel, disable
  * name, line 2, money at strength, chevron); under it only what is not ready yet (warn TintChips) and the one action
  * for this person. `title` and `leading` let a record lead with something else (a pickup leads with its time).
  */
-export function PersonCard({ name, avatarKey, title, leading, sub, meta, figure, chips, action, onOpen, tour, as: Row = 'li', rowProps }: {
+export function PersonCard({ name, avatarKey, title, leading, sub, meta, figure, chips, action, onOpen, tour, as: Row = 'li', rowProps, layout = 'stack' }: {
   name: string; avatarKey?: string; title?: ReactNode; leading?: ReactNode; sub?: ReactNode; meta?: string[]; figure?: ReactNode; chips?: ReactNode; action?: ReactNode; onOpen: () => void; tour?: string
   as?: ElementType; rowProps?: Record<string, unknown>
+  /** v1.36.0 `inline`: the profile row (check-in desk). Status chip and the one action sit on the person's line from sm up; on a phone they wrap under it. */
+  layout?: 'stack' | 'inline'
 }) {
   return (
-    <Row {...rowProps} className="bp-pk-row">
+    <Row {...rowProps} className="bp-pk-row" data-inline={layout === 'inline' || undefined}>
       <button type="button" data-tour={tour} onClick={onOpen} className="bp-pk-tap">
         <TapBody leading={leading ?? <Avatar calm name={name} id={avatarKey} size={40} />} title={title ?? name} sub={sub} meta={meta} figure={figure} />
       </button>
@@ -512,24 +514,80 @@ export function TintChip({ tone = 'warn', children }: { tone?: 'warn' | 'pos' | 
  * `variant="tile"`: the Home app tile, identity fill (`--bp-hub-fill`, default the hero navy) with a ghost icon.
  * The whole tile is one link (`href`, through `renderLink` for an app router).
  */
-export function HubCard({ href, renderLink, icon: Icon, title, line, figure, waiting = 0, signal = 'glow', variant = 'card', label, tour }: {
+export interface HubChip { label: ReactNode; tone?: 'warn' | 'pos' | 'plain'; href?: string; ariaLabel?: string }
+
+export function HubCard({ href, renderLink, icon: Icon, title, line, figure, waiting = 0, signal = 'glow', variant = 'card', label, tour, pill, chip }: {
   href: string; renderLink?: RenderLink; icon: IconComponent; title: string; line: ReactNode; figure?: ReactNode
   waiting?: number; signal?: 'glow' | 'dot'; variant?: 'card' | 'tile'; label?: string; tour?: string
+  /** Tile (v1.36.0): one live figure in the same slot on every tile ("KES 28.5k in", "All working"). "N need you" wins it. */
+  pill?: ReactNode
+  /** Card (v1.36.0): a chip at the right of the footer. With `href` it is the gap chip that opens the fix ("Add rent"). */
+  chip?: HubChip
 }) {
   const lit = waiting > 0
+  const tile = variant === 'tile'
+  const need = lit ? <span className="bp-pk-chip" data-tone="warn">{waiting} need{waiting === 1 ? 's' : ''} you</span> : null
+  const chipEl = chip && !chip.href ? <span className="bp-pk-chip" data-tone={chip.tone ?? 'plain'}>{chip.label}</span> : null
+  const body = <>
+    {tile && <span className="ghost" aria-hidden="true"><Icon size={144} /></span>}
+    <span className="top">
+      <span className="icon" aria-hidden="true"><Icon size={20} /></span>
+      {lit && signal === 'dot' && <span className="bp-pk-dot" aria-hidden="true" />}
+    </span>
+    <span className="t">{title}</span>
+    <span className="s">{line}</span>
+  </>
+  const cls = cn('bp-pk-hub', tile && 'bp-pk-hub-tile', lit && signal === 'glow' && 'bp-pk-led')
+  if (tile) {
+    // One slot on every tile, so tiles line up whether or not they have a figure today.
+    return (
+      <LinkOrA href={href} renderLink={renderLink} aria-label={label} data-tour={tour} className={cls}>
+        {body}
+        {figure && <span className="fig">{figure}</span>}
+        <span className="foot" data-slot="">{need ?? (pill ? <span className="bp-pk-chip" data-tone="plain">{pill}</span> : null)}</span>
+      </LinkOrA>
+    )
+  }
+  const hasFoot = Boolean(figure || chip || lit)
+  if (!chip?.href) {
+    return (
+      <LinkOrA href={href} renderLink={renderLink} aria-label={label} data-tour={tour} className={cls}>
+        {body}
+        {hasFoot && <span className="foot" data-ft="">{figure ? <span className="fig">{figure}</span> : <span />}<span className="chips">{need}{chipEl}</span></span>}
+      </LinkOrA>
+    )
+  }
+  // A gap chip is its own link (it opens the fix), so the card cannot be one <a>: the title link stretches over the card
+  // and the chip sits above it.
   return (
-    <LinkOrA href={href} renderLink={renderLink} aria-label={label} data-tour={tour}
-      className={cn('bp-pk-hub', variant === 'tile' && 'bp-pk-hub-tile', lit && signal === 'glow' && 'bp-pk-led')}>
-      {variant === 'tile' && <span className="ghost" aria-hidden="true"><Icon size={144} /></span>}
-      <span className="top">
-        <span className="icon" aria-hidden="true"><Icon size={20} /></span>
-        {lit && signal === 'dot' && <span className="bp-pk-dot" aria-hidden="true" />}
+    <div className={cn(cls, 'bp-pk-hub-split')} data-tour={tour}>
+      {body}
+      <span className="foot" data-ft="">
+        {figure ? <span className="fig">{figure}</span> : <span />}
+        <span className="chips">{need}<LinkOrA href={chip.href} renderLink={renderLink} aria-label={chip.ariaLabel} className="bp-pk-chip bp-pk-gap">{chip.label}</LinkOrA></span>
       </span>
-      <span className="t">{title}</span>
-      <span className="s">{line}</span>
-      {figure && <span className="fig">{figure}</span>}
-      {lit && <span className="foot"><span className="bp-pk-chip" data-tone="warn">{waiting} need{waiting === 1 ? 's' : ''} you</span></span>}
-    </LinkOrA>
+      <LinkOrA href={href} renderLink={renderLink} aria-label={label ?? title} className="bp-pk-hub-cover"><span className="bp-pk-sr">{label ?? title}</span></LinkOrA>
+    </div>
+  )
+}
+
+/**
+ * Daily columns for the navy hero (v1.36.0): one column per day, so two payment days look like two days; a day with
+ * nothing is a faint stub, never a gap. First and last date under it. Values are drawn as given (no smoothing).
+ */
+export function HeroColumns({ points, height = 64, label }: { points: { date: string; value: number }[]; height?: number; label?: string }) {
+  if (points.length === 0) return null
+  const max = Math.max(...points.map((p) => p.value), 0)
+  const day = (iso: string) => new Date(`${iso.slice(0, 10)}T12:00:00`).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })
+  return (
+    <figure className="bp-pk-cols" aria-label={label}>
+      <div className="bars" style={{ height }} aria-hidden="true">
+        {points.map((p) => (
+          <span key={p.date} data-zero={p.value <= 0 || undefined} style={p.value > 0 && max > 0 ? { height: `${Math.max(8, (p.value / max) * 100)}%` } : undefined} />
+        ))}
+      </div>
+      <figcaption className="axis"><span>{day(points[0].date)}</span><span>{day(points[points.length - 1].date)}</span></figcaption>
+    </figure>
   )
 }
 

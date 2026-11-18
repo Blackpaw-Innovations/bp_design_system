@@ -106,9 +106,9 @@ export type { SnapshotCarouselProps, SnapshotPage, SnapshotCard, SnapshotChart, 
 export {
   useCountUp, useArrivals, MoneyFigure, StatStrip, MoneyHero, CountHero, DoneCard, DoneNote, DangerAction, InitialsTile,
   NeedsYouCard, DayGroup, RowGroup, CardSection, CodeChip, ReceiptRow, TapRow, PersonCard, TintChip, CheckBurst, FigureRow,
-  DayCloseCard, ReceiptCard, CaredEmpty, SettingsList, SettingsItem, SwitchRow, TimeRow, greetingFor, Greeting, ProfileHero, SelectableRow, HubCard, FilterFold,
+  DayCloseCard, ReceiptCard, CaredEmpty, SettingsList, SettingsItem, SwitchRow, TimeRow, greetingFor, Greeting, ProfileHero, SelectableRow, HubCard, HeroColumns, FilterFold,
 } from './components/PremiumKit'
-export type { RenderLink, StatStripItem, HeroComparison, SlipLine, NeedsYouAlso } from './components/PremiumKit'
+export type { RenderLink, StatStripItem, HeroComparison, SlipLine, NeedsYouAlso, HubChip } from './components/PremiumKit'
 
 // Spotlight (v1.32.0, 17 Nov 2026): coloured craft cards for what needs you, one per waiting thing. tokens/spotlight.css
 export { SpotlightCard, SpotlightCarousel, byUrgency } from './components/Spotlight'
