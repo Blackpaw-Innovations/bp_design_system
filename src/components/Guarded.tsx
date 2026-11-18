@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, useState, type AnchorHTMLAttributes, type ButtonHTMLAttributes, type ReactNode } from 'react'
 import { cn, type IconComponent } from '../lib/utils'
 import { formatDate, formatMoney } from '../lib/format'
+import { Checkbox } from './Form'
 
 /**
  * Guarded components (ruled 9 Oct 2026). The props only accept what the
@@ -300,6 +301,17 @@ export interface DataTableProps<T> {
   renderLink?: (props: { href: string; className?: string; children: ReactNode }) => ReactNode
   /** The one row that needs action gets a faint warm tint (v1.21). Use for at most a few rows. */
   rowAttention?: (row: T) => boolean
+  /** Tick-box column (v1.35, batch-bar pattern): pass the ticked keys and a setter. The header box ticks every row shown.
+   *  Pair with <BulkBar tone="navy"> above the table. Row actions stay as labelled buttons in their own column. */
+  selected?: ReadonlySet<string | number>
+  onSelectedChange?: (keys: Set<string | number>) => void
+  /** Screen-reader name for a row's box, e.g. the invoice number. */
+  selectLabel?: (row: T) => string
+}
+
+/** First-column checkbox. The header version ticks every row shown and shows a dash when some are ticked. Stops the row click. */
+export function SelectCell({ checked, onChange, label }: { checked: boolean | 'mixed'; onChange: (v: boolean) => void; label: string }) {
+  return <span onClick={(e) => e.stopPropagation()} style={{ display: 'flex', justifyContent: 'center' }}><Checkbox checked={checked} onChange={onChange} label={<span className="sr-only">{label}</span>} /></span>
 }
 
 function initialsFrom(name: string) {
@@ -316,20 +328,26 @@ function cell<T>(col: Column<T>, row: T): ReactNode {
   return v == null || v === '' ? '—' : String(v)
 }
 
-export function DataTable<T>({ columns, rows, rowKey, empty = 'Nothing here yet.', label, className, rowHref, renderLink, rowAttention }: DataTableProps<T>) {
+export function DataTable<T>({ columns, rows, rowKey, empty = 'Nothing here yet.', label, className, rowHref, renderLink, rowAttention, selected, onSelectedChange, selectLabel }: DataTableProps<T>) {
+  const selecting = !!(selected && onSelectedChange)
+  const keys = rows.map(rowKey)
+  const ticked = selecting ? keys.filter((k) => selected!.has(k)).length : 0
+  const toggle = (k: string | number, on: boolean) => { const next = new Set(selected); if (on) next.add(k); else next.delete(k); onSelectedChange!(next) }
+  const toggleAll = (on: boolean) => { const next = new Set(selected); keys.forEach((k) => (on ? next.add(k) : next.delete(k))); onSelectedChange!(next) }
   const link = (href: string, children: ReactNode) =>
     renderLink ? renderLink({ href, className: 'bp-table-link', children }) : <a href={href} className="bp-table-link">{children}</a>
   return (
     <div className={cn('bp-table-wrap', className)}>
       <table className="bp-table" aria-label={label}>
         <thead>
-          <tr>{columns.map((c) => <th key={c.key} scope="col" data-kind={c.kind ?? 'text'} data-hide={c.hideBelow}>{c.header}</th>)}</tr>
+          <tr>{selecting && <th scope="col" data-select="">{rows.length > 0 && <SelectCell checked={ticked === 0 ? false : ticked === rows.length ? true : 'mixed'} onChange={toggleAll} label="Tick every row" />}</th>}{columns.map((c) => <th key={c.key} scope="col" data-kind={c.kind ?? 'text'} data-hide={c.hideBelow}>{c.header}</th>)}</tr>
         </thead>
         <tbody>
           {rows.length === 0
-            ? <tr><td className="bp-table-empty" colSpan={columns.length}>{empty}</td></tr>
+            ? <tr><td className="bp-table-empty" colSpan={columns.length + (selecting ? 1 : 0)}>{empty}</td></tr>
             : rows.map((r) => (
-              <tr key={rowKey(r)} data-attention={rowAttention?.(r) || undefined}>
+              <tr key={rowKey(r)} data-attention={rowAttention?.(r) || undefined} data-selected={(selecting && selected!.has(rowKey(r))) || undefined}>
+                {selecting && <td data-select=""><SelectCell checked={selected!.has(rowKey(r))} onChange={(on) => toggle(rowKey(r), on)} label={selectLabel ? `Tick ${selectLabel(r)}` : 'Tick this row'} /></td>}
                 {columns.map((c) => {
                   const main = c.primary && rowHref ? link(rowHref(r), cell(c, r)) : cell(c, r)
                   const sub = c.sub && <span className="sub" data-tone={c.subTone?.(r)}>{c.sub(r)}</span>

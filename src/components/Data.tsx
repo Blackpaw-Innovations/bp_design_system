@@ -1,7 +1,7 @@
 import { useRef, useState, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { ArrowDown, ArrowDownRight, ArrowUp, ArrowUpRight, Check, ChevronDown, ChevronLeft, ChevronRight, Filter, Minus, Search, SlidersHorizontal, X } from 'lucide-react'
-import { cn } from '../lib/utils'
+import { cn, type IconComponent } from '../lib/utils'
 import { Button } from './Guarded'
 import { Checkbox } from './Form'
 import { Sheet, useIsPhone, useOutside, usePopover } from './Overlay'
@@ -36,15 +36,23 @@ export function TableFoot({ shown, total, totalLabel, sum, page, pages, onPage, 
   )
 }
 
-/** Replaces the table header in place while rows are ticked. Up to 3 secondary actions; no primary. Destructive bulk goes through ConfirmDialog with the count. */
-export function BulkBar({ count, noun, actions, onClear }: { count: number; noun: string; actions: { label: string; onClick: () => void }[]; onClear: () => void }) {
+export interface BulkAction { label: string; onClick: () => void; icon?: IconComponent; disabled?: boolean; loading?: boolean }
+/**
+ * Up to 3 actions for the ticked rows, then Clear. Destructive bulk goes through ConfirmDialog with the count.
+ * tone 'sunken' (default) replaces the table header in place: secondary actions only.
+ * tone 'navy' (v1.35, the Documents batch bar) sits above the table: white text, the first action orange, the rest outlined white.
+ */
+export function BulkBar({ count, noun, actions, onClear, tone = 'sunken' }: { count: number; noun: string; actions: BulkAction[]; onClear: () => void; tone?: 'sunken' | 'navy' }) {
   if (count === 0) return null
   if (actions.length > 3 && typeof console !== 'undefined') console.warn('[@blackpaw/ui] BulkBar: 3 actions at most; move the rest to a Menu.')
+  const navy = tone === 'navy'
   return (
-    <div className="bp-bulkbar" role="region" aria-label={`${count} ${noun} selected`}>
-      <span style={{ flex: 1 }}>{count} selected</span>
-      {actions.slice(0, 3).map((a, i) => <Button key={a.label} variant={i === 0 ? 'secondary' : 'quiet'} onClick={a.onClick}>{a.label}</Button>)}
-      <Button variant="quiet" onClick={onClear}>Clear</Button>
+    <div className="bp-bulkbar" data-tone={tone} role="region" aria-label={`${count} ${noun} selected`}>
+      <span className="bp-bulkbar-count" aria-live="polite">{count} selected</span>
+      <span className="bp-bulkbar-actions">
+        {actions.slice(0, 3).map((a, i) => <Button key={a.label} variant={navy ? (i === 0 ? 'primary' : 'on-dark') : i === 0 ? 'secondary' : 'quiet'} icon={a.icon} disabled={a.disabled} loading={a.loading} onClick={a.onClick}>{a.label}</Button>)}
+        <button type="button" className="bp-bulkbar-clear" onClick={onClear}>Clear</button>
+      </span>
     </div>
   )
 }
@@ -60,10 +68,7 @@ export function SortHeader({ label, active, dir, onSort, numeric }: { label: str
   )
 }
 
-/** First-column checkbox. The header version selects the page and shows a dash when some are ticked. Stops the row click. */
-export function SelectCell({ checked, onChange, label }: { checked: boolean | 'mixed'; onChange: (v: boolean) => void; label: string }) {
-  return <span onClick={(e) => e.stopPropagation()} style={{ display: 'flex', justifyContent: 'center' }}><span className="sr-only">{label}</span><Checkbox checked={checked} onChange={onChange} label="" /></span>
-}
+export { SelectCell } from './Guarded'
 
 export interface ColumnFilterOption { value: string; label: string; count?: number }
 /**
