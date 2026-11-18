@@ -113,3 +113,11 @@ export type { RenderLink, StatStripItem, HeroComparison, SlipLine, NeedsYouAlso 
 // Spotlight (v1.32.0, 17 Nov 2026): coloured craft cards for what needs you, one per waiting thing. tokens/spotlight.css
 export { SpotlightCard, SpotlightCarousel, byUrgency } from './components/Spotlight'
 export type { SpotlightTone, SpotlightCardProps, SpotlightItem } from './components/Spotlight'
+
+// Report kit (v1.37.0, 17 Nov 2026 audit rows 04/05/15): docs/REPORT_KIT.md, tokens/report-kit.css
+export {
+  ReportRangePicker, reportRange, reportPresetDates, compareDates, comparisonOf, compareWords, percentChange, rangeDays, rangeText, daysOf,
+  rangeFromSearch, rangeToSearch, REPORT_PRESET_LABEL, COMPARE_LABEL,
+  GhostColumns, ShareBars, HeatGrid, Sparkline, ReportKpi, ReportKpis, HakiBrief, FlowBars, RankBars, ReportCard,
+} from './components/ReportKit'
+export type { ReportRange, ReportPreset, CompareMode, ReportRangePickerProps, GhostPoint, ShareRow, KpiDelta } from './components/ReportKit'
