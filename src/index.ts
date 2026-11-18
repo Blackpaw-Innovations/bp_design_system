@@ -49,7 +49,7 @@ export type { ActivityEntry, ActivityKind, ActivityProps } from './components/Ac
 export { Banner, EmptyState, ErrorState, InlineError, ErrorSummary, Tooltip, HakiTip, HAKI_STATE } from './components/Feedback'
 export type { BannerProps, BannerTone, EmptyStateProps, ErrorStateProps, HakiTipProps, HakiState } from './components/Feedback'
 export { TableFoot, BulkBar, SortHeader, SelectCell, ColumnFilter, QuickViews, FilterChips, FilterBar, Comparison, SplitBar, CHART_SERIES, Steps, ProgressBar, Avatar, AvatarGroup, PersonRow, Plate, AVATAR_PAIRS, initials } from './components/Data'
-export type { SortDir, ColumnFilterOption, QuickView, ActiveFilter, FilterButton, Step, StepState, AvatarSize } from './components/Data'
+export type { BulkAction, SortDir, ColumnFilterOption, QuickView, ActiveFilter, FilterButton, Step, StepState, AvatarSize } from './components/Data'
 export { Board, MoveToSheet, LaneBoard, laneFor } from './components/Board'
 export type { BoardProps, BoardStage, BoardCard, Lane, LaneCard, LaneTone } from './components/Board'
 export { SettingsCard, SettingsGroup, SettingRow, StatePill, NumberedPills } from './components/Settings'
