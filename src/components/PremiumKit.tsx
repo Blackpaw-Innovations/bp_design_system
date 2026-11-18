@@ -127,15 +127,16 @@ export interface HeroComparison { direction: 'up' | 'down' | 'same' | 'new'; tex
  * CountHero); a list screen leaves it out. `compare` says what it is measured against (only
  * when that is known for sure). `stats` is a StatStrip on navy along the bottom.
  */
-export function MoneyHero({ title, amount, currency, caption, floor, compare, stats, renderLink, children }: {
-  title?: string; amount: number; currency?: string | null; caption: string; floor?: boolean; compare?: HeroComparison | null; stats?: StatStripItem[]; renderLink?: RenderLink; children?: ReactNode
+export function MoneyHero({ title, amount, currency, caption, floor, compare, stats, craft, action, renderLink, children }: {
+  title?: string; amount: number; currency?: string | null; caption: string; floor?: boolean; compare?: HeroComparison | null; stats?: StatStripItem[]
+  craft?: string; action?: ReactNode; renderLink?: RenderLink; children?: ReactNode
 }) {
   const shown = useCountUp(amount)
   // The counting figure keeps the final value's decimals, so it never gains or drops ".00" mid-count.
   const decimals = moneyParts(amount, currency)?.figure.includes('.') ? 2 : 0
   const parts = moneyParts(decimals ? shown : Math.round(shown), currency, { decimals })
   return (
-    <HeroCard title={title} spoken={`${floor ? 'At least ' : ''}${formatMoney(amount, currency)} ${caption}`} floor={floor} caption={caption} compare={compare} stats={stats} renderLink={renderLink}
+    <HeroCard title={title} spoken={`${floor ? 'At least ' : ''}${formatMoney(amount, currency)} ${caption}`} floor={floor} caption={caption} compare={compare} stats={stats} craft={craft} action={action} renderLink={renderLink}
       figure={<><span className="cur">{parts?.sign}{parts?.currency}</span><span className="num">{parts?.figure}</span></>}>
       {children}
     </HeroCard>
@@ -147,10 +148,16 @@ export function MoneyHero({ title, amount, currency, caption, floor, compare, st
  * `title` names the record on a detail screen; a list screen leaves it out. `chip` is one white-on-fill line under the
  * caption, never coloured text. `headline` replaces the figure when the day's job is done ("Everyone is in.") with a
  * calm check; `progress` is a thin white bar (3 of 7 done).
+ *
+ * Craft card (v1.33.0, 17 Nov 2026 audit round 2, "Equipment"): `craft` is the src of a craft object photo (gears,
+ * basket, chess...) drawn on the right of the navy card; `action` is the page's one main action, a normal-size primary
+ * button inside the card under the caption (never a full-width bar under the hero). Secondary actions belong at the
+ * right end of the tab row, not here. The caption is the look-ahead fact ("2 machines on the register · next service:
+ * Treadmill 2, 2 Dec"). Same props on MoneyHero.
  */
-export function CountHero({ title, count = 0, caption, floor, headline, tick = true, chip, progress, stats, renderLink, children }: {
+export function CountHero({ title, count = 0, caption, floor, headline, tick = true, chip, progress, stats, craft, action, renderLink, children }: {
   title?: string; count?: number; caption: string; floor?: boolean; headline?: string; tick?: boolean; chip?: ReactNode
-  progress?: { done: number; total: number; label: string }; stats?: StatStripItem[]; renderLink?: RenderLink; children?: ReactNode
+  progress?: { done: number; total: number; label: string }; stats?: StatStripItem[]; craft?: string; action?: ReactNode; renderLink?: RenderLink; children?: ReactNode
 }) {
   const shown = Math.round(useCountUp(count)) || 0 // never "-0"
   const share = progress && progress.total > 0 ? Math.min(1, progress.done / progress.total) : 0
@@ -161,7 +168,7 @@ export function CountHero({ title, count = 0, caption, floor, headline, tick = t
     </span>
   ) : <span className="num">{shown.toLocaleString('en-KE')}</span>
   return (
-    <HeroCard title={title} spoken={headline ? `${headline} ${caption}` : `${floor ? 'At least ' : ''}${count} ${caption}`} floor={!headline && floor} caption={caption} chip={chip} stats={stats} renderLink={renderLink} figure={figure}>
+    <HeroCard title={title} spoken={headline ? `${headline} ${caption}` : `${floor ? 'At least ' : ''}${count} ${caption}`} floor={!headline && floor} caption={caption} chip={chip} stats={stats} craft={craft} action={action} renderLink={renderLink} figure={figure}>
       {progress && progress.total > 0 && (
         <div className="bp-pk-progress">
           <p>{progress.label}</p>
@@ -173,12 +180,14 @@ export function CountHero({ title, count = 0, caption, floor, headline, tick = t
   )
 }
 
-function HeroCard({ title, spoken, figure, caption, floor, compare, chip, stats, renderLink, children }: {
-  title?: string; spoken: string; figure: ReactNode; caption: string; floor?: boolean; compare?: HeroComparison | null; chip?: ReactNode; stats?: StatStripItem[]; renderLink?: RenderLink; children?: ReactNode
+function HeroCard({ title, spoken, figure, caption, floor, compare, chip, stats, craft, action, renderLink, children }: {
+  title?: string; spoken: string; figure: ReactNode; caption: string; floor?: boolean; compare?: HeroComparison | null; chip?: ReactNode; stats?: StatStripItem[]
+  craft?: string; action?: ReactNode; renderLink?: RenderLink; children?: ReactNode
 }) {
   const Arrow = compare?.direction === 'up' ? ArrowUpRight : compare?.direction === 'down' ? ArrowDownRight : compare?.direction === 'new' ? Sparkles : Equal
   return (
-    <header className="hero-card bp-pk-hero">
+    <header className="hero-card bp-pk-hero" data-craft={craft ? '' : undefined}>
+      {craft && <img className="craft" src={craft} alt="" aria-hidden="true" decoding="async" />}
       {title && <p className="title">{title}</p>}
       <h1>
         <span className="bp-pk-sr">{spoken}</span>
@@ -190,6 +199,7 @@ function HeroCard({ title, spoken, figure, caption, floor, compare, chip, stats,
       </h1>
       {compare && <p className="bp-pk-pill"><Arrow size={15} aria-hidden="true" />{compare.text}</p>}
       {chip && <p className="bp-pk-pill" data-chip="">{chip}</p>}
+      {action && <div className="action">{action}</div>}
       {children}
       {stats && stats.length > 0 && <div className="stats"><StatStrip items={stats} onNavy renderLink={renderLink} /></div>}
     </header>
