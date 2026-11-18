@@ -180,6 +180,15 @@ Rules that apply to all of them: 44 px minimum targets, 16 px input text, labels
 - An empty slot click opens the side panel with the time filled in. The "now" line is crit, 2 px, today only.
 - Gantt (Mjengo, Imports, Events): weeks across, a row per task, bars in the same tones, a today line. Phone shows the task list.
 
+### 17.18b Schedule · `<Schedule>`, `useScheduleView()` (classes, appointments, viewings)
+- One component for anything booked against time with a type and (often) a capacity. Day / Week / Month with a `<Segmented>` switch the person's last choice is kept (`useScheduleView(key)`, key includes the user).
+- **Day**: a timeline. Two or more empty hours fold into one striped row ("9 am – 5 pm · no classes · add one"). Orange "now" line on today. Each block is its type colour with a fullness ring (orange). `panel` sits beside it: roster or bookings with the main action (Check in all, Remind).
+- **Week**: seven aligned columns, today circled in navy. `heat[weekday][hour]` shades each hour from real check-ins or arrivals, so an empty class at a busy hour stands out. Pills: white, type-colour left edge, orange fullness line. Phone: a list per day.
+- **Month**: Monday-first grid that always lines up. Deeper blue tint = more booked (relative to the month's busiest day), dots by type, fullness line. Picking a day opens its agenda beside the grid; "Open day" goes to Day.
+- Filter chips by type (and person when there are 2–8). "+ Class" and every empty slot call `onAdd(start)` with the day and time filled in.
+- Colour: one per type from navy/blue (navy, Signal Blue, mid, slate, steel). Orange only means how full, and "now". No capacity → no rings or lines; no heat → no shading. Never invent either.
+- BICC keeps its own calendar.
+
 ### 17.19 Upload · `<FileUpload>`, `resizeImage()`
 - Desktop: a dashed drop zone that is one big button, stating types, size and count limits up front.
 - Each file is a row: thumbnail or type, name, size, progress, Remove (Cancel while uploading).

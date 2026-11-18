@@ -56,6 +56,8 @@ export { SettingsCard, SettingsGroup, SettingRow, StatePill, NumberedPills } fro
 export type { StateTone } from './components/Settings'
 export { ResourceDay, Agenda, MonthCell } from './components/Calendar'
 export type { Booking, BookingTone, Resource, ResourceDayProps } from './components/Calendar'
+export { Schedule, useScheduleView } from './components/Schedule'
+export type { ScheduleView, ScheduleItem, ScheduleType, ScheduleProps } from './components/Schedule'
 export { FileUpload, resizeImage } from './components/FileUpload'
 export type { FileUploadProps, UploadItem, UploadState } from './components/FileUpload'
 export { SignaturePad } from './components/SignaturePad'
