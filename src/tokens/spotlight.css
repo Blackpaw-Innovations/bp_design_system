@@ -1,0 +1,60 @@
+/*
+ * @blackpaw/ui — Spotlight (v1.32.0, 17 Nov 2026). Components: src/components/Spotlight.tsx.
+ * The four card grounds are fixed in light and dark (a coloured card reads the same in both); each reads the app's
+ * own variable first. Orange stays on the eyebrow only; the card's colour is its meaning.
+ */
+:root {
+  --spot-navy: var(--identity, #032053);
+  --spot-burgundy: var(--burgundy, oklch(33% 0.098 6));
+  --spot-olive: var(--olive, oklch(38.9% 0.062 122));
+  --spot-cream: var(--cream, oklch(93% 0.022 83));
+  --spot-ink: var(--on-action, #071b3c);
+  --spot-action: var(--action, #fd8a03);
+}
+
+:root .bp-spot { position: relative; display: flex; min-height: 190px; overflow: hidden; border-radius: 24px; background: var(--spot-navy); color: #ffffff; }
+:root .bp-spot[data-tone="burgundy"] { background: var(--spot-burgundy); }
+:root .bp-spot[data-tone="olive"] { background: var(--spot-olive); }
+:root .bp-spot[data-tone="cream"] { background: var(--spot-cream); color: var(--spot-ink); }
+:root[data-theme="dark"] .bp-spot { border: 1px solid var(--border-subtle, rgba(255, 255, 255, .12)); }
+
+:root .bp-spot-body { position: relative; z-index: 1; display: flex; flex: 1; flex-direction: column; justify-content: space-between; gap: 16px; padding: 20px; }
+:root .bp-spot-head { min-height: 84px; padding-right: 140px; }
+:root .bp-spot-eyebrow { display: inline-flex; border-radius: 999px; background: var(--spot-action); color: var(--spot-ink); padding: 4px 12px; font-size: 15px; font-weight: 800; }
+:root .bp-spot-title { margin: 4px 0 0; font-size: 24px; font-weight: 900; line-height: 1.15; color: inherit; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+:root .bp-spot-text { margin: 8px 0 0; max-width: 36rem; font-size: 16px; line-height: 1.5; color: inherit; }
+:root .bp-spot-cta { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; border-radius: 999px; padding: 8px 20px; background: #ffffff; color: var(--spot-ink); font-size: 16px; font-weight: 800; text-decoration: none; }
+:root .bp-spot-cta:focus-visible { outline: 2px solid #ffffff; outline-offset: 2px; }
+:root .bp-spot[data-tone="cream"] .bp-spot-cta { background: var(--spot-navy); color: #ffffff; }
+:root .bp-spot[data-tone="cream"] .bp-spot-cta:focus-visible { outline-color: var(--spot-navy); }
+:root .bp-spot-art { position: absolute; right: 16px; top: 16px; display: flex; width: 128px; height: 84px; align-items: center; justify-content: center; pointer-events: none; }
+:root .bp-spot-art img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 12px 18px rgba(0, 0, 0, .28)); }
+
+@media (min-width: 640px) {
+  :root .bp-spot { min-height: 220px; }
+  :root .bp-spot-body { max-width: 62%; padding: 24px; align-items: flex-start; }
+  :root .bp-spot-head { min-height: 0; padding-right: 0; }
+  :root .bp-spot-title { margin-top: 12px; font-size: 28px; }
+  :root .bp-spot-cta { min-height: 48px; }
+  :root .bp-spot-art { inset: 0 0 0 auto; width: 38%; height: auto; }
+  :root .bp-spot-art img { height: 86%; }
+}
+
+:root .bp-spot-carousel { margin-bottom: 20px; }
+:root .bp-spot-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+:root .bp-spot-track::-webkit-scrollbar { display: none; }
+:root .bp-spot-slide { display: flex; flex: 0 0 100%; scroll-snap-align: start; }
+:root .bp-spot-slide > .bp-spot { flex: 1; }
+:root .bp-spot-controls { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+:root .bp-spot-dots { display: flex; }
+:root .bp-spot-dots button { display: grid; width: 32px; height: 44px; place-items: center; border: 0; background: none; cursor: pointer; }
+:root .bp-spot-dots span { display: block; width: 8px; height: 8px; border-radius: 999px; background: var(--c-border, #dde3ea); transition: width .2s var(--pk-ease, ease); }
+:root .bp-spot-dots span[data-on] { width: 24px; background: var(--spot-navy); }
+:root .bp-spot-arrows { display: flex; gap: 8px; }
+/* Self-contained for apps that import only this file (@blackpaw/ui/spotlight.css) and not the full tokens. */
+:root .bp-spot-arrows .bp-icon-btn { display: inline-flex; width: 44px; height: 44px; align-items: center; justify-content: center; border-radius: 999px; border: 1px solid var(--c-border, #dde3ea); background: var(--c-surface, #ffffff); color: var(--c-ink, #071b3c); cursor: pointer; }
+:root[data-theme="dark"] .bp-spot-arrows .bp-icon-btn, :root.dark .bp-spot-arrows .bp-icon-btn { border-color: rgba(255, 255, 255, .16); background: rgba(255, 255, 255, .06); color: #ffffff; }
+@media (prefers-reduced-motion: reduce) {
+  :root .bp-spot-track { scroll-behavior: auto; }
+  :root .bp-spot-dots span { transition: none; }
+}

@@ -107,3 +107,7 @@ export {
   DayCloseCard, ReceiptCard, CaredEmpty, SettingsList, SettingsItem, SwitchRow, TimeRow, greetingFor, Greeting, ProfileHero, SelectableRow, HubCard, FilterFold,
 } from './components/PremiumKit'
 export type { RenderLink, StatStripItem, HeroComparison, SlipLine, NeedsYouAlso } from './components/PremiumKit'
+
+// Spotlight (v1.32.0, 17 Nov 2026): coloured craft cards for what needs you, one per waiting thing. tokens/spotlight.css
+export { SpotlightCard, SpotlightCarousel, byUrgency } from './components/Spotlight'
+export type { SpotlightTone, SpotlightCardProps, SpotlightItem } from './components/Spotlight'
