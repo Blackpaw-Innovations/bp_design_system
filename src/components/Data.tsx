@@ -114,12 +114,12 @@ export function ColumnFilter({ label, options, value, onChange, range, onRange }
 }
 
 /* ── Filter bar ────────────────────────────────────────────── */
-export interface QuickView { key: string; label: string; count: number }
+export interface QuickView { key: string; label: string; count?: number }
 /** 3–5 slices people use (All, Open, Overdue, Ready for pickup, Not assigned). One is always on. Scrolls sideways on phone. */
 export function QuickViews({ views, value, onChange }: { views: QuickView[]; value: string; onChange: (k: string) => void }) {
   return (
     <div className="bp-quickviews" role="group" aria-label="Views">
-      {views.map((v) => <button key={v.key} type="button" className="bp-qv" aria-pressed={value === v.key} onClick={() => onChange(v.key)}>{v.label}<CountBadge n={v.count} /></button>)}
+      {views.map((v) => <button key={v.key} type="button" className="bp-qv" aria-pressed={value === v.key} onClick={() => onChange(v.key)}>{v.label}{v.count != null && <CountBadge n={v.count} />}</button>)}
     </div>
   )
 }
