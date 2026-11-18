@@ -239,7 +239,7 @@ Do: SelectableRow when a screen has a bulk action. Don't: a checkbox inside a Ta
 
 ### 11. CountHero (a count instead of money)
 
-`<CountHero title? count caption floor? headline? tick? chip? progress? stats? renderLink?>children</CountHero>`
+`<CountHero title? count caption floor? headline? tick? chip? progress? stats? craft? action? renderLink?>children</CountHero>`
 
 - MoneyHero's card for a count: figure 44/800, no currency, counts up the same way; the caption (17/600) says what is
   counted and against what: "of 17 free tonight", "jobs for today", "to collect today, 2 late".
@@ -250,6 +250,13 @@ Do: SelectableRow when a screen has a bulk action. Don't: a checkbox inside a Ta
 - `headline` replaces the figure when the day's job is done: a calm check in a white 15 % circle and the words at
   28/800 ("Everyone is in."). Never confetti. `tick={false}` (v1.25.5) drops the check, for a figure that is already
   formatted and is not a done state ("KES 8.4M", vertical Home).
+- **Craft card** (v1.33.0, audit round 2 "Equipment", approved 17 Nov 2026): `craft` is a craft object photo
+  (`/assets/objects/gears-320.webp`, basket, chess, origami, pot...) on the right of the card, text kept clear of it;
+  `action` is the page's one main action as a normal-size primary button inside the card (it replaces a full-width
+  button bar under the hero). The caption carries the look-ahead fact ("2 machines on the register · next service:
+  Treadmill 2, 2 Dec"). Secondary actions ("Add asset") go quiet at the right end of the pill-tab row. Use it on a
+  section header that summarises a status and owns one main action; not on app menu tiles (plain icon + ghost icon),
+  not on Home's KPI card or Needs-you carousel, not on Insights report heroes. Same props on MoneyHero.
 - `children`: a small picture of the figure, white on navy only.
 
 ### 12. RowGroup and CardSection

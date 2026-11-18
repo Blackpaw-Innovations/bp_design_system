@@ -61,6 +61,12 @@
 :root .bp-pk-hero .figure > .num { font-size: 44px; font-weight: 800; line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
 :root .bp-pk-hero .caption { display: block; margin-top: 8px; font-size: 17px; font-weight: 600; }
 :root .bp-pk-hero > .stats { margin-top: 20px; }
+/* Craft card (v1.33.0): a craft object on the right of the navy hero, the text kept clear of it; the page's one action inside. */
+:root .bp-pk-hero[data-craft] { position: relative; overflow: hidden; }
+:root .bp-pk-hero[data-craft] > .craft { position: absolute; right: 8px; top: 50%; width: clamp(88px, 26%, 168px); height: auto; transform: translateY(-50%); filter: drop-shadow(0 12px 18px rgba(0, 0, 0, .35)); pointer-events: none; }
+:root .bp-pk-hero[data-craft]:has(> .stats) > .craft { top: 16px; transform: none; }
+:root .bp-pk-hero[data-craft] > :not(.craft):not(.stats) { position: relative; margin-right: clamp(88px, 26%, 168px); }
+:root .bp-pk-hero > .action { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px; }
 :root .bp-pk-pill { margin: 12px 0 0; display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 12px; border-radius: 999px; background: var(--pk-on-hero-fill); color: var(--pk-on-hero); font-size: 13px; font-weight: 700; }
 :root .bp-pk-pill[data-chip] { max-width: 100%; border-radius: 16px; padding: 6px 12px; line-height: 1.375; }
 :root .bp-pk-headline { display: flex; align-items: center; gap: 12px; font-size: 28px; font-weight: 800; line-height: 1.25; }
