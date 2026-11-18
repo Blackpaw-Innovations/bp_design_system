@@ -500,6 +500,9 @@
   :root .bp-table td[data-select] { position: absolute; top: 10px; right: 10px; width: auto; }
   :root .bp-table tr:has(> td[data-select]) > td:nth-child(2) { grid-column: 1 / -1; padding-right: 48px; font-size: var(--fs-strong, 17px); font-weight: 800; }
   :root .bp-table tr:has(> td[data-select]) > td:nth-child(2)::before { content: none; }
+  /* The card is the grid row, so the tint goes on the row: cell tints leave white gaps between the blocks. */
+  :root .bp-table tr[data-selected] { background: var(--c-selected); }
+  :root .bp-table tr[data-selected] td { background: transparent; }
   :root .bp-table td[data-kind="money"], :root .bp-table td[data-kind="number"] { text-align: left; }
   /* Nothing is ever wider than the screen: the page cannot slide sideways under the thumb. */
   html, body { overflow-x: clip; }
