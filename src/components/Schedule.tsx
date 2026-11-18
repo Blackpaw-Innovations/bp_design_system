@@ -67,7 +67,6 @@ const TYPE_COLORS = [
   'color-mix(in srgb, var(--c-signal) 75%, var(--c-muted))',
 ]
 const ORANGE = 'var(--c-action)'
-const DAY = 86_400_000
 
 const startOfDay = (d: Date) => { const x = new Date(d); x.setHours(0, 0, 0, 0); return x }
 const addDays = (d: Date, n: number) => { const x = new Date(d); x.setDate(x.getDate() + n); return x }
