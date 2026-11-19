@@ -41,7 +41,7 @@ export interface ScheduleType { key: string; label: string }
 
 export interface ScheduleProps {
   items: ScheduleItem[]
-  /** Order sets the colour: navy, blue, mid, slate, steel; then repeats. */
+  /** Order sets the colour: navy, blue, mid, slate, steel; then repeats. Dark mode starts at the light blue (--sched-1…5). */
   types: ScheduleType[]
   view: ScheduleView
   onView: (v: ScheduleView) => void
@@ -63,13 +63,8 @@ export interface ScheduleProps {
   closeHour?: number
 }
 
-const TYPE_COLORS = [
-  'var(--c-navy)',
-  'var(--c-signal)',
-  'color-mix(in srgb, var(--c-navy) 55%, var(--c-signal))',
-  'color-mix(in srgb, var(--c-navy) 70%, var(--c-muted))',
-  'color-mix(in srgb, var(--c-signal) 75%, var(--c-muted))',
-]
+/** Type colours live in components.v17.css (--sched-1…5) so dark mode can swap them: navy vanishes on the dark surface. */
+const TYPE_COLORS = [1, 2, 3, 4, 5].map((n) => `var(--sched-${n})`)
 const ORANGE = 'var(--c-action)'
 
 const startOfDay = (d: Date) => { const x = new Date(d); x.setHours(0, 0, 0, 0); return x }
@@ -201,9 +196,9 @@ export function Schedule(p: ScheduleProps) {
       {view === 'month' && <MonthView {...shared} month={date} phone={phone} onPick={onDate} onDay={(d) => { onDate(d); onView('day') }} />}
 
       <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', fontSize: 13, fontWeight: 600, color: 'var(--c-muted)' }}>
-        {view === 'week' && !phone && p.heat?.some((r) => r.some((v) => v > 0)) && <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><Swatch color="color-mix(in srgb, var(--c-navy) 14%, transparent)" />{p.heatLabel ?? 'Shading = how busy it usually is at that hour'}</span>}
+        {view === 'week' && !phone && p.heat?.some((r) => r.some((v) => v > 0)) && <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><Swatch color="color-mix(in srgb, var(--sched-1) 14%, transparent)" />{p.heatLabel ?? 'Shading = how busy it usually is at that hour'}</span>}
         {view === 'month' && <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><Swatch color="color-mix(in srgb, var(--c-signal) 22%, var(--c-surface))" />Darker day = more booked</span>}
-        {view === 'month' && <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><Swatch color="var(--c-navy)" round />Dots = {noun.many}, by type</span>}
+        {view === 'month' && <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><Swatch color="var(--sched-1)" round />Dots = {noun.many}, by type</span>}
         {hasFill && <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><Swatch color={ORANGE} />{view === 'day' ? 'Ring' : 'Line'} = how full</span>}
       </div>
     </div>
@@ -230,7 +225,9 @@ function hourRange(list: ScheduleItem[], open: number, close: number) {
 }
 
 type Seg = { kind: 'hour'; h: number; top: number } | { kind: 'gap'; from: number; to: number; top: number }
-const HOUR_PX = 60, GAP_PX = 44
+const HOUR_PX = 60, GAP_PX = 44, MIN_PX = 46
+/** Minutes a day-view block covers on screen: never less than its minimum height, so the hour under it never folds. */
+const drawnMin = (i: ScheduleItem) => Math.max(i.minutes, ((MIN_PX + 4) / HOUR_PX) * 60)
 
 /** The "All day" chips for one day: dated items with no time. */
 function AllDayChips({ list, color, onOpen, selectedId, max }: { list: ScheduleItem[]; color: (k: string) => string; onOpen: (id: string) => void; selectedId?: string | null; max?: number }) {
@@ -255,8 +252,8 @@ function DayView({ items, color, now, onOpen, onAdd, noun, selectedId, openHour,
   const list = items.filter((i) => !i.allDay && sameDay(i.start, date))
   const allDay = items.filter((i) => i.allDay && sameDay(i.start, date))
   const today = sameDay(date, now)
-  const [lo, hi] = hourRange(list, openHour, closeHour)
-  const busy = (h: number) => list.some((i) => { const s = minOfDay(i.start); return s < (h + 1) * 60 && s + i.minutes > h * 60 })
+  const [lo, hi] = hourRange(list.map((i) => ({ ...i, minutes: drawnMin(i) })), openHour, closeHour)
+  const busy = (h: number) => list.some((i) => { const s = minOfDay(i.start); return s < (h + 1) * 60 && s + drawnMin(i) > h * 60 })
   const segs: Seg[] = []
   let top = 0, run: number[] = []
   const flushRun = () => {
@@ -271,7 +268,7 @@ function DayView({ items, color, now, onOpen, onAdd, noun, selectedId, openHour,
   const y = (min: number) => {
     for (const s of segs) {
       if (s.kind === 'hour' && min >= s.h * 60 && min <= (s.h + 1) * 60) return s.top + ((min - s.h * 60) / 60) * HOUR_PX
-      if (s.kind === 'gap' && min >= s.from * 60 && min <= s.to * 60) return s.top + GAP_PX / 2
+      if (s.kind === 'gap' && min >= s.from * 60 && min < s.to * 60) return s.top + GAP_PX / 2
     }
     return min < lo * 60 ? 0 : top
   }
@@ -298,7 +295,7 @@ function DayView({ items, color, now, onOpen, onAdd, noun, selectedId, openHour,
         </div>
       ))}
       {list.map((i) => {
-        const s = minOfDay(i.start), t = y(s) + 2, h = Math.max(46, y(s + i.minutes) - y(s) - 4)
+        const s = minOfDay(i.start), t = y(s) + 2, h = Math.max(MIN_PX, y(s + i.minutes) - y(s) - 4)
         const { lane: l, of } = lane.get(i.id)!
         const f = fillOf(i)
         return (
@@ -362,7 +359,7 @@ function WeekView({ items, color, now, onOpen, onAdd, noun, selectedId, openHour
             <div key={d.toISOString()} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
               <span style={{ fontSize: 12, fontWeight: 800, letterSpacing: '.06em', textTransform: 'uppercase', color: 'var(--c-muted)' }}>{fmt(d, { weekday: 'short' })}</span>
               <span aria-current={today ? 'date' : undefined} style={{ width: 34, height: 34, borderRadius: 99, display: 'grid', placeItems: 'center', fontSize: 18, fontWeight: 800,
-                background: today ? 'var(--c-navy)' : undefined, color: today ? '#fff' : 'var(--c-ink)' }}>{d.getDate()}</span>
+                background: today ? 'var(--sched-1)' : undefined, color: today ? '#fff' : 'var(--c-ink)' }}>{d.getDate()}</span>
             </div>
           )
         })}
@@ -391,7 +388,7 @@ function WeekView({ items, color, now, onOpen, onAdd, noun, selectedId, openHour
                 return (
                   <button key={h} type="button" disabled={!onAdd} tabIndex={-1} aria-hidden="true" onClick={() => onAdd?.(at(d, h * 60))}
                     style={{ display: 'block', width: '100%', height: WEEK_PX, border: 0, borderTop: '1px solid var(--c-border)', padding: 0, cursor: onAdd ? 'copy' : 'default',
-                      background: v > 0 ? `color-mix(in srgb, var(--c-navy) ${Math.round(3 + v * 15)}%, transparent)` : 'transparent' }} />
+                      background: v > 0 ? `color-mix(in srgb, var(--sched-1) ${Math.round(3 + v * 15)}%, transparent)` : 'transparent' }} />
                 )
               })}
               {dayList.map((i) => {
@@ -486,10 +483,10 @@ function MonthView({ items, color, now, onOpen, onAdd, noun, selectedId, month, 
             <button key={d.toISOString()} type="button" role="gridcell" aria-selected={sel} onClick={() => onPick(d)} onDoubleClick={() => onDay(d)}
               aria-label={`${fmt(d, { weekday: 'long', day: 'numeric', month: 'long' })}, ${list.length} ${list.length === 1 ? noun.one : noun.many}${c ? `, ${b} of ${c} booked` : ''}`}
               style={{ minHeight: phone ? 56 : 88, padding: phone ? 4 : 8, borderRadius: 10, display: 'flex', flexDirection: 'column', gap: 4, textAlign: 'left', cursor: 'pointer', color: 'var(--c-ink)',
-                border: sel ? '2px solid var(--c-navy)' : '1px solid var(--c-border)',
+                border: sel ? '2px solid var(--sched-1)' : '1px solid var(--c-border)',
                 background: l ? `color-mix(in srgb, var(--c-signal) ${Math.round(5 + 20 * (l / max))}%, var(--c-surface))` : 'var(--c-surface)' }}>
               <span style={{ width: 26, height: 26, borderRadius: 99, display: 'grid', placeItems: 'center', fontSize: 14, fontWeight: 800, marginLeft: -3, marginTop: -3,
-                background: today ? 'var(--c-navy)' : undefined, color: today ? '#fff' : undefined }}>{d.getDate()}</span>
+                background: today ? 'var(--sched-1)' : undefined, color: today ? '#fff' : undefined }}>{d.getDate()}</span>
               <span style={{ flex: 1 }} />
               {list.length > 0 && (
                 <span aria-hidden="true" style={{ display: 'flex', gap: 3, alignItems: 'center', flexWrap: 'wrap' }}>
@@ -497,7 +494,7 @@ function MonthView({ items, color, now, onOpen, onAdd, noun, selectedId, month, 
                   {list.length > dots && <span style={{ fontSize: 11, fontWeight: 800, color: 'var(--c-muted)' }}>+{list.length - dots}</span>}
                 </span>
               )}
-              {c > 0 && <FillLine fill={Math.min(1, b / c)} track="color-mix(in srgb, var(--c-navy) 10%, transparent)" />}
+              {c > 0 && <FillLine fill={Math.min(1, b / c)} track="color-mix(in srgb, var(--sched-1) 10%, transparent)" />}
             </button>
           )
         })}
