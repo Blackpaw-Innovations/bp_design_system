@@ -230,8 +230,8 @@ Do: SelectableRow when a screen has a bulk action. Don't: a checkbox inside a Ta
 
 `<SettingsList title action?><SettingsItem label value? /></SettingsList>`
 
-- Phone settings and account pages that state how things are set. (The desktop band-and-pill settings layout stays
-  `SettingsCard` / `SettingsGroup` / `SettingRow`, §17.9a.)
+- Phone settings and account pages that state how things are set. (Settings forms and the desktop settings layout use
+  `SettingsCard` / `SettingRow` / `SaveBar`, see "Settings forms" below.)
 - Group title 20/800 with at most one quiet action on the right ("Change"); rows in ONE white card, hairlines between.
 - Row: what it is, 17/700 ink, said as the outcome ("Orders are paid before collection"), its value under it, 15
   muted, in plain words. Min 56 px. Not a link, no chevron.
@@ -513,3 +513,43 @@ The screen must read the same with all motion off. Layout and exit motion for li
 - `art` is the craft object's base path in the app (`/assets/objects/gears`). The app ships `-160`, `-320` and `-640.webp`. Craft objects go on spotlight, snapshot and KPI cards, never on app tiles.
 - Home: one `SpotlightCarousel` under the hero, most urgent first (`byUrgency`), five at most, swipe or dots and arrows, no autoplay. A working page shows one `SpotlightCard` for its own top item.
 - Home order around it (every app): start (what's new, demo walkthrough, data warning), fixed (greeting, hero, spotlights, apps, quick actions, workflow, more figures), then dismissible cards (setup, first sale, getting started, welcome, notifications).
+
+## Settings forms (v1.38.0, 19 Nov 2026, audit rounds 4 and 5)
+
+Approved by Marvin on 19 Nov (round 4 rollout, round 5 renders 32 and 33). These pieces are the settings design for **every settings page in every vertical**; pages pick it up from the shared components, never from page CSS.
+
+```tsx
+const f = useSettingsDraft(saved)            // f.draft, f.set(key, value), f.changes, f.discard()
+  <SettingsCard title="Payment plan defaults" description="Filled in on every new proposal." scope="Used on new proposals. Each proposal can change them." fields>
+    <Field label="Design deposit" help="Paid when the client accepts the proposal."><NumberInput value={f.draft.deposit} suffix="%" onChange={(v) => f.set('deposit', v)} /></Field>
+    <Field label="Build milestones" help="Shares of the build, in order."><SplitPercentInput label="Milestone" value={f.draft.milestones} onChange={(v) => f.set('milestones', v)} /></Field>
+    <Field label="Project reference prefix" help={<>Clients pay to <ExampleTag>{f.draft.prefix}-014</ExampleTag></>}><Input value={f.draft.prefix} onChange={…} /></Field>
+  </SettingsCard>
+  <SettingsCard title="Sending invoices" description="When invoices go out.">
+    <SettingRow label="Send invoices on their own" hint="…" toggle={{ checked: f.draft.auto, onChange: (v) => f.set('auto', v), offText: 'you send each one with one tap' }} />
+    <SettingRow label="Bill an approved change" hint="…"><RadioGroup variant="cards" legend="Bill an approved change" value={…} onChange={…} options={[{ value, label, help }, …]} /></SettingRow>
+  </SettingsCard>
+  <SaveBar changes={f.changes} onDiscard={f.discard} onSave={save} saving={busy} saveLabel="Save money settings" />
+```
+
+- **SettingsCard:** a quiet white head (navy 17/800 title, one muted line, hairline). No `--table-head` colour band and no pill or chip at the top right. `scope` adds one muted line with an info icon under the description, saying where the settings apply. Every child gets the card's inner padding, whatever it is (a raw `Field` or `RadioGroup` included), so nothing sits on the card edge. `fields` lays Fields out in a two-column grid, label above and help below; one column on a phone. `columns={2}` and `SettingsGroup` keep working for existing callers.
+- **SettingRow:** one question per row, the question and its help on the left, the control on the right. With choice cards the right column widens on its own. `toggle` gives a switch that says its state in words ("Off · you send each one with one tap"); it is saved with the form like any other field.
+- **Choice cards:** `RadioGroup variant="cards"` for 2–4 options, each a title and a one-line consequence. Chosen = solid navy fill, white title and hint, an orange (`--action`) filled circle with a navy tick. Not chosen = white, hairline border, empty ring. Hover darkens the border only, never a fill (round 5: the round 4 tint read as hover).
+- **Filled switch:** `RadioGroup variant="switch"` for short answers ("No / To the shilling / To 10"): one bordered switch, the chosen segment navy with white text. On a phone it wraps under the question. One tab stop, arrow keys move and choose, the legend is read by screen readers. Five or more options stay a `Select`.
+- **SaveBar:** navy, sticky at the bottom, shown only while something changed: "N unsaved changes", Discard, Save (orange, the page's one orange action). `saving` disables both and says "Saving…"; `error` replaces the count with what to do next. `useSettingsDraft(saved)` gives the count; any form can pass its own.
+- **Numbers:** `NumberInput` (whole or `decimal`, stores a number) and any `Input` with a numeric `inputMode` get `autoComplete="off"` and the password-manager opt-outs, so no "•••" icon appears in a "days" box. `MoneyInput` and `QuantityInput` too. Unit tags (`prefix` / `suffix`) are light: 14 px muted on white with a hairline divider, never heavier than the number.
+- **Split percentages:** `SplitPercentInput` shows one box per share, a bar of the split and a live check: "✓ Adds up to 100%", or "Adds up to 95%: 5% still to place" in amber. Use it for milestones and any shares that must total 100.
+- `StatePill` rules are scoped to `.bp-state[data-tone]`, so the empty-state `.bp-state` no longer turns pills into tall columns.
+
+| Do | Don't |
+|---|---|
+| Quiet head inside the white card, an optional scope line | A royal-blue band per section; a pill at the top right |
+| Chosen card solid navy with an orange tick | A pale tint that looks like hover |
+| Fields in a padded grid, help under each | Fields flush to the card edge |
+| Two side-by-side choice cards with a consequence each | Six stacked radio rows for three questions |
+| Save bar in view while dirty | Save below the fold with no sign of unsaved changes |
+| Four boxes with a live 100% check | "40 / 30 / 20 / 10" typed into one text box |
+
+**Colours (Marvin, 19 Nov, "no new colours"):** these pieces use only navy, signal blue, orange (`--action`), white, the dark surfaces and the `--v-pos/warn/crit/info` tones. Selected = navy fill + white text; in dark mode a signal-blue fill + white text. Unit tags are white with muted text; the split bar alternates navy and signal blue; the save bar is flat navy (no shadow). No tints, glows or gradients.
+
+Settings navigation (the side list, rails, pop-out menus) is **held** for its own review round; it is not in v1.38.0.

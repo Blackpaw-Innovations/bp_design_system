@@ -71,7 +71,8 @@
 }
 :root .bp-control > textarea { padding: 12px 14px; resize: vertical; min-height: 96px; max-height: 232px; }
 :root .bp-control[data-figure] > input { font-weight: 800; font-size: 18px; font-variant-numeric: tabular-nums; }
-:root .bp-affix { display: flex; align-items: center; padding: 0 12px; background: var(--c-sunken); color: var(--c-muted); font-size: 16px; font-weight: 700; white-space: nowrap; }
+/* v1.38.0: units are light tags (white, muted text, hairline divider), never heavier than the number. */
+:root .bp-affix { display: flex; align-items: center; padding: 0 12px; background: var(--c-surface); color: var(--c-muted); font-size: 14px; font-weight: 700; white-space: nowrap; }
 :root .bp-affix[data-side="start"] { border-right: 1px solid var(--c-border); }
 :root .bp-affix[data-side="end"] { border-left: 1px solid var(--c-border); }
 :root .bp-qty > button { width: 44px; border: 0; background: var(--c-sunken); color: var(--c-ink); display: flex; align-items: center; justify-content: center; cursor: pointer; }
@@ -361,35 +362,120 @@
 :root .bp-why[data-tone="info"] { background: var(--v-info-tint); color: var(--v-info); }
 :root .bp-why[data-tone="pos"] { background: var(--v-pos-tint); color: var(--v-pos); }
 
-/* ── Settings card (v1.21): blue head band, grouped rows, state pills, numbered pills ── */
-:root .bp-settings { background: var(--c-surface); border: 1px solid var(--c-border); border-radius: 22px; overflow: hidden; }
-:root .bp-settings-head { display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; padding: 22px 28px; background: var(--table-head); color: #fff; }
-:root .bp-settings-head h2 { margin: 0; font-size: 24px; font-weight: 900; letter-spacing: -.01em; }
-:root .bp-settings-head p { margin: 4px 0 0; font-size: 16px; font-weight: 600; }
+/* ── Settings (v1.21; premium v1.38.0, audit round 4, 19 Nov 2026) ──
+   Quiet head (navy title, muted line, hairline; no colour band), even inner padding for ANY child, field grid,
+   question rows, choice cards (round 5), filled switch, switch state in words, sticky navy save bar. Settings nav,
+   rails and flyouts are held for their own review round. */
+/* No new colours (Marvin, 19 Nov): navy, signal blue, orange, white, the dark surfaces and the --v-* tones only.
+   Selected = navy fill + white text; in dark mode, a signal-blue fill + white text. No tints, glows or gradients. */
+:root { --set-strong: var(--c-navy); --set-pick: var(--c-navy); --set-pad: 18px; }
+:root[data-theme="dark"] { --set-strong: var(--c-ink); --set-pick: var(--c-signal); }
+:root .bp-settings { background: var(--c-surface); border: 1px solid var(--c-border); border-radius: 18px; overflow: hidden; }
+:root .bp-settings-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap; padding: 16px var(--set-pad) 14px; border-bottom: 1px solid var(--table-line); color: var(--set-strong); }
+:root .bp-settings-head h2 { margin: 0; font-size: 17px; font-weight: 800; line-height: 1.3; letter-spacing: -.01em; color: var(--set-strong); }
+:root .bp-settings-head p { margin: 2px 0 0; font-size: 14px; font-weight: 500; line-height: 1.4; color: var(--c-muted); }
+:root .bp-settings-head .bp-settings-scope { display: flex; align-items: center; gap: 6px; margin-top: 6px; font-size: 13px; font-weight: 600; }
+:root .bp-settings-scope > svg { flex: none; }
 :root .bp-settings-groups { display: grid; grid-template-columns: repeat(var(--cols, 1), minmax(0, 1fr)); }
-:root .bp-settings-group { padding: 22px 28px; border-top: 1px solid var(--table-line); display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-:root .bp-settings-groups[data-cols="2"] > .bp-settings-group:nth-child(odd) { border-right: 1px solid var(--table-line); }
-:root .bp-settings-group h3 { margin: 0 0 8px; font-size: 15px; font-weight: 900; letter-spacing: .04em; color: var(--table-head); }
-:root[data-theme="dark"] .bp-settings-group h3 { color: var(--c-signal-text); }
-:root .bp-setting-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 56px; padding: 8px 0; border-bottom: 1px solid var(--table-line); }
+/* Any child (a raw Field, a RadioGroup, a paragraph) is padded: nothing sits on the card edge. */
+:root .bp-settings-groups > * { padding: 16px var(--set-pad); min-width: 0; }
+:root .bp-settings-groups > * + * { border-top: 1px solid var(--table-line); }
+:root .bp-settings-groups[data-cols="2"] > * + * { border-top: 0; }
+:root .bp-settings-groups[data-cols="2"] > :nth-child(n+3) { border-top: 1px solid var(--table-line); }
+:root .bp-settings-groups[data-cols="2"]:not([data-fields]) > :nth-child(odd):not(:last-child) { border-right: 1px solid var(--table-line); }
+:root .bp-settings-groups[data-fields] { gap: 16px 20px; padding: 16px var(--set-pad) 18px; }
+:root .bp-settings-groups[data-fields] > * { padding: 0; border: 0 !important; }
+:root .bp-settings-group { display: flex; flex-direction: column; gap: 4px; }
+:root .bp-settings-group h3 { margin: 0 0 4px; font-size: 15px; font-weight: 800; color: var(--set-strong); }
+:root .bp-settings-foot { padding: 14px var(--set-pad); border-top: 1px solid var(--table-line); }
+:root .bp-setting-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 56px; padding: 10px 0; border-bottom: 1px solid var(--table-line); }
 :root .bp-setting-row:last-child { border-bottom: 0; }
+:root .bp-settings-groups > .bp-setting-row { padding: 14px var(--set-pad); border-bottom: 0; }
+/* Choice cards take the wider right column; the question stays left. */
+:root .bp-setting-row:has(.bp-cards) { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.6fr); align-items: start; }
 :root .bp-setting-label { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-:root .bp-setting-label b { font-size: 17px; font-weight: 800; color: var(--c-ink); }
-:root .bp-setting-label span { font-size: 14px; font-weight: 600; color: var(--c-muted); }
-:root .bp-state { flex: none; display: inline-flex; align-items: center; gap: 8px; min-height: 32px; padding: 0 12px; border-radius: 999px; font-size: 14px; font-weight: 900; white-space: nowrap; background: var(--c-sunken); color: var(--c-muted); }
-:root .bp-state::before { content: ""; width: 8px; height: 8px; border-radius: 999px; background: currentColor; }
-:root .bp-state[data-tone="required"] { background: var(--c-selected); color: var(--c-navy); }
+:root .bp-setting-label b { font-size: 16px; font-weight: 800; color: var(--c-ink); }
+:root .bp-setting-label span { font-size: 14px; font-weight: 500; line-height: 1.4; color: var(--c-muted); }
+:root .bp-setting-control { min-width: 0; display: flex; justify-content: flex-end; }
+:root .bp-setting-row:has(.bp-cards) .bp-setting-control { display: block; }
+:root .bp-setting-toggle { flex: 0 1 auto; display: inline-flex; align-items: center; justify-content: flex-end; gap: 10px; min-height: 44px; padding: 0; border: 0; background: transparent; cursor: pointer; font: inherit; text-align: right; }
+:root .bp-setting-toggle { min-width: 0; max-width: 100%; }
+:root .bp-setting-toggle .bp-state[data-tone] { flex: 0 1 auto; min-width: 0; white-space: normal; font-weight: 800; }
+:root .bp-setting-toggle:focus-visible { outline: 2px solid var(--c-signal); outline-offset: 3px; border-radius: 999px; }
+:root .bp-setting-toggle:disabled { cursor: not-allowed; opacity: .55; }
+:root .bp-state[data-tone] { flex: none; display: inline-flex; flex-direction: row; text-align: left; align-items: center; gap: 8px; min-height: 28px; padding: 2px 12px; border-radius: 999px; font-size: 13px; font-weight: 800; white-space: nowrap; background: var(--c-sunken); color: var(--c-muted); }
+:root .bp-state[data-tone]::before { content: ""; flex: none; width: 7px; height: 7px; border-radius: 999px; background: currentColor; }
+:root .bp-state[data-tone="required"] { background: var(--c-selected); color: var(--set-strong); }
 :root .bp-state[data-tone="required"]::before { background: var(--c-signal); }
 :root .bp-state[data-tone="on"] { background: var(--v-pos-tint); color: var(--v-pos); }
-:root[data-theme="dark"] .bp-state[data-tone="required"] { color: #fff; }
+
+/* Choice cards: RadioGroup variant="cards" (round 5). Chosen = solid navy, white text, orange tick in a filled circle.
+   Not chosen = the card surface (white, cream in Warm), hairline, empty ring. Hover darkens the border only, never a fill. */
+:root .bp-cards { border: 0; margin: 0; padding: 0; min-width: 0; display: grid; grid-template-columns: repeat(var(--n, 2), minmax(0, 1fr)); gap: 8px; }
+:root .bp-card-choice { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; align-items: start; min-height: 44px; padding: 11px 13px; border: 1.5px solid var(--c-border); border-radius: 12px; background: var(--c-surface); color: var(--c-ink); text-align: left; font: inherit; cursor: pointer; transition: border-color .15s, background-color .15s, color .15s; }
+:root .bp-card-choice:hover { border-color: var(--c-muted); }
+:root .bp-card-choice:focus-visible { outline: 2px solid var(--c-signal); outline-offset: 2px; }
+:root .bp-card-choice b { display: block; font-size: 15px; font-weight: 800; line-height: 1.3; }
+:root .bp-card-choice .bp-choice-sub { display: block; margin-top: 2px; font-size: 13px; font-weight: 500; line-height: 1.4; color: var(--c-muted); }
+:root .bp-card-choice .bp-radio { margin-top: 1px; }
+:root .bp-card-choice[aria-checked="true"], :root .bp-card-choice[aria-checked="true"]:hover { border-color: var(--set-pick); background: var(--set-pick); color: #fff; }
+:root .bp-card-choice[aria-checked="true"] .bp-choice-sub { color: #fff; }
+:root .bp-card-choice[aria-checked="true"] > .bp-radio { border: 0; background: var(--c-action); color: var(--c-navy); }
+:root .bp-card-choice[aria-checked="true"] > .bp-radio::after { content: none; }
+/* Filled switch: RadioGroup variant="switch" for short answers. Chosen segment = navy fill, white text. */
+:root .bp-seg[data-filled] { border: 1px solid var(--c-border); background: var(--c-surface); }
+:root .bp-seg[data-filled] > button { white-space: nowrap; }
+:root .bp-setting-row:has(.bp-seg[data-filled]) { flex-wrap: wrap; }
+:root .bp-seg[data-filled] > button[aria-checked="true"] { background: var(--set-pick); color: #fff; box-shadow: none; }
+:root .bp-seg[data-filled] > button:not([aria-checked="true"]):hover { box-shadow: inset 0 0 0 1px var(--c-border); }
+:root .bp-seg[data-filled] > button:focus-visible { outline: 2px solid var(--c-signal); outline-offset: 2px; }
+
+/* Number inputs: light unit tags, example tag, split percentages */
+:root .bp-example { display: inline-block; margin-left: 4px; padding: 1px 8px; border-radius: 6px; background: var(--set-pick); color: #fff; font-size: 13px; font-weight: 800; font-variant-numeric: tabular-nums; }
+:root .bp-split { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+:root .bp-split-boxes { display: grid; grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); gap: 8px; }
+:root .bp-split-boxes .bp-control > input { min-width: 0; padding: 0 6px 0 10px; text-align: center; }
+:root .bp-split-boxes .bp-affix { padding: 0 8px; }
+:root .bp-split-bar { display: flex; gap: 2px; height: 6px; border-radius: 3px; overflow: hidden; }
+:root .bp-split-bar > i { display: block; min-width: 0; flex-basis: 0; background: var(--set-strong); }
+:root .bp-split-bar > i[data-i="1"], :root .bp-split-bar > i[data-i="3"] { background: var(--c-signal); }
+:root .bp-split-bar > i[data-gap] { background: var(--c-sunken); }
+:root .bp-split-check { margin: 0; display: flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 800; color: var(--v-warn, #a35a00); }
+:root .bp-split-check[data-ok] { color: var(--v-pos); }
+
+/* Save bar: only while dirty, sticky at the bottom of the form */
+:root .bp-savebar { position: sticky; bottom: 16px; z-index: 20; display: flex; align-items: center; flex-wrap: wrap; gap: 10px 12px; margin-top: 16px; padding: 10px 12px 10px 18px; border-radius: 16px; background: var(--c-navy); color: #fff; animation: bp-savebar-in .2s ease-out; }
+:root .bp-savebar-dot { flex: none; width: 9px; height: 9px; border-radius: 999px; background: var(--c-action); }
+:root .bp-savebar-text { flex: 1 1 auto; min-width: 0; font-size: 15px; font-weight: 700; }
+:root .bp-savebar-actions { display: flex; gap: 8px; margin-left: auto; flex-wrap: wrap; }
+:root .bp-savebar button { min-height: 44px; padding: 0 16px; border-radius: 12px; font: 800 15px Urbanist, sans-serif; cursor: pointer; }
+:root .bp-savebar-discard { border: 1.5px solid #fff; background: transparent; color: #fff; }
+:root .bp-savebar-save { border: 0; background: var(--c-action); color: var(--c-on-action); }
+:root .bp-savebar button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+:root .bp-savebar button:disabled { cursor: progress; opacity: .7; }
+:root .bp-savebar[data-error] .bp-savebar-dot { background: var(--v-crit, #c53b43); }
+:root[data-theme="dark"] .bp-savebar { box-shadow: 0 0 0 1px var(--c-signal); }
+@keyframes bp-savebar-in { from { opacity: 0; transform: translateY(8px); } }
+@media (prefers-reduced-motion: reduce) { :root .bp-savebar { animation: none; } :root .bp-card-choice { transition: none; } }
+
+
 :root .bp-numbered { list-style: none; margin: 0; padding: 0; display: flex; gap: 10px; flex-wrap: wrap; }
 :root .bp-numbered li { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px 0 8px; border-radius: 999px; background: var(--c-selected); font-size: 15px; font-weight: 800; color: var(--c-navy); }
 :root .bp-numbered li > span { flex: none; width: 28px; height: 28px; border-radius: 999px; background: var(--c-navy); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 900; }
 :root[data-theme="dark"] .bp-numbered li { color: #fff; }
 @media (max-width: 767px) {
+  :root { --set-pad: 16px; }
   :root .bp-settings-groups { grid-template-columns: minmax(0, 1fr); }
-  :root .bp-settings-groups > .bp-settings-group { border-right: 0 !important; }
-  :root .bp-settings-head, :root .bp-settings-group { padding-left: 18px; padding-right: 18px; }
+  :root .bp-settings-groups > * { border-right: 0 !important; }
+  :root .bp-settings-groups[data-cols="2"]:not([data-fields]) > * + * { border-top: 1px solid var(--table-line); }
+  :root .bp-setting-row:has(.bp-cards) { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  :root .bp-setting-row:has(.bp-setting-toggle) { flex-wrap: wrap; }
+  :root .bp-setting-toggle { justify-content: flex-start; text-align: left; }
+  :root .bp-cards { grid-template-columns: minmax(0, 1fr); }
+  :root .bp-savebar { bottom: 12px; padding-left: 14px; }
+  :root .bp-savebar-actions { width: 100%; }
+  :root .bp-savebar-actions > button { flex: 1 1 auto; padding: 0 12px; white-space: nowrap; }
+  :root .bp-savebar-actions > .bp-savebar-save { flex-grow: 2; }
 }
 
 /* ── Record panel (v1.22) ───────────────────────────────────── */
