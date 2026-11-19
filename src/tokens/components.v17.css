@@ -35,10 +35,24 @@
   --table-head: #1a4fa8;
   --table-line: #e8eef5;
   --row-attention: #fffaf3;
+  /* Schedule type colours, in order: navy, blue, mid, slate, steel (dark: see below). */
+  --sched-1: var(--c-navy);
+  --sched-2: var(--c-signal);
+  --sched-3: color-mix(in srgb, var(--c-navy) 55%, var(--c-signal));
+  --sched-4: color-mix(in srgb, var(--c-navy) 70%, var(--c-muted));
+  --sched-5: color-mix(in srgb, var(--c-signal) 75%, var(--c-muted));
 }
 :root[data-theme="dark"] {
   --table-line: var(--c-border);
   --row-attention: rgba(253, 138, 3, .10);
+  /* Schedule type colours (v1.40.2): navy disappears on #0f1320, so dark starts at the light blue. Mixed only from
+     navy, signal and white (app-independent), each 3:1+ on #0f1320 and #141825 with white text at 4.5:1+. Only blue and slate fit
+     both limits, so 4 and 5 are deeper versions of 1 and 2: the type names on the blocks and filters tell them apart. */
+  --sched-1: var(--c-signal);
+  --sched-2: color-mix(in srgb, var(--c-navy) 65%, #fff);
+  --sched-3: color-mix(in srgb, var(--c-signal) 50%, var(--sched-2));
+  --sched-4: color-mix(in srgb, var(--c-navy) 15%, var(--c-signal));
+  --sched-5: color-mix(in srgb, var(--c-navy) 67%, #fff);
   --c-selected: var(--v-selected, #203458);
   --c-red-ink: #f07f86;
   --c-red-tint: rgba(208, 24, 31, .22);
