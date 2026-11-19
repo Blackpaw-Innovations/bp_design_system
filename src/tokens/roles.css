@@ -85,7 +85,8 @@
   --role-family-tint:   var(--hk-ice);
 }
 :root:is([data-vertical="tailor_construction"], [data-vertical="field_connect"],
-         [data-vertical="property_management"], [data-vertical="hospitality"]) {
+         [data-vertical="property_management"], [data-vertical="hospitality"],
+         [data-vertical="ngo"]) {
   --role-family-accent: var(--hk-red);     /* making, building and places */
   --role-family-tint:   #FDE8E8;
 }

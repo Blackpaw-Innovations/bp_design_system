@@ -31,7 +31,7 @@ export function SettingsGroup({ title, children }: { title: string; children: Re
 export type StateTone = 'required' | 'on' | 'off'
 /** Required = blue tint, On = green tint, Off / Not required = grey. Always a word, never a bare colour. */
 export function StatePill({ value, tone }: { value: ReactNode; tone: StateTone }) {
-  return <span className="bp-state" data-tone={tone}>{value}</span>
+  return <span className="bp-state-pill" data-tone={tone}>{value}</span>
 }
 
 export function SettingRow({ label, hint, state, children }: { label: string; hint?: string; state?: { value: ReactNode; tone: StateTone }; children?: ReactNode }) {
