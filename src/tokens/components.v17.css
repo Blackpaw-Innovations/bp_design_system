@@ -395,7 +395,8 @@
 :root .bp-setting-control { min-width: 0; display: flex; justify-content: flex-end; }
 :root .bp-setting-row:has(.bp-cards) .bp-setting-control { display: block; }
 :root .bp-setting-toggle { flex: 0 1 auto; display: inline-flex; align-items: center; justify-content: flex-end; gap: 10px; min-height: 44px; padding: 0; border: 0; background: transparent; cursor: pointer; font: inherit; text-align: right; }
-:root .bp-setting-toggle .bp-state[data-tone] { white-space: normal; font-weight: 800; }
+:root .bp-setting-toggle { min-width: 0; max-width: 100%; }
+:root .bp-setting-toggle .bp-state[data-tone] { flex: 0 1 auto; min-width: 0; white-space: normal; font-weight: 800; }
 :root .bp-setting-toggle:focus-visible { outline: 2px solid var(--c-signal); outline-offset: 3px; border-radius: 999px; }
 :root .bp-setting-toggle:disabled { cursor: not-allowed; opacity: .55; }
 :root .bp-state[data-tone] { flex: none; display: inline-flex; flex-direction: row; text-align: left; align-items: center; gap: 8px; min-height: 28px; padding: 2px 12px; border-radius: 999px; font-size: 13px; font-weight: 800; white-space: nowrap; background: var(--c-sunken); color: var(--c-muted); }
@@ -405,7 +406,7 @@
 :root .bp-state[data-tone="on"] { background: var(--v-pos-tint); color: var(--v-pos); }
 
 /* Choice cards: RadioGroup variant="cards" (round 5). Chosen = solid navy, white text, orange tick in a filled circle.
-   Not chosen = white, hairline, empty ring. Hover darkens the border only, never a fill. */
+   Not chosen = the card surface (white, cream in Warm), hairline, empty ring. Hover darkens the border only, never a fill. */
 :root .bp-cards { border: 0; margin: 0; padding: 0; min-width: 0; display: grid; grid-template-columns: repeat(var(--n, 2), minmax(0, 1fr)); gap: 8px; }
 :root .bp-card-choice { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; align-items: start; min-height: 44px; padding: 11px 13px; border: 1.5px solid var(--c-border); border-radius: 12px; background: var(--c-surface); color: var(--c-ink); text-align: left; font: inherit; cursor: pointer; transition: border-color .15s, background-color .15s, color .15s; }
 :root .bp-card-choice:hover { border-color: var(--c-muted); }
@@ -451,7 +452,7 @@
 :root .bp-savebar[data-error] .bp-savebar-dot { background: var(--v-crit, #c53b43); }
 :root[data-theme="dark"] .bp-savebar { box-shadow: 0 0 0 1px var(--c-signal); }
 @keyframes bp-savebar-in { from { opacity: 0; transform: translateY(8px); } }
-@media (prefers-reduced-motion: reduce) { :root .bp-savebar { animation: none; } }
+@media (prefers-reduced-motion: reduce) { :root .bp-savebar { animation: none; } :root .bp-card-choice { transition: none; } }
 
 
 :root .bp-numbered { list-style: none; margin: 0; padding: 0; display: flex; gap: 10px; flex-wrap: wrap; }
@@ -465,6 +466,7 @@
   :root .bp-settings-groups[data-cols="2"]:not([data-fields]) > * + * { border-top: 1px solid var(--table-line); }
   :root .bp-setting-row:has(.bp-cards) { grid-template-columns: minmax(0, 1fr); gap: 10px; }
   :root .bp-setting-row:has(.bp-setting-toggle) { flex-wrap: wrap; }
+  :root .bp-setting-toggle { justify-content: flex-start; text-align: left; }
   :root .bp-cards { grid-template-columns: minmax(0, 1fr); }
   :root .bp-savebar { bottom: 12px; padding-left: 14px; }
   :root .bp-savebar-actions { width: 100%; }
