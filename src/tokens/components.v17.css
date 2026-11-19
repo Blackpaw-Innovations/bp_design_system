@@ -71,8 +71,8 @@
 }
 :root .bp-control > textarea { padding: 12px 14px; resize: vertical; min-height: 96px; max-height: 232px; }
 :root .bp-control[data-figure] > input { font-weight: 800; font-size: 18px; font-variant-numeric: tabular-nums; }
-/* v1.38: units are light tags, never heavier than the number they qualify. */
-:root .bp-affix { display: flex; align-items: center; padding: 0 12px; background: color-mix(in srgb, var(--c-sunken) 55%, var(--c-surface)); color: var(--c-muted); font-size: 14px; font-weight: 700; white-space: nowrap; }
+/* v1.38.0: units are light tags (white, muted text, hairline divider), never heavier than the number. */
+:root .bp-affix { display: flex; align-items: center; padding: 0 12px; background: var(--c-surface); color: var(--c-muted); font-size: 14px; font-weight: 700; white-space: nowrap; }
 :root .bp-affix[data-side="start"] { border-right: 1px solid var(--c-border); }
 :root .bp-affix[data-side="end"] { border-left: 1px solid var(--c-border); }
 :root .bp-qty > button { width: 44px; border: 0; background: var(--c-sunken); color: var(--c-ink); display: flex; align-items: center; justify-content: center; cursor: pointer; }
@@ -362,8 +362,10 @@
    Quiet head (navy title, muted line, hairline; no colour band), even inner padding for ANY child, field grid,
    question rows, choice cards (round 5), filled switch, switch state in words, sticky navy save bar. Settings nav,
    rails and flyouts are held for their own review round. */
-:root { --set-strong: var(--c-navy); --set-tint: color-mix(in srgb, var(--c-navy) 5%, var(--c-surface)); --set-pad: 18px; }
-:root[data-theme="dark"] { --set-strong: var(--c-ink); --set-tint: var(--c-selected); }
+/* No new colours (Marvin, 19 Nov): navy, signal blue, orange, white, the dark surfaces and the --v-* tones only.
+   Selected = navy fill + white text; in dark mode, a signal-blue fill + white text. No tints, glows or gradients. */
+:root { --set-strong: var(--c-navy); --set-pick: var(--c-navy); --set-pad: 18px; }
+:root[data-theme="dark"] { --set-strong: var(--c-ink); --set-pick: var(--c-signal); }
 :root .bp-settings { background: var(--c-surface); border: 1px solid var(--c-border); border-radius: 18px; overflow: hidden; }
 :root .bp-settings-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap; padding: 16px var(--set-pad) 14px; border-bottom: 1px solid var(--table-line); color: var(--set-strong); }
 :root .bp-settings-head h2 { margin: 0; font-size: 17px; font-weight: 800; line-height: 1.3; letter-spacing: -.01em; color: var(--set-strong); }
@@ -406,51 +408,48 @@
    Not chosen = white, hairline, empty ring. Hover darkens the border only, never a fill. */
 :root .bp-cards { border: 0; margin: 0; padding: 0; min-width: 0; display: grid; grid-template-columns: repeat(var(--n, 2), minmax(0, 1fr)); gap: 8px; }
 :root .bp-card-choice { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; align-items: start; min-height: 44px; padding: 11px 13px; border: 1.5px solid var(--c-border); border-radius: 12px; background: var(--c-surface); color: var(--c-ink); text-align: left; font: inherit; cursor: pointer; transition: border-color .15s, background-color .15s, color .15s; }
-:root .bp-card-choice:hover { border-color: color-mix(in srgb, var(--c-ink) 45%, var(--c-border)); }
+:root .bp-card-choice:hover { border-color: var(--c-muted); }
 :root .bp-card-choice:focus-visible { outline: 2px solid var(--c-signal); outline-offset: 2px; }
 :root .bp-card-choice b { display: block; font-size: 15px; font-weight: 800; line-height: 1.3; }
 :root .bp-card-choice .bp-choice-sub { display: block; margin-top: 2px; font-size: 13px; font-weight: 500; line-height: 1.4; color: var(--c-muted); }
 :root .bp-card-choice .bp-radio { margin-top: 1px; }
-:root .bp-card-choice[aria-checked="true"], :root .bp-card-choice[aria-checked="true"]:hover { border-color: var(--c-navy); background: var(--c-navy); color: #fff; }
-:root .bp-card-choice[aria-checked="true"] .bp-choice-sub { color: rgba(255, 255, 255, .82); }
+:root .bp-card-choice[aria-checked="true"], :root .bp-card-choice[aria-checked="true"]:hover { border-color: var(--set-pick); background: var(--set-pick); color: #fff; }
+:root .bp-card-choice[aria-checked="true"] .bp-choice-sub { color: #fff; }
 :root .bp-card-choice[aria-checked="true"] > .bp-radio { border: 0; background: var(--c-action); color: var(--c-navy); }
 :root .bp-card-choice[aria-checked="true"] > .bp-radio::after { content: none; }
-:root[data-theme="dark"] .bp-card-choice[aria-checked="true"] { border-color: var(--c-signal); }
 /* Filled switch: RadioGroup variant="switch" for short answers. Chosen segment = navy fill, white text. */
 :root .bp-seg[data-filled] { border: 1px solid var(--c-border); background: var(--c-surface); }
 :root .bp-seg[data-filled] > button { white-space: nowrap; }
 :root .bp-setting-row:has(.bp-seg[data-filled]) { flex-wrap: wrap; }
-:root .bp-seg[data-filled] > button[aria-checked="true"] { background: var(--c-navy); color: #fff; box-shadow: none; }
+:root .bp-seg[data-filled] > button[aria-checked="true"] { background: var(--set-pick); color: #fff; box-shadow: none; }
 :root .bp-seg[data-filled] > button:not([aria-checked="true"]):hover { box-shadow: inset 0 0 0 1px var(--c-border); }
 :root .bp-seg[data-filled] > button:focus-visible { outline: 2px solid var(--c-signal); outline-offset: 2px; }
-:root[data-theme="dark"] .bp-seg[data-filled] > button[aria-checked="true"] { box-shadow: 0 0 0 1px var(--c-signal); }
 
 /* Number inputs: light unit tags, example tag, split percentages */
-:root .bp-example { display: inline-block; margin-left: 4px; padding: 1px 8px; border-radius: 6px; background: var(--c-selected); color: var(--set-strong); font-size: 13px; font-weight: 800; font-variant-numeric: tabular-nums; }
+:root .bp-example { display: inline-block; margin-left: 4px; padding: 1px 8px; border-radius: 6px; background: var(--set-pick); color: #fff; font-size: 13px; font-weight: 800; font-variant-numeric: tabular-nums; }
 :root .bp-split { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
 :root .bp-split-boxes { display: grid; grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); gap: 8px; }
 :root .bp-split-boxes .bp-control > input { min-width: 0; padding: 0 6px 0 10px; text-align: center; }
 :root .bp-split-boxes .bp-affix { padding: 0 8px; }
 :root .bp-split-bar { display: flex; gap: 2px; height: 6px; border-radius: 3px; overflow: hidden; }
 :root .bp-split-bar > i { display: block; min-width: 0; flex-basis: 0; background: var(--set-strong); }
-:root .bp-split-bar > i[data-i="1"] { background: color-mix(in srgb, var(--set-strong) 82%, var(--c-signal)); }
-:root .bp-split-bar > i[data-i="2"] { background: color-mix(in srgb, var(--set-strong) 50%, var(--c-signal)); }
-:root .bp-split-bar > i[data-i="3"] { background: var(--c-signal); }
+:root .bp-split-bar > i[data-i="1"], :root .bp-split-bar > i[data-i="3"] { background: var(--c-signal); }
 :root .bp-split-bar > i[data-gap] { background: var(--c-sunken); }
 :root .bp-split-check { margin: 0; display: flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 800; color: var(--v-warn, #a35a00); }
 :root .bp-split-check[data-ok] { color: var(--v-pos); }
 
 /* Save bar: only while dirty, sticky at the bottom of the form */
-:root .bp-savebar { position: sticky; bottom: 16px; z-index: 20; display: flex; align-items: center; flex-wrap: wrap; gap: 10px 12px; margin-top: 16px; padding: 10px 12px 10px 18px; border-radius: 16px; background: var(--c-toast); color: #fff; box-shadow: 0 12px 30px rgba(3, 32, 83, .25); animation: bp-savebar-in .2s ease-out; }
+:root .bp-savebar { position: sticky; bottom: 16px; z-index: 20; display: flex; align-items: center; flex-wrap: wrap; gap: 10px 12px; margin-top: 16px; padding: 10px 12px 10px 18px; border-radius: 16px; background: var(--c-navy); color: #fff; animation: bp-savebar-in .2s ease-out; }
 :root .bp-savebar-dot { flex: none; width: 9px; height: 9px; border-radius: 999px; background: var(--c-action); }
 :root .bp-savebar-text { flex: 1 1 auto; min-width: 0; font-size: 15px; font-weight: 700; }
 :root .bp-savebar-actions { display: flex; gap: 8px; margin-left: auto; flex-wrap: wrap; }
 :root .bp-savebar button { min-height: 44px; padding: 0 16px; border-radius: 12px; font: 800 15px Urbanist, sans-serif; cursor: pointer; }
-:root .bp-savebar-discard { border: 1.5px solid rgba(255, 255, 255, .7); background: transparent; color: #fff; }
+:root .bp-savebar-discard { border: 1.5px solid #fff; background: transparent; color: #fff; }
 :root .bp-savebar-save { border: 0; background: var(--c-action); color: var(--c-on-action); }
 :root .bp-savebar button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 :root .bp-savebar button:disabled { cursor: progress; opacity: .7; }
-:root .bp-savebar[data-error] .bp-savebar-dot { background: #ff8a8f; }
+:root .bp-savebar[data-error] .bp-savebar-dot { background: var(--v-crit, #c53b43); }
+:root[data-theme="dark"] .bp-savebar { box-shadow: 0 0 0 1px var(--c-signal); }
 @keyframes bp-savebar-in { from { opacity: 0; transform: translateY(8px); } }
 @media (prefers-reduced-motion: reduce) { :root .bp-savebar { animation: none; } }
 

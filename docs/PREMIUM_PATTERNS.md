@@ -537,7 +537,7 @@ const f = useSettingsDraft(saved)            // f.draft, f.set(key, value), f.ch
 - **Choice cards:** `RadioGroup variant="cards"` for 2–4 options, each a title and a one-line consequence. Chosen = solid navy fill, white title and hint, an orange (`--action`) filled circle with a navy tick. Not chosen = white, hairline border, empty ring. Hover darkens the border only, never a fill (round 5: the round 4 tint read as hover).
 - **Filled switch:** `RadioGroup variant="switch"` for short answers ("No / To the shilling / To 10"): one bordered switch, the chosen segment navy with white text. On a phone it wraps under the question. One tab stop, arrow keys move and choose, the legend is read by screen readers. Five or more options stay a `Select`.
 - **SaveBar:** navy, sticky at the bottom, shown only while something changed: "N unsaved changes", Discard, Save (orange, the page's one orange action). `saving` disables both and says "Saving…"; `error` replaces the count with what to do next. `useSettingsDraft(saved)` gives the count; any form can pass its own.
-- **Numbers:** `NumberInput` (whole or `decimal`, stores a number) and any `Input` with a numeric `inputMode` get `autoComplete="off"` and the password-manager opt-outs, so no "•••" icon appears in a "days" box. `MoneyInput` and `QuantityInput` too. Unit tags (`prefix` / `suffix`) are light: 14 px muted on a pale tint, never heavier than the number.
+- **Numbers:** `NumberInput` (whole or `decimal`, stores a number) and any `Input` with a numeric `inputMode` get `autoComplete="off"` and the password-manager opt-outs, so no "•••" icon appears in a "days" box. `MoneyInput` and `QuantityInput` too. Unit tags (`prefix` / `suffix`) are light: 14 px muted on white with a hairline divider, never heavier than the number.
 - **Split percentages:** `SplitPercentInput` shows one box per share, a bar of the split and a live check: "✓ Adds up to 100%", or "Adds up to 95%: 5% still to place" in amber. Use it for milestones and any shares that must total 100.
 - `StatePill` rules are scoped to `.bp-state[data-tone]`, so the empty-state `.bp-state` no longer turns pills into tall columns.
 
@@ -549,5 +549,7 @@ const f = useSettingsDraft(saved)            // f.draft, f.set(key, value), f.ch
 | Two side-by-side choice cards with a consequence each | Six stacked radio rows for three questions |
 | Save bar in view while dirty | Save below the fold with no sign of unsaved changes |
 | Four boxes with a live 100% check | "40 / 30 / 20 / 10" typed into one text box |
+
+**Colours (Marvin, 19 Nov, "no new colours"):** these pieces use only navy, signal blue, orange (`--action`), white, the dark surfaces and the `--v-pos/warn/crit/info` tones. Selected = navy fill + white text; in dark mode a signal-blue fill + white text. Unit tags are white with muted text; the split bar alternates navy and signal blue; the save bar is flat navy (no shadow). No tints, glows or gradients.
 
 Settings navigation (the side list, rails, pop-out menus) is **held** for its own review round; it is not in v1.38.0.
