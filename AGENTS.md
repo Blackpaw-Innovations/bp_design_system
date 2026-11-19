@@ -41,7 +41,7 @@ Use `docs/index.html` as the human-facing navigator. Detailed files remain autho
 
 ## Before handing work over
 
-Run `npm run check:brand`. Check keyboard use, contrast, responsive layout, plain-language labels, loading, empty, error, permission, and recovery states. Record any approved exception in the pull request; do not silently create a parallel standard.
+Run `npm run check:brand` and `npm run check:types` (strict, no unused locals or parameters: consumers compile `src` from source with those flags). Check keyboard use, contrast, responsive layout, plain-language labels, loading, empty, error, permission, and recovery states. Record any approved exception in the pull request; do not silently create a parallel standard.
 
 ## Mandatory consumer gate
 
