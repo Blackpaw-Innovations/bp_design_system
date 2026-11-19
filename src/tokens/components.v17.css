@@ -192,6 +192,10 @@
 /* ── Tables (v1.21 standard): blue head band, two-line cells, initials, attention row ── */
 :root .bp-table thead th { background: var(--table-head); color: #fff; font-size: 14px; font-weight: 800; letter-spacing: .02em; padding: 15px 16px; }
 :root .bp-table thead th .bp-sort, :root .bp-table thead th .bp-colfilter-btn { color: #fff; }
+/* Select-all box on the blue head (UAT 19 Nov): a white outline, and when ticked a white tick on the head colour, never the
+   signal fill, which matched the head and hid the tick. */
+:root .bp-table thead th .bp-box { border-color: #fff; }
+:root .bp-table thead th :is([aria-checked="true"], [aria-checked="mixed"]) > .bp-box { background: transparent; border-color: #fff; color: #fff; }
 :root .bp-table td { padding: 16px; border-top-color: var(--table-line); vertical-align: middle; }
 :root .bp-table td .sub { font-size: 14px; font-weight: 700; }
 :root .bp-table td .sub[data-tone="pos"] { color: var(--v-pos); }
