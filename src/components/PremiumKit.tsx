@@ -341,10 +341,10 @@ export function RowGroup({ title, aside, empty, children }: { title?: string; as
   )
 }
 
-/** A titled quiet card for content that is not rows (a history, a note). */
+/** A titled quiet card for content that is not rows (a history, a note). v1.41: the title sits inside the card, like SettingsCard. */
 export function CardSection({ title, aside, children }: { title: string; aside?: ReactNode; children: ReactNode }) {
   return (
-    <section className="bp-pk-group" aria-label={title}>
+    <section className="bp-pk-group" data-settings="" aria-label={title}>
       <div className="bp-pk-group-head" data-tall=""><h2>{title}</h2>{aside}</div>
       <div className="bp-pk-card" data-flush="">{children}</div>
     </section>
@@ -669,13 +669,13 @@ export function CaredEmpty({ image, title, children, action }: { image?: string;
 }
 
 /**
- * Settings as a phone reads them: a titled group (20/800) over one quiet card of rows, with at most one quiet action on
- * the right ("Change"). Rows are SettingsItem, SwitchRow or TimeRow; a group never holds cards.
- * (The desktop band-and-pill settings layout is SettingsCard / SettingsGroup / SettingRow.)
+ * Settings as a phone reads them: one quiet card, its title inside (navy, hairline under it, never a band), at most one
+ * quiet action on the right ("Change"), padded rows. Rows are SettingsItem, SwitchRow or TimeRow; a group never holds
+ * cards. Same look as SettingsCard / SettingRow (v1.41).
  */
 export function SettingsList({ title, action, children }: { title: string; action?: ReactNode; children: ReactNode }) {
   return (
-    <section className="bp-pk-group" aria-label={title}>
+    <section className="bp-pk-group" data-settings="" aria-label={title}>
       <div className="bp-pk-group-head" data-tall=""><h2>{title}</h2>{action}</div>
       <ul className="bp-pk-list">{children}</ul>
     </section>
@@ -693,17 +693,23 @@ export function SettingsItem({ label, value }: { label: ReactNode; value?: React
 }
 
 /**
- * A setting that takes effect the moment it is tapped: what it is, one line of why, the DS switch on the right, green
- * when on (a state, not an action). The whole 56 px row is the target. The caller saves on change; `disabled` holds the
- * row while a save it depends on runs, `busy` only tells assistive tech.
+ * A setting that takes effect the moment it is tapped: what it is, one line of why, then its state in words ("Off · you
+ * send each one") beside the DS switch, like SettingRow. The whole row is the target. The caller saves on change;
+ * `disabled` holds the row while a save it depends on runs, `busy` only tells assistive tech.
  */
-export function SwitchRow({ label, hint, checked, disabled, busy, onChange }: {
+export function SwitchRow({ label, hint, checked, disabled, busy, onChange, onText, offText }: {
   label: string; hint?: ReactNode; checked: boolean; disabled?: boolean; busy?: boolean; onChange: (next: boolean) => void
+  /** What On / Off means, after the word: "sent as soon as its event happens". */
+  onText?: string; offText?: string
 }) {
+  const id = useId()
+  const more = checked ? onText : offText
   return (
     <li className="bp-pk-setting" data-control="">
-      <button type="button" role="switch" aria-checked={checked} aria-busy={busy || undefined} disabled={disabled} onClick={() => onChange(!checked)} className="bp-pk-switch">
-        <span className="text"><span className="t">{label}</span>{hint != null && <span className="s">{hint}</span>}</span>
+      <button type="button" role="switch" aria-checked={checked} aria-busy={busy || undefined} disabled={disabled} onClick={() => onChange(!checked)} className="bp-pk-switch"
+        aria-labelledby={`${id}-l`} aria-describedby={hint != null ? `${id}-s ${id}-h` : `${id}-s`}>
+        <span className="text"><span className="t" id={`${id}-l`}>{label}</span>{hint != null && <span className="s" id={`${id}-h`}>{hint}</span>}</span>
+        <span className="bp-state" data-tone={checked ? 'on' : 'off'} id={`${id}-s`}>{checked ? 'On' : 'Off'}{more && <> · {more}</>}</span>
         <span className="bp-switch" aria-hidden="true" />
       </button>
     </li>
