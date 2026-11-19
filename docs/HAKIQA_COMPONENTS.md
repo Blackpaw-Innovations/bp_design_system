@@ -94,9 +94,10 @@ Rules that apply to all of them: 44 px minimum targets, 16 px input text, labels
 - **List | Board (v1.21):** a record list that people also work by state gets a `<Segmented>` "List | Board" in the page header (never the deprecated ViewToggle). Board = `<LaneBoard>`: 3–5 lanes declared per page in the app manifest (`{ key, label, tone, states }`), `laneFor(status, lanes)` places each record, the last lane catches the rest. Card: title and amount, one summary line, a "why it is here" pill, at most one secondary action. Not a workflow: for cards that move stage to stage use `<Board>`.
 
 ### 17.9a Settings card · `<SettingsCard>`, `<SettingsGroup>`, `<SettingRow>`, `<StatePill>`, `<NumberedPills>` (v1.21)
-- Head band in `--table-head` with the white title, a one-line description and the normal secondary "Change" button. Editing stays in the SlideOver that button opens.
-- Grouped sections (`columns={2}` on wide screens, one column on phone) with a sentence-case heading in the band blue, e.g. "Before check-in", "When a guest leaves", "Privacy". No all-caps text.
-- Each row: a sentence label (17/800), a hint line, and a state pill with a dot: Required = blue tint, On = green tint, Off / Not required = grey. Always a word, never a bare colour.
+- **v1.38.0 (19 Nov 2026, audit round 4): no head band.** A quiet white head (navy title, muted line, hairline) and even inner padding for any child. Full settings-form design (fields grid, choice cards, switch state in words, SaveBar, SettingsNav, number inputs, split percentages): `docs/PREMIUM_PATTERNS.md`, "Settings forms".
+- The head holds the title, a one-line description and an optional action (the secondary "Change" button, or a StatePill).
+- Grouped sections (`columns={2}` on wide screens, one column on phone) with a sentence-case navy heading, e.g. "Before check-in", "When a guest leaves", "Privacy". No all-caps text.
+- Each row: a sentence label (16/800), a hint line, and a state pill with a dot: Required = blue tint, On = green tint, Off / Not required = grey. Always a word, never a bare colour.
 - Short ordered lists (a check-out checklist) are `<NumberedPills>`.
 - Search on the left, filling the row; the placeholder names what it matches ("Search plate, customer or WO number").
 - Up to 3 more filters inline as buttons that state their value ("Technician: Peter"). 4+, and always on phone: one "Filters · n" button that opens a sheet whose primary states the result ("Show 7 work orders").
