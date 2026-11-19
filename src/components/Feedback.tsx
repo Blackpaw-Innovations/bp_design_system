@@ -1,5 +1,5 @@
 import { useId, useRef, useState, type ReactNode } from 'react'
-import { AlertCircle, AlertTriangle, Check, CheckCircle2, Info, MessageCircle, X, XCircle } from 'lucide-react'
+import { AlertCircle, AlertTriangle, CheckCircle2, Info, MessageCircle, X, XCircle } from 'lucide-react'
 import { cn, type IconComponent } from '../lib/utils'
 import { BLACKPAW_SUPPORT_PHONE, buildWhatsAppUrl } from '../lib/whatsapp'
 import { Button } from './Guarded'
