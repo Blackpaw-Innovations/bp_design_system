@@ -1,5 +1,5 @@
 import { useId, useRef, useState, type ReactNode } from 'react'
-import { AlertCircle, AlertTriangle, Check, MessageCircle, WifiOff, X } from 'lucide-react'
+import { AlertCircle, AlertTriangle, Check, CheckCircle2, Info, MessageCircle, X, XCircle } from 'lucide-react'
 import { cn, type IconComponent } from '../lib/utils'
 import { BLACKPAW_SUPPORT_PHONE, buildWhatsAppUrl } from '../lib/whatsapp'
 import { Button } from './Guarded'
@@ -31,27 +31,43 @@ export type HakiState = keyof typeof HAKI_STATE
 
 /* ── Banner ────────────────────────────────────────────────── */
 export type BannerTone = 'pos' | 'warn' | 'crit' | 'info'
-const BANNER_ICON: Record<BannerTone, IconComponent> = { pos: Check, warn: AlertTriangle, crit: AlertCircle, info: WifiOff }
+const BANNER_ICON: Record<BannerTone, IconComponent> = { pos: CheckCircle2, warn: AlertTriangle, crit: XCircle, info: Info }
 
 export interface BannerProps {
   tone: BannerTone
   title: string
   children?: ReactNode
+  /** The one button: navy (signal blue in dark). "Ask Blackpaw to connect it", "See the 12". */
   action?: { label: string; onClick: () => void }
+  /** An optional second step as a text link: "Retry all", "Change". */
+  link?: { label: string; onClick?: () => void; href?: string }
+  /** Offline banners pass WifiOff. */
   icon?: IconComponent
+  /** Info and done banners only. A crit banner stays until its cause is fixed, so it never shows the X. */
   onDismiss?: () => void
   className?: string
 }
 
-/** Tinted, solid tone icon (approved look R3a). At the top of the page or of the card it is about. */
-export function Banner({ tone, title, children, action, icon, onDismiss, className }: BannerProps) {
+/**
+ * Banner v1.39.0 (round 7, screen 51): a card on the surface token with a 4 px edge in the tone, a tinted icon
+ * tile, a bold title (crit titles in the tone), the body, one navy button plus an optional text link, and an X for
+ * tones that can be dismissed. At the top of the page or of the card it is about.
+ */
+export function Banner({ tone, title, children, action, link, icon, onDismiss, className }: BannerProps) {
   const Icon = icon ?? BANNER_ICON[tone]
   return (
     <div className={cn('bp-banner', className)} data-tone={tone} role={tone === 'crit' ? 'alert' : 'status'}>
-      <span className="bp-banner-icon" aria-hidden="true"><Icon size={15} strokeWidth={2.8} /></span>
-      <div style={{ flex: 1, minWidth: 0 }}><p className="bp-banner-title" style={{ margin: 0 }}>{title}</p>{children && <div className="bp-banner-body">{children}</div>}</div>
-      {action && <Button variant="tertiary" onClick={action.onClick}>{action.label}</Button>}
-      {onDismiss && <button type="button" className="bp-icon-btn" aria-label="Dismiss" onClick={onDismiss}><X size={18} /></button>}
+      <span className="bp-banner-icon" aria-hidden="true"><Icon size={18} strokeWidth={2.2} /></span>
+      <div className="bp-banner-text"><p className="bp-banner-title">{title}</p>{children && <div className="bp-banner-body">{children}</div>}</div>
+      {(action || link) && (
+        <div className="bp-banner-actions">
+          {action && <Button variant="secondary" className="bp-banner-btn" onClick={action.onClick}>{action.label}</Button>}
+          {link && (link.href
+            ? <a className="bp-banner-link" href={link.href} onClick={link.onClick}>{link.label}</a>
+            : <button type="button" className="bp-banner-link" onClick={link.onClick}>{link.label}</button>)}
+        </div>
+      )}
+      {onDismiss && tone !== 'crit' && <button type="button" className="bp-banner-x" aria-label="Dismiss" onClick={onDismiss}><X size={18} /></button>}
     </div>
   )
 }
