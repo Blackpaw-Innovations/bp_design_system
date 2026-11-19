@@ -188,6 +188,7 @@ Rules that apply to all of them: 44 px minimum targets, 16 px input text, labels
 - **Month**: Monday-first grid that always lines up. Deeper blue tint = more booked (relative to the month's busiest day), dots by type, fullness line. Picking a day opens its agenda beside the grid; "Open day" goes to Day.
 - Filter chips by type (and person when there are 2–8). "+ Class" and every empty slot call `onAdd(start)` with the day and time filled in.
 - Colour: one per type from navy/blue (navy, Signal Blue, mid, slate, steel). Orange only means how full, and "now". No capacity → no rings or lines; no heat → no shading. Never invent either.
+- **All day** (v1.39): `allDay` items have a date and no time (a due date, a delivery day, a milestone). They sit in an "All day" row above the Day timeline and under the Week's day headers (three per day, then "+N more"), read "All day" in agendas and count in Month. Never give them a made-up hour.
 - BICC keeps its own calendar.
 
 ### 17.19 Upload · `<FileUpload>`, `resizeImage()`

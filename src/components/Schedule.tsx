@@ -15,6 +15,8 @@ import { Button, IconButton } from './Guarded'
  *          its agenda beside the grid ("Open day" goes to Day).
  * Colour: one colour per type, all inside navy and blue. Orange means only "how full" (and "now").
  * Real data only: no capacity → no rings or lines; no heat → no shading.
+ * All day (v1.39): an item with a date but no time (`allDay`) sits in an "All day" row above the Day timeline and
+ *   under the Week's day headers, reads "All day" in agendas, and counts in Month. A time is never made up for it.
  */
 export type ScheduleView = 'day' | 'week' | 'month'
 
@@ -31,6 +33,8 @@ export interface ScheduleItem {
   person?: string
   booked?: number
   capacity?: number
+  /** Dated but not timed (a due date, a delivery day): shown in the "All day" row, never at a made-up hour. */
+  allDay?: boolean
 }
 
 export interface ScheduleType { key: string; label: string }
@@ -78,6 +82,9 @@ const clock = (d: Date) => `${d.getHours()}:${String(d.getMinutes()).padStart(2,
 const hourLabel = (h: number) => `${h % 12 || 12} ${h < 12 || h === 24 ? 'am' : 'pm'}`
 const fmt = (d: Date, o: Intl.DateTimeFormatOptions) => d.toLocaleDateString('en-GB', o)
 const fillOf = (i: ScheduleItem) => (i.capacity ? Math.min(1, (i.booked ?? 0) / i.capacity) : null)
+const when = (i: ScheduleItem) => (i.allDay ? 'All day' : clock(i.start))
+/** All-day items first, then by start. */
+const byStart = (a: ScheduleItem, b: ScheduleItem) => Number(!!b.allDay) - Number(!!a.allDay) || a.start.getTime() - b.start.getTime()
 
 /** The view a person last used, kept in this browser. Pass a key that includes the signed-in user. */
 export function useScheduleView(key: string, fallback: ScheduleView = 'week'): [ScheduleView, (v: ScheduleView) => void] {
@@ -225,8 +232,28 @@ function hourRange(list: ScheduleItem[], open: number, close: number) {
 type Seg = { kind: 'hour'; h: number; top: number } | { kind: 'gap'; from: number; to: number; top: number }
 const HOUR_PX = 60, GAP_PX = 44
 
+/** The "All day" chips for one day: dated items with no time. */
+function AllDayChips({ list, color, onOpen, selectedId, max }: { list: ScheduleItem[]; color: (k: string) => string; onOpen: (id: string) => void; selectedId?: string | null; max?: number }) {
+  const shown = max ? list.slice(0, max) : list
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 3, minWidth: 0 }}>
+      {shown.map((i) => (
+        <button key={i.id} type="button" onClick={() => onOpen(i.id)} aria-pressed={selectedId === i.id} title={[i.title, i.sub].filter(Boolean).join(' · ')}
+          aria-label={`${i.title}, all day${i.sub ? `, ${i.sub}` : ''}`}
+          style={{ minHeight: 28, padding: '3px 8px 3px 9px', borderRadius: 8, border: '1px solid var(--c-border)', background: 'var(--c-surface)', color: 'var(--c-ink)', textAlign: 'left', cursor: 'pointer',
+            fontSize: 13, fontWeight: 800, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+            boxShadow: `inset 3px 0 0 ${color(i.type)}`, outline: selectedId === i.id ? '2px solid var(--c-signal)' : undefined }}>
+          {i.title}
+        </button>
+      ))}
+      {max && list.length > max && <span style={{ fontSize: 12, fontWeight: 800, color: 'var(--c-muted)', paddingLeft: 4 }}>+{list.length - max} more</span>}
+    </div>
+  )
+}
+
 function DayView({ items, color, now, onOpen, onAdd, noun, selectedId, openHour, closeHour, date, panel, phone }: Shared & { date: Date; panel?: ReactNode; phone: boolean }) {
-  const list = items.filter((i) => sameDay(i.start, date))
+  const list = items.filter((i) => !i.allDay && sameDay(i.start, date))
+  const allDay = items.filter((i) => i.allDay && sameDay(i.start, date))
   const today = sameDay(date, now)
   const [lo, hi] = hourRange(list, openHour, closeHour)
   const busy = (h: number) => list.some((i) => { const s = minOfDay(i.start); return s < (h + 1) * 60 && s + i.minutes > h * 60 })
@@ -251,7 +278,7 @@ function DayView({ items, color, now, onOpen, onAdd, noun, selectedId, openHour,
   const lane = lanes(list)
   const nowMin = minOfDay(now)
 
-  const timeline = (
+  const grid = (
     <div style={{ position: 'relative', height: top, minWidth: 0 }}>
       {segs.map((s) => s.kind === 'hour' ? (
         <div key={`h${s.h}`} style={{ position: 'absolute', top: s.top, left: 0, right: 0, height: HOUR_PX }}>
@@ -295,6 +322,15 @@ function DayView({ items, color, now, onOpen, onAdd, noun, selectedId, openHour,
       )}
     </div>
   )
+  const timeline = !allDay.length ? grid : (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 10, minWidth: 0 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '60px minmax(0,1fr)', alignItems: 'start' }}>
+        <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--c-muted)', paddingTop: 5 }}>All day</span>
+        <AllDayChips list={allDay} color={color} onOpen={onOpen} selectedId={selectedId} />
+      </div>
+      {grid}
+    </div>
+  )
   if (!panel) return timeline
   return (
     <div style={{ display: 'grid', gridTemplateColumns: phone ? 'minmax(0,1fr)' : 'minmax(0,1fr) 320px', gap: 16, alignItems: 'start' }}>
@@ -309,7 +345,9 @@ const WEEK_PX = 44
 function WeekView({ items, color, now, onOpen, onAdd, noun, selectedId, openHour, closeHour, start, heat }: Shared & { start: Date; heat?: number[][] }) {
   const days = Array.from({ length: 7 }, (_, i) => addDays(start, i))
   const end = addDays(start, 7)
-  const list = items.filter((i) => i.start >= start && i.start < end)
+  const inWeek = items.filter((i) => i.start >= start && i.start < end)
+  const list = inWeek.filter((i) => !i.allDay)
+  const allDay = inWeek.filter((i) => i.allDay)
   const [lo, hi] = hourRange(list, openHour, closeHour)
   const hours = Array.from({ length: hi - lo }, (_, i) => lo + i)
   const cols = '56px repeat(7, minmax(0, 1fr))'
@@ -329,6 +367,16 @@ function WeekView({ items, color, now, onOpen, onAdd, noun, selectedId, openHour
           )
         })}
       </div>
+      {allDay.length > 0 && (
+        <div style={{ display: 'grid', gridTemplateColumns: cols, padding: '6px 0', borderTop: '1px solid var(--c-border)' }}>
+          <span style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--c-muted)', paddingTop: 5 }}>All day</span>
+          {days.map((d) => (
+            <div key={d.toISOString()} style={{ padding: '0 4px', minWidth: 0 }}>
+              <AllDayChips list={allDay.filter((i) => sameDay(i.start, d))} color={color} onOpen={onOpen} selectedId={selectedId} max={3} />
+            </div>
+          ))}
+        </div>
+      )}
       <div style={{ display: 'grid', gridTemplateColumns: cols }}>
         <div>
           {hours.map((h) => <span key={h} style={{ display: 'block', height: WEEK_PX, fontSize: 12.5, fontWeight: 600, color: 'var(--c-muted)', paddingTop: 2 }}>{hourLabel(h)}</span>)}
@@ -369,7 +417,7 @@ function WeekView({ items, color, now, onOpen, onAdd, noun, selectedId, openHour
           )
         })}
       </div>
-      {!list.length && <p style={{ margin: '10px 0 0', fontSize: 14, fontWeight: 600, color: 'var(--c-muted)' }}>No {noun.many} this week.{onAdd ? ' Click an hour to add one.' : ''}</p>}
+      {!inWeek.length && <p style={{ margin: '10px 0 0', fontSize: 14, fontWeight: 600, color: 'var(--c-muted)' }}>No {noun.many} this week.{onAdd ? ' Click an hour to add one.' : ''}</p>}
     </div>
   )
 }
@@ -378,11 +426,11 @@ function WeekView({ items, color, now, onOpen, onAdd, noun, selectedId, openHour
 function DayAgenda({ list, color, onOpen, selectedId }: { list: ScheduleItem[]; color: (k: string) => string; onOpen: (id: string) => void; selectedId?: string | null }) {
   return (
     <ol style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 4 }}>
-      {[...list].sort((a, b) => a.start.getTime() - b.start.getTime()).map((i) => (
+      {[...list].sort(byStart).map((i) => (
         <li key={i.id}>
           <button type="button" onClick={() => onOpen(i.id)} aria-pressed={selectedId === i.id}
             style={{ width: '100%', minHeight: 48, display: 'flex', gap: 12, alignItems: 'stretch', border: 0, background: selectedId === i.id ? 'var(--c-selected)' : 'transparent', borderRadius: 10, padding: '6px 8px', textAlign: 'left', cursor: 'pointer', color: 'var(--c-ink)' }}>
-            <span style={{ width: 44, flex: 'none', fontSize: 14, fontWeight: 800, fontVariantNumeric: 'tabular-nums', paddingTop: 2 }}>{clock(i.start)}</span>
+            <span style={{ width: 44, flex: 'none', fontSize: i.allDay ? 12 : 14, fontWeight: 800, fontVariantNumeric: 'tabular-nums', paddingTop: 2, color: i.allDay ? 'var(--c-muted)' : undefined }}>{when(i)}</span>
             <span style={{ width: 3, borderRadius: 2, background: color(i.type), flex: 'none' }} />
             <span style={{ display: 'flex', flexDirection: 'column', minWidth: 0, gap: 1 }}>
               <span style={{ fontSize: 15, fontWeight: 800 }}>{i.title}</span>
