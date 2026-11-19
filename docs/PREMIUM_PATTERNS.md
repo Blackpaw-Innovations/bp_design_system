@@ -232,8 +232,10 @@ Do: SelectableRow when a screen has a bulk action. Don't: a checkbox inside a Ta
 
 - Phone settings and account pages that state how things are set. (Settings forms and the desktop settings layout use
   `SettingsCard` / `SettingRow` / `SaveBar`, see "Settings forms" below.)
-- Group title 20/800 with at most one quiet action on the right ("Change"); rows in ONE white card, hairlines between.
-- Row: what it is, 17/700 ink, said as the outcome ("Orders are paid before collection"), its value under it, 15
+- v1.41: same look as `SettingsCard`. ONE quiet card with the title inside (17/800 navy, ink in dark, hairline under
+  it, never a band) and at most one quiet action on the right ("Change"); every row padded 14/18, hairlines between.
+  `CardSection` gets the same card.
+- Row: what it is, 16/800 ink, said as the outcome ("Orders are paid before collection"), its value under it, 14
   muted, in plain words. Min 56 px. Not a link, no chevron.
 - What waits on the owner goes in the page's one NeedsYouCard above the groups.
 
@@ -356,11 +358,12 @@ Do: SelectableRow when a screen has a bulk action. Don't: a checkbox inside a Ta
 
 ### 23. SwitchRow and TimeRow (settings that save on tap)
 
-`<SwitchRow label hint? checked disabled? busy? onChange />` · `<TimeRow label value onChange />` inside a SettingsList.
+`<SwitchRow label hint? checked disabled? busy? onChange onText? offText? />` · `<TimeRow label value onChange />` inside a SettingsList.
 
 - Per-person choices that take effect when tapped: no edit panel, no Save. The caller saves on change.
-- SwitchRow: 17/700, one line of why 15 muted, the DS switch (`.bp-switch`) on the right, green when on (a state, not
-  an action, so it never spends the card's blue). The whole 56 px row is the button (`role="switch"`). `disabled` holds
+- SwitchRow (v1.41, same as SettingRow's toggle): 16/800, one line of why 14 muted, then the state in words ("On · sent
+  as soon as they pay", from `onText` / `offText`; just "On" / "Off" without them) beside the DS switch, blue when on.
+  On a phone the state and switch wrap under the text. The whole row is the button (`role="switch"`). `disabled` holds
   the row while a save runs (wait cursor, no fading); `busy` only sets `aria-busy`.
 - TimeRow: label 17/700 and a quarter-hour time Select on the right (128 px), shown only while its switch is on.
 
