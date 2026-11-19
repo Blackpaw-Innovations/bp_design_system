@@ -15,7 +15,7 @@ import { Button, IconButton } from './Guarded'
  *          its agenda beside the grid ("Open day" goes to Day).
  * Colour: one colour per type, all inside navy and blue. Orange means only "how full" (and "now").
  * Real data only: no capacity → no rings or lines; no heat → no shading.
- * All day (v1.39): an item with a date but no time (`allDay`) sits in an "All day" row above the Day timeline and
+ * All day (v1.40): an item with a date but no time (`allDay`) sits in an "All day" row above the Day timeline and
  *   under the Week's day headers, reads "All day" in agendas, and counts in Month. A time is never made up for it.
  */
 export type ScheduleView = 'day' | 'week' | 'month'
