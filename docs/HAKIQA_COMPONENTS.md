@@ -127,16 +127,17 @@ Rules that apply to all of them: 44 px minimum targets, 16 px input text, labels
 - Counts never go on a status chip; `<CountBadge>` goes on filters, quick views, pill-nav and flyouts. Orange is never a status.
 
 ### 17.13 Toast · `useToast()`
-- Bottom right (full width above the bottom bar on phone), one at a time, the navy capsule with a tone icon.
+- **v1.39.0 (round 7, screen 51):** a navy card, bottom right (full width above the bottom bar on phone), one at a time. It slides up, has an icon tile with the icon in orange and a white-outlined action, and shows the time left as a yellow line along the bottom that stops while the pointer or focus is on the toast. Errors are a `--v-crit` card (Haki red in dark) and stay until dismissed.
 - **success** "Payment recorded" · **warning** done, but… ("Sale saved, receipt not sent") · **error** "Couldn't send the quote" + what to do · **info** something changed ("Peter moved WO-2291 to Ready").
-- 5 s; 8 s with an action or an error; `supportEscalation` (real system failures only) stays until closed and adds "Message us on WhatsApp" and the `reference`.
+- 5 s; 8 s with an action; errors stay until closed (v1.39.0); `supportEscalation` (real system failures only) stays until closed and adds "Message us on WhatsApp" and the `reference`.
 - `progress` for long actions ("12 of 24 sent"), updated through the same `id`, ending in success.
 - One action per toast. **Undo replaces a confirm** for reversible removals.
 - A warning that needs a decision is a dialog, not a toast.
 
 ### 17.14 Banners, empty, loading and error states · `<Banner>`, `<EmptyState>`, `<ErrorState>`, `<InlineError>`, `<ErrorSummary>`
 - **Where a message goes:** just happened → toast; still true → `<Banner>` at the top of the page or card (offline, failed sync, plan renews, storefront live); about one field or row → inline beside it. Never two for one event.
-- Banner look: tinted with a solid tone icon (R3a). Success banners only for lasting results (a published storefront, a finished import).
+- Banner look (v1.39.0, round 7, screen 51): a card on the surface token (cream in Warm), a 4 px left edge in the tone, a 34 px icon tile tinted in the tone, a bold title (crit titles in the tone), a muted body, then ONE navy button (`action`; signal blue in dark), an optional text link (`link`: "Retry all", "Change") and an X (`onDismiss`) for tones that can be dismissed. A crit banner never shows the X: it stays until its cause is fixed. Tones are `--v-info/pos/warn/crit` only. Default icons: info ⓘ, pos ✓ in a circle, warn ⚠, crit ✕ in a circle; an offline banner passes `icon={WifiOff}`. On a phone the button and link go under the text and the X stays top right.
+- Success banners only for lasting results (a published storefront, a finished import).
 - **Haki per situation (R2)** via `HAKI_STATE`, picked in the manifest, never per page:
   - first run: **empty** (tray), 120 px, with one primary and an import option where one exists;
   - no match: **searching**, 88 px or row 64 px, repeating the query, with Clear filters;

@@ -1,14 +1,15 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from 'react'
-import { AlertTriangle, Check, Info, Loader2, MessageCircle, X } from 'lucide-react'
+import { AlertTriangle, CheckCircle2, Info, Loader2, MessageCircle, X, XCircle } from 'lucide-react'
 import { cn } from '../lib/utils'
 import { BLACKPAW_SUPPORT_PHONE, buildWhatsAppUrl } from '../lib/whatsapp'
 
 /**
- * Toast v2 (standards §17.13, round 2 R3). Same API as before plus `info`, `reference` and `progress`.
- * A dark capsule, bottom right (full width above the bottom bar on phone), ONE at a time.
+ * Toast v2 (standards §17.13, round 2 R3; restyled v1.39.0, round 7 screen 51). Same API.
+ * A navy card, bottom right (full width above the bottom bar on phone), ONE at a time. It slides up, shows the time
+ * left as a yellow line along the bottom, and pauses on hover and focus. Errors are a --v-crit card that stays.
  *   success  "Payment recorded"                       5 s
  *   warning  done, but…: "Sale saved, receipt not sent" 5 s   (a warning that needs a decision is a dialog)
- *   error    "Couldn't send the quote" + what to do   8 s; with supportEscalation it stays until closed
+ *   error    "Couldn't send the quote" + what to do   stays until closed
  *   info     something changed: "Peter moved WO-2291 to Ready"
  * With an action the timer is 8 s. Hover and focus pause it. Undo replaces confirm for reversible removals.
  * Copy: past tense with the object. Errors: "Couldn't [verb] [object]" + what to do.
@@ -54,11 +55,12 @@ function View({ t, onClose }: { t: Active; onClose: () => void }) {
     const id = setTimeout(onClose, left.current)
     return () => { clearTimeout(id); left.current -= Date.now() - s }
   }, [paused, t.duration, onClose])
-  const Icon = t.progress ? Loader2 : t.intent === 'success' ? Check : t.intent === 'info' ? Info : AlertTriangle
+  const Icon = t.progress ? Loader2 : t.intent === 'success' ? CheckCircle2 : t.intent === 'info' ? Info : t.intent === 'error' ? XCircle : AlertTriangle
   const wa = t.supportEscalation && buildWhatsAppUrl(t.supportEscalation.phone ?? BLACKPAW_SUPPORT_PHONE,
     `Hi Blackpaw, I ran into an issue.\n\n*Where:* ${t.supportEscalation.context}\n*Error:* ${t.message}${t.reference ? `\n*Reference:* ${t.reference}` : ''}\n\nCan you help?`)
   return (
-    <div role={t.intent === 'error' ? 'alert' : 'status'} className={cn('toast', t.intent)}
+    <div role={t.intent === 'error' ? 'alert' : 'status'} className={cn('toast', t.intent)} data-paused={paused || undefined}
+      style={t.duration > 0 ? { ['--toast-time' as string]: `${t.duration}ms` } : undefined}
       onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)} onFocus={() => setPaused(true)} onBlur={() => setPaused(false)}>
       <span className="toast-icon" aria-hidden="true"><Icon size={16} strokeWidth={2.6} className={t.progress ? 'animate-spin' : undefined} /></span>
       <div className="toast-body">
@@ -69,6 +71,7 @@ function View({ t, onClose }: { t: Active; onClose: () => void }) {
       </div>
       {t.action && <button type="button" className="toast-action" onClick={() => { t.action?.onClick(); onClose() }}>{t.action.label}</button>}
       <button type="button" className="toast-close" onClick={onClose} aria-label="Dismiss"><X size={16} /></button>
+      {t.duration > 0 && <span className="toast-time" aria-hidden="true" />}
     </div>
   )
 }
@@ -79,7 +82,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   const close = useCallback(() => setT(null), [])
   const showToast = useCallback((o: ToastOptions) => {
     const intent = o.intent ?? 'success'
-    const duration = o.duration ?? (o.progress ? 0 : o.supportEscalation ? 0 : intent === 'error' || o.action ? 8000 : 5000)
+    const duration = o.duration ?? (o.progress ? 0 : o.supportEscalation ? 0 : intent === 'error' ? 0 : o.action ? 8000 : 5000)
     setT((prev) => ({ key: o.id && prev?.id === o.id ? prev.key : n.current++, id: o.id, message: o.message, detail: o.detail, intent, action: o.action, duration, supportEscalation: o.supportEscalation, reference: o.reference, progress: o.progress }))
   }, [])
   return (
