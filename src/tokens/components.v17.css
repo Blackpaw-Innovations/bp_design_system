@@ -360,13 +360,16 @@
 
 /* ── Settings (v1.21; premium v1.38.0, audit round 4, 19 Nov 2026) ──
    Quiet head (navy title, muted line, hairline; no colour band), even inner padding for ANY child, field grid,
-   question rows, choice cards, switch state in words, sticky navy save bar, fixed nav / phone pill tabs. */
+   question rows, choice cards (round 5), filled switch, switch state in words, sticky navy save bar. Settings nav,
+   rails and flyouts are held for their own review round. */
 :root { --set-strong: var(--c-navy); --set-tint: color-mix(in srgb, var(--c-navy) 5%, var(--c-surface)); --set-pad: 18px; }
 :root[data-theme="dark"] { --set-strong: var(--c-ink); --set-tint: var(--c-selected); }
 :root .bp-settings { background: var(--c-surface); border: 1px solid var(--c-border); border-radius: 18px; overflow: hidden; }
 :root .bp-settings-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap; padding: 16px var(--set-pad) 14px; border-bottom: 1px solid var(--table-line); color: var(--set-strong); }
 :root .bp-settings-head h2 { margin: 0; font-size: 17px; font-weight: 800; line-height: 1.3; letter-spacing: -.01em; color: var(--set-strong); }
 :root .bp-settings-head p { margin: 2px 0 0; font-size: 14px; font-weight: 500; line-height: 1.4; color: var(--c-muted); }
+:root .bp-settings-head .bp-settings-scope { display: flex; align-items: center; gap: 6px; margin-top: 6px; font-size: 13px; font-weight: 600; }
+:root .bp-settings-scope > svg { flex: none; }
 :root .bp-settings-groups { display: grid; grid-template-columns: repeat(var(--cols, 1), minmax(0, 1fr)); }
 /* Any child (a raw Field, a RadioGroup, a paragraph) is padded: nothing sits on the card edge. */
 :root .bp-settings-groups > * { padding: 16px var(--set-pad); min-width: 0; }
@@ -399,17 +402,28 @@
 :root .bp-state[data-tone="required"]::before { background: var(--c-signal); }
 :root .bp-state[data-tone="on"] { background: var(--v-pos-tint); color: var(--v-pos); }
 
-/* Choice cards: RadioGroup variant="cards" */
+/* Choice cards: RadioGroup variant="cards" (round 5). Chosen = solid navy, white text, orange tick in a filled circle.
+   Not chosen = white, hairline, empty ring. Hover darkens the border only, never a fill. */
 :root .bp-cards { border: 0; margin: 0; padding: 0; min-width: 0; display: grid; grid-template-columns: repeat(var(--n, 2), minmax(0, 1fr)); gap: 8px; }
-:root .bp-card-choice { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; align-items: start; min-height: 44px; padding: 11px 13px; border: 1.5px solid var(--c-border); border-radius: 12px; background: var(--c-surface); color: var(--c-ink); text-align: left; font: inherit; cursor: pointer; transition: border-color .15s, background-color .15s; }
-:root .bp-card-choice:hover { border-color: color-mix(in srgb, var(--set-strong) 40%, var(--c-border)); }
+:root .bp-card-choice { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; align-items: start; min-height: 44px; padding: 11px 13px; border: 1.5px solid var(--c-border); border-radius: 12px; background: var(--c-surface); color: var(--c-ink); text-align: left; font: inherit; cursor: pointer; transition: border-color .15s, background-color .15s, color .15s; }
+:root .bp-card-choice:hover { border-color: color-mix(in srgb, var(--c-ink) 45%, var(--c-border)); }
 :root .bp-card-choice:focus-visible { outline: 2px solid var(--c-signal); outline-offset: 2px; }
 :root .bp-card-choice b { display: block; font-size: 15px; font-weight: 800; line-height: 1.3; }
 :root .bp-card-choice .bp-choice-sub { display: block; margin-top: 2px; font-size: 13px; font-weight: 500; line-height: 1.4; color: var(--c-muted); }
 :root .bp-card-choice .bp-radio { margin-top: 1px; }
-:root .bp-card-choice[aria-checked="true"] { border-color: var(--set-strong); background: var(--set-tint); }
-:root .bp-card-choice[aria-checked="true"] > .bp-radio { border: 6px solid var(--set-strong); }
+:root .bp-card-choice[aria-checked="true"], :root .bp-card-choice[aria-checked="true"]:hover { border-color: var(--c-navy); background: var(--c-navy); color: #fff; }
+:root .bp-card-choice[aria-checked="true"] .bp-choice-sub { color: rgba(255, 255, 255, .82); }
+:root .bp-card-choice[aria-checked="true"] > .bp-radio { border: 0; background: var(--c-action); color: var(--c-navy); }
 :root .bp-card-choice[aria-checked="true"] > .bp-radio::after { content: none; }
+:root[data-theme="dark"] .bp-card-choice[aria-checked="true"] { border-color: var(--c-signal); }
+/* Filled switch: RadioGroup variant="switch" for short answers. Chosen segment = navy fill, white text. */
+:root .bp-seg[data-filled] { border: 1px solid var(--c-border); background: var(--c-surface); }
+:root .bp-seg[data-filled] > button { white-space: nowrap; }
+:root .bp-setting-row:has(.bp-seg[data-filled]) { flex-wrap: wrap; }
+:root .bp-seg[data-filled] > button[aria-checked="true"] { background: var(--c-navy); color: #fff; box-shadow: none; }
+:root .bp-seg[data-filled] > button:not([aria-checked="true"]):hover { box-shadow: inset 0 0 0 1px var(--c-border); }
+:root .bp-seg[data-filled] > button:focus-visible { outline: 2px solid var(--c-signal); outline-offset: 2px; }
+:root[data-theme="dark"] .bp-seg[data-filled] > button[aria-checked="true"] { box-shadow: 0 0 0 1px var(--c-signal); }
 
 /* Number inputs: light unit tags, example tag, split percentages */
 :root .bp-example { display: inline-block; margin-left: 4px; padding: 1px 8px; border-radius: 6px; background: var(--c-selected); color: var(--set-strong); font-size: 13px; font-weight: 800; font-variant-numeric: tabular-nums; }
@@ -440,27 +454,6 @@
 @keyframes bp-savebar-in { from { opacity: 0; transform: translateY(8px); } }
 @media (prefers-reduced-motion: reduce) { :root .bp-savebar { animation: none; } }
 
-/* Settings nav and layout: fixed list on desktop, pill tabs on a phone, never a pop-out */
-:root .bp-settings-layout { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
-:root .bp-settings-main { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
-:root .bp-settings-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
-:root .bp-settings-nav li { display: contents; }
-:root .bp-settings-nav small { display: none; }
-:root .bp-settings-nav a, :root .bp-settings-nav button { flex: none; display: flex; align-items: center; min-height: 44px; padding: 0 16px; border: 1px solid var(--c-border); border-radius: 999px; background: var(--c-surface); color: var(--c-ink); font: 700 15px Urbanist, sans-serif; text-decoration: none; white-space: nowrap; cursor: pointer; }
-:root .bp-settings-nav [aria-current="page"] { background: var(--c-navy); border-color: var(--c-navy); color: #fff; }
-:root[data-theme="dark"] .bp-settings-nav [aria-current="page"] { background: var(--c-selected); border-color: var(--c-selected); }
-:root .bp-settings-nav a:focus-visible, :root .bp-settings-nav button:focus-visible { outline: 2px solid var(--c-signal); outline-offset: 2px; }
-@media (min-width: 900px) {
-  :root .bp-settings-layout[data-nav] { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 20px; align-items: start; }
-  :root .bp-settings-nav { position: sticky; top: 16px; padding: 8px; border: 1px solid var(--c-border); border-radius: 16px; background: var(--c-surface); }
-  :root .bp-settings-nav ul { flex-direction: column; gap: 2px; overflow: visible; }
-  :root .bp-settings-nav li { display: block; }
-  :root .bp-settings-nav small { display: block; padding: 10px 12px 4px; font-size: 13px; font-weight: 800; color: var(--c-muted); }
-  :root .bp-settings-nav a, :root .bp-settings-nav button { width: 100%; border: 0; border-radius: 10px; padding: 0 12px; background: transparent; text-align: left; }
-  :root .bp-settings-nav a:hover, :root .bp-settings-nav button:hover { background: var(--c-sunken); }
-  :root .bp-settings-nav [aria-current="page"], :root .bp-settings-nav [aria-current="page"]:hover { background: var(--c-navy); color: #fff; }
-  :root[data-theme="dark"] .bp-settings-nav [aria-current="page"] { background: var(--c-selected); }
-}
 
 :root .bp-numbered { list-style: none; margin: 0; padding: 0; display: flex; gap: 10px; flex-wrap: wrap; }
 :root .bp-numbered li { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px 0 8px; border-radius: 999px; background: var(--c-selected); font-size: 15px; font-weight: 800; color: var(--c-navy); }

@@ -262,19 +262,22 @@ export interface ChoiceOption<V extends string> { value: V; label: string; help?
 
 /**
  * One of 2–5 options that each need a line of explanation. 2–3 short options: Segmented. 6+: Select.
- * `variant="cards"` (v1.38.0, settings): 2–4 side-by-side cards, a title and a one-line consequence each; the chosen
- * card gets a navy edge and a light tint. Its legend is read, not shown: the SettingRow question says it on screen.
+ * `variant="cards"` (v1.38.0, settings, round 5): 2–4 side-by-side cards, a title and a one-line consequence each. The
+ * chosen card is solid navy with white text and an orange tick in a filled circle; the others are white with an empty
+ * ring; hover only darkens the border. `variant="switch"`: short answers as one filled switch (chosen segment navy).
+ * In both, the legend is read, not shown: the SettingRow question says it on screen.
  * Both variants are one tab stop; arrow keys move and choose, like a native radio group.
  */
-export function RadioGroup<V extends string>({ legend, value, onChange, options, variant = 'list' }: { legend: string; value: V; onChange: (v: V) => void; options: ChoiceOption<V>[]; variant?: 'list' | 'cards' }) {
+export function RadioGroup<V extends string>({ legend, value, onChange, options, variant = 'list' }: { legend: string; value: V; onChange: (v: V) => void; options: ChoiceOption<V>[]; variant?: 'list' | 'cards' | 'switch' }) {
   const cards = variant === 'cards'
-  const max = cards ? 4 : 5
+  const sw = variant === 'switch'
+  const max = cards || sw ? 4 : 5
   if (options.length > max && typeof console !== 'undefined') console.warn(`[@blackpaw/ui] RadioGroup over ${max} options: use <Select>.`)
   const refs = useRef<(HTMLButtonElement | null)[]>([])
   const current = Math.max(0, options.findIndex((o) => o.value === value))
   return (
-    <fieldset role="radiogroup" aria-label={legend} className={cards ? 'bp-cards' : undefined}
-      style={cards ? { ['--n' as string]: Math.min(options.length, 2) } : { border: 0, margin: 0, padding: 0, display: 'flex', flexDirection: 'column' }}
+    <fieldset role="radiogroup" aria-label={legend} className={cards ? 'bp-cards' : sw ? 'bp-seg' : undefined} data-filled={sw || undefined}
+      style={sw ? { border: 0, margin: 0 } : cards ? { ['--n' as string]: Math.min(options.length, 2) } : { border: 0, margin: 0, padding: 0, display: 'flex', flexDirection: 'column' }}
       onKeyDown={(e) => {
         const d = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 0
         if (!d) return
@@ -282,13 +285,15 @@ export function RadioGroup<V extends string>({ legend, value, onChange, options,
         const n = (current + d + options.length) % options.length
         onChange(options[n].value); refs.current[n]?.focus()
       }}>
-      <legend className={cards ? 'sr-only' : 'bp-legend'} style={cards ? undefined : { fontSize: 16, fontWeight: 800, paddingBottom: 4 }}>{legend}</legend>
+      <legend className={cards || sw ? 'sr-only' : 'bp-legend'} style={cards || sw ? undefined : { fontSize: 16, fontWeight: 800, paddingBottom: 4 }}>{legend}</legend>
       {options.map((o, i) => (
         <button key={o.value} ref={(el) => { refs.current[i] = el }} type="button" role="radio" aria-checked={value === o.value}
-          tabIndex={i === current ? 0 : -1} className={cards ? 'bp-card-choice' : 'bp-choice'} data-help={o.help ? '' : undefined}
-          onClick={() => onChange(o.value)} style={cards ? undefined : { border: 0, background: 'transparent', padding: 0, textAlign: 'left' }}>
-          <span className="bp-radio" aria-hidden="true" />
-          <span>{cards ? <b>{o.label}</b> : o.label}{o.help && <span className="bp-choice-sub">{o.help}</span>}</span>
+          tabIndex={i === current ? 0 : -1} className={cards ? 'bp-card-choice' : sw ? undefined : 'bp-choice'} data-help={o.help ? '' : undefined}
+          onClick={() => onChange(o.value)} style={cards || sw ? undefined : { border: 0, background: 'transparent', padding: 0, textAlign: 'left' }}>
+          {sw ? o.label : <>
+            <span className="bp-radio" aria-hidden="true">{cards && value === o.value && <Check size={14} strokeWidth={3.5} />}</span>
+            <span>{cards ? <b>{o.label}</b> : o.label}{o.help && <span className="bp-choice-sub">{o.help}</span>}</span>
+          </>}
         </button>
       ))}
     </fieldset>

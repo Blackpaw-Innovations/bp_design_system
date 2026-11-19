@@ -1,9 +1,9 @@
 import { useCallback, useId, useMemo, useState, type ReactNode } from 'react'
+import { Info } from 'lucide-react'
 
 /**
  * Settings (v1.21, made premium in v1.38.0, 19 Nov 2026, audit round 4). Every settings page in every vertical:
- *   <SettingsLayout nav={<SettingsNav items={…} current="money" onSelect={go} />}>
- *     <SettingsCard title="Payment plan defaults" description="…" fields>
+ *     <SettingsCard title="Payment plan defaults" description="…" scope="Used on new proposals; each proposal can change them." fields>
  *       <Field label="Design deposit" help="…"><NumberInput value={50} suffix="%" onChange={…} /></Field>
  *     </SettingsCard>
  *     <SettingsCard title="Sending invoices" description="…">
@@ -11,14 +11,16 @@ import { useCallback, useId, useMemo, useState, type ReactNode } from 'react'
  *       <SettingRow label="Bill an approved change" hint="…"><RadioGroup variant="cards" … /></SettingRow>
  *     </SettingsCard>
  *     <SaveBar changes={form.changes} onDiscard={form.discard} onSave={save} saving={busy} saveLabel="Save money settings" />
- *   </SettingsLayout>
- * The card head is quiet (navy title, muted line, hairline), never a colour band. Every child gets the card's inner
+ * The card head is quiet (navy title, muted line, optional scope line, hairline), never a colour band and never a
+ * pill or chip at the top right (round 5). Every child gets the card's inner
  * padding, whatever it is. Group titles are sentence case (no all-caps text).
  */
-export function SettingsCard({ title, description, action, columns, fields, children, footer }: {
+export function SettingsCard({ title, description, scope, action, columns, fields, children, footer }: {
   title: string
   description?: string
-  /** Right of the title: a quiet Change button or a StatePill ("New proposals"). */
+  /** Where these settings apply, one muted line with an info icon under the description ("Used on new proposals"). */
+  scope?: string
+  /** Legacy: a quiet "Change" button that opens a SlideOver. Never a pill or chip here. */
   action?: ReactNode
   /** 2 puts groups (or, with `fields`, fields) side by side; one column on a phone. */
   columns?: 1 | 2
@@ -31,7 +33,7 @@ export function SettingsCard({ title, description, action, columns, fields, chil
   return (
     <section className="bp-settings" aria-label={title}>
       <header className="bp-settings-head">
-        <div style={{ minWidth: 0 }}><h2>{title}</h2>{description && <p>{description}</p>}</div>
+        <div style={{ minWidth: 0 }}><h2>{title}</h2>{description && <p>{description}</p>}{scope && <p className="bp-settings-scope"><Info size={14} aria-hidden="true" />{scope}</p>}</div>
         {action}
       </header>
       <div className="bp-settings-groups" data-cols={cols} data-fields={fields || undefined} style={{ ['--cols' as string]: cols }}>{children}</div>
@@ -80,37 +82,6 @@ export function SettingRow({ label, hint, state, toggle, children }: { label: st
 /** A short ordered list shown as numbered pills (a check-out checklist, steps a guest follows). */
 export function NumberedPills({ items, label }: { items: string[]; label: string }) {
   return <ol className="bp-numbered" aria-label={label}>{items.map((t, i) => <li key={`${i}-${t}`}><span aria-hidden="true">{i + 1}</span>{t}</li>)}</ol>
-}
-
-/* ── Settings navigation and layout (v1.38.0) ─────────────────────── */
-export interface SettingsNavItem { id: string; label: string; href?: string; /** Starts a titled section of the list on desktop ("Business"). */ section?: string }
-
-/**
- * The settings sections: a fixed list on the left on desktop, scrolling pill tabs on a phone. It never opens over
- * the form (it replaces pop-out "Settings" menus). Links when items have `href`, buttons otherwise.
- */
-export function SettingsNav({ items, current, onSelect, label = 'Settings sections' }: { items: SettingsNavItem[]; current: string; onSelect?: (id: string) => void; label?: string }) {
-  return (
-    <nav className="bp-settings-nav" aria-label={label}>
-      <ul>
-        {items.map((it) => {
-          const on = it.id === current
-          const props = { 'aria-current': on ? ('page' as const) : undefined, onClick: onSelect ? (e: { preventDefault: () => void }) => { if (!it.href) e.preventDefault(); onSelect(it.id) } : undefined }
-          return (
-            <li key={it.id}>
-              {it.section && <small>{it.section}</small>}
-              {it.href ? <a href={it.href} {...props}>{it.label}</a> : <button type="button" {...props}>{it.label}</button>}
-            </li>
-          )
-        })}
-      </ul>
-    </nav>
-  )
-}
-
-/** Nav on the left (sticky), cards on the right; stacked with pill tabs on top on a phone. */
-export function SettingsLayout({ nav, children }: { nav?: ReactNode; children: ReactNode }) {
-  return <div className="bp-settings-layout" data-nav={nav ? '' : undefined}>{nav}<div className="bp-settings-main">{children}</div></div>
 }
 
 /* ── Save bar (v1.38.0) ───────────────────────────────────────────── */
