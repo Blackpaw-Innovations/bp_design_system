@@ -6,9 +6,11 @@ import { Button } from './Guarded'
 
 /**
  * Overlays (standards §17.6, §17.7, W1, W5).
- *   useIsPhone        one breakpoint: below 640 px every picker and dialog is a bottom sheet
+ *   useIsPhone        phones only: below 600 px wide, or a short touch screen (a phone on its side). Tablets (600+) keep
+ *                     popovers and side panels; a 7" tablet used to get phone sheets (Hakiqa UAT, 23 Nov 2026)
  *   Sheet             bottom sheet with grip, title, close; full height when it holds a search
- *   usePopover        fixed-position anchor that flips above when there is no room
+ *   usePopover        fixed-position list directly under its field; short of room it scrolls the field up first,
+ *                     and flips above only when nothing can scroll
  *   FormDialog        sm 400 / md 560; footer fixed; Enter submits; dirty close asks first
  *   SlideOver         right side, 480 / 720; record id, facts, header menu, pinned footer, dirty guard, optional pager
  *   RecordPager       the same Previous · "2 of 3" · Next on a full record page (keys and swipe on the page)
@@ -16,7 +18,7 @@ import { Button } from './Guarded'
  */
 
 export function useIsPhone() {
-  const q = '(max-width: 639px)'
+  const q = '(max-width: 599px), (max-height: 479px) and (pointer: coarse)'
   const [phone, setPhone] = useState(() => typeof window !== 'undefined' && window.matchMedia(q).matches)
   useEffect(() => {
     const m = window.matchMedia(q)
@@ -119,27 +121,50 @@ export function Sheet({ open, title, onClose, children, full, footer }: SheetPro
   )
 }
 
+/** The nearest ancestors that can still scroll down, innermost first (a SlideOver body, then the page). */
+function scrollers(el: HTMLElement) {
+  const out: HTMLElement[] = []
+  for (let p = el.parentElement; p; p = p.parentElement) {
+    const oy = getComputedStyle(p).overflowY
+    if ((oy === 'auto' || oy === 'scroll') && p.scrollHeight > p.clientHeight) out.push(p)
+  }
+  const page = document.scrollingElement as HTMLElement | null
+  if (page && !out.includes(page)) out.push(page)
+  return out
+}
+
 export function usePopover(anchor: RefObject<HTMLElement | null>, open: boolean, opts: { width?: number | 'anchor'; maxHeight?: number; align?: 'start' | 'end' } = {}) {
   const [style, setStyle] = useState<CSSProperties>({})
-  const place = useCallback(() => {
+  const place = useCallback((opening = false) => {
     const el = anchor.current
     if (!el) return
-    const r = el.getBoundingClientRect()
     const gap = 6
+    const want = opts.maxHeight ?? 340
+    let r = el.getBoundingClientRect()
+    // Opening near the bottom: scroll the field up so the list fits under it, instead of jumping above (tablets, long forms).
+    if (opening && window.innerHeight - r.bottom - gap < want) {
+      let need = want - (window.innerHeight - r.bottom - gap)
+      for (const box of scrollers(el)) {
+        if (need <= 0) break
+        const room = box.scrollHeight - box.clientHeight - box.scrollTop
+        const by = Math.min(need, room, Math.max(0, r.top - 72)) // never push the field under a sticky header
+        if (by > 0) { box.scrollTop += by; need -= by; r = el.getBoundingClientRect() }
+      }
+    }
     const below = window.innerHeight - r.bottom - gap
     const above = r.top - gap
-    const want = opts.maxHeight ?? 340
-    const up = below < Math.min(want, above) && above > below
+    const up = below < 160 && above > below // last resort: nothing left to scroll
     const width = opts.width === 'anchor' || opts.width == null ? r.width : opts.width
     const left = opts.align === 'end' ? Math.max(8, r.right - width) : Math.min(r.left, window.innerWidth - width - 8)
     setStyle({ position: 'fixed', left, width, maxHeight: Math.max(160, Math.min(want, up ? above : below)), ...(up ? { bottom: window.innerHeight - r.top + gap } : { top: r.bottom + gap }) })
   }, [anchor, opts.width, opts.maxHeight, opts.align])
   useLayoutEffect(() => {
     if (!open) return
-    place()
-    window.addEventListener('resize', place)
-    window.addEventListener('scroll', place, true)
-    return () => { window.removeEventListener('resize', place); window.removeEventListener('scroll', place, true) }
+    place(true)
+    const follow = () => place()
+    window.addEventListener('resize', follow)
+    window.addEventListener('scroll', follow, true)
+    return () => { window.removeEventListener('resize', follow); window.removeEventListener('scroll', follow, true) }
   }, [open, place])
   return style
 }

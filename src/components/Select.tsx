@@ -98,6 +98,13 @@ function ListBody({ rows, isOn, onPick, query, setQuery, showSearch, searchPh, a
   )
 }
 
+/** English plural for the search placeholder: property -> properties, branch -> branches (was "propertys"). */
+export function plural(word: string) {
+  if (/[^aeiou]y$/.test(word)) return word.slice(0, -1) + 'ies'
+  if (/(s|x|z|ch|sh)$/.test(word)) return word + 'es'
+  return word + 's'
+}
+
 function useSelectCore(options: SelectOption[], forceSearch: boolean | undefined, label: string | undefined, noun: string | undefined) {
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState('')
@@ -110,7 +117,7 @@ function useSelectCore(options: SelectOption[], forceSearch: boolean | undefined
   const showSearch = forceSearch ?? options.length >= SEARCH_AT
   const close = useCallback(() => { setOpen(false); setQuery(''); requestAnimationFrame(() => btn.current?.focus()) }, [])
   useOutside([btn, pop], open && !phone, close)
-  const searchPh = `Search ${options.length} ${noun ?? (label ? label.toLowerCase() + 's' : 'options')}`
+  const searchPh = `Search ${options.length} ${noun ?? (label ? plural(label.toLowerCase()) : 'options')}`
   const typed = useRef({ s: '', t: 0 })
   const keys = (pick: (v: string) => void) => (e: React.KeyboardEvent) => {
     // Escape closes this list only, not the SlideOver or dialog it sits in.

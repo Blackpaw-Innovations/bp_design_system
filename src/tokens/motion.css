@@ -3,7 +3,7 @@
  *
  * Calm and quick. Nothing slides sideways, nothing cascades card by card, no colour wash on hover,
  * no confetti, no rolling counters, nothing moves while someone is typing.
- * On the phone (≤ 639px, same breakpoint as useIsPhone) every duration is 0.8×.
+ * On the phone (below 600px or a short touch screen, same rule as useIsPhone) every duration is 0.8×.
  * Under prefers-reduced-motion all movement is off and fades are 120 ms or less.
  *
  * The older --bp-dur-* / --bp-ease-* tokens in brand.css are untouched; other apps use them.
@@ -26,7 +26,7 @@
   --ol-ease-standard: cubic-bezier(.4,0,.2,1);   /* things changing in place */
 }
 
-@media (max-width: 639px) {
+@media (max-width: 599px), (max-height: 479px) and (pointer: coarse) {
   :root {
     --ol-dur-press:    96ms;
     --ol-dur-quick:    144ms;
