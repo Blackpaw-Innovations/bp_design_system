@@ -95,7 +95,7 @@ export function ColumnFilter({ label, options, value, onChange, range, onRange }
       ))}
       {onRange && (
         <div style={{ borderTop: '1px solid var(--c-border)', marginTop: 6, paddingTop: 10, display: 'flex', flexDirection: 'column', gap: 6 }}>
-          <span style={{ fontSize: 14, fontWeight: 700 }}>Or a range</span>
+          <span style={{ fontSize: 15, fontWeight: 700 }}>Or a range</span>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
             {[0, 1].map((i) => <div key={i} className="bp-control" style={{ flex: 1, minHeight: 40 }}><input inputMode="numeric" aria-label={i ? 'Max' : 'Min'} placeholder={i ? 'Max' : 'Min'} value={range?.[i] ?? ''} onChange={(e) => { const n = e.target.value === '' ? null : Number(e.target.value.replace(/\D/g, '')); const r: [number | null, number | null] = [range?.[0] ?? null, range?.[1] ?? null]; r[i] = n; onRange(r) }} /></div>)}
           </div>
@@ -220,7 +220,7 @@ export function Steps({ steps, orientation = 'horizontal', onOpen }: { steps: St
     <ol style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column' }}>
       {steps.map((s, i) => (
         <li key={s.label} className="bp-step" data-state={s.state} style={{ flexDirection: 'row', alignItems: 'flex-start', textAlign: 'left', minHeight: 60, gap: 12 }} aria-current={s.state === 'current' ? 'step' : undefined}>
-          {dot(s, i)}<span style={{ display: 'flex', flexDirection: 'column', paddingTop: 8 }}><span className="bp-step-label" style={{ fontSize: 16 }}>{s.label}</span><span className="bp-step-sub" style={{ fontSize: 14 }}>{s.sub ?? DEFAULT_SUB[s.state]}</span></span>
+          {dot(s, i)}<span style={{ display: 'flex', flexDirection: 'column', paddingTop: 8 }}><span className="bp-step-label" style={{ fontSize: 16 }}>{s.label}</span><span className="bp-step-sub" style={{ fontSize: 13 }}>{s.sub ?? DEFAULT_SUB[s.state]}</span></span>
         </li>
       ))}
     </ol>

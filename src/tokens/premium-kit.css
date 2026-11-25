@@ -283,7 +283,7 @@
 :root .bp-pk-group[data-settings] .bp-pk-setting[data-control] { padding: 0; }
 :root .bp-pk-group[data-settings] .bp-pk-setting[data-time] { padding: 8px var(--set-pad, 18px); }
 :root .bp-pk-group[data-settings] .bp-pk-setting .t { font-size: 16px; font-weight: 800; }
-:root .bp-pk-group[data-settings] .bp-pk-setting .s { font-size: 14px; font-weight: 500; line-height: 1.4; }
+:root .bp-pk-group[data-settings] .bp-pk-setting .s { font-size: 15px; font-weight: 500; line-height: 1.4; }
 :root .bp-pk-switch { flex-wrap: wrap; row-gap: 8px; }
 :root .bp-pk-group[data-settings] .bp-pk-switch { padding: 14px var(--set-pad, 18px); }
 :root .bp-pk-switch > .text { flex: 1 1 320px; }

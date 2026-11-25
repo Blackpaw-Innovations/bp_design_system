@@ -91,7 +91,7 @@ export function Agenda({ bookings, resources, onOpen }: { bookings: Booking[]; r
     <ol style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
       {list.map((b) => (
         <li key={b.id} style={{ display: 'flex', gap: 10 }}>
-          <span style={{ width: 48, flex: 'none', paddingTop: 10, fontSize: 14, fontWeight: 700, color: 'var(--c-muted)', fontVariantNumeric: 'tabular-nums' }}>{b.start}</span>
+          <span style={{ width: 48, flex: 'none', paddingTop: 10, fontSize: 13, fontWeight: 700, color: 'var(--c-muted)', fontVariantNumeric: 'tabular-nums' }}>{b.start}</span>
           <button type="button" className="bp-block" data-tone={b.tone} style={{ position: 'static', flex: 1, padding: '10px 12px', borderRadius: 12 }} onClick={() => onOpen(b.id)}>
             <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}><span className="bp-block-title" style={{ flex: 1, fontSize: 15 }}>{b.title}</span>{b.attention && <span className="bp-attn-dot" style={{ width: 9, height: 9 }} />}</span>
             <span className="bp-block-time">{name(b.resource)}{b.sub ? ` · ${b.sub}` : ''} · until {b.end}</span>

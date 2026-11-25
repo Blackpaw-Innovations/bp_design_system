@@ -151,7 +151,7 @@ export function CommandPalette({ open, onClose, items, placeholder = 'Search or 
           />
           <kbd style={{
             flexShrink: 0,
-            fontSize: 10,
+            fontSize: 13,
             fontWeight: 600,
             padding: '2px 6px',
             borderRadius: 4,
@@ -172,7 +172,7 @@ export function CommandPalette({ open, onClose, items, placeholder = 'Search or 
           {Object.entries(groups).map(([group, groupItems]) => (
             <div key={group}>
               <p style={{
-                fontSize: 10,
+                fontSize: 13,
                 fontWeight: 700,
                 textTransform: 'uppercase',
                 letterSpacing: '0.1em',
@@ -214,13 +214,13 @@ export function CommandPalette({ open, onClose, items, placeholder = 'Search or 
                         {item.label}
                       </p>
                       {item.description && (
-                        <p style={{ margin: 0, fontSize: 11, opacity: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        <p style={{ margin: 0, fontSize: 13, opacity: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                           {item.description}
                         </p>
                       )}
                     </div>
                     {isActive && (
-                      <kbd style={{ flexShrink: 0, fontSize: 10, padding: '2px 6px', borderRadius: 4, background: 'hsl(var(--muted))', color: 'hsl(var(--muted-foreground))', border: '1px solid hsl(var(--border))' }}>
+                      <kbd style={{ flexShrink: 0, fontSize: 13, padding: '2px 6px', borderRadius: 4, background: 'hsl(var(--muted))', color: 'hsl(var(--muted-foreground))', border: '1px solid hsl(var(--border))' }}>
                         ↵
                       </kbd>
                     )}

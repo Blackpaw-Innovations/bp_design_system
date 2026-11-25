@@ -11,8 +11,9 @@ import { Button } from './Guarded'
  *   Sheet             bottom sheet with grip, title, close; full height when it holds a search
  *   usePopover        fixed-position list directly under its field; short of room it scrolls the field up first,
  *                     and flips above only when nothing can scroll
- *   FormDialog        sm 400 / md 560; footer fixed; Enter submits; dirty close asks first
- *   SlideOver         right side, 480 / 720; record id, facts, header menu, pinned footer, dirty guard, optional pager
+ *   FormDialog        sm 400 / md 560; footer fixed; Enter submits; dirty close asks first. Phone: the bottom sheet
+ *   SlideOver         right side, 480 / 720; record id, facts, header menu, pinned footer, dirty guard, optional pager.
+ *                     Phone: the bottom sheet with a one-line header; pager, facts and quick actions lead the body
  *   RecordPager       the same Previous · "2 of 3" · Next on a full record page (keys and swipe on the page)
  *   Menu              Actions menu: verbs grouped, destructive last in red. Never a Select of actions.
  */
@@ -206,6 +207,8 @@ export function FormDialog({ open, title, context, size = 'md', submitLabel, onS
   return createPortal(
     <div className="bp-confirm-layer" onMouseDown={(e) => { if (e.target === e.currentTarget && !dirty) onClose() }}>
       <form className="bp-dialog" data-size={size} role="dialog" aria-modal="true" aria-labelledby={id} onSubmit={(e) => { e.preventDefault(); void onSubmit() }}>
+        {/* v1.44: on a phone the dialog is the bottom sheet, with the same grip (CSS shows it only there). */}
+        <div className="bp-sheet-grip bp-dialog-grip" aria-hidden="true" />
         <div className="bp-dialog-head"><h2 id={id} style={{ flex: 1, margin: 0, font: 'inherit' }}>{title}</h2><button type="button" className="bp-icon-btn" aria-label="Close" onClick={tryClose}><X size={20} /></button></div>
         <div className="bp-dialog-body">{context && <p className="bp-help" style={{ margin: 0, fontSize: 15 }}>{context}</p>}{children}</div>
         <div className="bp-dialog-foot">
@@ -360,6 +363,9 @@ export function SlideOver({ open, title, recordId: recordIdProp, subtitle, facts
   useFocusTrap(panel, open)
   const titleId = useId()
   useScrollLock(open)
+  // v1.44: on a phone the pinned header is one line (grip, title, menu, close); the pager, facts and quick actions lead
+  // the scrolling body instead (a 240 px header took 28 % of a 844 px screen, sweep 25 Nov). Tablets and desktops unchanged.
+  const phone = useIsPhone()
   const hasPrev = !!pager && pager.index > 0
   const hasNext = !!pager && pager.index >= 0 && pager.index < pager.total - 1
   const move = (step: -1 | 1) => {
@@ -382,7 +388,7 @@ export function SlideOver({ open, title, recordId: recordIdProp, subtitle, facts
       <div className={`overlay${open ? ' open' : ''}`} onClick={() => { if (!dirty) onClose() }} aria-hidden={!open} {...(!open ? { inert: true } : {})} />
       <aside ref={panel} tabIndex={-1} aria-labelledby={titleId} className={`slide-over${open ? ' open' : ''}`} style={{ width, maxWidth: '100vw' }} role="dialog" aria-modal={open || undefined} aria-hidden={!open} {...(!open ? { inert: true } : {})}>
         <div className="dh" style={{ flexDirection: 'column', alignItems: 'stretch', gap: 10 }}>
-          {pager && pager.total > 1 && <PagerRow pager={pager} move={move} />}
+          {!phone && pager && pager.total > 1 && <PagerRow pager={pager} move={move} />}
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 6 }}>
             {onBack && <button type="button" className="bp-icon-btn" aria-label="Back" onClick={onBack}>←</button>}
             <div style={{ flex: 1, minWidth: 0 }}>
@@ -393,10 +399,15 @@ export function SlideOver({ open, title, recordId: recordIdProp, subtitle, facts
             {menu && <Menu label="More actions" groups={menu} align="end" trigger="icon" />}
             <button type="button" onClick={tryClose} aria-label="Close" className="dh-close"><X size={18} /></button>
           </div>
-          {facts && <div className="bp-panel-facts">{facts}</div>}
-          {quickActions && <div style={{ display: 'flex', gap: 8 }}>{quickActions}</div>}
+          {!phone && facts && <div className="bp-panel-facts">{facts}</div>}
+          {!phone && quickActions && <div style={{ display: 'flex', gap: 8 }}>{quickActions}</div>}
         </div>
-        <div ref={body} className="db">{children}</div>
+        <div ref={body} className="db">
+          {phone && (pager?.total ?? 0) > 1 && <PagerRow pager={pager!} move={move} />}
+          {phone && facts && <div className="bp-panel-facts">{facts}</div>}
+          {phone && quickActions && <div className="bp-panel-quick">{quickActions}</div>}
+          {children}
+        </div>
         {(footer || asking) && (
           <div className="df bp-panel-foot">
             {asking ? (

@@ -344,3 +344,26 @@ html :is(.rail-icon.active, [aria-current="page"]):is(.bp-attn, .hq-led-glow)::a
   :root .bp-quick-row::-webkit-scrollbar { display: none; }
   :root .bp-quick { flex: none; padding: 0 16px; }
 }
+
+/* ── 10 · Phone foundation 2 (v1.44.0, mobile sweep 25 Nov 2026) ───────
+   One phone query everywhere: (max-width: 599px), (max-height: 479px) and (pointer: coarse), the same as useIsPhone.
+   Tablets (600–1023) and desktops keep side panels, dialogs and their own density. */
+:root {
+  /* D6: the page gutter. Set once on the app's page container (.main); nested page wrappers add no side padding. */
+  --page-gutter: var(--sp-gutter, 16px);
+}
+@media (max-width: 599px), (max-height: 479px) and (pointer: coarse) {
+  /* D1: no text field under 16 px on a phone. Below 16 px iOS Safari zooms the page when the field gets focus.
+     Ticks, radios, ranges, colour and file pickers are not text. Desktop and tablet keep their density. */
+  html:root :is(input:not([type="checkbox"], [type="radio"], [type="range"], [type="color"], [type="file"], [type="hidden"], [type="button"], [type="submit"], [type="reset"], [type="image"]), select, textarea) {
+    font-size: 16px;
+  }
+}
+@media (max-width: 399px) {
+  /* D11: two or three fields side by side stack on a narrow phone, so "25 Nov 2026" or a long label never clips.
+     Only grids whose cells hold a field; button pairs and fact tiles keep their columns. */
+  html:root :is(.grid-cols-2, .grid-cols-3):has(> * > :is(input:not([type="checkbox"], [type="radio"]), select, textarea, .bp-control, .bp-field)),
+  html:root :is(.grid-cols-2, .grid-cols-3):has(> .bp-field) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

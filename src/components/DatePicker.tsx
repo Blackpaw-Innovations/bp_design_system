@@ -72,7 +72,7 @@ function Month({ month, setMonth, isStart, isEnd, inRange, onPick, min, max, lim
         <button type="button" className="bp-icon-btn" aria-label="Next month" disabled={!nextOk} onClick={() => setMonth(new Date(month.getFullYear(), month.getMonth() + 1, 1))}><ChevronRight size={18} /></button>
       </div>
       <div role="grid" style={{ display: 'grid', gridTemplateColumns: `repeat(7, ${cell}px)`, rowGap: 2 }}>
-        {['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'].map((d) => <div key={d} role="columnheader" style={{ height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 700, color: 'var(--c-muted)' }}>{d}</div>)}
+        {['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'].map((d) => <div key={d} role="columnheader" style={{ height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 700, color: 'var(--c-muted)' }}>{d}</div>)}
         {cells.map((s, i) => {
           if (!s) return <div key={`b${i}`} />
           const end = isStart(s) || isEnd(s), band = inRange(s), dis = out(s)
@@ -94,9 +94,9 @@ function Month({ month, setMonth, isStart, isEnd, inRange, onPick, min, max, lim
 function FieldButton({ btnRef, text, empty, open, onClick, id, invalid, describedBy, onType }: { btnRef: React.RefObject<HTMLDivElement | null>; text: string; empty: boolean; open: boolean; onClick: () => void; id?: string; invalid?: boolean; describedBy?: string; onType?: (t: string) => void }) {
   const [typing, setTyping] = useState<string | null>(null)
   return (
-    <div ref={btnRef} className="bp-control" data-invalid={invalid || undefined} style={{ alignItems: 'center', paddingLeft: 14, ...(open ? { borderColor: 'var(--c-signal)', boxShadow: '0 0 0 2px var(--c-ring)' } : {}) }}>
-      <button type="button" aria-label="Open calendar" onClick={onClick} style={{ border: 0, background: 'transparent', display: 'flex', padding: 0, cursor: 'pointer', color: 'var(--c-muted)' }}><Calendar size={18} /></button>
-      <input id={id} aria-describedby={describedBy} value={typing ?? (empty ? '' : text)} placeholder={empty ? text : undefined} readOnly={!onType}
+    <div ref={btnRef} className="bp-control" data-invalid={invalid || undefined} style={{ alignItems: 'center', paddingLeft: 0, ...(open ? { borderColor: 'var(--c-signal)', boxShadow: '0 0 0 2px var(--c-ring)' } : {}) }}>
+      <button type="button" aria-label="Open calendar" onClick={onClick} style={{ border: 0, background: 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', alignSelf: 'stretch', flex: 'none', width: 44, minWidth: 44, padding: 0, cursor: 'pointer', color: 'var(--c-muted)' }}><Calendar size={18} /></button>
+      <input id={id} style={{ paddingLeft: 0 }} aria-describedby={describedBy} value={typing ?? (empty ? '' : text)} placeholder={empty ? text : undefined} readOnly={!onType}
         onClick={onType ? undefined : onClick} onChange={(e) => setTyping(e.target.value)}
         onBlur={() => { if (typing != null && onType) onType(typing); setTyping(null) }}
         onKeyDown={(e) => { if (e.key === 'Enter' && typing != null && onType) { onType(typing); setTyping(null) } if (e.key === 'ArrowDown') onClick() }} />
