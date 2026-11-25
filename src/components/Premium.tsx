@@ -1,5 +1,8 @@
 import type { CSSProperties, ElementType, ReactNode } from 'react'
 import { cn } from '../lib/utils'
+import { sameWords, useBarTitle } from '../lib/barTitle'
+
+const dev = (import.meta as { env?: { DEV?: boolean } }).env?.DEV === true
 
 /**
  * The premium set (2026-10-08), "quiet authority":
@@ -9,9 +12,17 @@ import { cn } from '../lib/utils'
  * Styles live in tokens/components.css under "PREMIUM SET".
  */
 
-/** A compact title row. Replaces tall banner heroes: the record is the hero, not the page. */
+/**
+ * A compact title row. Replaces tall banner heroes: the record is the hero, not the page.
+ * v1.45 (D5 "1A/B", Marvin 25 Nov 2026), `kind`:
+ *   list    the app's top bar names the screen and is the only title. `title` is optional: a headline sentence
+ *           ("7 service requests"), never the screen's name. A title equal to the bar is dropped (BarTitleProvider).
+ *   detail  the bar shows the section ("Work orders"); this heading names the record ("Flat 3A plumbing").
+ * With a `kind` the app's top bar owns the <h1>, so the heading is an <h2>. Without one (a page with no app bar) it is the <h1>.
+ */
 export interface PageHeaderProps {
-  title: ReactNode
+  kind?: 'list' | 'detail'
+  title?: ReactNode
   /** Small trail above the title, e.g. "Portfolio / Garden Court". */
   crumbs?: ReactNode
   /** One line under the title: counts, status, as-of time. */
@@ -21,12 +32,17 @@ export interface PageHeaderProps {
   className?: string
 }
 
-export function PageHeader({ title, crumbs, meta, actions, className }: PageHeaderProps) {
+export function PageHeader({ kind, title, crumbs, meta, actions, className }: PageHeaderProps) {
+  const bar = useBarTitle()
+  const shown = typeof title === 'string' && sameWords(title, bar) ? null : title
+  if (dev && kind === 'detail' && !title) console.warn('[@blackpaw/ui] PageHeader kind="detail" needs the record name as its title.')
+  if (!shown && !crumbs && !meta && !actions) return null
+  const H = kind ? 'h2' : 'h1'
   return (
-    <header className={cn('bp-page-header', className)}>
+    <header className={cn('bp-page-header', className)} data-kind={kind}>
       <div className="min-w-0">
         {crumbs && <p className="crumbs">{crumbs}</p>}
-        <h1>{title}</h1>
+        {shown && <H>{shown}</H>}
         {meta && <p className="meta">{meta}</p>}
       </div>
       {actions && <div className="actions">{actions}</div>}

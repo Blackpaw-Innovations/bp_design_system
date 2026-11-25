@@ -25,7 +25,7 @@
 :root .bp-rk-trigger .tx b { font-size: 17px; font-weight: 800; }
 :root .bp-rk-trigger .tx span { font-size: 13px; font-weight: 600; color: var(--c-muted); }
 :root .bp-rk-trigger .chev { color: var(--c-muted); margin-left: 4px; }
-:root .bp-rk-chip { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 6px 0 12px; border: 0; border-radius: 999px; background: var(--c-sunken); color: var(--c-ink); font: 700 14px Urbanist, sans-serif; }
+:root .bp-rk-chip { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 6px 0 12px; border: 0; border-radius: 999px; background: var(--c-sunken); color: var(--c-ink); font: 700 15px Urbanist, sans-serif; }
 :root .bp-rk-chip > i { width: 14px; height: 14px; border-radius: 4px; background: var(--rk-ghost); border: 1px solid var(--c-border); }
 :root .bp-rk-chip > button { width: 28px; height: 28px; border: 0; border-radius: 999px; background: var(--c-surface); color: var(--c-ink); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
 :root .bp-rk-chip > button:hover { background: var(--c-selected); }
@@ -46,7 +46,7 @@
 :root .bp-rk-fields { display: flex; align-items: center; gap: 10px; }
 :root .bp-rk-field { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; padding: 8px 14px; border: 1px solid var(--c-border); border-radius: 14px; background: var(--c-surface); cursor: text; }
 :root .bp-rk-field[data-on] { border-color: var(--c-signal); box-shadow: 0 0 0 3px var(--c-ring, rgba(42, 111, 218, .25)); }
-:root .bp-rk-field small { font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--c-muted); }
+:root .bp-rk-field small { font-size: 13px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--c-muted); }
 :root .bp-rk-field input { border: 0; outline: 0; padding: 0; background: transparent; color: var(--c-ink); font: 700 17px Urbanist, sans-serif; width: 100%; }
 :root .bp-rk-arrow { color: var(--c-muted); }
 :root .bp-rk-days { flex: none; display: inline-flex; align-items: center; gap: 6px; min-height: 30px; padding: 0 12px; border-radius: 999px; background: var(--c-sunken); font-size: 13px; font-weight: 800; color: var(--c-ink); }
@@ -63,13 +63,13 @@
 :root .bp-rk-cell[data-band][data-start] { border-top-left-radius: 999px; border-bottom-left-radius: 999px; }
 :root .bp-rk-cell[data-band][data-end] { border-top-right-radius: 999px; border-bottom-right-radius: 999px; }
 :root .bp-rk-cell[data-cmp]::after { content: ""; position: absolute; left: 4px; right: 4px; bottom: 1px; height: 3px; border-radius: 3px; background: color-mix(in srgb, var(--c-muted) 55%, transparent); }
-:root .bp-rk-cell button { position: relative; z-index: 1; width: 36px; height: 36px; border: 0; border-radius: 999px; background: transparent; color: var(--c-ink); font: 700 14px Urbanist, sans-serif; cursor: pointer; }
+:root .bp-rk-cell button { position: relative; z-index: 1; width: 36px; height: 36px; border: 0; border-radius: 999px; background: transparent; color: var(--c-ink); font: 700 15px Urbanist, sans-serif; cursor: pointer; }
 :root .bp-rk-cell button:hover:not(:disabled) { background: var(--c-surface); box-shadow: inset 0 0 0 1px var(--c-border); }
 :root .bp-rk-cell button:disabled { color: var(--c-dis-ink, #a6adbb); cursor: default; }
 :root .bp-rk-cell button[data-edge] { background: var(--c-navy); color: #fff; font-weight: 900; }
 :root .bp-rk-cell button[aria-current="date"]::after { content: ""; position: absolute; left: 11px; right: 11px; bottom: 5px; height: 2px; border-radius: 2px; background: var(--c-action); }
 :root .bp-rk-compare { border: 0; margin: 0; padding: 12px 0 0; border-top: 1px solid var(--c-border); }
-:root .bp-rk-compare legend { padding: 0 0 8px; font-size: 14px; font-weight: 700; color: var(--c-muted); }
+:root .bp-rk-compare legend { padding: 0 0 8px; font-size: 13px; font-weight: 700; color: var(--c-muted); }
 :root .bp-rk-cmprow { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 :root .bp-rk-cmp { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; min-height: 60px; padding: 10px 40px 10px 14px; border: 1px solid var(--c-border); border-radius: 14px; background: var(--c-surface); color: var(--c-ink); font: inherit; text-align: left; cursor: pointer; }
 :root .bp-rk-cmp b { font-size: 15px; font-weight: 800; }
@@ -88,7 +88,7 @@
 :root .bp-rk-card > header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
 :root .bp-rk-card h3 { margin: 0; font-size: 16px; font-weight: 800; color: var(--c-ink); }
 :root .bp-rk-card header p { margin: 2px 0 0; font-size: 13px; color: var(--c-muted); }
-:root .bp-rk-empty { margin: 0; padding: 18px; border: 1px dashed var(--c-border); border-radius: 16px; text-align: center; font-size: 14px; color: var(--c-muted); }
+:root .bp-rk-empty { margin: 0; padding: 18px; border: 1px dashed var(--c-border); border-radius: 16px; text-align: center; font-size: 15px; color: var(--c-muted); }
 
 /* ---------- ghost columns ---------- */
 :root .bp-rk-ghost .plot { position: relative; display: flex; align-items: flex-end; gap: 3px; }
@@ -110,7 +110,7 @@
 
 /* ---------- share bars ---------- */
 :root .bp-rk-share { display: flex; flex-direction: column; gap: 14px; }
-:root .bp-rk-share .lab { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 6px; font-size: 14px; font-weight: 700; color: var(--c-ink); }
+:root .bp-rk-share .lab { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 6px; font-size: 15px; font-weight: 700; color: var(--c-ink); }
 :root .bp-rk-share .lab small { margin-left: 8px; font-size: 13px; font-weight: 600; color: var(--c-muted); }
 :root .bp-rk-share .lab b { font-weight: 800; }
 :root .bp-rk-share .lab em { margin-left: 8px; font-style: normal; font-size: 13px; font-weight: 600; color: var(--c-muted); }
@@ -120,7 +120,7 @@
 
 /* ---------- heat grid ---------- */
 :root .bp-rk-heat { display: grid; gap: 4px; align-items: center; }
-:root .bp-rk-heat .hh { font-size: 11px; font-weight: 700; color: var(--c-muted); text-align: center; white-space: nowrap; }
+:root .bp-rk-heat .hh { font-size: 13px; font-weight: 700; color: var(--c-muted); text-align: center; white-space: nowrap; }
 :root .bp-rk-heat .dd { font-size: 13px; font-weight: 700; color: var(--c-ink); }
 :root .bp-rk-heat i, :root .bp-rk-heatwrap .key i { display: block; height: 26px; border-radius: 6px; background: var(--rk-track); }
 :root .bp-rk-heat i[data-level="1"], :root .bp-rk-heatwrap .key i[data-level="1"] { background: color-mix(in srgb, var(--rk-navy) 22%, var(--c-surface, #fff)); }
@@ -135,9 +135,9 @@
 :root .bp-rk-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
 @media (max-width: 1023px) { :root .bp-rk-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 :root .bp-rk-kpi { display: flex; flex-direction: column; gap: 4px; min-width: 0; padding: 16px 18px; border: 1px solid var(--c-border); border-radius: 20px; background: var(--c-surface); color: var(--c-ink); text-decoration: none; }
-:root .bp-rk-kpi .k { font-size: 14px; font-weight: 700; color: var(--c-muted); }
+:root .bp-rk-kpi .k { font-size: 13px; font-weight: 700; color: var(--c-muted); }
 :root .bp-rk-kpi .v { font-size: 28px; font-weight: 800; line-height: 1.1; font-variant-numeric: tabular-nums; }
-:root .bp-rk-kpi .v small { font-size: 14px; font-weight: 700; }
+:root .bp-rk-kpi .v small { font-size: 13px; font-weight: 700; }
 :root .bp-rk-kpi .d { font-size: 13px; font-weight: 800; color: var(--c-ink); }
 :root .bp-rk-kpi .d[data-tone="up"] { color: var(--pk-pos, #16865a); }
 :root .bp-rk-kpi[data-none] .v { color: var(--c-muted); }
@@ -165,7 +165,7 @@
 
 /* ---------- rank bars ---------- */
 :root .bp-rk-rank { display: flex; flex-direction: column; gap: 12px; }
-:root .bp-rk-rank .r { display: grid; grid-template-columns: minmax(0, 9rem) minmax(0, 1fr) auto; align-items: center; gap: 12px; font-size: 14px; }
+:root .bp-rk-rank .r { display: grid; grid-template-columns: minmax(0, 9rem) minmax(0, 1fr) auto; align-items: center; gap: 12px; font-size: 15px; }
 :root .bp-rk-rank .l { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--c-ink); font-weight: 600; }
 :root .bp-rk-rank .bar { height: 8px; border-radius: 999px; background: var(--rk-track); overflow: hidden; }
 :root .bp-rk-rank .bar i { display: block; height: 100%; border-radius: 999px; background: var(--rk-navy); }

@@ -2,6 +2,7 @@ import { useEffect, useId, useRef, useState, type AnchorHTMLAttributes, type But
 import { cn, type IconComponent } from '../lib/utils'
 import { formatDate, formatMoney } from '../lib/format'
 import { Checkbox } from './Form'
+import { useOwnTitle } from '../lib/barTitle'
 
 /**
  * Guarded components (ruled 9 Oct 2026). The props only accept what the
@@ -169,6 +170,8 @@ export interface PageTitleProps {
 
 export function PageTitle({ title, context, crumbs, entity, actions, className }: PageTitleProps) {
   if (title.length > 70) warn(`PageTitle "${title.slice(0, 40)}…" is ${title.length} characters; keep headlines to two lines and move the figure into a DecisionPanel or StatGroup.`)
+  // v1.45: a title that repeats the app's top bar is not drawn again (D5); the context and actions stay.
+  const own = useOwnTitle(title)
   const trail = crumbs && crumbs.length >= 2 ? crumbs.filter((c, i) => !(i === crumbs.length - 1 && c.label.trim().toLowerCase() === title.trim().toLowerCase())) : []
   return (
     <header className={cn('bp-page-header', className)}>
@@ -180,7 +183,7 @@ export function PageTitle({ title, context, crumbs, entity, actions, className }
             ))}
           </nav>
         )}
-        <h1 className="bp-title">{title}</h1>
+        {own && <h1 className="bp-title">{own}</h1>}
         {(context || entity) && (
           <p className="bp-title-context">{entity && <span className="bp-entity">{entity}</span>}{entity && context ? ' · ' : ''}{context}</p>
         )}

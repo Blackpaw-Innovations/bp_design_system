@@ -145,6 +145,20 @@
 :root .bp-panel-facts { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 15px; color: var(--c-muted); }
 :root .bp-dialog-grip { display: none; }
 :root .bp-panel-quick { display: flex; flex-wrap: wrap; gap: 8px; }
+/* ActionBar (v1.45, D4 "2C+A", Marvin 25 Nov 2026): the one allowed sticky bar, for screens acted on again and again.
+   Tablet and desktop: an ordinary row. Phone: one row pinned above the app's tab bar (--bp-tabbar-h, set by the app),
+   61 px + the safe area (max 72), two buttons sharing the width, the rest behind the 44 px "More" button. The spacer
+   (same height) pads the page so the bar never covers content. --bp-actionbar-safe: 0 when the tab bar already takes the inset. */
+:root .bp-actionbar-space { display: none; }
+:root .bp-actionbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 16px 0; }
+@media (max-width: 599px), (max-height: 479px) and (pointer: coarse) {
+  :root .bp-actionbar { position: fixed; left: 0; right: 0; bottom: var(--bp-tabbar-h, 0px); z-index: var(--z-sticky, 30); margin: 0; flex-wrap: nowrap;
+    padding: 8px var(--page-gutter, 16px) calc(8px + var(--bp-actionbar-safe, env(safe-area-inset-bottom, 0px))); background: var(--c-surface); border-top: 1px solid var(--c-border); }
+  :root .bp-actionbar > :is(.bp-btn, .bp-btn-explain) { flex: 1 1 0; min-width: 0; }
+  :root .bp-actionbar .bp-btn { width: 100%; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  :root .bp-actionbar .bp-btn-reason { position: absolute; left: 0; right: 0; bottom: calc(100% + 8px); margin: 0; padding: 8px 12px; border-radius: 12px; background: var(--c-surface); border: 1px solid var(--c-border); }
+  :root .bp-actionbar-space { display: block; height: calc(61px + var(--bp-actionbar-safe, env(safe-area-inset-bottom, 0px))); }
+}
 :root .bp-pager { display: flex; align-items: center; gap: 8px; }
 :root .bp-pager .bp-btn:disabled { opacity: .45; }
 :root .bp-pager-count { flex: 1; text-align: center; font-size: 15px; font-weight: 600; color: var(--c-muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
