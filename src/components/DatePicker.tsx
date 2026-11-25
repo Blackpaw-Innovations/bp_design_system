@@ -94,9 +94,9 @@ function Month({ month, setMonth, isStart, isEnd, inRange, onPick, min, max, lim
 function FieldButton({ btnRef, text, empty, open, onClick, id, invalid, describedBy, onType }: { btnRef: React.RefObject<HTMLDivElement | null>; text: string; empty: boolean; open: boolean; onClick: () => void; id?: string; invalid?: boolean; describedBy?: string; onType?: (t: string) => void }) {
   const [typing, setTyping] = useState<string | null>(null)
   return (
-    <div ref={btnRef} className="bp-control" data-invalid={invalid || undefined} style={{ alignItems: 'center', paddingLeft: 14, ...(open ? { borderColor: 'var(--c-signal)', boxShadow: '0 0 0 2px var(--c-ring)' } : {}) }}>
-      <button type="button" aria-label="Open calendar" onClick={onClick} style={{ border: 0, background: 'transparent', display: 'flex', padding: 0, cursor: 'pointer', color: 'var(--c-muted)' }}><Calendar size={18} /></button>
-      <input id={id} aria-describedby={describedBy} value={typing ?? (empty ? '' : text)} placeholder={empty ? text : undefined} readOnly={!onType}
+    <div ref={btnRef} className="bp-control" data-invalid={invalid || undefined} style={{ alignItems: 'center', paddingLeft: 0, ...(open ? { borderColor: 'var(--c-signal)', boxShadow: '0 0 0 2px var(--c-ring)' } : {}) }}>
+      <button type="button" aria-label="Open calendar" onClick={onClick} style={{ border: 0, background: 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', alignSelf: 'stretch', flex: 'none', width: 44, minWidth: 44, padding: 0, cursor: 'pointer', color: 'var(--c-muted)' }}><Calendar size={18} /></button>
+      <input id={id} style={{ paddingLeft: 0 }} aria-describedby={describedBy} value={typing ?? (empty ? '' : text)} placeholder={empty ? text : undefined} readOnly={!onType}
         onClick={onType ? undefined : onClick} onChange={(e) => setTyping(e.target.value)}
         onBlur={() => { if (typing != null && onType) onType(typing); setTyping(null) }}
         onKeyDown={(e) => { if (e.key === 'Enter' && typing != null && onType) { onType(typing); setTyping(null) } if (e.key === 'ArrowDown') onClick() }} />
