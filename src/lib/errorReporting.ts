@@ -52,12 +52,14 @@ export function createReportLimiter(max = MAX_REPORTS_PER_SESSION, windowMs = SA
 
 /** Masks emails, bearer/JWT tokens, long opaque strings and URL query strings, then caps the length. */
 export function scrub(text: string, max = 500): string {
+  // Bounded quantifiers and a pre-cut input keep every pattern linear (CodeQL js/polynomial-redos).
   return text
-    .replace(/[\w.+-]+@[\w-]+(\.[\w-]+)+/g, '[email]')
-    .replace(/\bBearer\s+\S+/gi, 'Bearer [token]')
-    .replace(/\beyJ[\w-]+\.[\w-]+\.[\w-]*/g, '[token]')
-    .replace(/(https?:\/\/[^\s?)]+)\?[^\s):]*/g, '$1')
-    .replace(/\b[A-Za-z0-9_-]{32,}\b/g, '[token]')
+    .slice(0, max * 4)
+    .replace(/[\w.+-]{1,64}@[\w-]{1,63}(?:\.[\w-]{1,63}){1,6}/g, '[email]')
+    .replace(/\bBearer\s{1,4}\S{1,2000}/gi, 'Bearer [token]')
+    .replace(/\beyJ[\w-]{1,2000}\.[\w-]{1,2000}\.[\w-]{0,2000}/g, '[token]')
+    .replace(/(https?:\/\/[^\s?)]{1,500})\?[^\s):]{0,2000}/g, '$1')
+    .replace(/[A-Za-z0-9_-]{32,2000}/g, '[token]')
     .slice(0, max)
 }
 

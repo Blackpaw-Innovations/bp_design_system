@@ -19,4 +19,8 @@ assert.equal(scrub('key ' + 'a'.repeat(40)), 'key [token]')
 assert.equal(scrub('ab '.repeat(300)).length, 500)
 assert.equal(scrub('Cannot read properties of undefined (reading \'id\')'), 'Cannot read properties of undefined (reading \'id\')')
 
+const t0 = performance.now()
+for (const bad of ['+'.repeat(100_000), '-'.repeat(100_000), 'a@'.repeat(50_000), 'http://' + 'a'.repeat(100_000)]) scrub(bad)
+assert.ok(performance.now() - t0 < 500, 'scrub stays fast on hostile input')
+
 console.log('error reporting: dedupe, rate limit and scrub ok.')
