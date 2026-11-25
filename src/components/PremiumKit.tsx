@@ -5,6 +5,7 @@ import { whatsAppLink } from '../lib/whatsapp'
 import { formatMoney, moneyParts } from '../lib/format'
 import { Avatar, initials } from './Data'
 import { Button, ButtonLink } from './Guarded'
+import { useOwnTitle } from '../lib/barTitle'
 import { Select } from './Select'
 import { timeSlots } from './DatePicker'
 
@@ -184,11 +185,12 @@ function HeroCard({ title, spoken, figure, caption, floor, compare, chip, stats,
   title?: string; spoken: string; figure: ReactNode; caption: string; floor?: boolean; compare?: HeroComparison | null; chip?: ReactNode; stats?: StatStripItem[]
   craft?: string; action?: ReactNode; renderLink?: RenderLink; children?: ReactNode
 }) {
+  const ownTitle = useOwnTitle(title) // v1.45: never the top bar's words again (D5)
   const Arrow = compare?.direction === 'up' ? ArrowUpRight : compare?.direction === 'down' ? ArrowDownRight : compare?.direction === 'new' ? Sparkles : Equal
   return (
     <header className="hero-card bp-pk-hero" data-craft={craft ? '' : undefined}>
       {craft && <img className="craft" src={craft} alt="" aria-hidden="true" decoding="async" />}
-      {title && <p className="title">{title}</p>}
+      {ownTitle && <p className="title">{ownTitle}</p>}
       <h1>
         <span className="bp-pk-sr">{spoken}</span>
         <span aria-hidden="true" className="body">

@@ -82,6 +82,9 @@ export { TIER_ORDER, TIER_META, CATEGORY_LABEL, progressFraction, nextTier } fro
 export type { BadgeTier, BadgeCategory, TierMeta } from './badges/tokens'
 
 // Utilities
+export { ActionBar } from './components/Page'
+export type { ActionBarAction } from './components/Page'
+export { BarTitleProvider, useBarTitle, useOwnTitle, sameWords } from './lib/barTitle'
 export { cn } from './lib/utils'
 export { installErrorReporting, reportError, createReportLimiter, scrub as scrubErrorText } from './lib/errorReporting'
 export type { ErrorReportingOptions, ErrorReport } from './lib/errorReporting'

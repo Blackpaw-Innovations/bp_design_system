@@ -224,3 +224,15 @@ Rules that apply to all of them: 44 px minimum targets, 16 px input text, labels
 - A secondary button with a chevron ("Actions") or a 44 px ⋯. Verbs grouped (make · export · danger); destructive is always the last group, in red.
 - A Select picks a value and shows it. A Menu does things. Never mix them, and never a "Choose action…" dropdown.
 - Phone: the menu opens as a sheet.
+
+### 17.24 Page titles · `<PageHeader kind>`, `<BarTitleProvider>` (v1.45, Marvin 25 Nov 2026, "1A/B")
+- **List screens:** the app's top bar is the only title. `PageHeader kind="list"` takes an optional headline sentence ("7 service requests"), never the screen's name.
+- **Detail screens:** the bar shows the section ("Work orders"); `PageHeader kind="detail"` names the record ("Flat 3A plumbing"), as Properties does.
+- The app passes the bar's title once (`<BarTitleProvider value={title}>`). `PageHeader`, `PageTitle` and the `CountHero` / `MoneyHero` `title` then drop any title that repeats it, so the same words never show twice.
+- With a `kind`, the heading is an `<h2>`: the top bar owns the page's `<h1>`.
+
+### 17.25 Action bar · `<ActionBar>` (v1.45, Marvin 25 Nov 2026, "2C+A")
+- **The standard (C):** a form's or record's main actions are the pinned footer of the bottom sheet (`SlideOver` / `FormDialog` `footer`). There is still no page-level sticky bar.
+- **The one exception (A):** a screen the user acts on again and again (a field visit, a check-in desk) may use `ActionBar`. This is the only allowed exception to the September 2026 "no sticky bars" commandment, approved by Marvin on 25 Nov 2026.
+- On a phone it is one row pinned above the tab bar: 61 px plus the safe area (72 px at most), at most two buttons (the first primary), the rest behind a 44 px "More" button that opens a sheet. A spacer of the same height pads the page, so it never covers content. On a tablet or desktop it is an ordinary row in the page.
+- The app sets `--bp-tabbar-h` (its tab bar's height on a phone) and `--bp-actionbar-safe: 0px` when the tab bar already takes the safe-area inset.
