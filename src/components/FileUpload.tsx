@@ -80,8 +80,8 @@ export function FileUpload({ label, accept, typesText, maxMB = 10, maxFiles = 5,
               <span style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 5 }}>
                 <span style={{ display: 'flex', gap: 8, alignItems: 'baseline' }}><span style={{ fontSize: 16, fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{it.file.name}</span><span className="bp-help" style={{ whiteSpace: 'nowrap' }}>{fmtSize(it.file.size)}</span></span>
                 {it.state === 'uploading' && <span className="bp-progress" style={{ height: 6 }} role="progressbar" aria-valuenow={it.progress ?? 0}><span style={{ width: `${it.progress ?? 0}%` }} /></span>}
-                {it.state === 'done' && <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--v-pos)' }}>Uploaded</span>}
-                {it.state === 'error' && <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--v-crit)' }}>{it.error}</span>}
+                {it.state === 'done' && <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--v-pos)' }}>Uploaded</span>}
+                {it.state === 'error' && <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--v-crit)' }}>{it.error}</span>}
               </span>
               <Button variant="quiet" onClick={() => onRemove(it.id)}>{it.state === 'uploading' ? 'Cancel' : 'Remove'}</Button>
             </li>

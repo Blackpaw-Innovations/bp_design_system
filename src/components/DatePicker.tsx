@@ -72,7 +72,7 @@ function Month({ month, setMonth, isStart, isEnd, inRange, onPick, min, max, lim
         <button type="button" className="bp-icon-btn" aria-label="Next month" disabled={!nextOk} onClick={() => setMonth(new Date(month.getFullYear(), month.getMonth() + 1, 1))}><ChevronRight size={18} /></button>
       </div>
       <div role="grid" style={{ display: 'grid', gridTemplateColumns: `repeat(7, ${cell}px)`, rowGap: 2 }}>
-        {['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'].map((d) => <div key={d} role="columnheader" style={{ height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 700, color: 'var(--c-muted)' }}>{d}</div>)}
+        {['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'].map((d) => <div key={d} role="columnheader" style={{ height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 700, color: 'var(--c-muted)' }}>{d}</div>)}
         {cells.map((s, i) => {
           if (!s) return <div key={`b${i}`} />
           const end = isStart(s) || isEnd(s), band = inRange(s), dis = out(s)

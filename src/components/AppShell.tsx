@@ -299,7 +299,7 @@ export function SidebarHeader({ logo, title, subtitle }: SidebarHeaderProps) {
             {title}
           </p>
           {subtitle && (
-            <p style={{ fontSize: 9, margin: '3px 0 0', opacity: 0.4, letterSpacing: '0.12em', textTransform: 'uppercase', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            <p style={{ fontSize: 13, margin: '3px 0 0', opacity: 0.4, letterSpacing: '0.12em', textTransform: 'uppercase', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               {subtitle}
             </p>
           )}
@@ -380,7 +380,7 @@ export function SidebarNav({ sections, activeId, onSelect, accentColor = 'hsl(va
           {/* Section label — hidden when collapsed */}
           {section.label && !collapsed && (
             <p style={{
-              fontSize: 9,
+              fontSize: 13,
               fontWeight: 700,
               textTransform: 'uppercase',
               letterSpacing: '0.12em',
@@ -473,7 +473,7 @@ export function SidebarNav({ sections, activeId, onSelect, accentColor = 'hsl(va
                     {item.badge !== undefined && (
                       <span style={{
                         flexShrink: 0,
-                        fontSize: 10,
+                        fontSize: 13,
                         fontWeight: 700,
                         padding: '1px 6px',
                         borderRadius: 9999,
@@ -539,7 +539,7 @@ export function SidebarFooter({ avatar, name, email, onLogout }: SidebarFooterPr
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: 11,
+        fontSize: 13,
         fontWeight: 700,
         background: 'linear-gradient(135deg, hsl(var(--hk-navy)), hsl(var(--hk-teal)))',
         color: '#fff',
@@ -550,11 +550,11 @@ export function SidebarFooter({ avatar, name, email, onLogout }: SidebarFooterPr
 
       {!collapsed && (
         <div style={{ flex: 1, minWidth: 0, overflow: 'hidden' }}>
-          <p style={{ margin: 0, fontSize: 12, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', lineHeight: 1.2 }}>
+          <p style={{ margin: 0, fontSize: 13, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', lineHeight: 1.2 }}>
             {name}
           </p>
           {email && (
-            <p style={{ margin: 0, fontSize: 10, opacity: 0.4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', lineHeight: 1.4 }}>
+            <p style={{ margin: 0, fontSize: 13, opacity: 0.4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', lineHeight: 1.4 }}>
               {email}
             </p>
           )}

@@ -79,7 +79,7 @@ export function Board({ stages, cards, onMove, onOpen, totals, needsInput = [], 
     const list = cards.filter((c) => c.stage === s.key)
     return list.length
       ? list.map((c) => <Card key={c.id} c={c} stage={s} next={nextOf(s.key)} onMove={() => move(c)} onOpen={() => onOpen(c.id)} />)
-      : <div style={{ border: '1.5px dashed var(--c-border)', borderRadius: 14, padding: 16, fontSize: 14, color: 'var(--c-muted)', textAlign: 'center' }}>{emptyText}</div>
+      : <div style={{ border: '1.5px dashed var(--c-border)', borderRadius: 14, padding: 16, fontSize: 15, color: 'var(--c-muted)', textAlign: 'center' }}>{emptyText}</div>
   }
   if (phone) {
     const s = stages.find((x) => x.key === phoneStage) ?? stages[0]
@@ -174,7 +174,7 @@ export function LaneBoard({ lanes, cards, onOpen, renderLink, emptyText = 'Nothi
               {c.action && <Button variant="secondary" fullWidth onClick={c.action.onClick}>{c.action.label}</Button>}
             </article>
           ))
-          : <div style={{ border: '1.5px dashed var(--c-border)', borderRadius: 14, padding: 16, fontSize: 14, color: 'var(--c-muted)', textAlign: 'center' }}>{emptyText}</div>}
+          : <div style={{ border: '1.5px dashed var(--c-border)', borderRadius: 14, padding: 16, fontSize: 15, color: 'var(--c-muted)', textAlign: 'center' }}>{emptyText}</div>}
       </section>
     )
   }

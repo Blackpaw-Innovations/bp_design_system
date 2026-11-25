@@ -243,7 +243,7 @@ function AllDayChips({ list, color, onOpen, selectedId, max }: { list: ScheduleI
           {i.title}
         </button>
       ))}
-      {max && list.length > max && <span style={{ fontSize: 12, fontWeight: 800, color: 'var(--c-muted)', paddingLeft: 4 }}>+{list.length - max} more</span>}
+      {max && list.length > max && <span style={{ fontSize: 13, fontWeight: 800, color: 'var(--c-muted)', paddingLeft: 4 }}>+{list.length - max} more</span>}
     </div>
   )
 }
@@ -357,7 +357,7 @@ function WeekView({ items, color, now, onOpen, onAdd, noun, selectedId, openHour
           const today = sameDay(d, now)
           return (
             <div key={d.toISOString()} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
-              <span style={{ fontSize: 12, fontWeight: 800, letterSpacing: '.06em', textTransform: 'uppercase', color: 'var(--c-muted)' }}>{fmt(d, { weekday: 'short' })}</span>
+              <span style={{ fontSize: 13, fontWeight: 800, letterSpacing: '.06em', textTransform: 'uppercase', color: 'var(--c-muted)' }}>{fmt(d, { weekday: 'short' })}</span>
               <span aria-current={today ? 'date' : undefined} style={{ width: 34, height: 34, borderRadius: 99, display: 'grid', placeItems: 'center', fontSize: 18, fontWeight: 800,
                 background: today ? 'var(--sched-1)' : undefined, color: today ? '#fff' : 'var(--c-ink)' }}>{d.getDate()}</span>
             </div>
@@ -366,7 +366,7 @@ function WeekView({ items, color, now, onOpen, onAdd, noun, selectedId, openHour
       </div>
       {allDay.length > 0 && (
         <div style={{ display: 'grid', gridTemplateColumns: cols, padding: '6px 0', borderTop: '1px solid var(--c-border)' }}>
-          <span style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--c-muted)', paddingTop: 5 }}>All day</span>
+          <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--c-muted)', paddingTop: 5 }}>All day</span>
           {days.map((d) => (
             <div key={d.toISOString()} style={{ padding: '0 4px', minWidth: 0 }}>
               <AllDayChips list={allDay.filter((i) => sameDay(i.start, d))} color={color} onOpen={onOpen} selectedId={selectedId} max={3} />
@@ -376,7 +376,7 @@ function WeekView({ items, color, now, onOpen, onAdd, noun, selectedId, openHour
       )}
       <div style={{ display: 'grid', gridTemplateColumns: cols }}>
         <div>
-          {hours.map((h) => <span key={h} style={{ display: 'block', height: WEEK_PX, fontSize: 12.5, fontWeight: 600, color: 'var(--c-muted)', paddingTop: 2 }}>{hourLabel(h)}</span>)}
+          {hours.map((h) => <span key={h} style={{ display: 'block', height: WEEK_PX, fontSize: 13, fontWeight: 600, color: 'var(--c-muted)', paddingTop: 2 }}>{hourLabel(h)}</span>)}
         </div>
         {days.map((d, di) => {
           const dayList = list.filter((i) => sameDay(i.start, d))
@@ -414,7 +414,7 @@ function WeekView({ items, color, now, onOpen, onAdd, noun, selectedId, openHour
           )
         })}
       </div>
-      {!inWeek.length && <p style={{ margin: '10px 0 0', fontSize: 14, fontWeight: 600, color: 'var(--c-muted)' }}>No {noun.many} this week.{onAdd ? ' Click an hour to add one.' : ''}</p>}
+      {!inWeek.length && <p style={{ margin: '10px 0 0', fontSize: 15, fontWeight: 600, color: 'var(--c-muted)' }}>No {noun.many} this week.{onAdd ? ' Click an hour to add one.' : ''}</p>}
     </div>
   )
 }
@@ -448,7 +448,7 @@ function WeekList({ items, color, now, onOpen, noun, selectedId, start }: Shared
         const list = items.filter((i) => sameDay(i.start, d))
         return (
           <section key={d.toISOString()}>
-            <h3 style={{ margin: '0 0 4px', fontSize: 14, fontWeight: 800, color: sameDay(d, now) ? 'var(--c-signal-text)' : 'var(--c-muted)' }}>{fmt(d, { weekday: 'long', day: 'numeric', month: 'short' })}</h3>
+            <h3 style={{ margin: '0 0 4px', fontSize: 13, fontWeight: 800, color: sameDay(d, now) ? 'var(--c-signal-text)' : 'var(--c-muted)' }}>{fmt(d, { weekday: 'long', day: 'numeric', month: 'short' })}</h3>
             {list.length ? <DayAgenda list={list} color={color} onOpen={onOpen} selectedId={selectedId} /> : <p style={{ margin: 0, fontSize: 13, color: 'var(--c-muted)' }}>No {noun.many}</p>}
           </section>
         )
@@ -473,7 +473,7 @@ function MonthView({ items, color, now, onOpen, onAdd, noun, selectedId, month, 
   return (
     <div style={{ display: 'grid', gridTemplateColumns: phone ? 'minmax(0,1fr)' : 'minmax(0,1fr) 300px', gap: 16, alignItems: 'start' }}>
       <div role="grid" aria-label={fmt(month, { month: 'long', year: 'numeric' })} style={{ display: 'grid', gridTemplateColumns: 'repeat(7, minmax(0, 1fr))', gap: phone ? 3 : 6 }}>
-        {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((w) => <span key={w} role="columnheader" style={{ fontSize: 12, fontWeight: 800, letterSpacing: '.06em', textTransform: 'uppercase', color: 'var(--c-muted)', padding: '0 4px' }}>{phone ? w[0] : w}</span>)}
+        {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((w) => <span key={w} role="columnheader" style={{ fontSize: 13, fontWeight: 800, letterSpacing: '.06em', textTransform: 'uppercase', color: 'var(--c-muted)', padding: '0 4px' }}>{phone ? w[0] : w}</span>)}
         {cells.map((d) => {
           if (d.getMonth() !== month.getMonth()) return <span key={d.toISOString()} aria-hidden="true" style={{ padding: 8, fontSize: 15, fontWeight: 700, color: 'var(--c-border)' }}>{d.getDate()}</span>
           const list = byDay(d), l = load(list)
@@ -485,13 +485,13 @@ function MonthView({ items, color, now, onOpen, onAdd, noun, selectedId, month, 
               style={{ minHeight: phone ? 56 : 88, padding: phone ? 4 : 8, borderRadius: 10, display: 'flex', flexDirection: 'column', gap: 4, textAlign: 'left', cursor: 'pointer', color: 'var(--c-ink)',
                 border: sel ? '2px solid var(--sched-1)' : '1px solid var(--c-border)',
                 background: l ? `color-mix(in srgb, var(--c-signal) ${Math.round(5 + 20 * (l / max))}%, var(--c-surface))` : 'var(--c-surface)' }}>
-              <span style={{ width: 26, height: 26, borderRadius: 99, display: 'grid', placeItems: 'center', fontSize: 14, fontWeight: 800, marginLeft: -3, marginTop: -3,
+              <span style={{ width: 26, height: 26, borderRadius: 99, display: 'grid', placeItems: 'center', fontSize: 13, fontWeight: 800, marginLeft: -3, marginTop: -3,
                 background: today ? 'var(--sched-1)' : undefined, color: today ? '#fff' : undefined }}>{d.getDate()}</span>
               <span style={{ flex: 1 }} />
               {list.length > 0 && (
                 <span aria-hidden="true" style={{ display: 'flex', gap: 3, alignItems: 'center', flexWrap: 'wrap' }}>
                   {list.slice(0, dots).map((i) => <span key={i.id} style={{ width: 7, height: 7, borderRadius: 99, background: color(i.type) }} />)}
-                  {list.length > dots && <span style={{ fontSize: 11, fontWeight: 800, color: 'var(--c-muted)' }}>+{list.length - dots}</span>}
+                  {list.length > dots && <span style={{ fontSize: 13, fontWeight: 800, color: 'var(--c-muted)' }}>+{list.length - dots}</span>}
                 </span>
               )}
               {c > 0 && <FillLine fill={Math.min(1, b / c)} track="color-mix(in srgb, var(--sched-1) 10%, transparent)" />}
