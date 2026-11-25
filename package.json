@@ -23,6 +23,7 @@
     "check:money": "node scripts/check-money-format.mjs",
     "check:stars": "node scripts/check-stars.mts",
     "check:documents": "node scripts/check-documents.mts",
+    "check:error-reporting": "node scripts/check-error-reporting.mts",
     "check:types": "tsc -p tsconfig.json"
   },
   "files": [

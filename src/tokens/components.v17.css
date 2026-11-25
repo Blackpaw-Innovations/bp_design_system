@@ -656,3 +656,14 @@
   .slide-over .db { padding: 16px; }
   .slide-over .df { padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px)); }
 }
+
+/* ── Stability v1.43.0: AppErrorBoundary + OfflineBanner (components/Stability.tsx) ── */
+:root .bp-crash { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; padding: 24px 16px; text-align: center; background: var(--c-canvas); color: var(--c-ink); }
+:root .bp-crash > img { width: 120px; height: 120px; object-fit: contain; }
+:root .bp-crash h1 { margin: 0; max-width: 360px; font-size: 21px; font-weight: 800; line-height: 1.35; color: var(--c-ink); text-wrap: balance; }
+:root .bp-offline { position: sticky; top: 0; z-index: var(--z-toast, 70); }
+:root .bp-offline-bar { --ob: var(--v-warn-tint); display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; padding: 4px 16px; background: linear-gradient(var(--ob), var(--ob)), var(--c-surface); border-bottom: 1px solid var(--c-border); color: var(--c-ink); font-size: 15px; font-weight: 700; line-height: 1.3; animation: bp-offline-in .2s ease-out; }
+:root .bp-offline[data-state="back"] .bp-offline-bar { --ob: var(--v-pos-tint); }
+:root .bp-offline-bar > img { flex: none; width: 32px; height: 32px; object-fit: contain; }
+@keyframes bp-offline-in { from { opacity: 0; transform: translateY(-100%); } }
+@media (prefers-reduced-motion: reduce) { :root .bp-offline-bar { animation: none; } }
