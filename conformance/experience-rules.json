@@ -1,6 +1,6 @@
 {
   "$schema": "./experience-rules.schema.json",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "principle": "Low effort in front. High rigour behind.",
   "gates": [
     { "id": "DS-01", "name": "Dependency", "blocking": true, "owner": "design-system" },
@@ -17,10 +17,22 @@
     { "id": "DS-12", "name": "Release conformance", "blocking": true, "owner": "release" },
     { "id": "DS-13", "name": "Production delivery", "blocking": true, "owner": "platform-infrastructure" }
   ],
+  "patternRules": [
+    { "id": "DP-01", "gate": "DS-04", "rule": "Colour = meaning for pills: stage (StatusChip tone from STATUS_TONE_MAP), flag (FlagPill), urgency (UrgencyPill, the only solid colour pills), who has it (WhoPill, outline), facts (TagPill, outline). Navy fill means In progress only.", "components": ["StatusChip", "FlagPill", "UrgencyPill", "WhoPill", "TagPill"], "enforcedBy": "check:patterns (live tone rows, outline WhoPill, token-only colours)" },
+    { "id": "DP-02", "gate": "DS-06", "rule": "Record pages lead with the problem or subject as the heading, never a label such as 'The job'; pills above, facts as a labelled grid below.", "components": ["RecordHead", "RecordPanel"], "enforcedBy": "review" },
+    { "id": "DP-03", "gate": "DS-04", "rule": "Notes are quotes with author and time; facts are a labelled grid (label small, value large in ink).", "components": ["Quote", "NoteCard", "Facts layout=grid"], "enforcedBy": "check:patterns (formatDayTime)" },
+    { "id": "DP-04", "gate": "DS-09", "rule": "Times are readable: label, value in ink at body size, plain helper line. Never a faint grey timestamp or an empty value.", "components": ["WhenCard", "formatDayTime", "dayWords"], "enforcedBy": "check:patterns (formatDayTime, dayWords)" },
+    { "id": "DP-05", "gate": "DS-04", "rule": "Histories are day-grouped timelines, newest first: who did what, clock time, stage pill, note; older entries fold behind 'Show n earlier'.", "components": ["Timeline", "groupByDay"], "enforcedBy": "check:patterns (groupByDay order)" },
+    { "id": "DP-06", "gate": "DS-03", "rule": "Long lists are never endless: 10 rows a page (50 at most), search, filter chips with counts, sortable headers, actions such as Download in the toolbar, two-line rows on a phone.", "components": ["Ledger", "ledgerPage"], "enforcedBy": "check:patterns (paging) and check:consumer (Ledger pageSize above maxListPageSize)" },
+    { "id": "DP-07", "gate": "DS-11", "rule": "Home carousels never repeat what a card below already shows.", "components": ["SpotlightCarousel shownBelow", "notShownBelow"], "enforcedBy": "check:patterns (notShownBelow)" },
+    { "id": "DP-08", "gate": "DS-11", "rule": "One next action per card. A card's single button is the next step for its record; anything else is a quiet link or lives in the record's Actions menu.", "components": ["SpotlightCard", "NeedsYouCard", "DecisionPanel"], "enforcedBy": "review" },
+    { "id": "DP-09", "gate": "DS-08", "rule": "A date range shows where today sits: start and end dates, the part gone, a today marker, the days left.", "components": ["TermBar", "termProgress"], "enforcedBy": "check:patterns (termProgress)" }
+  ],
   "staticDefaults": {
     "approvedFonts": ["Urbanist", "system-ui", "sans-serif"],
     "bannedFonts": ["Google Sans", "Gotham", "Manrope", "Newsreader", "Inter", "Poppins"],
-    "sharedComponentNames": ["AppShell", "SlideOver", "MetricCard", "KpiStat", "MetricLedger", "MetricProportion", "SealedCard", "PageHeader", "DockSection", "EmptyState", "ViewToggle", "StatusChip", "Toast"],
+    "sharedComponentNames": ["AppShell", "SlideOver", "MetricCard", "KpiStat", "MetricLedger", "MetricProportion", "SealedCard", "PageHeader", "DockSection", "EmptyState", "ViewToggle", "StatusChip", "Toast", "Timeline", "Ledger", "TermBar", "WhenCard", "NoteCard", "RecordHead"],
+    "maxListPageSize": 50,
     "minimumTouchTargetPx": 44,
     "requiredViewports": [[390, 844], [768, 1024], [1440, 900]],
     "maxHorizontalOverflowPx": 1,

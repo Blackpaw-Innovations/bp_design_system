@@ -289,6 +289,8 @@ export interface Column<T> {
   primary?: boolean
   /** Hide below this breakpoint (md 768 px, lg 1024 px); keep the fact on the detail screen. */
   hideBelow?: 'md' | 'lg'
+  /** Set by Ledger on the sorted column (v1.46): the header cell carries aria-sort. */
+  sortDir?: 'asc' | 'desc'
 }
 
 export interface DataTableProps<T> {
@@ -310,6 +312,8 @@ export interface DataTableProps<T> {
   onSelectedChange?: (keys: Set<string | number>) => void
   /** Screen-reader name for a row's box, e.g. the invoice number. */
   selectLabel?: (row: T) => string
+  /** Header cell content (v1.46): Ledger passes a SortHeader for sortable columns. Defaults to the column's `header`. */
+  renderHeader?: (col: Column<T>) => ReactNode
 }
 
 /** First-column checkbox. The header version ticks every row shown and shows a dash when some are ticked. Stops the row click. */
@@ -331,7 +335,7 @@ function cell<T>(col: Column<T>, row: T): ReactNode {
   return v == null || v === '' ? '—' : String(v)
 }
 
-export function DataTable<T>({ columns, rows, rowKey, empty = 'Nothing here yet.', label, className, rowHref, renderLink, rowAttention, selected, onSelectedChange, selectLabel }: DataTableProps<T>) {
+export function DataTable<T>({ columns, rows, rowKey, empty = 'Nothing here yet.', label, className, rowHref, renderLink, rowAttention, selected, onSelectedChange, selectLabel, renderHeader }: DataTableProps<T>) {
   const selecting = !!(selected && onSelectedChange)
   const keys = rows.map(rowKey)
   const ticked = selecting ? keys.filter((k) => selected!.has(k)).length : 0
@@ -343,7 +347,7 @@ export function DataTable<T>({ columns, rows, rowKey, empty = 'Nothing here yet.
     <div className={cn('bp-table-wrap', className)}>
       <table className="bp-table" aria-label={label}>
         <thead>
-          <tr>{selecting && <th scope="col" data-select="">{rows.length > 0 && <SelectCell checked={ticked === 0 ? false : ticked === rows.length ? true : 'mixed'} onChange={toggleAll} label="Tick every row" />}</th>}{columns.map((c) => <th key={c.key} scope="col" data-kind={c.kind ?? 'text'} data-hide={c.hideBelow}>{c.header}</th>)}</tr>
+          <tr>{selecting && <th scope="col" data-select="">{rows.length > 0 && <SelectCell checked={ticked === 0 ? false : ticked === rows.length ? true : 'mixed'} onChange={toggleAll} label="Tick every row" />}</th>}{columns.map((c) => <th key={c.key} scope="col" data-kind={c.kind ?? 'text'} data-hide={c.hideBelow} aria-sort={c.sortDir ? (c.sortDir === 'asc' ? 'ascending' : 'descending') : undefined}>{renderHeader ? renderHeader(c) : c.header}</th>)}</tr>
         </thead>
         <tbody>
           {rows.length === 0

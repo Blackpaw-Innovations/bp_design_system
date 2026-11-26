@@ -1,0 +1,120 @@
+/*
+ * @blackpaw/ui: round 3 patterns (v1.46.0, approved by Marvin 26 Nov 2026 on the Properties round 3 mock-ups).
+ * Pills by meaning, record head, note + facts, readable times, day-grouped timeline, ledger, term bar.
+ * Colours: only tokens (navy, light blue, the v-pos/warn/crit/info tones and their dark variants, surfaces, ink).
+ * scripts/check-patterns.mts fails the build on a raw colour in this file. Every rule carries :root (see guardrails.css).
+ */
+
+/* ── Pills ─────────────────────────────────────────────────── */
+/* Stage: .chip (components.v17.css). "In progress" (live) is navy in Light and Warm, light blue in Dark, where navy disappears. */
+:root[data-theme="dark"] .chip.live { background: var(--c-signal); color: #fff; }
+:root .chip svg { flex: none; }
+:root .bp-pills { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+
+/* Urgency: solid, square corners, an icon. The only solid colour pills on a page. */
+:root .bp-urgency { display: inline-flex; align-items: center; gap: 6px; min-height: 28px; padding: 0 10px; border-radius: 8px; font-size: 15px; font-weight: 800; white-space: nowrap; }
+:root .bp-urgency[data-level="routine"] { background: var(--c-sunken); color: var(--c-ink); box-shadow: inset 0 0 0 1px var(--c-border); }
+:root .bp-urgency[data-level="urgent"] { background: var(--v-warn); color: #fff; }
+:root .bp-urgency[data-level="critical"] { background: var(--v-crit); color: #fff; }
+:root[data-theme="dark"] .bp-urgency:is([data-level="urgent"], [data-level="critical"]) { color: var(--c-on-action); }
+
+/* Who has it: an outline, never a fill (navy belongs to "In progress"). Accepted = tick; waiting = dashed. */
+:root .bp-who { display: inline-flex; align-items: center; gap: 8px; min-height: 32px; padding: 0 12px 0 4px; border-radius: 999px; background: transparent; color: var(--c-ink); box-shadow: inset 0 0 0 1.5px var(--v-border-strong, var(--c-muted)); font-size: 15px; font-weight: 800; white-space: nowrap; }
+:root .bp-who .ini { width: 24px; height: 24px; flex: none; border-radius: 999px; display: grid; place-items: center; background: var(--c-selected); color: var(--c-ink); font-size: 13px; font-weight: 900; }
+:root .bp-who svg { flex: none; color: var(--c-signal-text); }
+:root .bp-who[data-state="waiting"] { box-shadow: none; outline: 1.5px dashed var(--v-border-strong, var(--c-muted)); outline-offset: -1.5px; }
+:root .bp-who[data-state="waiting"] .ini { background: var(--c-sunken); }
+
+/* Facts: an outline, no colour. */
+:root .bp-tag { display: inline-flex; align-items: center; gap: 6px; min-height: 28px; padding: 0 10px; border-radius: 999px; border: 1.5px solid var(--v-border-strong, var(--c-muted)); color: var(--c-ink); font-size: 15px; font-weight: 700; white-space: nowrap; }
+
+/* ── Record card surface (solid, never frosted) ────────────── */
+:root .bp-rcard { display: flex; flex-direction: column; gap: 16px; min-width: 0; padding: 20px; border-radius: 20px; border: 1px solid var(--c-border); background: var(--c-surface); color: var(--c-ink); }
+:root .bp-rcard > * { margin: 0; }
+:root .bp-rcard-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; }
+:root .bp-rcard-head h3 { margin: 0; font-size: 18px; font-weight: 800; color: var(--c-ink); }
+:root .bp-rcard + .bp-rcard { margin-top: 20px; }
+@media (min-width: 768px) { :root .bp-rcard { padding: 24px; } }
+
+/* Record head: the subject is the heading. */
+:root .bp-rhead h2 { margin: 0; font-size: 26px; font-weight: 800; line-height: 1.2; letter-spacing: -.01em; color: var(--c-ink); text-wrap: balance; overflow-wrap: anywhere; }
+@media (min-width: 768px) { :root .bp-rhead h2 { font-size: 30px; } }
+
+/* Facts grid: label small, value large in ink, one plain line under it. */
+:root .bp-factgrid { display: grid; gap: 12px; margin: 0; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); }
+:root .bp-factgrid > div { min-width: 0; padding: 12px 14px; border-radius: 14px; background: var(--c-sunken); }
+:root .bp-factgrid > div[data-wide] { grid-column: 1 / -1; }
+:root .bp-factgrid dt { font-size: 13px; font-weight: 700; color: var(--c-muted); }
+:root .bp-factgrid dd { margin: 4px 0 0; font-size: 17px; font-weight: 800; line-height: 1.3; color: var(--c-ink); overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+:root .bp-factgrid dd.sub { margin-top: 4px; font-size: 15px; font-weight: 600; }
+
+/* Quote: what was said, then who and when. */
+:root .bp-quote { position: relative; margin: 0; padding: 16px 18px 16px 52px; border-radius: 16px; background: var(--c-sunken); }
+:root .bp-quote::before { content: "\201C"; position: absolute; left: 14px; top: 2px; font-size: 52px; font-weight: 900; line-height: 1; color: var(--c-signal-text); }
+:root .bp-quote p { margin: 0; font-size: 18px; font-weight: 700; line-height: 1.45; color: var(--c-ink); }
+:root .bp-quote footer { display: flex; align-items: center; gap: 10px; margin-top: 12px; font-size: 15px; font-weight: 600; color: var(--c-ink); }
+:root .bp-quote footer b { font-weight: 800; }
+
+/* Actor initials: provider filled, customer blue ring, staff outline, system sunken; flag = red. */
+:root .bp-actor { width: 32px; height: 32px; flex: none; border-radius: 999px; display: grid; place-items: center; font-size: 13px; font-weight: 900; background: var(--c-navy); color: #fff; }
+:root[data-theme="dark"] .bp-actor[data-kind="provider"] { background: var(--c-signal); }
+:root .bp-actor[data-kind="customer"] { background: var(--c-selected); color: var(--c-ink); box-shadow: inset 0 0 0 1.5px var(--c-signal); }
+:root .bp-actor[data-kind="staff"] { background: var(--c-surface); color: var(--c-ink); box-shadow: inset 0 0 0 1.5px var(--v-border-strong, var(--c-muted)); }
+:root .bp-actor[data-kind="system"] { background: var(--c-sunken); color: var(--c-ink); }
+:root .bp-actor[data-flag] { background: var(--v-crit); color: #fff; box-shadow: none; }
+:root[data-theme="dark"] .bp-actor[data-flag] { color: var(--c-on-action); }
+
+/* ── Readable times ────────────────────────────────────────── */
+:root .bp-when { list-style: none; margin: 0; padding: 0; }
+:root .bp-when li { display: flex; gap: 12px; padding: 12px 0; }
+:root .bp-when li:first-child { padding-top: 0; }
+:root .bp-when li:last-child { padding-bottom: 0; }
+:root .bp-when li + li { border-top: 1px solid var(--c-border); }
+:root .bp-when .ic { width: 36px; height: 36px; flex: none; border-radius: 999px; display: grid; place-items: center; background: var(--v-info-tint); color: var(--v-info); }
+:root .bp-when .ic[data-done] { background: var(--v-pos-tint); color: var(--v-pos); }
+:root .bp-when .min { min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+:root .bp-when .k { font-size: 15px; font-weight: 700; color: var(--c-ink); }
+:root .bp-when .v { font-size: 17px; font-weight: 800; color: var(--c-ink); font-variant-numeric: tabular-nums; }
+:root .bp-when .v[data-none] { font-weight: 700; }
+:root .bp-when .x { font-size: 15px; font-weight: 600; color: var(--c-ink); }
+
+/* ── Timeline: by day, newest first ────────────────────────── */
+:root .bp-tl, :root .bp-tl ol { list-style: none; margin: 0; padding: 0; }
+:root .bp-tl-day + .bp-tl-day { margin-top: 18px; }
+:root .bp-tl-day h4 { margin: 0 0 10px; font-size: 15px; font-weight: 800; color: var(--c-ink); }
+:root .bp-tl-ev { position: relative; display: flex; gap: 12px; padding-bottom: 16px; }
+:root .bp-tl-ev::before { content: ""; position: absolute; left: 15px; top: 36px; bottom: 2px; width: 2px; background: var(--c-border); }
+:root .bp-tl-ev:last-child { padding-bottom: 0; }
+:root .bp-tl-ev:last-child::before { display: none; }
+:root .bp-tl-ev .body { min-width: 0; flex: 1; padding-top: 4px; }
+:root .bp-tl-ev .what { margin: 0; font-size: 16px; font-weight: 600; line-height: 1.4; color: var(--c-ink); overflow-wrap: anywhere; }
+:root .bp-tl-ev .what b { font-weight: 800; }
+:root .bp-tl-ev .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 6px; }
+:root .bp-tl-ev .meta time { font-size: 15px; font-weight: 700; color: var(--c-ink); font-variant-numeric: tabular-nums; }
+:root .bp-tl-ev .meta .to { font-size: 15px; font-weight: 600; color: var(--c-ink); }
+:root .bp-tl-ev .note { margin-top: 8px; padding: 10px 12px; border-radius: 12px; background: var(--c-sunken); font-size: 15px; font-weight: 600; color: var(--c-ink); overflow-wrap: anywhere; }
+:root .bp-tl-empty { margin: 0; font-size: 15px; font-weight: 600; color: var(--c-ink); }
+:root .bp-rcard > .bp-btn { align-self: flex-start; }
+
+/* ── Ledger: toolbar, chips with counts, sortable table, pages; phone two-line rows ── */
+:root .bp-listledger { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+:root .bp-listledger > * { margin: 0; }
+:root .bp-ledger-list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--c-border); border-radius: 16px; overflow: hidden; background: var(--c-surface); }
+:root .bp-ledger-list li + li { border-top: 1px solid var(--c-border); }
+:root .bp-ledger-list li[data-attention] { background: var(--row-attention); }
+:root .bp-ledger-row { display: flex; justify-content: space-between; gap: 12px; min-height: 44px; padding: 12px 14px; color: var(--c-ink); text-decoration: none; }
+:root .bp-ledger-row .l { min-width: 0; display: flex; flex-direction: column; }
+:root .bp-ledger-row .t { font-size: 16px; font-weight: 800; }
+:root .bp-ledger-row .s { margin-top: 2px; font-size: 15px; font-weight: 600; overflow-wrap: anywhere; }
+:root .bp-ledger-row .m { font-size: 13px; font-weight: 700; color: var(--c-muted); }
+:root .bp-ledger-row .r { flex: none; display: flex; flex-direction: column; align-items: flex-end; text-align: right; }
+:root .bp-ledger-row .f { font-size: 17px; font-weight: 800; white-space: nowrap; font-variant-numeric: tabular-nums; }
+:root .bp-ledger-row .fs { margin-top: 4px; font-size: 13px; font-weight: 700; white-space: nowrap; color: var(--c-ink); }
+:root .bp-ledger-empty { padding: 24px; text-align: center; font-size: 16px; font-weight: 600; color: var(--c-ink); }
+:root .bp-listledger .bp-table-foot { border-radius: 14px; }
+
+/* ── Term bar: the part gone in light blue, today as an orange ring ── */
+:root .bp-term .ends { display: flex; justify-content: space-between; gap: 8px; font-size: 15px; font-weight: 700; color: var(--c-ink); }
+:root .bp-term .bar { position: relative; height: 10px; margin: 8px 9px; border-radius: 999px; background: var(--c-sunken); box-shadow: inset 0 0 0 1px var(--c-border); }
+:root .bp-term .bar > i { position: absolute; inset: 0 auto 0 0; border-radius: 999px; background: var(--c-signal); }
+:root .bp-term .bar > b { position: absolute; top: 50%; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 999px; background: var(--c-surface); border: 3px solid var(--c-action); box-sizing: border-box; }

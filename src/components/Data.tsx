@@ -2,10 +2,13 @@ import { useRef, useState, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { ArrowDown, ArrowDownRight, ArrowUp, ArrowUpRight, Check, ChevronDown, ChevronLeft, ChevronRight, Filter, Minus, Search, SlidersHorizontal, X } from 'lucide-react'
 import { cn, type IconComponent } from '../lib/utils'
-import { Button } from './Guarded'
+import { Button, DataTable, type Column } from './Guarded'
 import { Checkbox } from './Form'
 import { Sheet, useIsPhone, useOutside, usePopover } from './Overlay'
 import { CountBadge } from './StatusChip'
+import { Select } from './Select'
+import { formatDate } from '../lib/format'
+import { ledgerPage, termProgress } from '../lib/patterns'
 
 /**
  * Data pieces (standards §17.8–17.11, §17.15, §17.20; round 2 R4, R6, W2, W5).
@@ -301,4 +304,128 @@ export function PersonRow({ name, id, src, sub, action }: { name: string; id?: s
 /** Number plate as a plate (W2, W3). Keeps capitals via data-caps. */
 export function Plate({ value }: { value: string }) {
   return <span className="bp-plate" data-caps="">{value}</span>
+}
+
+/* ── Round 3 (v1.46.0, Marvin 26 Nov 2026): long lists are never endless; date ranges show today ───────────────── */
+
+export interface LedgerColumn<T> extends Column<T> {
+  /** Makes the column sortable: the value it sorts by (a number, an ISO date or text). */
+  sortValue?: (row: T) => string | number | null | undefined
+}
+export interface LedgerView<T> { key: string; label: string; /** Omit for "All". */ test?: (row: T) => boolean }
+export interface LedgerPhoneRow<T> {
+  /** Line 1, heavy: the date or name. */
+  title: (row: T) => ReactNode
+  /** Line 2: what it is. */
+  sub?: (row: T) => ReactNode
+  /** Small reference under line 2 (the record number). */
+  meta?: (row: T) => ReactNode
+  /** The figure at the right, heavy. */
+  figure?: (row: T) => ReactNode
+  /** A small line under the figure (the running balance, a status pill). */
+  figureSub?: (row: T) => ReactNode
+}
+
+export interface LedgerProps<T> {
+  /** What the list is ("Charges and payments"): the table's name and the search's. */
+  label: string
+  rows: T[]
+  rowKey: (row: T) => string | number
+  columns: LedgerColumn<T>[]
+  /** Text each row is found by. Without it there is no search box. */
+  searchText?: (row: T) => string
+  searchPlaceholder?: string
+  /** Filter chips with counts. The first is on by default (usually "All", with no `test`). */
+  views?: LedgerView<T>[]
+  /** Period picker, Download and the like: actions live in the toolbar, never under the list. */
+  toolbar?: ReactNode
+  defaultSort?: { key: string; dir: SortDir }
+  /** 10 by default, 50 at most: a list is never endless. */
+  pageSize?: number
+  /** Phone: two-line rows in place of the table. Without it the table reflows into labelled cards. */
+  phoneRow?: LedgerPhoneRow<T>
+  empty?: string
+  rowHref?: (row: T) => string
+  renderLink?: (props: { href: string; className?: string; children: ReactNode }) => ReactNode
+  rowAttention?: (row: T) => boolean
+}
+
+const isNumericKind = (kind?: string) => kind === 'money' || kind === 'number' || kind === 'date'
+
+/**
+ * Ledger (B7): the one pattern for a long list. A toolbar (search plus the app's own controls such as period and
+ * Download), filter chips with counts, sortable headers, 10 rows a page with a pager, and on a phone two-line rows with a
+ * sort picker. Search, filter, sort and paging run on the rows given; for very large sets the app pages on the server.
+ */
+export function Ledger<T>({ label, rows, rowKey, columns, searchText, searchPlaceholder, views, toolbar, defaultSort, pageSize = 10, phoneRow, empty = 'Nothing matches.', rowHref, renderLink, rowAttention }: LedgerProps<T>) {
+  const phone = useIsPhone()
+  const [query, setQuery] = useState('')
+  const [view, setView] = useState(views?.[0]?.key ?? '')
+  const [sort, setSort] = useState<{ key: string; dir: SortDir } | null>(defaultSort ?? null)
+  const [page, setPage] = useState(1)
+  const active = views?.find((v) => v.key === view)
+  const sortCol = sort ? columns.find((c) => c.key === sort.key && c.sortValue) : undefined
+  const result = ledgerPage(rows, { query, searchText, test: active?.test, sortValue: sortCol?.sortValue, dir: sort?.dir, page, pageSize: Math.min(50, Math.max(1, pageSize)) })
+  const counts = views?.map((v) => ({ key: v.key, label: v.label, count: v.test ? rows.filter(v.test).length : rows.length }))
+  const sortBy = (key: string, dir: SortDir) => { setSort({ key, dir }); setPage(1) }
+  const sortable = columns.filter((c) => c.sortValue)
+  const cols = columns.map((c) => ({ ...c, sortDir: sort && c.key === sort.key ? sort.dir : undefined }))
+  const link = (href: string, body: ReactNode) => renderLink ? renderLink({ href, className: 'bp-ledger-row', children: body }) : <a href={href} className="bp-ledger-row">{body}</a>
+  return (
+    <div className="bp-listledger">
+      {searchText
+        ? <FilterBar query={query} onQuery={(q) => { setQuery(q); setPage(1) }} placeholder={searchPlaceholder ?? 'Search ' + label.toLowerCase()} actions={toolbar} />
+        : toolbar && <div className="bp-filterbar">{toolbar}</div>}
+      {counts && counts.length > 1 && <QuickViews views={counts} value={view} onChange={(k) => { setView(k); setPage(1) }} />}
+      {phone && phoneRow ? (
+        <>
+          {sortable.length > 0 && (
+            <Select label="Sort by" value={sort ? sort.key + ':' + sort.dir : ''} onChange={(v) => { const [key, dir] = v.split(':'); sortBy(key, dir as SortDir) }}
+              options={sortable.flatMap((c) => isNumericKind(c.kind)
+                ? [{ value: c.key + ':desc', label: c.header + (c.kind === 'date' ? ': newest first' : ': highest first') }, { value: c.key + ':asc', label: c.header + (c.kind === 'date' ? ': oldest first' : ': lowest first') }]
+                : [{ value: c.key + ':asc', label: c.header + ': A to Z' }, { value: c.key + ':desc', label: c.header + ': Z to A' }])} />
+          )}
+          {result.rows.length === 0 ? <p className="bp-ledger-empty">{empty}</p> : (
+            <ul className="bp-ledger-list" aria-label={label}>
+              {result.rows.map((r) => {
+                const body = (
+                  <>
+                    <span className="l"><span className="t">{phoneRow.title(r)}</span>{phoneRow.sub && <span className="s">{phoneRow.sub(r)}</span>}{phoneRow.meta && <span className="m">{phoneRow.meta(r)}</span>}</span>
+                    {(phoneRow.figure || phoneRow.figureSub) && <span className="r">{phoneRow.figure && <span className="f">{phoneRow.figure(r)}</span>}{phoneRow.figureSub && <span className="fs">{phoneRow.figureSub(r)}</span>}</span>}
+                  </>
+                )
+                const href = rowHref?.(r)
+                return <li key={rowKey(r)} data-attention={rowAttention?.(r) || undefined}>{href ? link(href, body) : <div className="bp-ledger-row">{body}</div>}</li>
+              })}
+            </ul>
+          )}
+        </>
+      ) : (
+        <DataTable label={label} columns={cols} rows={result.rows} rowKey={rowKey} empty={empty} rowHref={rowHref} renderLink={renderLink} rowAttention={rowAttention}
+          renderHeader={(c) => {
+            const lc = columns.find((x) => x.key === c.key)
+            return lc?.sortValue ? <SortHeader label={c.header} active={sort?.key === c.key} dir={sort?.key === c.key ? sort.dir : 'asc'} numeric={isNumericKind(lc.kind)} onSort={(dir) => sortBy(c.key, dir)} /> : c.header
+          }} />
+      )}
+      {result.total > 0 && <TableFoot shown={[result.from, result.to]} total={result.total} page={result.page} pages={result.pages} onPage={setPage} />}
+    </div>
+  )
+}
+
+/**
+ * A date range with today on it (C6): the start and end dates at the ends, the part gone filled in light blue, an orange
+ * ring at today. Leases, memberships, contracts, warranties. The countdown and the card's one action sit beside it.
+ */
+export function TermBar({ start, end, today, label = 'Term', startLabel, endLabel }: { start: string; end: string; today?: string; label?: string; startLabel?: ReactNode; endLabel?: ReactNode }) {
+  const { fraction, daysLeft } = termProgress(start, end, today)
+  const pct = Math.round(fraction * 1000) / 10
+  return (
+    <div className="bp-term">
+      <div className="ends"><span>{startLabel ?? formatDate(start)}</span><span>{endLabel ?? formatDate(end)}</span></div>
+      <div className="bar" role="img" aria-label={label + ': ' + formatDate(start) + ' to ' + formatDate(end) + ', ' + daysLeft + ' days left'}>
+        <i style={{ width: pct + '%' }} />
+        <b style={{ left: pct + '%' }} />
+      </div>
+    </div>
+  )
 }
