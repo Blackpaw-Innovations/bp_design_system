@@ -236,3 +236,44 @@ Rules that apply to all of them: 44 px minimum targets, 16 px input text, labels
 - **The one exception (A):** a screen the user acts on again and again (a field visit, a check-in desk) may use `ActionBar`. This is the only allowed exception to the September 2026 "no sticky bars" commandment, approved by Marvin on 25 Nov 2026.
 - On a phone it is one row pinned above the tab bar: 61 px plus the safe area (72 px at most), at most two buttons (the first primary), the rest behind a 44 px "More" button that opens a sheet. A spacer of the same height pads the page, so it never covers content. On a tablet or desktop it is an ordinary row in the page.
 - The app sets `--bp-tabbar-h` (its tab bar's height on a phone) and `--bp-actionbar-safe: 0px` when the tab bar already takes the safe-area inset.
+
+## Round 3 · records, histories and lists (v1.46, Marvin 26 Nov 2026)
+
+Approved on the Properties round 3 mock-ups (`C:\LocalHost\design-direction\properties-round3-specimens.html`) and made universal. The rules are DP-01 to DP-09 in `BUILDING_PRINCIPLES.md` and `conformance/experience-rules.json`; `npm run check:patterns` holds the parts a script can. Styles: `tokens/patterns.css`. Light, Warm and Dark.
+
+### 17.26 Pills by meaning · `<StatusChip>`, `<FlagPill>`, `<UrgencyPill>`, `<WhoPill>`, `<TagPill>` (DP-01)
+- **Stage** `StatusChip`: tint and dot. Amber waits on the office (`reported`, `triaged`), blue is moving (`assigned`, `accepted`), navy is work happening now (`in_progress`, `in_bay`; light blue in Dark), green is done (`resolved`, `verified`), grey is closed. **Changed in v1.46:** `in_progress` is now `live` (navy, pulsing dot); it was blue.
+- **Flag** `FlagPill icon={RotateCcw}`: red tint (or `tone="warn"`) with an icon in place of the dot. Beside the stage, never instead of it: "Reopened 25 Nov", "Fix overdue".
+- **Urgency** `UrgencyPill level="routine" | "urgent" | "critical"`: solid, 8 px corners, optional `icon`, optional `label` in the vertical's words. The only solid colour pills on a page.
+- **Who has it** `WhoPill name state="accepted" | "waiting"`: an outline with initials; a light-blue tick once accepted, dashed and "Waiting for {name}" before. Never navy (Marvin's ruling 3).
+- **Fact** `TagPill icon`: an outline with no colour (trade, kind, "First visit").
+
+### 17.27 Record head · `<RecordHead title pills facts>` (DP-02)
+- The heading is the problem or subject in the user's words. Pills above (stage, flag, urgency, tags); facts below as `Facts layout="grid"`. The reference goes in a fact or the bar.
+
+### 17.28 Note + facts · `<NoteCard title aside note facts>`, `<Quote author at kind>`, `<Facts layout="grid">` (DP-03)
+- `note` is `{ text, author, at, kind }`: a quote, then initials, **author**, "Wed 19 Nov, 13:45".
+- `facts` is `FactItem[]`: `{ label, value, sub?, wide? }`. Label 13/700, value 17/800 in ink, `sub` one plain line at 15/600. A Yes/No that matters is a pill as the value.
+- `kind` styles the initials: `provider` filled navy (light blue in Dark), `customer` blue ring, `staff` outline, `system` sunken.
+
+### 17.29 Readable times · `<WhenCard title lead items>` (DP-04)
+- `items` is `WhenItem[]`: `{ label, at?, value?, empty?, help?, done?, icon? }`. The value is 17/800 in ink ("Wed 25 Nov, 09:10" via `formatDayTime`); `help` defaults to `dayWords(at)` ("Yesterday"). No time: `empty` says what is missing ("Not started yet"). `done` swaps the icon for a green tick. `lead` usually holds a `WhoPill`.
+
+### 17.30 History · `<Timeline entries title show noun>` (DP-05)
+- `entries` is `TimelineEntry[]`: `{ id, at, who, kind?, did, stage?, note?, flag? }`. Sorted newest first and grouped by day inside the component ("Today", "Yesterday", "Thursday 19 Nov"). Each entry: initials, "**who** did", clock time in ink, "moved to" + the stage pill, a sunken note. `flag` paints the initials red (a reopen).
+- `show` (6) entries, then a quiet "Show n earlier updates" button. The same piece serves staff and customer views; pass the words for each.
+- Not the same as `Activity` (§17.7): Activity is the chatter with a composer, newest at the bottom.
+
+### 17.31 Long lists · `<Ledger>` (DP-06)
+- Props: `label`, `rows`, `rowKey`, `columns` (`LedgerColumn`: a `DataTable` column plus `sortValue` to make it sortable), `searchText`, `searchPlaceholder`, `views` (`{ key, label, test? }[]`: filter chips, counts worked out from the rows), `toolbar` (period picker, Download: in the bar, never under the list), `defaultSort`, `pageSize` (10; capped at 50), `phoneRow` (`{ title, sub?, meta?, figure?, figureSub? }`), `empty`, `rowHref`, `renderLink`, `rowAttention`.
+- Desktop and tablet: `FilterBar` + `QuickViews` + `DataTable` with `SortHeader` in sortable heads + `TableFoot` with the pager. Phone with `phoneRow`: a "Sort by" Select and two-line rows; without it the table reflows into labelled cards as before.
+- Search, filter, sort and paging run on the rows given (`ledgerPage`). For very large sets page on the server and pass one page. `check:consumer` flags `<Ledger pageSize>` above 50.
+- One combined ledger per statement (Marvin's ruling 1): charges, payments and deposit are `views`, not separate lists.
+- `DataTable` gained `renderHeader` and `Column.sortDir` (aria-sort on the head cell) for this.
+
+### 17.32 Home carousel without repeats · `<SpotlightCarousel shownBelow>` (DP-07)
+- Give each `SpotlightItem` an `about` (the record's key) and pass `shownBelow` with the keys of the records the cards under the carousel show. Those slides are skipped (`notShownBelow`).
+
+### 17.33 Date ranges · `<TermBar start end today label>` (DP-09) and one action per card (DP-08)
+- Start and end dates at the ends, the part gone in light blue, an orange ring at today, "n days left" for screen readers. Pair it with the countdown figure and the card's one action.
+- One next action per card, chosen by the record's stage: a lease card says "Open my lease" through most of the term and "Ask about renewing" near the end (Marvin's ruling 4).

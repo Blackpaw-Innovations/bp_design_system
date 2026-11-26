@@ -26,6 +26,7 @@ jobs:
       - run: npm run check:brand
       - run: npm run check:experience
       - run: npm run check:error-reporting
+      - run: npm run check:patterns
       # Consumers compile src from source with noUnusedLocals; an unused import breaks their tsc -b (v1.40.0, Check in Feedback.tsx).
       - run: npm install --no-package-lock --ignore-scripts --no-audit --no-fund
       - run: npm run check:types

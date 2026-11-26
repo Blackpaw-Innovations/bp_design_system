@@ -154,10 +154,34 @@ export function DockSection({ title, children, className, headingLevel = 2 }: {
   )
 }
 
-/** Label/value pairs for a DockSection. */
-export function Facts({ items }: { items: { label: ReactNode; value: ReactNode }[] }) {
+export interface FactItem {
+  label: ReactNode
+  value: ReactNode
+  /** Grid only: one plain line of context under the value ("Approved by Grace A.", "Came back after 6 days"). */
+  sub?: ReactNode
+  /** Grid only: the fact takes the whole row (long text such as access notes). */
+  wide?: boolean
+}
+
+/**
+ * Label/value pairs. `layout="list"` (default) is the quiet two-column list for a DockSection.
+ * `layout="grid"` (v1.46, round 3 C1/C2) is the labelled facts grid: each fact a sunken tile, the label small, the value
+ * large in ink, an optional plain line under it. Use it for a record's key facts and under a note.
+ */
+export function Facts({ items, layout = 'list', label }: { items: FactItem[]; layout?: 'list' | 'grid'; label?: string }) {
+  if (layout === 'grid') return (
+    <dl className="bp-factgrid" aria-label={label}>
+      {items.map((item, index) => (
+        <div key={index} data-wide={item.wide || undefined}>
+          <dt>{item.label}</dt>
+          <dd>{item.value}</dd>
+          {item.sub && <dd className="sub">{item.sub}</dd>}
+        </div>
+      ))}
+    </dl>
+  )
   return (
-    <dl className="facts">
+    <dl className="facts" aria-label={label}>
       {items.map((item, index) => (
         <div key={index} style={{ display: 'contents' }}>
           <dt>{item.label}</dt>

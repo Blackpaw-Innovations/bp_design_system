@@ -2,6 +2,7 @@ import { useRef, useState, type ReactNode } from 'react'
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import { IconButton } from './Guarded'
 import type { RenderLink } from './PremiumKit'
+import { notShownBelow } from '../lib/patterns'
 
 /**
  * Spotlight (v1.32.0, 17 Nov 2026): one waiting thing as a coloured craft card. The colour says what kind of demand it
@@ -47,17 +48,25 @@ export function SpotlightCard({ tone = 'navy', eyebrow, title, body, action, hre
   )
 }
 
-export interface SpotlightItem extends Omit<SpotlightCardProps, 'renderLink' | 'eager' | 'className'> { key: string }
+export interface SpotlightItem extends Omit<SpotlightCardProps, 'renderLink' | 'eager' | 'className'> {
+  key: string
+  /** The record this slide is news about (v1.46). With `shownBelow` the carousel drops it when a card below shows that record. */
+  about?: string
+}
 
 const ORDER: Record<SpotlightTone, number> = { burgundy: 0, navy: 1, olive: 2, cream: 3 }
 /** Most urgent first: burgundy, navy, olive, cream; the given order inside a colour. */
 export const byUrgency = <T extends { tone?: SpotlightTone }>(items: T[]) => [...items].sort((a, b) => ORDER[a.tone ?? 'navy'] - ORDER[b.tone ?? 'navy'])
 
-/** Home's carousel of spotlights: swipe on a phone, dots and arrows on a wider screen, no autoplay. Five at most. */
-export function SpotlightCarousel({ items, renderLink, label = 'What needs you', max = 5 }: { items: SpotlightItem[]; renderLink?: RenderLink; label?: string; max?: number }) {
+/**
+ * Home's carousel of spotlights: swipe on a phone, dots and arrows on a wider screen, no autoplay. Five at most.
+ * `shownBelow` (v1.46, Marvin 26 Nov 2026): keys of the records the cards under the carousel already show; slides
+ * `about` those records are skipped, so Home never says the same thing twice.
+ */
+export function SpotlightCarousel({ items, renderLink, label = 'What needs you', max = 5, shownBelow }: { items: SpotlightItem[]; renderLink?: RenderLink; label?: string; max?: number; shownBelow?: readonly string[] }) {
   const track = useRef<HTMLDivElement>(null)
   const [active, setActive] = useState(0)
-  const cards = items.slice(0, max)
+  const cards = notShownBelow(items, shownBelow).slice(0, max)
   if (cards.length === 0) return null
   const go = (i: number) => track.current?.scrollTo({ left: i * track.current.clientWidth, behavior: 'smooth' })
   const step = (dir: 1 | -1) => go((active + dir + cards.length) % cards.length)

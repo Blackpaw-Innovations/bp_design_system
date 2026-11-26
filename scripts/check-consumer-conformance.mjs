@@ -52,6 +52,9 @@ for (const file of files) {
     if (bannedFont.test(line)) findings.push({ gate: 'DS-02', file: rel, line: index + 1, message: 'Unapproved application font.' });
     if (rawColor.test(line) && !/var\(--|(?:token|palette|theme)/i.test(rel)) findings.push({ gate: 'DS-02', file: rel, line: index + 1, message: 'Raw colour outside a token source.' });
     if (arbitrarySpace.test(line)) findings.push({ gate: 'DS-03', file: rel, line: index + 1, message: 'Arbitrary layout spacing.' });
+    // DP-06 (v1.46): long lists are never endless.
+    const pageSize = line.match(/<Ledger\b[^>]*\bpageSize=\{(\d+)\}/);
+    if (pageSize && Number(pageSize[1]) > (rules.staticDefaults.maxListPageSize ?? 50)) findings.push({ gate: 'DS-03', file: rel, line: index + 1, message: `Ledger pageSize ${pageSize[1]}: lists page at 10 (DP-06).` });
   });
   const base = rel.split('/').at(-1)?.replace(/\.[^.]+$/, '');
   if (base && rules.staticDefaults.sharedComponentNames.includes(base) && !rel.startsWith('src/vendor/')) {

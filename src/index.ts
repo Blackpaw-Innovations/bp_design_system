@@ -28,8 +28,8 @@ export { MetricCard } from './components/MetricCard'
 /** @deprecated 10 Oct 2026: icon-only and 28 px. Use <Segmented>. Removed after callers move. */
 export { ViewToggle } from './components/ViewToggle'
 export type { ViewMode } from './components/ViewToggle'
-export { StatusChip, STATUS_TONE_MAP, CountBadge } from './components/StatusChip'
-export type { ChipTone, StatusChipProps } from './components/StatusChip'
+export { StatusChip, STATUS_TONE_MAP, CountBadge, FlagPill, UrgencyPill, WhoPill, TagPill } from './components/StatusChip'
+export type { ChipTone, StatusChipProps, UrgencyLevel } from './components/StatusChip'
 export { ToastProvider, useToast } from './components/Toast'
 export type { ToastIntent, ToastOptions, ToastSupportEscalation, ToastAction } from './components/Toast'
 export { Select, MultiSelect } from './components/Select'
@@ -50,8 +50,8 @@ export { Banner, EmptyState, ErrorState, InlineError, ErrorSummary, Tooltip, Hak
 export type { BannerProps, BannerTone, EmptyStateProps, ErrorStateProps, HakiTipProps, HakiState } from './components/Feedback'
 export { AppErrorBoundary, OfflineBanner } from './components/Stability'
 export type { AppErrorBoundaryProps, OfflineBannerProps } from './components/Stability'
-export { TableFoot, BulkBar, SortHeader, SelectCell, ColumnFilter, QuickViews, FilterChips, FilterBar, Comparison, SplitBar, CHART_SERIES, Steps, ProgressBar, Avatar, AvatarGroup, PersonRow, Plate, AVATAR_PAIRS, initials } from './components/Data'
-export type { BulkAction, SortDir, ColumnFilterOption, QuickView, ActiveFilter, FilterButton, Step, StepState, AvatarSize } from './components/Data'
+export { TableFoot, BulkBar, SortHeader, SelectCell, ColumnFilter, QuickViews, FilterChips, FilterBar, Comparison, SplitBar, CHART_SERIES, Steps, ProgressBar, Avatar, AvatarGroup, PersonRow, Plate, AVATAR_PAIRS, initials, Ledger, TermBar } from './components/Data'
+export type { BulkAction, SortDir, ColumnFilterOption, QuickView, ActiveFilter, FilterButton, Step, StepState, AvatarSize, LedgerProps, LedgerColumn, LedgerView, LedgerPhoneRow } from './components/Data'
 export { Board, MoveToSheet, LaneBoard, laneFor } from './components/Board'
 export type { BoardProps, BoardStage, BoardCard, Lane, LaneCard, LaneTone } from './components/Board'
 export { SettingsCard, SettingsGroup, SettingRow, StatePill, NumberedPills, SaveBar, useSettingsDraft } from './components/Settings'
@@ -97,12 +97,15 @@ export type { DocumentSpec, DocumentKind, DocumentBranding, DocumentParty, Docum
 
 // Premium set (2026-10-08): page structure + ledgers + sealed surfaces
 export { PageHeader, MetricLedger, MetricProportion, SealedCard, Dock, DockSection, Facts } from './components/Premium'
-export type { PageHeaderProps, MetricItem, MetricNoteTone, ProportionSegment, ProportionTone } from './components/Premium'
+export type { PageHeaderProps, MetricItem, MetricNoteTone, ProportionSegment, ProportionTone, FactItem } from './components/Premium'
 
 // Guarded set (2026-10-09): the rules live in the props
 export { Button, ButtonLink, IconButton, ConfirmDialog, PageTitle, DecisionPanel, StatGroup, DataTable, Money, RecordId } from './components/Guarded'
-export { Journey, RecordPanel, RecordGroup, RecordRow } from './components/Record'
-export type { JourneyStep, RecordSection, RecordPanelProps } from './components/Record'
+export { Journey, RecordPanel, RecordGroup, RecordRow, RecordHead, Quote, NoteCard, WhenCard, Timeline } from './components/Record'
+export type { JourneyStep, RecordSection, RecordPanelProps, ActorKind, WhenItem, TimelineEntry } from './components/Record'
+// Round 3 helpers (v1.46.0, 26 Nov 2026): readable times, day-grouped histories, paged lists, term bars, carousel de-dupe
+export { formatDayTime, dayWords, dayHeading, groupByDay, ledgerPage, termProgress, notShownBelow } from './lib/patterns'
+export type { DayBucket, LedgerQuery, LedgerPage, SortDirection } from './lib/patterns'
 export type { ButtonProps, ButtonLinkProps, ButtonVariant, ButtonSize, IconButtonProps, ConfirmDialogProps, PageTitleProps, DecisionPanelProps, PanelAction, StatGroupProps, StatItem, StatTone, DataTableProps, Column, ColumnKind } from './components/Guarded'
 
 // Home snapshot (2026-10-09, standards §5a)

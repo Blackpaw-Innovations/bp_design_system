@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { Check } from 'lucide-react'
 import { cn, type IconComponent } from '../lib/utils'
 
 /**
@@ -37,7 +38,7 @@ export const STATUS_TONE_MAP: Record<string, { tone: ChipTone; label: string }> 
   expired: { tone: 'crit', label: 'Expired' }, suspended: { tone: 'crit', label: 'Suspended' }, reversed: { tone: 'crit', label: 'Reversed' },
   critical: { tone: 'crit', label: 'Critical' }, busy: { tone: 'crit', label: 'With client' },
   // info
-  sent: { tone: 'info', label: 'Sent' }, in_progress: { tone: 'info', label: 'In progress' }, checked_in: { tone: 'info', label: 'In progress' },
+  sent: { tone: 'info', label: 'Sent' }, checked_in: { tone: 'info', label: 'In progress' },
   scheduled: { tone: 'info', label: 'Scheduled' }, booked: { tone: 'info', label: 'Booked' }, in_transit: { tone: 'info', label: 'In transit' },
   new: { tone: 'info', label: 'New' }, ack: { tone: 'info', label: 'Acknowledged' }, trial: { tone: 'info', label: 'Trial' },
   Submitted: { tone: 'info', label: 'Submitted' }, collected: { tone: 'info', label: 'Collected' }, diagnosis: { tone: 'info', label: 'Diagnosis' },
@@ -51,8 +52,13 @@ export const STATUS_TONE_MAP: Record<string, { tone: ChipTone; label: string }> 
   ready_for_pickup: { tone: 'info', label: 'Ready for pickup' }, on_hold: { tone: 'warn', label: 'On hold' },
   delivery_delayed: { tone: 'warn', label: 'Delayed' }, delivery_failed: { tone: 'crit', label: 'Delivery failed' },
   return_to_sender: { tone: 'crit', label: 'Returned to sender' }, unknown: { tone: 'draft', label: 'Not known' },
-  // live: work happening now
-  in_bay: { tone: 'live', label: 'In the bay' },
+  // Request / job stages (v1.46, Marvin 26 Nov 2026, "one colour per meaning"): amber waits on the office, blue is
+  // moving, navy (live) is work happening now, green is done, grey is closed. Reopened is a flag (FlagPill), not a stage.
+  reported: { tone: 'warn', label: 'Reported' }, triaged: { tone: 'warn', label: 'Triaged' },
+  assigned: { tone: 'info', label: 'Assigned' }, accepted: { tone: 'info', label: 'Accepted' },
+  verified: { tone: 'pos', label: 'Verified' },
+  // live: work happening now. v1.46: in_progress moved here from info (Marvin 26 Nov: navy fill is "In progress" only).
+  in_bay: { tone: 'live', label: 'In the bay' }, in_progress: { tone: 'live', label: 'In progress' },
 }
 
 export interface StatusChipProps {
@@ -80,4 +86,44 @@ export function StatusChip({ status, label, tone, pulse, icon: Icon, className }
 /** Neutral count on a filter chip, quick view, pill-nav item or flyout. Never on a record's status. */
 export function CountBadge({ n, label }: { n: number; label?: string }) {
   return <span className="bp-count" aria-label={label ? `${n} ${label}` : undefined}>{n > 99 ? '99+' : n}</span>
+}
+
+/* ── Pills: one look per meaning (v1.46.0, Marvin 26 Nov 2026, Properties round 3 C3) ─────────────────────────────
+ * Stage    StatusChip: tint + dot, the tone is what the stage means (STATUS_TONE_MAP).
+ * Flag     FlagPill: red tint, an icon in place of the dot. Beside the stage, never instead of it ("Reopened 25 Nov").
+ * Urgency  UrgencyPill: solid, square corners, an icon. The only solid colour pills on a page.
+ * Who      WhoPill: an outline with initials. A tick once they accepted; "Waiting for …" (dashed) before. Never navy:
+ *          the navy fill belongs to "In progress" only.
+ * Fact     TagPill: an outline, no colour (trade, kind, visit number). Facts, not states.
+ */
+
+/** Something to know about a record: reopened, overdue, disputed. Red tint (or amber for a softer warning) with an icon. */
+export function FlagPill({ icon: Icon, children, tone = 'crit', className }: { icon: IconComponent; children: ReactNode; tone?: 'crit' | 'warn'; className?: string }) {
+  return <span className={cn('chip', tone, 'bp-flag', className)}><Icon size={15} aria-hidden="true" />{children}</span>
+}
+
+export type UrgencyLevel = 'routine' | 'urgent' | 'critical'
+const URGENCY_LABEL: Record<UrgencyLevel, string> = { routine: 'Routine', urgent: 'Urgent', critical: 'Safety critical' }
+
+/** How fast: routine (outline), urgent (solid amber), critical (solid red). Pass the vertical's own word as `label`. */
+export function UrgencyPill({ level, label, icon: Icon, className }: { level: UrgencyLevel; label?: ReactNode; icon?: IconComponent; className?: string }) {
+  return <span className={cn('bp-urgency', className)} data-level={level}>{Icon && <Icon size={15} aria-hidden="true" />}{label ?? URGENCY_LABEL[level]}</span>
+}
+
+/** Who has it. `accepted` shows a tick; `waiting` reads "Waiting for {name}" with a dashed outline. */
+export function WhoPill({ name, state = 'accepted', label, className }: { name: string; state?: 'accepted' | 'waiting'; label?: ReactNode; className?: string }) {
+  const w = name.trim().split(/\s+/).filter(Boolean)
+  const ini = ((w[0]?.[0] ?? '') + (w[1]?.[0] ?? '')).toUpperCase() || '?'
+  return (
+    <span className={cn('bp-who', className)} data-state={state}>
+      <span className="ini" aria-hidden="true">{ini}</span>
+      {label ?? (state === 'waiting' ? `Waiting for ${name}` : name)}
+      {state === 'accepted' && <><Check size={16} strokeWidth={3} aria-hidden="true" /><span className="sr-only">, accepted</span></>}
+    </span>
+  )
+}
+
+/** A plain fact as an outline pill: trade, kind, "First visit". No colour. */
+export function TagPill({ icon: Icon, children, className }: { icon?: IconComponent; children: ReactNode; className?: string }) {
+  return <span className={cn('bp-tag', className)}>{Icon && <Icon size={15} aria-hidden="true" />}{children}</span>
 }
