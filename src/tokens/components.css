@@ -169,7 +169,7 @@
 /* Notice (premium set 2026-10-08): one small dark capsule, bottom right,
    one at a time, with the next step. Never a stack of coloured slabs. */
 .toast-region {
-  position: fixed; z-index: 60;
+  position: fixed; z-index: var(--z-toast, 70);
   right: 16px; bottom: calc(var(--toast-offset-bottom, 16px) + env(safe-area-inset-bottom, 0px));
   display: flex; flex-direction: column; align-items: flex-end;
   pointer-events: none;
