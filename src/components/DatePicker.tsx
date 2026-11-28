@@ -122,10 +122,10 @@ export function DatePicker({ value, onChange, min, max, limitNote, label = 'Date
   const [month, setMonth] = useState(() => (value ? fromISO(value) : new Date()))
   const anchor = useRef<HTMLDivElement>(null)
   const pop = useRef<HTMLDivElement>(null)
-  const phone = useIsPhone()
-  const style = usePopover(anchor, open && !phone, { width: 340, maxHeight: 460 })
+  // v1.47: the calendar opens under the field on a phone too. The range picker (up to 540 px wide) keeps its sheet.
+  const style = usePopover(anchor, open, { width: 340, maxHeight: 460 })
   const close = useCallback(() => setOpen(false), [])
-  useOutside([anchor, pop], open && !phone, close)
+  useOutside([anchor, pop], open, close)
   const ok = (s: ISODate) => (!min || s >= min) && (!max || s <= max)
   const pick = (s: ISODate) => { onChange(s); close() }
   const body = <Month cell={44} month={month} setMonth={setMonth} isStart={(s) => s === value} isEnd={(s) => s === value} inRange={() => false} onPick={pick} min={min} max={max} limitNote={limitNote} />
@@ -133,8 +133,7 @@ export function DatePicker({ value, onChange, min, max, limitNote, label = 'Date
     <>
       <FieldButton btnRef={anchor} id={id} invalid={invalid} describedBy={d} open={open} onClick={() => setOpen(!open)} text={value ? formatDate(value) : placeholder} empty={!value}
         onType={(t) => { const s = parseTypedDate(t); if (s && ok(s)) { onChange(s); setMonth(fromISO(s)) } }} />
-      {open && !phone && createPortal(<div ref={pop} className="bp-pop" style={{ ...style, padding: '14px 16px' }} role="dialog" aria-label={label}>{body}</div>, document.body)}
-      {phone && <Sheet open={open} title={label} onClose={close}><div style={{ padding: '0 14px 16px', display: 'flex', justifyContent: 'center' }}>{body}</div></Sheet>}
+      {open && createPortal(<div ref={pop} className="bp-pop" style={{ ...style, padding: '14px 8px' }} role="dialog" aria-label={label}>{body}</div>, document.body)}
     </>
   )
 }

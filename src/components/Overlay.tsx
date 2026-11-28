@@ -142,9 +142,12 @@ export function usePopover(anchor: RefObject<HTMLElement | null>, open: boolean,
     const gap = 6
     const want = opts.maxHeight ?? 340
     let r = el.getBoundingClientRect()
+    // The visible height: on a phone the on-screen keyboard shrinks it, and the list must stay above the keyboard.
+    const vv = window.visualViewport
+    const viewH = vv ? vv.height + vv.offsetTop : window.innerHeight
     // Opening near the bottom: scroll the field up so the list fits under it, instead of jumping above (tablets, long forms).
-    if (opening && window.innerHeight - r.bottom - gap < want) {
-      let need = want - (window.innerHeight - r.bottom - gap)
+    if (opening && viewH - r.bottom - gap < want) {
+      let need = want - (viewH - r.bottom - gap)
       for (const box of scrollers(el)) {
         if (need <= 0) break
         const room = box.scrollHeight - box.clientHeight - box.scrollTop
@@ -152,11 +155,12 @@ export function usePopover(anchor: RefObject<HTMLElement | null>, open: boolean,
         if (by > 0) { box.scrollTop += by; need -= by; r = el.getBoundingClientRect() }
       }
     }
-    const below = window.innerHeight - r.bottom - gap
+    const below = viewH - r.bottom - gap
     const above = r.top - gap
     const up = below < 160 && above > below // last resort: nothing left to scroll
-    const width = opts.width === 'anchor' || opts.width == null ? r.width : opts.width
-    const left = opts.align === 'end' ? Math.max(8, r.right - width) : Math.min(r.left, window.innerWidth - width - 8)
+    // Never wider than the screen less a 16 px gutter on each side (a 340 px calendar on a 360 px phone).
+    const width = Math.min(opts.width === 'anchor' || opts.width == null ? r.width : opts.width, window.innerWidth - 32)
+    const left = opts.align === 'end' ? Math.max(8, r.right - width) : Math.max(16, Math.min(r.left, window.innerWidth - width - 16))
     setStyle({ position: 'fixed', left, width, maxHeight: Math.max(160, Math.min(want, up ? above : below)), ...(up ? { bottom: window.innerHeight - r.top + gap } : { top: r.bottom + gap }) })
   }, [anchor, opts.width, opts.maxHeight, opts.align])
   useLayoutEffect(() => {
@@ -165,7 +169,8 @@ export function usePopover(anchor: RefObject<HTMLElement | null>, open: boolean,
     const follow = () => place()
     window.addEventListener('resize', follow)
     window.addEventListener('scroll', follow, true)
-    return () => { window.removeEventListener('resize', follow); window.removeEventListener('scroll', follow, true) }
+    window.visualViewport?.addEventListener('resize', follow)
+    return () => { window.removeEventListener('resize', follow); window.removeEventListener('scroll', follow, true); window.visualViewport?.removeEventListener('resize', follow) }
   }, [open, place])
   return style
 }
@@ -449,10 +454,10 @@ export function Menu({ label, groups, trigger = 'button', align = 'end' }: MenuP
   const [open, setOpen] = useState(false)
   const btn = useRef<HTMLButtonElement>(null)
   const pop = useRef<HTMLDivElement>(null)
-  const phone = useIsPhone()
-  const style = usePopover(btn, open && !phone, { width: 280, align })
+  // v1.47: on a phone too the menu opens next to its button, never as a bottom sheet (Marvin, 28 Nov).
+  const style = usePopover(btn, open, { width: 280, align })
   const close = useCallback(() => setOpen(false), [])
-  useOutside([btn, pop], open && !phone, close)
+  useOutside([btn, pop], open, close)
   useEscape(open, close)
   const dangerLast = [...groups.map((g) => g.filter((i) => !i.danger)).filter((g) => g.length), groups.flat().filter((i) => i.danger)].filter((g) => g.length)
   const items = (
@@ -473,8 +478,7 @@ export function Menu({ label, groups, trigger = 'button', align = 'end' }: MenuP
       {trigger === 'icon'
         ? <button ref={btn} type="button" className="bp-icon-btn" aria-label={label} aria-haspopup="menu" aria-expanded={open} onClick={() => setOpen(!open)}>⋯</button>
         : <button ref={btn} type="button" className="bp-btn" data-variant="quiet" data-size="md" aria-haspopup="menu" aria-expanded={open} onClick={() => setOpen(!open)}>{label}<ChevronDown size={16} aria-hidden="true" /></button>}
-      {open && !phone && createPortal(<div ref={pop} className={cn('bp-pop', 'bp-menu')} role="menu" aria-label={label} style={style}>{items}</div>, document.body)}
-      {phone && <Sheet open={open} title={label} onClose={close}><div className="bp-menu" style={{ padding: '0 10px 10px' }}>{items}</div></Sheet>}
+      {open && createPortal(<div ref={pop} className={cn('bp-pop', 'bp-menu')} role="menu" aria-label={label} style={style}>{items}</div>, document.body)}
     </>
   )
 }

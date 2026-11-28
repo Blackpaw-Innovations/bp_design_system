@@ -1,14 +1,15 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Check, ChevronDown, Search, X } from 'lucide-react'
-import { Sheet, useIsPhone, useOutside, usePopover } from './Overlay'
+import { useOutside, usePopover } from './Overlay'
 import { Button } from './Guarded'
 
 /**
  * Select and MultiSelect (standards §17.1). Replaces the 45 hand-built and 21 native selects.
  *   - Search appears by itself at 8+ options, as the first row: "Search 12 suppliers". Matches anywhere.
  *   - Required: no empty row, starts on the placeholder "Choose a …". Optional: first row "None".
- *   - Phone: always a bottom sheet with the field's label as title; searchable sheets open full height.
+ *   - Phone too: the list opens under the field you tapped (never a bottom sheet), scrolling the page to make room
+ *     and staying above the on-screen keyboard. The person keeps their place in the form.
  *   - Keyboard: arrows, Enter, Escape, type-to-jump. 6 rows visible (44 px), then scroll.
  *   - Not for actions (use <Menu>), not for 2–3 visible choices (use <Segmented> or <RadioGroup>).
  * Backwards compatible with the old props: `searchable` still forces search on.
@@ -18,7 +19,7 @@ export interface SelectOption { value: string; label: string; disabled?: boolean
 
 interface Base {
   options: SelectOption[]
-  /** The field label. Also the sheet title on phone and the noun in "Search 12 suppliers". */
+  /** The field label. Also the noun in "Search 12 suppliers". */
   label?: string
   /** Plural noun for the search placeholder, e.g. "suppliers". Defaults to "options". */
   noun?: string
@@ -111,12 +112,11 @@ function useSelectCore(options: SelectOption[], forceSearch: boolean | undefined
   const [active, setActive] = useState(0)
   const btn = useRef<HTMLButtonElement>(null)
   const pop = useRef<HTMLDivElement>(null)
-  const phone = useIsPhone()
-  const style = usePopover(btn, open && !phone, { width: 'anchor', maxHeight: 340 })
+  const style = usePopover(btn, open, { width: 'anchor', maxHeight: 340 })
   const rows = useList(options, query)
   const showSearch = forceSearch ?? options.length >= SEARCH_AT
   const close = useCallback(() => { setOpen(false); setQuery(''); requestAnimationFrame(() => btn.current?.focus()) }, [])
-  useOutside([btn, pop], open && !phone, close)
+  useOutside([btn, pop], open, close)
   const searchPh = `Search ${options.length} ${noun ?? (label ? plural(label.toLowerCase()) : 'options')}`
   const typed = useRef({ s: '', t: 0 })
   const keys = (pick: (v: string) => void) => (e: React.KeyboardEvent) => {
@@ -131,7 +131,7 @@ function useSelectCore(options: SelectOption[], forceSearch: boolean | undefined
       const i = rows.findIndex((o) => o.label.toLowerCase().startsWith(typed.current.s)); if (i >= 0) setActive(i)
     }
   }
-  return { open, setOpen, query, setQuery, active, setActive, btn, pop, phone, style, rows, showSearch, close, searchPh, keys }
+  return { open, setOpen, query, setQuery, active, setActive, btn, pop, style, rows, showSearch, close, searchPh, keys }
 }
 
 export function Select({ value, onChange, options, label, noun, placeholder, disabled, invalid, searchable, optional, className, buttonClassName, id, 'aria-describedby': describedBy }: SelectProps) {
@@ -146,8 +146,7 @@ export function Select({ value, onChange, options, label, noun, placeholder, dis
   return (
     <div className={className} style={{ position: 'relative' }}>
       <Trigger btnRef={c.btn} open={c.open} onClick={() => (c.open ? c.close() : c.setOpen(true))} label={label} text={current ? current.label : placeholder ?? `Choose ${label ? 'a ' + label.toLowerCase() : 'one'}`} empty={!current} disabled={disabled} invalid={invalid} id={id} describedBy={describedBy} className={buttonClassName} />
-      {c.open && !c.phone && createPortal(<div ref={c.pop} className="bp-pop" style={c.style}>{body}</div>, document.body)}
-      {c.phone && <Sheet open={c.open} title={label ?? 'Choose'} onClose={c.close} full={c.showSearch}>{body}</Sheet>}
+      {c.open && createPortal(<div ref={c.pop} className="bp-pop" style={c.style}>{body}</div>, document.body)}
     </div>
   )
 }
@@ -178,8 +177,7 @@ export function MultiSelect({ value, onChange, options, label, noun, placeholder
   return (
     <div className={className} style={{ position: 'relative' }}>
       <Trigger btnRef={c.btn} open={c.open} onClick={() => (c.open ? done() : c.setOpen(true))} label={label} text={text} empty={chosen.length === 0} disabled={disabled} invalid={invalid} id={id} describedBy={describedBy} className={buttonClassName} />
-      {c.open && !c.phone && createPortal(<div ref={c.pop} className="bp-pop" style={c.style}>{body}{foot}</div>, document.body)}
-      {c.phone && <Sheet open={c.open} title={label ?? 'Choose'} onClose={done} full={c.showSearch} footer={<Button variant="primary" size="lg" fullWidth onClick={done}>Done</Button>}>{body}</Sheet>}
+      {c.open && createPortal(<div ref={c.pop} className="bp-pop" style={c.style}>{body}{foot}</div>, document.body)}
     </div>
   )
 }
