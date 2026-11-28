@@ -4,7 +4,7 @@ import { ArrowDown, ArrowDownRight, ArrowUp, ArrowUpRight, Check, ChevronDown, C
 import { cn, type IconComponent } from '../lib/utils'
 import { Button, DataTable, type Column } from './Guarded'
 import { Checkbox } from './Form'
-import { Sheet, useIsPhone, useOutside, usePopover } from './Overlay'
+import { useIsPhone, useOutside, usePopover } from './Overlay'
 import { CountBadge } from './StatusChip'
 import { Select } from './Select'
 import { formatDate } from '../lib/format'
@@ -83,9 +83,8 @@ export function ColumnFilter({ label, options, value, onChange, range, onRange }
   const [open, setOpen] = useState(false)
   const btn = useRef<HTMLButtonElement>(null)
   const pop = useRef<HTMLDivElement>(null)
-  const phone = useIsPhone()
-  const style = usePopover(btn, open && !phone, { width: 280 })
-  useOutside([btn, pop], open && !phone, () => setOpen(false))
+  const style = usePopover(btn, open, { width: 280 })
+  useOutside([btn, pop], open, () => setOpen(false))
   const active = (value.length > 0 && value.length < options.length) || (range && (range[0] != null || range[1] != null))
   const body = (
     <div style={{ padding: 12, display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -110,8 +109,7 @@ export function ColumnFilter({ label, options, value, onChange, range, onRange }
   return (
     <>
       <button ref={btn} type="button" className="bp-colfilter-btn" data-active={active || undefined} aria-label={`Filter ${label}`} aria-expanded={open} onClick={() => setOpen(!open)}><Filter size={15} /></button>
-      {open && !phone && createPortal(<div ref={pop} className="bp-pop" style={style}>{body}</div>, document.body)}
-      {phone && <Sheet open={open} title={`Filter ${label.toLowerCase()}`} onClose={() => setOpen(false)}>{body}</Sheet>}
+      {open && createPortal(<div ref={pop} className="bp-pop" style={style}>{body}</div>, document.body)}
     </>
   )
 }
